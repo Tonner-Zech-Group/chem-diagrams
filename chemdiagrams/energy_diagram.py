@@ -205,7 +205,7 @@ class EnergyDiagram:
         assert len(x_data) == len(y_data), f"Number of x positions (right now {len(x_data)}) must equal the number of y positions (right now {len(y_data)})."
         assert len(y_data) == len(linetypes) + 1, f"Length of linetypes + 1 (right now {len(linetypes)} + 1) must equal the number of data points (right now {len(x_data)})."
         assert type(show_numbers) == bool, f"show_numbers must be of type: bool"
-        assert type(path_name) == str, f"path_name must be of type: str"
+        assert type(path_name) == str or path_name is None, f"path_name must be of type: str or None"
         assert path_name not in list(self.path_data.keys()), f"path_name must not already exist."
 
         # Save data for numbering or legend or 
@@ -270,10 +270,10 @@ class EnergyDiagram:
             # Only select data [[x...],[y...],color] in interval if show_numbers=True 
             if path["show_numbers"] == True:
                 values_to_print.append({
-                                        "x": [path["x"][i] for i in range(len(path["x"])) if path["x"][i] >= x_min_max[0] and path["x"][i] <= x_min_max[1]],
-                                        "y": [path["y"][i] for i in range(len(path["x"])) if path["x"][i] >= x_min_max[0] and path["x"][i] <= x_min_max[1]],
-                                        "color": path["color"]
-                                        })
+                    "x": [path["x"][i] for i in range(len(path["x"])) if path["x"][i] >= x_min_max[0] and path["x"][i] <= x_min_max[1]],
+                    "y": [path["y"][i] for i in range(len(path["x"])) if path["x"][i] >= x_min_max[0] and path["x"][i] <= x_min_max[1]],
+                    "color": path["color"]
+                }) 
         return values_to_print
     
     def add_numbers_naive(self, x_min_max=None):
@@ -288,7 +288,15 @@ class EnergyDiagram:
         # Plot the numbers
         for value_series in values_to_print:
             for i in range(len(value_series["x"])):
-                self.ax.text(value_series["x"][i], value_series["y"][i]+diff, round(value_series["y"][i]),ha='center', va='center', fontsize=self.fontsize, color=value_series["color"])
+                self.ax.text(
+                    value_series["x"][i], 
+                    value_series["y"][i]+diff, 
+                    round(value_series["y"][i]),
+                    ha='center', 
+                    va='center', 
+                    fontsize=self.fontsize, 
+                    color=value_series["color"]
+                )
 
     def add_numbers_stacked(self, x_min_max=None, sort_by_energy=True):
         # Regularize x_min_max and get all the numbers to plot
@@ -312,22 +320,24 @@ class EnergyDiagram:
             for value_series in values_to_print:
                 if x_current in value_series["x"]:
                     numbers_to_stack.append({
-                                            "y": value_series["y"][value_series["x"].index(x_current)],
-                                            "color": value_series["color"],
-                                            })
+                        "y": value_series["y"][value_series["x"].index(x_current)],
+                        "color": value_series["color"],
+                    })
                 if sort_by_energy:
                     numbers_to_stack = sorted(numbers_to_stack, key=lambda x: x["y"])
+
             # Print the Numbers
             n_printed = 0
             for number in numbers_to_stack:
                 self.ax.text(
-                            x_current, 
-                            max(number["y"] for number in numbers_to_stack) + diff_bias + n_printed * diff_per_step, 
-                            round(number["y"]), 
-                            ha='center', 
-                            va='center', 
-                            fontsize=self.fontsize,
-                            color=number["color"]
-                            )
+                    x_current, 
+                    (max(number["y"] for number in numbers_to_stack) 
+                    + diff_bias + n_printed * diff_per_step), 
+                    round(number["y"]), 
+                    ha='center', 
+                    va='center', 
+                    fontsize=self.fontsize,
+                    color=number["color"]
+                    )
                 n_printed += 1
 
