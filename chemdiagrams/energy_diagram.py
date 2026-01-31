@@ -94,11 +94,13 @@ class EnergyDiagram:
         for label in self.ax.get_xticklabels():
             label.set_fontproperties(bold_font)
 
-    def draw_difference_bar(self, x, y_start_end, description, diff=None,left_side=False,fontsize=None):
+    def draw_difference_bar(self, x, y_start_end, description, diff=None,left_side=False,fontsize=None, color="black"):
         # Drawing a vertical difference bar
         # Diff is the distance between the bar and the text
         assert len(y_start_end) == 2, "y_start_end argument must contain two values (y_start, y_end)."
         y_start, y_end = y_start_end
+        if fontsize == None:
+            fontsize = self.fontsize
 
         # Scale plot before drawing
         self._adjust_xy_limits()
@@ -110,10 +112,6 @@ class EnergyDiagram:
                      - (self.ax.get_xlim()[0] + 0.5 + self.extra_x_margin[0]) )
             diff /= (self.fig.get_figwidth())
         
-        # Extract parameters
-        if fontsize == None:
-            fontsize = self.fontsize
-        
         # Adjust diff and ha to side
         if left_side:
             diff *= -1
@@ -122,18 +120,25 @@ class EnergyDiagram:
             horizontal_alignment = "left"
 
         # Draw vertical bar
-        self.ax.annotate('', xy=(x, y_end), xytext=(x, y_start), 
-                        arrowprops=dict(arrowstyle='|-|', color='black', lw=0.7, 
-                                        shrinkA=0, shrinkB=0, #no whitespace above and below the Bar
-                                        mutation_scale=3 #scaling of the horizontal caps
+        self.ax.annotate(
+            '', 
+            xy=(x, y_end), 
+            xytext=(x, y_start), 
+            arrowprops=dict(
+                arrowstyle='|-|', 
+                color=color, 
+                lw=0.7, 
+                shrinkA=0, #no whitespace above and below the Bar
+                shrinkB=0, #no whitespace above and below the Bar
+                mutation_scale=3 #scaling of the horizontal caps
                                         )
-                        )           
+        )           
         # Draw text next to bar 
         self.ax.text(
-                    x+diff, (y_start+y_end)/2,  # Adjust the x and y coordinates for text placement
-                    description + str(round(y_end-y_start)),  # Text to display
-                    ha=horizontal_alignment, va='center', fontsize=fontsize, color='black', 
-                    )
+            x+diff, (y_start+y_end)/2,  # Adjust the x and y coordinates for text placement
+            description + str(round(y_end-y_start)),  # Text to display
+            ha=horizontal_alignment, va='center', fontsize=fontsize, color=color, 
+        )
 
     def _adjust_xy_limits(self):
         # Get all x and y values out of the path data dictionary
@@ -157,12 +162,13 @@ class EnergyDiagram:
 
         # Adjust the axis limits
         self.ax.set_xlim([
-                        min(x_all)-0.5+self.extra_x_margin[0], 
-                        max(x_all)+0.5+self.extra_x_margin[1]])
+            min(x_all)-0.5+self.extra_x_margin[0], 
+            max(x_all)+0.5+self.extra_x_margin[1]
+        ])
         self.ax.set_ylim([
-                        min(y_all) + (max(y_all)-min(y_all)) * self.extra_y_margin[0], 
-                        max(y_all) + (max(y_all)-min(y_all)) * self.extra_y_margin[1]
-                        ])
+            min(y_all) + (max(y_all)-min(y_all)) * self.extra_y_margin[0], 
+            max(y_all) + (max(y_all)-min(y_all)) * self.extra_y_margin[1]
+        ])
 
     def _draw_broken_line(self, x_coords, y_coords, color):
         # Portion of the line that has a gap
@@ -209,14 +215,17 @@ class EnergyDiagram:
         assert path_name not in list(self.path_data.keys()), f"path_name must not already exist."
 
         # Save data for numbering or legend or 
-        if path_name is not None or show_numbers == True:
-            self.path_data[path_name if path_name else f"__NONAME{len(self.path_data)}"] = {
-                                                                                "x": x_data, 
-                                                                                "y": y_data, 
-                                                                                "color": color, 
-                                                                                "has_label": bool(path_name), 
-                                                                                "show_numbers": show_numbers,
-                                                                                }
+        self.path_data[
+            path_name if path_name 
+            else f"__NONAME{len(self.path_data)}"
+        ] = {
+            "x": x_data, 
+            "y": y_data, 
+            "color": color, 
+            "has_label": bool(path_name), 
+            "show_numbers": show_numbers,
+        }
+
         # Create lists in order to draw the lines
         x_corners = []
         y_corners = []
@@ -238,7 +247,7 @@ class EnergyDiagram:
                     print("Warning: Invalid linetype argument in position " + str(i) + ":" + str(linetypes[i]))
         
         # Automatically adjust axis limits
-        self._adjust_xy_limits()
+        self._scale_figure()
 
     def show(self):
         figsize = self._scale_figure()
@@ -263,15 +272,15 @@ class EnergyDiagram:
             x_min_max = (x_min_max, x_min_max) 
         return x_min_max
 
-    def _get_visible_numbers(self, x_min_max):
+    def _get_all_visible_numbers(self, x_min_max):
         # Create new list of values which should be printed
         values_to_print = []
         for path in self.path_data.values():
             # Only select data [[x...],[y...],color] in interval if show_numbers=True 
             if path["show_numbers"] == True:
                 values_to_print.append({
-                    "x": [path["x"][i] for i in range(len(path["x"])) if path["x"][i] >= x_min_max[0] and path["x"][i] <= x_min_max[1]],
-                    "y": [path["y"][i] for i in range(len(path["x"])) if path["x"][i] >= x_min_max[0] and path["x"][i] <= x_min_max[1]],
+                    "x": [path["x"][i] for i in range(len(path["x"])) if x_min_max[0] <= path["x"][i] <= x_min_max[1]],
+                    "y": [path["y"][i] for i in range(len(path["x"])) if x_min_max[0] <= path["x"][i] <= x_min_max[1]],
                     "color": path["color"]
                 }) 
         return values_to_print
@@ -279,7 +288,7 @@ class EnergyDiagram:
     def add_numbers_naive(self, x_min_max=None):
         # Regularize x_min_max and get all the numbers to plot
         x_min_max = EnergyDiagram._regularize_x_min_max(x_min_max)
-        values_to_print = self._get_visible_numbers(x_min_max)
+        values_to_print = self._get_all_visible_numbers(x_min_max)
         
         # Update axis limits before numbers and calculate ydifference 
         self._adjust_xy_limits()
@@ -298,14 +307,98 @@ class EnergyDiagram:
                     color=value_series["color"]
                 )
 
-    def add_numbers_stacked(self, x_min_max=None, sort_by_energy=True):
-        # Regularize x_min_max and get all the numbers to plot
-        x_min_max = EnergyDiagram._regularize_x_min_max(x_min_max)
-        values_to_print = self._get_visible_numbers(x_min_max)
-
-        # Update axis limits before numbers and calculate ydifference 
+    def _get_all_values_at_x(self, x):
+        # Select y values at ax
+        numbers_at_x = []
+        for path in self.path_data.values():
+            numbers_at_x += [path["y"][i] for i in range(len(path["x"])) if path["x"][i] == x]
+        return sorted(numbers_at_x)
+    
+    def _get_numbers_to_stack_at_x(self, values_to_print, x_current, sort_by_energy):
+        # Get all values to print at a given location x
+        numbers_to_stack = []
+        for value_series in values_to_print:
+            if x_current in value_series["x"]:
+                numbers_to_stack.append({
+                    "y": value_series["y"][value_series["x"].index(x_current)],
+                    "color": value_series["color"],
+                })
+            if sort_by_energy:
+                numbers_to_stack = sorted(numbers_to_stack, key=lambda x: x["y"])
+        return numbers_to_stack
+    
+    def _print_stacked(self, x, numbers_to_stack, y_print_start):
+        # Print a number stack
         self._adjust_xy_limits()
         diff_bias = (self.ax.get_ylim()[1] - self.ax.get_ylim()[0]) * EnergyDiagram.DISTANCE_NUMBER_LINE
+        diff_per_step = (self.ax.get_ylim()[1] - self.ax.get_ylim()[0]) * EnergyDiagram.DISTANCE_NUMBER_NUMBER
+        n_printed = 0
+        for number in numbers_to_stack:
+            self.ax.text(
+                x, 
+                (y_print_start 
+                + diff_bias + n_printed * diff_per_step), 
+                round(number["y"]), 
+                ha='center', 
+                va='center', 
+                fontsize=self.fontsize,
+                color=number["color"]
+                )
+            n_printed += 1
+
+    def _check_no_number_overlap(self, y_print_start, numbers_to_stack, higher_numbers_at_x):
+        #Check wheter a number stack overlaps
+        self._adjust_xy_limits()
+        diff_bias = (self.ax.get_ylim()[1] - self.ax.get_ylim()[0]) * EnergyDiagram.DISTANCE_NUMBER_LINE
+        diff_per_step = (self.ax.get_ylim()[1] - self.ax.get_ylim()[0]) * EnergyDiagram.DISTANCE_NUMBER_NUMBER
+        stacked_offset = (len(numbers_to_stack) - 1) * diff_per_step
+        base_offset = 2 * diff_bias
+        y_stacked_max = y_print_start + base_offset + stacked_offset
+        # Check if a bar collides
+        min_higher = min(higher_numbers_at_x) if higher_numbers_at_x else float("inf")
+        # Check if there are numbers at all
+        no_higher_numbers = len(higher_numbers_at_x) == 0
+        return y_stacked_max < min_higher or no_higher_numbers
+
+
+    def add_numbers_stacked(self, x_min_max=None, sort_by_energy=True, no_overlap_with_nonnumbered=True):
+        # Regularize x_min_max and get all the numbers to plot
+        x_min_max = EnergyDiagram._regularize_x_min_max(x_min_max)
+        values_to_print = self._get_all_visible_numbers(x_min_max)
+
+        # Get a list of all x values where to print
+        x_places = []
+        for value_series in values_to_print:
+            x_places = np.concatenate((x_places, np.array(value_series["x"])))
+        x_places = np.unique(x_places)
+        
+        # For every step, get all energies, assign the colors and sort by energy if sortenergy == True then, print the numbers
+        for x_current in x_places:
+            numbers_to_stack = self._get_numbers_to_stack_at_x(values_to_print, x_current, sort_by_energy)
+
+            # Find y where to print
+            y_print_start = max(num["y"] for num in numbers_to_stack)
+            if no_overlap_with_nonnumbered:
+                all_numbers_at_x = self._get_all_values_at_x(x_current)
+                higher_numbers_at_x = [
+                    val for val in all_numbers_at_x 
+                    if val > y_print_start
+                ]
+                while True:
+                    if self._check_no_number_overlap(y_print_start, numbers_to_stack, higher_numbers_at_x):
+                        break
+                    else:
+                        y_print_start = higher_numbers_at_x[0]
+                        higher_numbers_at_x = higher_numbers_at_x[1:]
+
+            # Print the numbers
+            self._print_stacked(x_current, numbers_to_stack, y_print_start)
+
+    def add_numbers_auto(self, x_min_max=None, sort_by_energy=True):
+        # Regularize x_min_max and get all the numbers to plot
+        x_min_max = EnergyDiagram._regularize_x_min_max(x_min_max)
+        values_to_print = self._get_all_visible_numbers(x_min_max)
+        self._adjust_xy_limits()
         diff_per_step = (self.ax.get_ylim()[1] - self.ax.get_ylim()[0]) * EnergyDiagram.DISTANCE_NUMBER_NUMBER
 
         # Get a list of all x values where to print
@@ -316,28 +409,50 @@ class EnergyDiagram:
         
         # For every step, get all energies, assign the colors and sort by energy if sortenergy == True then, print the numbers
         for x_current in x_places:
-            numbers_to_stack = []
-            for value_series in values_to_print:
-                if x_current in value_series["x"]:
-                    numbers_to_stack.append({
-                        "y": value_series["y"][value_series["x"].index(x_current)],
-                        "color": value_series["color"],
-                    })
-                if sort_by_energy:
-                    numbers_to_stack = sorted(numbers_to_stack, key=lambda x: x["y"])
+            numbers_to_stack = self._get_numbers_to_stack_at_x(values_to_print, x_current, sort_by_energy)
+            # Start with lowest to print
+            n_numbers_printed = 0
+            y_last_printed = -np.inf
+            all_numbers_at_x = self._get_all_values_at_x(x_current)
+            while n_numbers_printed < len(numbers_to_stack):
+                # Append to temporary list one number after each other
+                numbers_to_stack_current = []
+                numbers_to_stack_current.append(numbers_to_stack[n_numbers_printed])
+                # Calulate where to try to print
+                y_print_start = max(
+                    numbers_to_stack[n_numbers_printed]["y"],
+                    y_last_printed + diff_per_step
+                )
+                # Append more numbers, if they have the same value
+                for number in numbers_to_stack[len(numbers_to_stack_current)+n_numbers_printed:]:
+                    if y_print_start >= number["y"]:
+                        numbers_to_stack_current.append(number)
+                # Determine every value greater than where to print
+                higher_numbers_at_x = [
+                    val for val in all_numbers_at_x 
+                    if val > y_print_start
+                ]
+                # Increse print height, until no overlap
+                while True:
+                    if self._check_no_number_overlap(y_print_start, numbers_to_stack_current, higher_numbers_at_x):
+                        self._print_stacked(x_current, numbers_to_stack_current, y_print_start)
+                        y_last_printed = y_print_start + (len(numbers_to_stack_current) - 1) * diff_per_step
+                        n_numbers_printed += len(numbers_to_stack_current)
+                        break
+                    else:
+                        # Get next possible print height
+                        y_print_start = higher_numbers_at_x[0]
+                        # Append all numbers if they are on the print height
+                        for number in numbers_to_stack[len(numbers_to_stack_current)+n_numbers_printed:]:
+                            if y_print_start >= number["y"]:
+                                numbers_to_stack_current.append(number)
+                        # Determine new values above
+                        higher_numbers_at_x = [
+                            val for val in all_numbers_at_x 
+                            if val > y_print_start
+                        ]
 
-            # Print the Numbers
-            n_printed = 0
-            for number in numbers_to_stack:
-                self.ax.text(
-                    x_current, 
-                    (max(number["y"] for number in numbers_to_stack) 
-                    + diff_bias + n_printed * diff_per_step), 
-                    round(number["y"]), 
-                    ha='center', 
-                    va='center', 
-                    fontsize=self.fontsize,
-                    color=number["color"]
-                    )
-                n_printed += 1
+
+            
+
 
