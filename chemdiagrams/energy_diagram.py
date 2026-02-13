@@ -13,8 +13,10 @@ class EnergyDiagram:
     MAX_WIDTH = 7
     HEIGHT = 3
     X_SCALE = 0.8 # Inches per x-tick
+    WIDTH_PLATEAU = 0.5
     DISTANCE_TEXT_DIFFBAR = 0.02
     DISTANCE_NUMBER_LINE = 0.03
+    DISTANCE_LABEL_LINE = 0.04
     DISTANCE_NUMBER_NUMBER = 0.045
     
 
@@ -22,7 +24,7 @@ class EnergyDiagram:
     # Methods for drawing the general plot
     ############################################################
 
-    def __init__(self, extra_x_margin=(0,0), extra_y_margin=(-0.1,0.15), figsize=None, fontsize=8, verbose=False):
+    def __init__(self, extra_x_margin=(0,0), extra_y_margin=(-0.1,0.15), figsize=None, fontsize=8, verbose=False, style="open"):
         # Sanity checks
         if figsize is not None:
             assert len(figsize) == 2, "figsize argument must contain two values (x_size,y_size)."
@@ -37,8 +39,10 @@ class EnergyDiagram:
         self.mpl_objects = {}
         self.mpl_objects["lines"] = {}
         self.mpl_objects["numbers"] = {}
+        self.mpl_objects["numbers"]["Average"] = {}
         self.mpl_objects["bars"] = {}
         self.mpl_objects["other"] = {}
+        self.mpl_objects["labels"] = {}
 
         # Initialize the diagram, get the axis and set axis limits
         self.fig = plt.figure(dpi=150)
@@ -52,32 +56,135 @@ class EnergyDiagram:
         self.figsize = figsize
         figsize = self._scale_figure()
 
-        # Set diagram lines below and remove vertical lines
-        self.ax.set_axisbelow(True)
-        self.ax.xaxis.grid(False)
-        self.ax.yaxis.grid(False)
+        self.set_diagram_style(style)
 
-
-
-    def set_xlabels(self, labels, labelplaces=None):
+    def set_xlabels(self, labels, labelplaces=None, fontsize=None, weight="bold", in_plot=False):
         # Create labelplace list if none given
         if labelplaces is None:
             labelplaces = list(range(len(labels)))
         assert len(labels) == len(labelplaces), "There must be the same number of labels and labelplaces."
+        self.labelproperties = {
+            "labels": labels,
+            "labelplaces": labelplaces,
+            "fontsize": fontsize,
+            "weight": weight,
+            "in_plot": in_plot,
+        }
 
-        # Set labels at labelplaces
-        self.ax.set_xticks(labelplaces)
-        self.ax.set_xticklabels(labels)
-       
-        # Apply bold font to x-axis tick labels
-        bold_font = font_manager.FontProperties(weight='bold', size=self.fontsize) #xlabels larger than normal font
-        for label in self.ax.get_xticklabels():
-            label.set_fontproperties(bold_font)
+        # Clear or hide labels if present
+        self.ax.set_xticks([])
+        for mpl_object in self.mpl_objects["labels"].values():
+            mpl_object.remove()
+        self.mpl_objects["labels"] = {}
 
-    def draw_difference_bar(self, x, y_start_end, description, diff=None,left_side=False,fontsize=None, color="black"):
+        # Set font of x labels
+        if fontsize is None:
+            fontsize = self.fontsize
+        labelfont = font_manager.FontProperties(
+            weight=weight, size=fontsize)
+
+        # Set labels in the plot or at axis
+        if in_plot:       
+            for x, labeltext in zip(labelplaces, labels):
+                if all_values_at_x := self._get_all_values_at_x(x):
+                    y_diff = - EnergyDiagram.DISTANCE_LABEL_LINE * (
+                        self.ax.get_ylim()[1] - self.ax.get_ylim()[0]
+                    )
+                    y_min_at_x = min(all_values_at_x)
+                    label = self.ax.text(
+                        x,
+                        y_min_at_x + y_diff,
+                        labeltext,
+                        font=labelfont,
+                        ha="center",
+                        va="center",
+                    )
+                    self.mpl_objects["labels"][str(x)] = label
+                else:
+                    print(f"Warning: There was no datapoint found at x = {x}")
+        else:
+            self.ax.set_xticks(labelplaces)
+            self.ax.set_xticklabels(labels)
+            for label in self.ax.get_xticklabels():
+                label.set_fontproperties(labelfont)
+
+
+    def set_diagram_style(self, style):
+        def draw_arrow(xy, xytext):
+            arrow = self.ax.annotate(
+                    '', 
+                    xy=xy, 
+                    xytext=xytext,
+                    xycoords="axes fraction", 
+                    arrowprops=dict(
+                        arrowstyle='-|>', 
+                        color="black", 
+                        lw=0.8,
+                        shrinkA=0,
+                        shrinkB=0, 
+                        mutation_scale=10,
+                        zorder=1
+                        )
+                 )
+            return arrow
+
+        # Remove grid lines and set x axes to default height
+        self._adjust_xy_limits()
+        self.ax.xaxis.grid(False)
+        self.ax.yaxis.grid(False)
+        self.ax.spines["bottom"].set_position(('axes', 0))
+        
+        # Remove unwanted objects
+        try: 
+            for _, mpl_object in self.mpl_objects["axes"].items():
+                mpl_object.remove()
+        except KeyError:
+            pass
+        self.mpl_objects["axes"] = {}
+        
+        # Adjust axes
+        if style == "boxed":
+            self.ax.spines["top"].set_visible(True)
+            self.ax.spines["right"].set_visible(True)
+            self.ax.spines["left"].set_visible(True)
+            self.ax.spines["bottom"].set_visible(True)
+
+        elif style == "halfboxed" or style == "halfopen":
+            self.ax.spines["top"].set_visible(False)
+            self.ax.spines["right"].set_visible(False)
+            self.ax.spines["left"].set_visible(True)
+            self.ax.spines["bottom"].set_visible(True)
+            self.mpl_objects["axes"]["x_arrow"] = draw_arrow((1.02, 0),(0.97, 0))
+            self.mpl_objects["axes"]["y_arrow"] = draw_arrow((0, 1.02),(0, 0.97))
+            
+        elif style == "open":
+            self.ax.spines["top"].set_visible(False)
+            self.ax.spines["right"].set_visible(False)
+            self.ax.spines["left"].set_visible(True)
+            self.ax.spines["bottom"].set_visible(False)
+            self.mpl_objects["axes"]["x_axis"] = self.ax.axhline(0, color="black", zorder=0.5, lw=1.0)
+            self.mpl_objects["axes"]["y_arrow"] = draw_arrow((0, 1.02),(0, 0.97))
+
+        elif style == "twosided":
+            self.ax.spines["top"].set_visible(False)
+            self.ax.spines["right"].set_visible(False)
+            self.ax.spines["left"].set_visible(True)
+            self.ax.spines["bottom"].set_visible(True)
+            self.ax.spines["bottom"].set_position(('axes', -0.03))
+            self.mpl_objects["axes"]["x_arrow_right"] = draw_arrow((1.01, -0.03),(0.96, -0.03))
+            self.mpl_objects["axes"]["x_arrow_left"] = draw_arrow((-0.01, -0.03),(0.04, -0.03))
+            self.mpl_objects["axes"]["y_arrow"] = draw_arrow((0, 1.02),(0, 0.97))
+            # Reset labels to avoid unwanted changes
+            try:
+                self.set_xlabels(**self.labelproperties)
+            except AttributeError:
+                pass
+
+    def draw_difference_bar(self, x, y_start_end, description, diff=None,left_side=False,fontsize=None, color="black", arrowstyle="|-|", whiskers=(None, None), whiskercolor=None):
         # Drawing a vertical difference bar
         # Diff is the distance between the bar and the text
         assert len(y_start_end) == 2, "y_start_end argument must contain two values (y_start, y_end)."
+        assert len(whiskers) == 2, "Whiskers must contain two values."
         y_start, y_end = y_start_end
         if fontsize == None:
             fontsize = self.fontsize
@@ -105,13 +212,13 @@ class EnergyDiagram:
                     xy=(x, y_end), 
                     xytext=(x, y_start), 
                     arrowprops=dict(
-                        arrowstyle='|-|', 
+                        arrowstyle=arrowstyle, 
                         color=color, 
                         lw=0.7, 
                         shrinkA=0, #no whitespace above and below the Bar
                         shrinkB=0, #no whitespace above and below the Bar
                         mutation_scale=3 #scaling of the horizontal caps
-                                                )
+                        )
                 )
                    
         # Draw text next to bar 
@@ -120,24 +227,41 @@ class EnergyDiagram:
                     description + str(round(y_end-y_start)),  # Text to display
                     ha=horizontal_alignment, va='center', fontsize=fontsize, color=color, 
                 )
-
+        
         # Save into mpl_objects dict
         bar_nr = len(self.mpl_objects["bars"]) + 1
-        self.mpl_objects["bars"][bar_nr] = {
+        self.mpl_objects["bars"][str(bar_nr)] = {
             "bar": bar,
             "text": text,
         }
 
+        # Draw the whiskers
+        if whiskercolor is None:
+            whiskercolor = color
+        for i, x_whisker in enumerate(whiskers):
+            if x_whisker is not None:
+                whisker = self.ax.plot(
+                    (x_whisker, x),
+                    (y_start_end[i], y_start_end[i]),
+                    zorder=0.8, 
+                    ls=':', 
+                    lw=0.7, 
+                    color=whiskercolor
+                )[0]
+                self.mpl_objects["bars"][str(bar_nr)][f"whisker{i}"] = whisker
+
     def draw_path(self, x_data, y_data, color, linetypes=None, path_name=None, show_numbers=True):
-        # Create linetype information if not given
+        # Normalize linetype information
         if linetypes is None:
-            linetypes = [1]*(len(y_data)-1)
+            linetypes = [1] * (len(y_data)-1)
+        elif isinstance(linetypes, int):
+            linetypes = [linetypes] * (len(y_data)-1)
         
         # Sanity checks
         assert len(x_data) == len(y_data), f"Number of x positions (right now {len(x_data)}) must equal the number of y positions (right now {len(y_data)})."
         assert len(y_data) == len(linetypes) + 1, f"Length of linetypes + 1 (right now {len(linetypes)} + 1) must equal the number of data points (right now {len(x_data)})."
-        assert type(show_numbers) == bool, f"show_numbers must be of type: bool"
-        assert type(path_name) == str or path_name is None, f"path_name must be of type: str or None"
+        assert isinstance(show_numbers, bool), f"show_numbers must be of type: bool"
+        assert isinstance(path_name, str) or path_name is None, f"path_name must be of type: str or None"
         assert path_name not in list(self.path_data.keys()), f"path_name must not already exist."
 
         # Save data for numbering or legend
@@ -167,23 +291,29 @@ class EnergyDiagram:
 
         # Draw the lines
         for i, v in enumerate(y_data):
-            x_corners.append(x_data[i]-0.25)
-            x_corners.append(x_data[i]+0.25)
+            x_corners.append(x_data[i]-0.5*EnergyDiagram.WIDTH_PLATEAU)
+            x_corners.append(x_data[i]+0.5*EnergyDiagram.WIDTH_PLATEAU)
             y_corners.append(y_data[i])
             y_corners.append(y_data[i])
-            plateau = self.ax.hlines(v, x_data[i]-0.25, x_data[i]+0.25, zorder=1, lw=1.8, color=color, capstyle='round')
+            plateau = self.ax.hlines(v, x_data[i]-0.25, x_data[i]+0.25, zorder=2, lw=1.8, color=color, capstyle='round')
             self.mpl_objects["lines"][path_name]["plateaus"][f"{x_data[i]}"] = plateau
             if i > 0:
-                if linetypes[i-1] == 1:
+                if linetypes[i-1] == 2:
                     connector = self._draw_line(x_corners[-3:-1],y_corners[-3:-1], color)
+                elif linetypes[i-1] == 1:
+                    connector = self._draw_dotted_line(x_corners[-3:-1],y_corners[-3:-1], color)
                 elif linetypes[i-1] == 0:
                     connector = self._draw_broken_line(x_corners[-3:-1],y_corners[-3:-1], color)
                 else:
-                    print("Warning: Invalid linetype argument in position " + str(i) + ":" + str(linetypes[i]))
+                    raise ValueError(f"Invalid linetype argument in position {i}: {linetypes[i]}")
                 self.mpl_objects["lines"][path_name]["connections"][f"{sum(x_corners[-3:-1]) / 2:.1f}"] = connector
 
-        # Automatically adjust axis limits
+        # Automatically adjust axis and labels
         self._scale_figure()
+        try: 
+            self.set_xlabels(**self.labelproperties)
+        except AttributeError:
+            pass
 
     def legend(self, loc="best", fontsize=None):
         if fontsize is None:
@@ -274,21 +404,21 @@ class EnergyDiagram:
         y1 = y_coords.copy()
         x1[1] = x1[0] + (x1[1]-x1[0])*(0.5-linegap/2)
         y1[1] = y1[0] + (y1[1]-y1[0])*(0.5-linegap/2)
-        line_1 = self.ax.plot(x1, y1, zorder=0, ls=':', lw=1.2, color=color)
+        line_1 = self.ax.plot(x1, y1, zorder=1, ls=':', lw=1.0, color=color)
 
         # Draw second part of line
         x2 = x_coords.copy()
         y2 = y_coords.copy()
         x2[0] = x2[0] + (x2[1]-x2[0])*(0.5+linegap/2)
         y2[0] = y2[0] + (y2[1]-y2[0])*(0.5+linegap/2)
-        line_2 = self.ax.plot(x2, y2, zorder=1, ls=':', lw=1.2, color=color)
+        line_2 = self.ax.plot(x2, y2, zorder=1, ls=':', lw=1.0, color=color)
 
         # Draw small orthogonal lines
         stopper_1 = self.ax.annotate('', xy=(x1[1], y1[1]), xytext=(x1[1]+0.001*(x2[0]-x1[1]), y1[1]+0.001*(y2[0]-y1[1])), 
-                arrowprops=dict(arrowstyle='|-|', color=color, lw=0.9, shrinkA=15, shrinkB=15, mutation_scale=3,zorder=1)
+                arrowprops=dict(arrowstyle='|-|', color=color, lw=0.8, shrinkA=15, shrinkB=15, mutation_scale=3,zorder=1)
         )
         stopper_2 = self.ax.annotate('', xy=(x2[0], y2[0]), xytext=(x2[0]-0.001*(x2[0]-x1[1]), y2[0]-0.001*(y2[0]-y1[1])), 
-                arrowprops=dict(arrowstyle='|-|', color=color, lw=0.9, shrinkA=15, shrinkB=15, mutation_scale=3,zorder=1)
+                arrowprops=dict(arrowstyle='|-|', color=color, lw=0.8, shrinkA=15, shrinkB=15, mutation_scale=3,zorder=1)
         )
         return {
             "line_part_1": line_1[0],
@@ -297,8 +427,11 @@ class EnergyDiagram:
             "stopper_2": stopper_2
         }
 
+    def _draw_dotted_line(self, x_coords, y_coords, color):
+        return self.ax.plot(x_coords, y_coords, zorder=1, ls=':', lw=1.0, color=color)[0]
+    
     def _draw_line(self, x_coords, y_coords, color):
-        return self.ax.plot(x_coords, y_coords, zorder=1, ls=':', lw=1.2, color=color)[0]
+        return self.ax.plot(x_coords, y_coords, zorder=1, ls='-', lw=0.8, color=color)[0]
 
     ############################################################
     # Methods for plotting numbers
@@ -316,14 +449,15 @@ class EnergyDiagram:
         # Plot the numbers
         for value_series in values_to_print:
             for i in range(len(value_series["x"])):
-                self.ax.text(
-                    value_series["x"][i], 
-                    value_series["y"][i]+diff, 
-                    round(value_series["y"][i]),
-                    ha='center', 
-                    va='center', 
-                    fontsize=self.fontsize, 
-                    color=value_series["color"]
+                number_to_print = [{
+                    "y": value_series["y"][i],
+                    "color": value_series["color"],
+                    "name": value_series["name"],
+                }]
+                self._print_stacked(
+                    value_series["x"][i],
+                    number_to_print,
+                    value_series["y"][i]
                 )
 
     def add_numbers_stacked(self, x_min_max=None, sort_by_energy=True, no_overlap_with_nonnumbered=True):
@@ -417,6 +551,37 @@ class EnergyDiagram:
                             if val > y_print_start
                         ]
 
+    def add_numbers_average(self, x_min_max, color="black"):
+        # Regularize x_min_max and get all the numbers to plot
+        x_min_max = EnergyDiagram._regularize_x_min_max(x_min_max)
+        values_to_print = self._get_all_visible_numbers(x_min_max)
+
+        # Get a list of all x values where to print
+        x_places = []
+        for value_series in values_to_print:
+            x_places = np.concatenate((x_places, np.array(value_series["x"])))
+        x_places = np.unique(x_places)
+        
+        # For every step, get all y values, average and print
+        for x_current in x_places:
+            numbers_to_stack = self._get_numbers_to_stack_at_x(values_to_print, x_current)
+            numbers_to_stack_y = np.array([
+                number["y"] for number in numbers_to_stack
+            ])
+            y_avg = numbers_to_stack_y.mean()
+            number_to_print = [{
+                "y": y_avg,
+                "color": color,
+                "name": "Average",
+            }]
+            self._print_stacked(
+                x_current,
+                number_to_print,
+                numbers_to_stack_y.max()
+            )
+
+
+
     ############################################################
     # Internal helper functions for plotting numbers
     ############################################################
@@ -425,11 +590,11 @@ class EnergyDiagram:
     def _regularize_x_min_max(x_min_max):
         # Convert x_min_max to an inclusive interval
         if x_min_max is not None:
-            if not type(x_min_max) == int:
+            if not isinstance(x_min_max, int):
                 assert len(x_min_max) == 2, "x_min_max can only contain two entries (x_start, y_end)."
         if x_min_max is None:
             x_min_max = (-np.inf, np.inf)
-        elif type(x_min_max) == int:
+        elif isinstance(x_min_max, int):
             x_min_max = (x_min_max, x_min_max) 
         return x_min_max
 
