@@ -298,14 +298,7 @@ class EnergyDiagram:
             plateau = self.ax.hlines(v, x_data[i]-0.25, x_data[i]+0.25, zorder=2, lw=1.8, color=color, capstyle='round')
             self.mpl_objects["lines"][path_name]["plateaus"][f"{x_data[i]}"] = plateau
             if i > 0:
-                if linetypes[i-1] == 2:
-                    connector = self._draw_line(x_corners[-3:-1],y_corners[-3:-1], color)
-                elif linetypes[i-1] == 1:
-                    connector = self._draw_dotted_line(x_corners[-3:-1],y_corners[-3:-1], color)
-                elif linetypes[i-1] == 0:
-                    connector = self._draw_broken_line(x_corners[-3:-1],y_corners[-3:-1], color)
-                else:
-                    raise ValueError(f"Invalid linetype argument in position {i}: {linetypes[i]}")
+                connector = self._draw_connector(x_corners[-3:-1],y_corners[-3:-1], linetypes[i-1], color)
                 self.mpl_objects["lines"][path_name]["connections"][f"{sum(x_corners[-3:-1]) / 2:.1f}"] = connector
 
         # Automatically adjust axis and labels
@@ -392,7 +385,28 @@ class EnergyDiagram:
             max(y_all) + (max(y_all)-min(y_all)) * self.extra_y_margin[1]
         ])
 
-    def _draw_broken_line(self, x_coords, y_coords, color):
+    def _draw_connector(self, x_coords, y_coords, linetype, color):
+        if linetype == 0:
+            connector = None
+        elif linetype == 1:
+            connector = self._draw_dotted_line(x_coords, y_coords, color)
+        elif linetype == -1:
+            connector = self._draw_broken_line(x_coords, y_coords, color, dotted=True)
+        elif linetype == 2:
+            connector = self._draw_line(x_coords, y_coords, color)
+        elif linetype == -2:
+            connector = self._draw_broken_line(x_coords, y_coords, color, dotted=False)
+        else:
+            raise ValueError(f"Invalid linetype argument: {linetype}")
+        return connector
+
+    def _draw_dotted_line(self, x_coords, y_coords, color):
+        return self.ax.plot(x_coords, y_coords, zorder=1, ls=':', lw=1.0, color=color)[0]
+    
+    def _draw_line(self, x_coords, y_coords, color):
+        return self.ax.plot(x_coords, y_coords, zorder=1, ls='-', lw=0.8, color=color)[0]
+
+    def _draw_broken_line(self, x_coords, y_coords, color, dotted=True):
         # Portion of the line that has a gap
         linegap = 0.2 
         # Ensure tuples are converted to list
@@ -404,14 +418,20 @@ class EnergyDiagram:
         y1 = y_coords.copy()
         x1[1] = x1[0] + (x1[1]-x1[0])*(0.5-linegap/2)
         y1[1] = y1[0] + (y1[1]-y1[0])*(0.5-linegap/2)
-        line_1 = self.ax.plot(x1, y1, zorder=1, ls=':', lw=1.0, color=color)
+        if dotted:
+            line_1 = self._draw_dotted_line(x1, y1, color=color)
+        else:
+            line_1 = self._draw_line(x1, y1, color=color)
 
         # Draw second part of line
         x2 = x_coords.copy()
         y2 = y_coords.copy()
         x2[0] = x2[0] + (x2[1]-x2[0])*(0.5+linegap/2)
         y2[0] = y2[0] + (y2[1]-y2[0])*(0.5+linegap/2)
-        line_2 = self.ax.plot(x2, y2, zorder=1, ls=':', lw=1.0, color=color)
+        if dotted:
+            line_2 = self._draw_dotted_line(x2, y2, color=color)
+        else:
+            line_2 = self._draw_line(x2, y2, color=color)
 
         # Draw small orthogonal lines
         stopper_1 = self.ax.annotate('', xy=(x1[1], y1[1]), xytext=(x1[1]+0.001*(x2[0]-x1[1]), y1[1]+0.001*(y2[0]-y1[1])), 
@@ -421,17 +441,11 @@ class EnergyDiagram:
                 arrowprops=dict(arrowstyle='|-|', color=color, lw=0.8, shrinkA=15, shrinkB=15, mutation_scale=3,zorder=1)
         )
         return {
-            "line_part_1": line_1[0],
-            "line_part_2": line_2[0],
+            "line_part_1": line_1,
+            "line_part_2": line_2,
             "stopper_1": stopper_1,
             "stopper_2": stopper_2
         }
-
-    def _draw_dotted_line(self, x_coords, y_coords, color):
-        return self.ax.plot(x_coords, y_coords, zorder=1, ls=':', lw=1.0, color=color)[0]
-    
-    def _draw_line(self, x_coords, y_coords, color):
-        return self.ax.plot(x_coords, y_coords, zorder=1, ls='-', lw=0.8, color=color)[0]
 
     ############################################################
     # Methods for plotting numbers
