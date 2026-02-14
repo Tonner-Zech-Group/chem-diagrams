@@ -238,7 +238,7 @@ class EnergyDiagram:
         EnergyDiagram._validate_number(fontsize, "fontsize", allow_none=True, min_value=0)
         EnergyDiagram._validate_number(diff, "diff", allow_none=True)
         if not isinstance(x_whiskers, Sequence):
-            raise ValueError("x_whiskers must be a list or tuple of length 2.")
+            raise TypeError("x_whiskers must be a list or tuple of length 2.")
         if len(x_whiskers) != 2:
             raise ValueError("x_whiskers must be a list or tuple of length 2.")
         if not all(isinstance(val, (float, int, type(None))) for val in x_whiskers):
@@ -323,7 +323,7 @@ class EnergyDiagram:
         EnergyDiagram._validate_numeric_sequence(x_data, "x_data")
         EnergyDiagram._validate_numeric_sequence(y_data, "y_data")
         if not isinstance(path_name, (str, type(None))):
-            raise ValueError("path_name must be a string or None")
+            raise TypeError("path_name must be a string or None")
         if path_name in list(self.path_data.keys()):
             raise ValueError("path_name must not already exist")
         if len(x_data) != len(y_data):
@@ -342,7 +342,7 @@ class EnergyDiagram:
             if len(linetypes) != len(x_data) - 1 or len(linetypes) != len(y_data) - 1:
                 raise ValueError(f"Length of linetypes + 1 (now {len(linetypes)} + 1) must equal the number of data points (right now {len(x_data)}).")
         else:
-            raise ValueError("linetypes must be an tuple, list or integer.")
+            raise TypeError("linetypes must be an tuple, list or integer.")
         
         # Save data for numbering or legend
         has_label = True
@@ -731,7 +731,7 @@ class EnergyDiagram:
             elif isinstance(x_min_max, (int, float)):
                 x_min_max = (x_min_max, x_min_max)
             else:
-                raise ValueError("x_min_max must be a tuple or list with length 2 or a numeric value.")
+                raise TypeError("x_min_max must be a tuple or list with length 2 or a numeric value.")
         else:
             x_min_max = (-np.inf, np.inf)
         return x_min_max
@@ -829,28 +829,32 @@ class EnergyDiagram:
 
     @staticmethod
     def _validate_numeric_sequence(
-        seq: Sequence,
+        seq: Sequence | None,
         name: str,
         allow_none: bool = False,
         min_value: float | None = None,
         required_length: int | None = None
     ) -> None:
         """Validation helper function for numeric sequences"""
-
         if not allow_none and seq is None:
             raise ValueError(f"{name} cannot be None.")
         
         if seq is not None:
+            if not isinstance(seq, Sequence):
+                raise TypeError(f"{name} must be a tuple or list.")
+            if isinstance(seq, (str, bytes)):
+                raise TypeError(f"{name} must be a tuple or list.")
+            if not all(isinstance(val, (int, float)) for val in seq):
+                raise TypeError(f"{name} can only contain numeric values")
             if min_value is not None and any(min_value > val for val in seq):
                 raise ValueError(f"{name} cannot contain values smaller than {min_value}.")
             if required_length is not None and len(seq) != required_length:
                 raise ValueError(f"{name} must be of length {required_length}.")       
-            if not all(isinstance(val, (int, float)) for val in seq):
-                raise ValueError(f"{name} can only contain numeric values")
+            
 
     @staticmethod
     def _validate_number(
-        num: Sequence,
+        num: float | int | None,
         name: str,
         allow_none: bool = False,
         min_value: float | None = None,
@@ -866,7 +870,7 @@ class EnergyDiagram:
                     raise ValueError(f"{name} must be equal or larger than {min_value}.")
             if only_integer:
                 if not isinstance(num, int):
-                    raise ValueError(f"{name} must be an integer.")
+                    raise TypeError(f"{name} must be an integer.")
             else:
                 if not isinstance(num, (int, float)):
-                    raise ValueError(f"{name} must be an integer or float.")
+                    raise TypeError(f"{name} must be an integer or float.")
