@@ -1,0 +1,12 @@
+
+"""Constants for plotting the energy diagram"""
+
+MAX_WIDTH = 7
+HEIGHT = 3
+X_SCALE = 0.8 # Inches per x-tick
+WIDTH_PLATEAU = 0.5
+DISTANCE_TEXT_DIFFBAR = 0.02
+DISTANCE_NUMBER_LINE = 0.03
+DISTANCE_LABEL_LINE = 0.04
+DISTANCE_NUMBER_NUMBER = 0.045
+ 

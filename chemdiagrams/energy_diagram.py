@@ -1,34 +1,37 @@
 from __future__ import annotations
+from typing import TYPE_CHECKING
 
 import matplotlib.pyplot as plt
-from matplotlib import font_manager
 import matplotlib.patches as mpatches
-import numpy as np
-
-from collections.abc import Sequence
-from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
-    # Only imported for type checkers, not at runtime
-    from matplotlib.lines import Line2D
-    from matplotlib.text import Annotation
+    from matplotlib.axes import Axes
+    from matplotlib.figure import Figure
+    from matplotlib.text import Text
+    from collections.abc import Sequence
+
+from .managers import (
+    FigureManager,
+    PathManager,
+    NumberManager,
+    StyleManager,
+    LayoutManager,
+    BarManager,
+    PathObject,
+    StyleObjects,
+    DifferenceBar,
+)
+
+from . import constants
 
 
+from .validation import Validators
 
 class EnergyDiagram:
     """
     EnergyDiagram class for plotting reaction energy figures conveniently
 
     """
-    MAX_WIDTH = 7
-    HEIGHT = 3
-    X_SCALE = 0.8 # Inches per x-tick
-    WIDTH_PLATEAU = 0.5
-    DISTANCE_TEXT_DIFFBAR = 0.02
-    DISTANCE_NUMBER_LINE = 0.03
-    DISTANCE_LABEL_LINE = 0.04
-    DISTANCE_NUMBER_NUMBER = 0.045
-    
 
     ############################################################
     # Methods for drawing the general plot
@@ -41,41 +44,34 @@ class EnergyDiagram:
             figsize: tuple[float, float] | list[float] | None = None, 
             fontsize: int = 8, 
             verbose: bool = False, 
-            style: str = "open"
+            style: str = "open",
+            dpi: int = 150,
         ) -> None:
-
-        # Sanity checks
-        EnergyDiagram._validate_numeric_sequence(figsize, "figsize", allow_none=True, min_value=0, required_length=2)
-        EnergyDiagram._validate_numeric_sequence(extra_x_margin, "extra_x_margin", required_length=2)
-        EnergyDiagram._validate_numeric_sequence(extra_y_margin, "extra_y_margin", required_length=2)
-        EnergyDiagram._validate_number(fontsize, "fontsize", min_value=0)
         
-        # Save parameters in objext
-        self.fontsize = fontsize
+        self._figure_manager = FigureManager(
+            fontsize=fontsize, 
+            dpi=dpi
+        )
+        self._path_manager = PathManager(
+            self._figure_manager
+        )
+        self._number_manager = NumberManager(
+            self._figure_manager
+        )
+        self._style_manager = StyleManager(
+            self._figure_manager, 
+            style=style
+        )
+        self._layout_manager = LayoutManager(
+            self._figure_manager, 
+            extra_x_margin=extra_x_margin, 
+            extra_y_margin=extra_y_margin, 
+            figsize=figsize
+        )
+        self._bar_manager = BarManager(
+            self._figure_manager
+        )
         self.verbose = verbose
-        # Initialize path data dict and mpl objects
-        self.path_data = {}
-        self.mpl_objects = {}
-        self.mpl_objects["lines"] = {}
-        self.mpl_objects["numbers"] = {}
-        self.mpl_objects["numbers"]["Average"] = {}
-        self.mpl_objects["bars"] = {}
-        self.mpl_objects["other"] = {}
-        self.mpl_objects["labels"] = {}
-
-        # Initialize the diagram, get the axis and set axis limits
-        self.fig = plt.figure(dpi=150)
-        self.ax = self.fig.gca()
-        self.ax.tick_params(which='both', direction="inout", top=False, right=False, bottom=False)
-        self.ax.tick_params(which='both',labelsize=fontsize)
-
-        # Find figure size and assert right datatype of figsize
-        self.extra_x_margin = extra_x_margin
-        self.extra_y_margin = extra_y_margin
-        self.figsize = figsize
-        figsize = self._scale_figure()
-
-        self.set_diagram_style(style)
 
     def set_xlabels(
             self, 
@@ -85,138 +81,21 @@ class EnergyDiagram:
             weight: str = "bold", 
             in_plot: bool = False
         ) -> None:
-
-        # Sanity checks
-        EnergyDiagram._validate_numeric_sequence(labelplaces, "labelplaces", allow_none=True)
-        EnergyDiagram._validate_number(fontsize, "fontsize", allow_none=True, min_value=0)
-        if labelplaces is not None:
-            if len(labels) != len(labelplaces):
-                raise ValueError("There must be the same number of labels and labelplaces.")
-
-        # Create labelplace list if none given
-        if labelplaces is None:
-            labelplaces = list(range(len(labels)))
-        self.labelproperties = {
-            "labels": labels,
-            "labelplaces": labelplaces,
-            "fontsize": fontsize,
-            "weight": weight,
-            "in_plot": in_plot,
-        }
-
-        # Clear or hide labels if present
-        self.ax.set_xticks([])
-        for mpl_object in self.mpl_objects["labels"].values():
-            mpl_object.remove()
-        self.mpl_objects["labels"] = {}
-
-        # Set font of x labels
-        if fontsize is None:
-            fontsize = self.fontsize
-        labelfont = font_manager.FontProperties(
-            weight=weight, size=fontsize)
-
-        # Set labels in the plot or at axis
-        if in_plot:       
-            for x, labeltext in zip(labelplaces, labels):
-                if all_values_at_x := self._get_all_values_at_x(x):
-                    y_diff = - EnergyDiagram.DISTANCE_LABEL_LINE * (
-                        self.ax.get_ylim()[1] - self.ax.get_ylim()[0]
-                    )
-                    y_min_at_x = min(all_values_at_x)
-                    label = self.ax.text(
-                        x,
-                        y_min_at_x + y_diff,
-                        labeltext,
-                        font=labelfont,
-                        ha="center",
-                        va="center",
-                    )
-                    self.mpl_objects["labels"][str(x)] = label
-                else:
-                    print(f"Warning: There was no datapoint found at x = {x}")
-        else:
-            self.ax.set_xticks(labelplaces)
-            self.ax.set_xticklabels(labels)
-            for label in self.ax.get_xticklabels():
-                label.set_fontproperties(labelfont)
-
+        self._figure_manager.set_xlabels(
+            labels,
+            labelplaces=labelplaces,
+            fontsize=fontsize,
+            weight=weight,
+            in_plot=in_plot,
+        )
 
     def set_diagram_style(self, style: str) -> None:
-        def draw_arrow(xy, xytext):
-            arrow = self.ax.annotate(
-                    '', 
-                    xy=xy, 
-                    xytext=xytext,
-                    xycoords="axes fraction", 
-                    arrowprops=dict(
-                        arrowstyle='-|>', 
-                        color="black", 
-                        lw=0.8,
-                        shrinkA=0,
-                        shrinkB=0, 
-                        mutation_scale=10,
-                        zorder=1
-                        )
-                 )
-            return arrow
-        
-        ALLOWED_STYLES = ["boxed", "halfboxed", "open", "twosided"]
-
-        if style not in ALLOWED_STYLES:
-            raise ValueError(f"style must be one of {ALLOWED_STYLES}.")
-
-        # Remove grid lines and set x axes to default height
-        self._adjust_xy_limits()
-        self.ax.xaxis.grid(False)
-        self.ax.yaxis.grid(False)
-        self.ax.spines["bottom"].set_position(('axes', 0))
-        
-        # Remove unwanted objects
-        try: 
-            for _, mpl_object in self.mpl_objects["axes"].items():
-                mpl_object.remove()
-        except KeyError:
+        self._layout_manager.adjust_xy_limits(self._path_manager.path_data)  
+        self._style_manager.set_diagram_style(style)
+        try:
+            self.set_xlabels(**self._figure_manager.labelproperties)
+        except AttributeError:
             pass
-        self.mpl_objects["axes"] = {}
-        
-        # Adjust axes
-        if style == "boxed":
-            self.ax.spines["top"].set_visible(True)
-            self.ax.spines["right"].set_visible(True)
-            self.ax.spines["left"].set_visible(True)
-            self.ax.spines["bottom"].set_visible(True)
-
-        elif style == "halfboxed":
-            self.ax.spines["top"].set_visible(False)
-            self.ax.spines["right"].set_visible(False)
-            self.ax.spines["left"].set_visible(True)
-            self.ax.spines["bottom"].set_visible(True)
-            self.mpl_objects["axes"]["x_arrow"] = draw_arrow((1.02, 0),(0.97, 0))
-            self.mpl_objects["axes"]["y_arrow"] = draw_arrow((0, 1.02),(0, 0.97))
-            
-        elif style == "open":
-            self.ax.spines["top"].set_visible(False)
-            self.ax.spines["right"].set_visible(False)
-            self.ax.spines["left"].set_visible(True)
-            self.ax.spines["bottom"].set_visible(False)
-            self.mpl_objects["axes"]["x_axis"] = self.ax.axhline(0, color="black", zorder=0.5, lw=1.0)
-            self.mpl_objects["axes"]["y_arrow"] = draw_arrow((0, 1.02),(0, 0.97))
-
-        elif style == "twosided":
-            self.ax.spines["top"].set_visible(False)
-            self.ax.spines["right"].set_visible(False)
-            self.ax.spines["left"].set_visible(True)
-            self.ax.spines["bottom"].set_visible(True)
-            self.ax.spines["bottom"].set_position(('axes', -0.03))
-            self.mpl_objects["axes"]["x_arrow_right"] = draw_arrow((1.01, -0.03),(0.96, -0.03))
-            self.mpl_objects["axes"]["x_arrow_left"] = draw_arrow((-0.01, -0.03),(0.04, -0.03))
-            self.mpl_objects["axes"]["y_arrow"] = draw_arrow((0, 1.02),(0, 0.97))
-            # Reset labels to avoid unwanted changes
-            try:
-                self.set_xlabels(**self.labelproperties)
-            except AttributeError:
-                pass
 
     def draw_difference_bar(
             self, 
@@ -231,83 +110,19 @@ class EnergyDiagram:
             x_whiskers: Sequence[float | None] = (None, None), 
             whiskercolor: str | None = None
         ) -> None:
-
-        # Sanity checks
-        EnergyDiagram._validate_number(x, "x")
-        EnergyDiagram._validate_numeric_sequence(y_start_end, "y_start_end", required_length=2)
-        EnergyDiagram._validate_number(fontsize, "fontsize", allow_none=True, min_value=0)
-        EnergyDiagram._validate_number(diff, "diff", allow_none=True)
-        if not isinstance(x_whiskers, Sequence):
-            raise TypeError("x_whiskers must be a list or tuple of length 2.")
-        if len(x_whiskers) != 2:
-            raise ValueError("x_whiskers must be a list or tuple of length 2.")
-        if not all(isinstance(val, (float, int, type(None))) for val in x_whiskers):
-            raise ValueError("Elements of x_whiskers must be a float or None.")
-
-        y_start, y_end = y_start_end
-        if fontsize == None:
-            fontsize = self.fontsize
-
-        # Scale plot before drawing
-        self._adjust_xy_limits()
-
-        # Automatic scaling of diff
-        if diff == None:
-            diff = EnergyDiagram.DISTANCE_TEXT_DIFFBAR
-            diff *= (self.ax.get_xlim()[1] + 0.5 + self.extra_x_margin[1]
-                     - (self.ax.get_xlim()[0] + 0.5 + self.extra_x_margin[0]) )
-            diff /= (self.fig.get_figwidth())
-        
-        # Adjust diff and ha to side
-        if left_side:
-            diff *= -1
-            horizontal_alignment = "right"
-        else:
-            horizontal_alignment = "left"
-
-        # Draw vertical bar
-        bar = self.ax.annotate(
-                    '', 
-                    xy=(x, y_end), 
-                    xytext=(x, y_start), 
-                    arrowprops=dict(
-                        arrowstyle=arrowstyle, 
-                        color=color, 
-                        lw=0.7, 
-                        shrinkA=0, #no whitespace above and below the Bar
-                        shrinkB=0, #no whitespace above and below the Bar
-                        mutation_scale=3 #scaling of the horizontal caps
-                        )
-                )
-                   
-        # Draw text next to bar 
-        text = self.ax.text(
-                    x+diff, (y_start+y_end)/2,  # Adjust the x and y coordinates for text placement
-                    description + str(round(y_end-y_start)),  # Text to display
-                    ha=horizontal_alignment, va='center', fontsize=fontsize, color=color, 
-                )
-        
-        # Save into mpl_objects dict
-        bar_nr = len(self.mpl_objects["bars"]) + 1
-        self.mpl_objects["bars"][str(bar_nr)] = {
-            "bar": bar,
-            "text": text,
-        }
-
-        # Draw the whiskers
-        if whiskercolor is None:
-            whiskercolor = color
-        for i, x_whisker in enumerate(x_whiskers):
-            if x_whisker is not None:
-                whisker = self.ax.plot(
-                    (x_whisker, x),
-                    (y_start_end[i], y_start_end[i]),
-                    zorder=0.8, 
-                    ls=':', 
-                    lw=0.7, 
-                    color=whiskercolor
-                )[0]
-                self.mpl_objects["bars"][str(bar_nr)][f"whisker{i}"] = whisker
+        margins = self._layout_manager.adjust_xy_limits(
+            self._path_manager.path_data
+        ) 
+        self._bar_manager.draw_difference_bar(
+            x, y_start_end, description, margins,
+            diff=diff,
+            left_side=left_side,
+            fontsize=fontsize,
+            color=color,
+            arrowstyle=arrowstyle,
+            x_whiskers=x_whiskers,
+            whiskercolor=whiskercolor,
+            )
 
     def draw_path(
             self, 
@@ -318,559 +133,139 @@ class EnergyDiagram:
             path_name: str | None = None, 
             show_numbers: bool = True
         ) -> None:
-        
-        # Sanity checks and linetype normalization
-        EnergyDiagram._validate_numeric_sequence(x_data, "x_data")
-        EnergyDiagram._validate_numeric_sequence(y_data, "y_data")
-        if not isinstance(path_name, (str, type(None))):
-            raise TypeError("path_name must be a string or None")
-        if path_name in list(self.path_data.keys()):
-            raise ValueError("path_name must not already exist")
-        if len(x_data) != len(y_data):
-            raise ValueError("x_data and y_data must have the same length")
+        self._path_manager.draw_path(
+            x_data, y_data, color,
+            linetypes=linetypes,
+            path_name=path_name,
+            show_numbers=show_numbers,
+        )
 
-        ALLOWED_LINETYPES = [-2, -1, 0, 1, 2]
-        if linetypes is None:
-            linetypes = [1] * (len(y_data)-1)
-        elif isinstance(linetypes, int):
-            if linetypes not in ALLOWED_LINETYPES:
-                raise ValueError(f"linetype must be in {ALLOWED_LINETYPES}.")
-            linetypes = [linetypes] * (len(y_data)-1)
-        elif isinstance(linetypes, Sequence):
-            if not all(val in ALLOWED_LINETYPES for val in linetypes):
-                raise ValueError(f"linetype elements must be in {ALLOWED_LINETYPES}.")
-            if len(linetypes) != len(x_data) - 1 or len(linetypes) != len(y_data) - 1:
-                raise ValueError(f"Length of linetypes + 1 (now {len(linetypes)} + 1) must equal the number of data points (right now {len(x_data)}).")
-        else:
-            raise TypeError("linetypes must be an tuple, list or integer.")
-        
-        # Save data for numbering or legend
-        has_label = True
-        if path_name is None:
-            has_label = False
-            path_name = f"__NONAME{len(self.path_data)}"
-        self.path_data[path_name] = {
-            "x": x_data, 
-            "y": y_data, 
-            "color": color, 
-            "has_label": has_label, 
-            "show_numbers": show_numbers,
-        }
-
-        # Initialize nested dics
-        self.mpl_objects["lines"][path_name] = {
-            "connections": {},
-            "plateaus": {}
-        }
-        self.mpl_objects["numbers"][path_name] = {}
-
-        # Create lists in order to draw the lines
-        x_corners = []
-        y_corners = []
-        linetypes = linetypes
-
-        # Draw the lines
-        for i, v in enumerate(y_data):
-            x_corners.append(x_data[i]-0.5*EnergyDiagram.WIDTH_PLATEAU)
-            x_corners.append(x_data[i]+0.5*EnergyDiagram.WIDTH_PLATEAU)
-            y_corners.append(y_data[i])
-            y_corners.append(y_data[i])
-            plateau = self.ax.hlines(v, x_data[i]-0.25, x_data[i]+0.25, zorder=2, lw=1.8, color=color, capstyle='round')
-            self.mpl_objects["lines"][path_name]["plateaus"][f"{x_data[i]}"] = plateau
-            if i > 0:
-                connector = self._draw_connector(x_corners[-3:-1],y_corners[-3:-1], linetypes[i-1], color)
-                self.mpl_objects["lines"][path_name]["connections"][f"{sum(x_corners[-3:-1]) / 2:.1f}"] = connector
-
-        # Automatically adjust axis and labels
-        self._scale_figure()
+        self._layout_manager.scale_figure(
+            self._path_manager.path_data
+        )
         try: 
-            self.set_xlabels(**self.labelproperties)
+            self.set_xlabels(**self._figure_manager.labelproperties)
         except AttributeError:
             pass
+
 
     def legend(self, 
             loc: str = "best", 
             fontsize: int | None = None
         ) -> None:
-        EnergyDiagram._validate_number(fontsize, "fontsize", allow_none=True, min_value=0)
+        Validators._validate_number(fontsize, "fontsize", allow_none=True, min_value=0)
         if fontsize is None:
-            fontsize = self.fontsize
+            fontsize = self._figure_manager.fontsize
         patches = []
-        for path_name, path_info in self.path_data.items():
+        for path_name, path_info in self._path_manager.path_data.items():
             if path_info["has_label"]:
-                patches.append(mpatches.Patch(color=path_info["color"], label=path_name))
-        self.ax.legend(handles=patches, fontsize=fontsize, loc=loc)
+                patches.append(
+                    mpatches.Patch(
+                        color=path_info["color"], 
+                        label=path_name
+                    )
+                )
+        self._figure_manager.ax.legend(
+            handles=patches, 
+            fontsize=fontsize, 
+            loc=loc
+        )
 
     def show(self) -> None:
-        figsize = self._scale_figure()
+        figsize = self._layout_manager.scale_figure(
+            self._path_manager.path_data
+        ) 
         if self.verbose == True:
-            print("Figure size is is " + str(round(figsize[0],2)) + " x " + str(round(figsize[1],2)) + " inches.")
+            print(f"Figure size is {round(figsize[0],2)} x {round(figsize[1],2)} inches.")
         plt.show()
-
-
-    ############################################################
-    # Internal helper functions for general plot drawing
-    ############################################################
-
-    def _scale_figure(self) -> tuple[float, float]:
-        # Scale only, if no figure size is predetermined
-        if self.figsize is None:
-            # Function for scaling the figure automatically
-            self._adjust_xy_limits()
-
-            # Determine and set width
-            x_size = EnergyDiagram.X_SCALE*(self.ax.get_xlim()[1]-self.ax.get_xlim()[0])
-            if x_size > EnergyDiagram.MAX_WIDTH:
-                x_size = EnergyDiagram.MAX_WIDTH
-            elif x_size <= 0: # Avoid a figure without size
-                x_size = 1
-            self.fig.set_figwidth(x_size)
-
-            # Determine and set height
-            y_size = EnergyDiagram.HEIGHT
-            if y_size > x_size:
-                y_size = x_size  # Avoid ugly diagrams
-            self.fig.set_figheight(y_size)
-            return (x_size, y_size)
-        
-        else:
-            self._adjust_xy_limits()
-            self.fig.set_figwidth(self.figsize[0])
-            self.fig.set_figheight(self.figsize[1])
-            return self.figsize[:]
-        
-    def _adjust_xy_limits(self) -> None:
-        # Get all x and y values out of the path data dictionary
-        x_all = [
-                element
-                for path in self.path_data.values()
-                if path and len(path) > 0
-                for element in path["x"]
-            ]
-        y_all = [
-                element
-                for path in self.path_data.values()
-                if path and len(path) > 0
-                for element in path["y"]
-            ]
-        # Add values if no path was added yet to avoid errors
-        if len(x_all) == 0:
-            x_all = [0]
-        if len(y_all) == 0:
-            y_all = [0,10]
-
-        # Adjust the axis limits
-        self.ax.set_xlim([
-            min(x_all)-0.5+self.extra_x_margin[0], 
-            max(x_all)+0.5+self.extra_x_margin[1]
-        ])
-        self.ax.set_ylim([
-            min(y_all) + (max(y_all)-min(y_all)) * self.extra_y_margin[0], 
-            max(y_all) + (max(y_all)-min(y_all)) * self.extra_y_margin[1]
-        ])
-
-    def _draw_connector(
-            self, 
-            x_coords: Sequence[float], 
-            y_coords: Sequence[float], 
-            linetype: int, 
-            color: str
-        ) -> Line2D | dict[str, Line2D | Annotation] | None:
-        if linetype == 0:
-            connector = None
-        elif linetype == 1:
-            connector = self._draw_dotted_line(x_coords, y_coords, color)
-        elif linetype == -1:
-            connector = self._draw_broken_line(x_coords, y_coords, color, dotted=True)
-        elif linetype == 2:
-            connector = self._draw_line(x_coords, y_coords, color)
-        elif linetype == -2:
-            connector = self._draw_broken_line(x_coords, y_coords, color, dotted=False)
-        else:
-            raise ValueError(f"Invalid linetype argument: {linetype}")
-        return connector
-
-    def _draw_dotted_line(self, 
-            x_coords: Sequence[float], 
-            y_coords: Sequence[float], 
-            color: str
-        ) -> Line2D:
-        return self.ax.plot(x_coords, y_coords, zorder=1, ls=':', lw=1.0, color=color)[0]
-    
-    def _draw_line(self, 
-            x_coords: Sequence[float], 
-            y_coords: Sequence[float], 
-            color: str
-        ) -> Line2D:
-        return self.ax.plot(x_coords, y_coords, zorder=1, ls='-', lw=0.8, color=color)[0]
-
-    def _draw_broken_line(self, 
-            x_coords: Sequence[float], 
-            y_coords: Sequence[float], 
-            color: str, 
-            dotted: bool = True
-        ) -> dict[str, Line2D | Annotation]:
-        # Portion of the line that has a gap
-        linegap = 0.2 
-        # Ensure tuples are converted to list
-        x_coords = list(x_coords)
-        y_coords = list(y_coords)
-
-        # Draw first part of line
-        x1 = x_coords.copy()
-        y1 = y_coords.copy()
-        x1[1] = x1[0] + (x1[1]-x1[0])*(0.5-linegap/2)
-        y1[1] = y1[0] + (y1[1]-y1[0])*(0.5-linegap/2)
-        if dotted:
-            line_1 = self._draw_dotted_line(x1, y1, color=color)
-        else:
-            line_1 = self._draw_line(x1, y1, color=color)
-
-        # Draw second part of line
-        x2 = x_coords.copy()
-        y2 = y_coords.copy()
-        x2[0] = x2[0] + (x2[1]-x2[0])*(0.5+linegap/2)
-        y2[0] = y2[0] + (y2[1]-y2[0])*(0.5+linegap/2)
-        if dotted:
-            line_2 = self._draw_dotted_line(x2, y2, color=color)
-        else:
-            line_2 = self._draw_line(x2, y2, color=color)
-
-        # Draw small orthogonal lines
-        stopper_1 = self.ax.annotate('', xy=(x1[1], y1[1]), xytext=(x1[1]+0.001*(x2[0]-x1[1]), y1[1]+0.001*(y2[0]-y1[1])), 
-                arrowprops=dict(arrowstyle='|-|', color=color, lw=0.8, shrinkA=15, shrinkB=15, mutation_scale=3,zorder=1)
-        )
-        stopper_2 = self.ax.annotate('', xy=(x2[0], y2[0]), xytext=(x2[0]-0.001*(x2[0]-x1[1]), y2[0]-0.001*(y2[0]-y1[1])), 
-                arrowprops=dict(arrowstyle='|-|', color=color, lw=0.8, shrinkA=15, shrinkB=15, mutation_scale=3,zorder=1)
-        )
-        return {
-            "line_part_1": line_1,
-            "line_part_2": line_2,
-            "stopper_1": stopper_1,
-            "stopper_2": stopper_2
-        }
 
     ############################################################
     # Methods for plotting numbers
     ############################################################
-    
-    def add_numbers_naive(
-            self, 
-            x_min_max: tuple[float, float] | list[float] | float | None = None
-        ) -> None:
-        # Regularize x_min_max and get all the numbers to plot
-        x_min_max = EnergyDiagram._regularize_x_min_max(x_min_max)
-        values_to_print = self._get_all_visible_numbers(x_min_max)
-        
-        # Update axis limits before numbers and calculate ydifference 
-        self._adjust_xy_limits()
-        diff = (self.ax.get_ylim()[1] - self.ax.get_ylim()[0]) * EnergyDiagram.DISTANCE_NUMBER_LINE
 
-        # Plot the numbers
-        for value_series in values_to_print:
-            for i in range(len(value_series["x"])):
-                number_to_print = [{
-                    "y": value_series["y"][i],
-                    "color": value_series["color"],
-                    "name": value_series["name"],
-                }]
-                self._print_stacked(
-                    value_series["x"][i],
-                    number_to_print,
-                    value_series["y"][i]
-                )
+    def add_numbers_naive(
+            self,
+            x_min_max: tuple[float, float] | list[float] | float | None = None,
+        ) -> None:
+        margins = self._layout_manager.adjust_xy_limits(
+            self._path_manager.path_data
+        )
+        self._number_manager.add_numbers_naive(
+            self._path_manager.path_data, margins, x_min_max
+        )
 
     def add_numbers_stacked(
-            self, 
-            x_min_max: tuple[float, float] | list[float] | float | None = None, 
-            sort_by_energy: bool = True, 
-            no_overlap_with_nonnumbered: bool = True
+        self,
+        x_min_max: tuple[float, float] | list[float] | float | None = None, 
+        sort_by_energy: bool = True, 
+        no_overlap_with_nonnumbered: bool = True
         ) -> None:
-        # Regularize x_min_max and get all the numbers to plot
-        x_min_max = EnergyDiagram._regularize_x_min_max(x_min_max)
-        values_to_print = self._get_all_visible_numbers(x_min_max)
-
-        # Get a list of all x values where to print
-        x_places = []
-        for value_series in values_to_print:
-            x_places = np.concatenate((x_places, np.array(value_series["x"])))
-        x_places = np.unique(x_places)
-        
-        # For every step, get all energies, assign the colors and sort by energy if sortenergy == True then, print the numbers
-        for x_current in x_places:
-            numbers_to_stack = self._get_numbers_to_stack_at_x(values_to_print, x_current, sort_by_energy=sort_by_energy)
-
-            # Find y where to print
-            y_print_start = max(num["y"] for num in numbers_to_stack)
-            if no_overlap_with_nonnumbered:
-                all_numbers_at_x = self._get_all_values_at_x(x_current)
-                higher_numbers_at_x = [
-                    val for val in all_numbers_at_x 
-                    if val > y_print_start
-                ]
-                while True:
-                    if self._check_no_number_overlap(y_print_start, numbers_to_stack, higher_numbers_at_x):
-                        break
-                    else:
-                        y_print_start = higher_numbers_at_x[0]
-                        higher_numbers_at_x = higher_numbers_at_x[1:]
-
-            # Print the numbers
-            self._print_stacked(x_current, numbers_to_stack, y_print_start)
+        margins = self._layout_manager.adjust_xy_limits(
+            self._path_manager.path_data
+        )
+        self._number_manager.add_numbers_stacked(
+            self._path_manager.path_data, 
+            margins, 
+            x_min_max,
+            sort_by_energy=sort_by_energy,
+            no_overlap_with_nonnumbered=no_overlap_with_nonnumbered
+        )
 
     def add_numbers_auto(
             self, 
             x_min_max: tuple[float, float] | list[float] | float | None = None,
         ) -> None:
-        # Regularize x_min_max and get all the numbers to plot
-        x_min_max = EnergyDiagram._regularize_x_min_max(x_min_max)
-        values_to_print = self._get_all_visible_numbers(x_min_max)
-        self._adjust_xy_limits()
-        diff_per_step = (self.ax.get_ylim()[1] - self.ax.get_ylim()[0]) * EnergyDiagram.DISTANCE_NUMBER_NUMBER
-
-        # Get a list of all x values where to print
-        x_places = []
-        for value_series in values_to_print:
-            x_places = np.concatenate((x_places, np.array(value_series["x"])))
-        x_places = np.unique(x_places)
-        
-        # For every step, get all energies, assign the colors and sort by energy if sortenergy == True then, print the numbers
-        for x_current in x_places:
-            numbers_to_stack = self._get_numbers_to_stack_at_x(values_to_print, x_current)
-            # Start with lowest to print
-            n_numbers_printed = 0
-            y_last_printed = -np.inf
-            all_numbers_at_x = self._get_all_values_at_x(x_current)
-            while n_numbers_printed < len(numbers_to_stack):
-                # Append to temporary list one number after each other
-                numbers_to_stack_current = []
-                numbers_to_stack_current.append(numbers_to_stack[n_numbers_printed])
-                # Calulate where to try to print
-                y_print_start = max(
-                    numbers_to_stack[n_numbers_printed]["y"],
-                    y_last_printed + diff_per_step
-                )
-                # Append more numbers, if they have the same value
-                for number in numbers_to_stack[len(numbers_to_stack_current)+n_numbers_printed:]:
-                    if y_print_start >= number["y"]:
-                        numbers_to_stack_current.append(number)
-                # Determine every value greater than where to print
-                higher_numbers_at_x = [
-                    val for val in all_numbers_at_x 
-                    if val > y_print_start
-                ]
-                # Increse print height, until no overlap
-                while True:
-                    if self._check_no_number_overlap(y_print_start, numbers_to_stack_current, higher_numbers_at_x):
-                        self._print_stacked(x_current, numbers_to_stack_current, y_print_start)
-                        y_last_printed = y_print_start + (len(numbers_to_stack_current) - 1) * diff_per_step
-                        n_numbers_printed += len(numbers_to_stack_current)
-                        break
-                    else:
-                        # Get next possible print height
-                        y_print_start = higher_numbers_at_x[0]
-                        # Append all numbers if they are on the print height
-                        for number in numbers_to_stack[len(numbers_to_stack_current)+n_numbers_printed:]:
-                            if y_print_start >= number["y"]:
-                                numbers_to_stack_current.append(number)
-                        # Determine new values above
-                        higher_numbers_at_x = [
-                            val for val in all_numbers_at_x 
-                            if val > y_print_start
-                        ]
+        margins = self._layout_manager.adjust_xy_limits(
+            self._path_manager.path_data
+        )
+        self._number_manager.add_numbers_auto(
+            self._path_manager.path_data,
+            margins,
+            x_min_max = x_min_max,
+        )
 
     def add_numbers_average(
             self, 
             x_min_max: tuple[float, float] | list[float] | float | None = None,
             color: str = "black"
         ) -> None:
+        margins = self._layout_manager.adjust_xy_limits(
+            self._path_manager.path_data
+        )
+        self._number_manager.add_numbers_average(
+            self._path_manager.path_data,
+            margins, 
+            x_min_max = x_min_max,
+            color = color
+        )
         
-        # Regularize x_min_max and get all the numbers to plot
-        x_min_max = EnergyDiagram._regularize_x_min_max(x_min_max)
-        values_to_print = self._get_all_visible_numbers(x_min_max)
-
-        # Get a list of all x values where to print
-        x_places = []
-        for value_series in values_to_print:
-            x_places = np.concatenate((x_places, np.array(value_series["x"])))
-        x_places = np.unique(x_places)
-        
-        # For every step, get all y values, average and print
-        for x_current in x_places:
-            numbers_to_stack = self._get_numbers_to_stack_at_x(values_to_print, x_current)
-            numbers_to_stack_y = np.array([
-                number["y"] for number in numbers_to_stack
-            ])
-            y_avg = numbers_to_stack_y.mean()
-            number_to_print = [{
-                "y": y_avg,
-                "color": color,
-                "name": "Average",
-            }]
-            self._print_stacked(
-                x_current,
-                number_to_print,
-                numbers_to_stack_y.max()
-            )
-
-
 
     ############################################################
-    # Internal helper functions for plotting numbers
+    # Getters
     ############################################################
-            
-    @staticmethod
-    def _regularize_x_min_max(
-            x_min_max: tuple[float, float] | list[float] | float | None,                        
-        ) -> tuple[float, float]:
 
-        # Convert x_min_max to an inclusive interval
-        if x_min_max is not None:
-            if isinstance(x_min_max, (Sequence)):
-                EnergyDiagram._validate_numeric_sequence(x_min_max, "x_min_max", required_length=2)
-            elif isinstance(x_min_max, (int, float)):
-                x_min_max = (x_min_max, x_min_max)
-            else:
-                raise TypeError("x_min_max must be a tuple or list with length 2 or a numeric value.")
-        else:
-            x_min_max = (-np.inf, np.inf)
-        return x_min_max
-
-    def _get_all_visible_numbers(self, 
-            x_min_max: tuple[float, float]
-        ) -> list[dict]:
-        # Create new list of values which should be printed
-        values_to_print = []
-        for path_name, path in self.path_data.items():
-            # Only select data [[x...],[y...],color] in interval if show_numbers=True 
-            if path["show_numbers"] == True:
-                values_to_print.append({
-                    "x": [path["x"][i] for i in range(len(path["x"])) if x_min_max[0] <= path["x"][i] <= x_min_max[1]],
-                    "y": [path["y"][i] for i in range(len(path["x"])) if x_min_max[0] <= path["x"][i] <= x_min_max[1]],
-                    "color": path["color"],
-                    "name": path_name,
-                }) 
-        return values_to_print
-
-    def _get_all_values_at_x(self, x: float) -> list[float]:
-        # Select y values at ax
-        numbers_at_x = []
-        for path in self.path_data.values():
-            numbers_at_x += [path["y"][i] for i in range(len(path["x"])) if path["x"][i] == x]
-        return sorted(numbers_at_x)
+    @property
+    def ax(self) -> Axes:
+        return self._figure_manager.ax
     
-    def _get_numbers_to_stack_at_x(
-            self, 
-            values_to_print: Sequence[dict], 
-            x_current: float, 
-            sort_by_energy: bool = True
-        ) -> list[dict]:
-        # Get all values to print at a given location x
-        numbers_to_stack = []
-        for value_series in values_to_print:
-            if x_current in value_series["x"]:
-                numbers_to_stack.append({
-                    "y": value_series["y"][value_series["x"].index(x_current)],
-                    "color": value_series["color"],
-                    "name": value_series["name"],
-                })
-            if sort_by_energy:
-                numbers_to_stack = sorted(numbers_to_stack, key=lambda x: x["y"])
-        return numbers_to_stack
+    @property
+    def fig(self) -> Figure:
+        return self._figure_manager.fig
     
-    def _print_stacked(
-            self, 
-            x: float, 
-            numbers_to_stack: Sequence[dict], 
-            y_print_start: float
-        ) -> None:
-        # Print a number stack
-        self._adjust_xy_limits()
-        diff_bias = (self.ax.get_ylim()[1] - self.ax.get_ylim()[0]) * EnergyDiagram.DISTANCE_NUMBER_LINE
-        diff_per_step = (self.ax.get_ylim()[1] - self.ax.get_ylim()[0]) * EnergyDiagram.DISTANCE_NUMBER_NUMBER
-        n_printed = 0
-        for number in numbers_to_stack:
-            number_obj = self.ax.text(
-                            x, 
-                            (y_print_start 
-                            + diff_bias + n_printed * diff_per_step), 
-                            round(number["y"]), 
-                            ha='center', 
-                            va='center', 
-                            fontsize=self.fontsize,
-                            color=number["color"]
-                            )
-            n_printed += 1
-            self.mpl_objects["numbers"][number["name"]][f"{int(x)}"] = number_obj
-
-    def _check_no_number_overlap(
-            self, 
-            y_print_start: float, 
-            numbers_to_stack: Sequence[dict], 
-            higher_numbers_at_x: Sequence[float]
-        ) -> bool:
-        #Check wheter a number stack overlaps
-        self._adjust_xy_limits()
-        diff_bias = (self.ax.get_ylim()[1] - self.ax.get_ylim()[0]) * EnergyDiagram.DISTANCE_NUMBER_LINE
-        diff_per_step = (self.ax.get_ylim()[1] - self.ax.get_ylim()[0]) * EnergyDiagram.DISTANCE_NUMBER_NUMBER
-        stacked_offset = (len(numbers_to_stack) - 1) * diff_per_step
-        base_offset = 2 * diff_bias
-        y_stacked_max = y_print_start + base_offset + stacked_offset
-        # Check if a bar collides
-        min_higher = min(higher_numbers_at_x) if higher_numbers_at_x else float("inf")
-        # Check if there are numbers at all
-        no_higher_numbers = len(higher_numbers_at_x) == 0
-        return y_stacked_max < min_higher or no_higher_numbers
+    @property
+    def lines(self) -> dict[str, PathObject]:
+        return self._path_manager.mpl_objects
     
-
-    ############################################################
-    # Internal helper functions for validation
-    ############################################################
-
-    @staticmethod
-    def _validate_numeric_sequence(
-        seq: Sequence | None,
-        name: str,
-        allow_none: bool = False,
-        min_value: float | None = None,
-        required_length: int | None = None
-    ) -> None:
-        """Validation helper function for numeric sequences"""
-        if not allow_none and seq is None:
-            raise ValueError(f"{name} cannot be None.")
-        
-        if seq is not None:
-            if not isinstance(seq, Sequence):
-                raise TypeError(f"{name} must be a tuple or list.")
-            if isinstance(seq, (str, bytes)):
-                raise TypeError(f"{name} must be a tuple or list.")
-            if not all(isinstance(val, (int, float)) for val in seq):
-                raise TypeError(f"{name} can only contain numeric values")
-            if min_value is not None and any(min_value > val for val in seq):
-                raise ValueError(f"{name} cannot contain values smaller than {min_value}.")
-            if required_length is not None and len(seq) != required_length:
-                raise ValueError(f"{name} must be of length {required_length}.")       
-            
-
-    @staticmethod
-    def _validate_number(
-        num: float | int | None,
-        name: str,
-        allow_none: bool = False,
-        min_value: float | None = None,
-        only_integer: bool = False,
-    ) -> None:
-        """Validation helper function for numbers"""
-        if not allow_none and num is None:
-            raise ValueError(f"{name} cannot be None.")
-        
-        if num is not None:
-            if min_value is not None:
-                if min_value > num:
-                    raise ValueError(f"{name} must be equal or larger than {min_value}.")
-            if only_integer:
-                if not isinstance(num, int):
-                    raise TypeError(f"{name} must be an integer.")
-            else:
-                if not isinstance(num, (int, float)):
-                    raise TypeError(f"{name} must be an integer or float.")
+    @property
+    def ax_objects(self) -> StyleObjects:
+        return self._style_manager.mpl_objects
+    
+    @property
+    def bars(self) -> list[DifferenceBar]:
+        return self._bar_manager.mpl_objects
+    
+    @property
+    def numbers(self) -> dict[str, dict[str, Text]]:
+        return self._number_manager.mpl_objects
+    
+    
