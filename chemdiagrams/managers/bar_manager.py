@@ -51,10 +51,10 @@ class BarManager:
         ) -> None:
 
         # Sanity checks
-        Validators._validate_number(x, "x")
-        Validators._validate_numeric_sequence(y_start_end, "y_start_end", required_length=2)
-        Validators._validate_number(fontsize, "fontsize", allow_none=True, min_value=0)
-        Validators._validate_number(diff, "diff", allow_none=True)
+        Validators.validate_number(x, "x")
+        Validators.validate_numeric_sequence(y_start_end, "y_start_end", required_length=2)
+        Validators.validate_number(fontsize, "fontsize", allow_none=True, min_value=0)
+        Validators.validate_number(diff, "diff", allow_none=True)
         if not isinstance(x_whiskers, Sequence):
             raise TypeError("x_whiskers must be a list or tuple of length 2.")
         if len(x_whiskers) != 2:

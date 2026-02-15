@@ -81,7 +81,16 @@ class EnergyDiagram:
             weight: str = "bold", 
             in_plot: bool = False
         ) -> None:
-        self._figure_manager.set_xlabels(
+        margins = self._layout_manager.adjust_xy_limits(
+            self._path_manager.path_data
+        )
+        figsize = self._layout_manager.scale_figure(
+            self._path_manager.path_data
+        )
+        self._style_manager.set_xlabels(
+            margins,
+            figsize,
+            self._path_manager.path_data,
             labels,
             labelplaces=labelplaces,
             fontsize=fontsize,
@@ -153,7 +162,7 @@ class EnergyDiagram:
             loc: str = "best", 
             fontsize: int | None = None
         ) -> None:
-        Validators._validate_number(fontsize, "fontsize", allow_none=True, min_value=0)
+        Validators.validate_number(fontsize, "fontsize", allow_none=True, min_value=0)
         if fontsize is None:
             fontsize = self._figure_manager.fontsize
         patches = []
@@ -190,8 +199,11 @@ class EnergyDiagram:
         margins = self._layout_manager.adjust_xy_limits(
             self._path_manager.path_data
         )
+        figsize = self._layout_manager.scale_figure(
+            self._path_manager.path_data
+        )
         self._number_manager.add_numbers_naive(
-            self._path_manager.path_data, margins, x_min_max
+            self._path_manager.path_data, margins, figsize, x_min_max
         )
 
     def add_numbers_stacked(
@@ -203,9 +215,13 @@ class EnergyDiagram:
         margins = self._layout_manager.adjust_xy_limits(
             self._path_manager.path_data
         )
+        figsize = self._layout_manager.scale_figure(
+            self._path_manager.path_data
+        )
         self._number_manager.add_numbers_stacked(
             self._path_manager.path_data, 
-            margins, 
+            margins,
+            figsize, 
             x_min_max,
             sort_by_energy=sort_by_energy,
             no_overlap_with_nonnumbered=no_overlap_with_nonnumbered
@@ -218,9 +234,13 @@ class EnergyDiagram:
         margins = self._layout_manager.adjust_xy_limits(
             self._path_manager.path_data
         )
+        figsize = self._layout_manager.scale_figure(
+            self._path_manager.path_data
+        )
         self._number_manager.add_numbers_auto(
             self._path_manager.path_data,
             margins,
+            figsize,
             x_min_max = x_min_max,
         )
 
@@ -232,9 +252,13 @@ class EnergyDiagram:
         margins = self._layout_manager.adjust_xy_limits(
             self._path_manager.path_data
         )
+        figsize = self._layout_manager.scale_figure(
+            self._path_manager.path_data
+        )
         self._number_manager.add_numbers_average(
             self._path_manager.path_data,
-            margins, 
+            margins,
+            figsize,
             x_min_max = x_min_max,
             color = color
         )

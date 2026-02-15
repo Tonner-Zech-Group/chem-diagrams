@@ -40,8 +40,8 @@ class PathManager:
         ) -> None:
         
         # Sanity checks and linetype normalization
-        Validators._validate_numeric_sequence(x_data, "x_data")
-        Validators._validate_numeric_sequence(y_data, "y_data")
+        Validators.validate_numeric_sequence(x_data, "x_data")
+        Validators.validate_numeric_sequence(y_data, "y_data")
         if not isinstance(path_name, (str, type(None))):
             raise TypeError("path_name must be a string or None")
         if path_name in list(self.path_data.keys()):

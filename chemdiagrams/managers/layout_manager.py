@@ -17,9 +17,9 @@ class LayoutManager:
             extra_y_margin: tuple[float, float] | list[float], 
             figsize: tuple[float, float] | list[float] | None = None, 
         ) -> None:
-        Validators._validate_numeric_sequence(figsize, "figsize", allow_none=True, min_value=0, required_length=2)
-        Validators._validate_numeric_sequence(extra_x_margin, "extra_x_margin", required_length=2)
-        Validators._validate_numeric_sequence(extra_y_margin, "extra_x_margin", required_length=2)
+        Validators.validate_numeric_sequence(figsize, "figsize", allow_none=True, min_value=0, required_length=2)
+        Validators.validate_numeric_sequence(extra_x_margin, "extra_x_margin", required_length=2)
+        Validators.validate_numeric_sequence(extra_y_margin, "extra_x_margin", required_length=2)
 
         self.figure_manager = figure_manager
         self.figsize = figsize

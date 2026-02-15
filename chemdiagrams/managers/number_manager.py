@@ -30,7 +30,8 @@ class NumberManager:
     def add_numbers_naive(
             self,
             path_data: dict,
-            margins: dict[str, tuple], 
+            margins: dict[str, tuple],
+            figsize: tuple[float, float], 
             x_min_max: tuple[float, float] | list[float] | float | None = None
         ) -> None:
         # Regularize x_min_max and get all the numbers to plot
@@ -50,12 +51,14 @@ class NumberManager:
                     number_to_print,
                     value_series["y"][i],
                     margins,
+                    figsize,
                 )
 
     def add_numbers_stacked(
             self,
             path_data: dict,
-            margins: dict[str, tuple], 
+            margins: dict[str, tuple],
+            figsize: tuple[float, float],  
             x_min_max: tuple[float, float] | list[float] | float | None = None, 
             sort_by_energy: bool = True, 
             no_overlap_with_nonnumbered: bool = True
@@ -83,25 +86,32 @@ class NumberManager:
                     if val > y_print_start
                 ]
                 while True:
-                    if NumberManager._check_no_number_overlap(y_print_start, numbers_to_stack, higher_numbers_at_x, margins):
+                    if NumberManager._check_no_number_overlap(y_print_start, numbers_to_stack, higher_numbers_at_x, margins, figsize):
                         break
                     else:
                         y_print_start = higher_numbers_at_x[0]
                         higher_numbers_at_x = higher_numbers_at_x[1:]
 
             # Print the numbers
-            self._print_stacked(x_current, numbers_to_stack, y_print_start, margins)
+            self._print_stacked(
+                x_current, 
+                numbers_to_stack, 
+                y_print_start, 
+                margins, 
+                figsize
+            )
 
     def add_numbers_auto(
             self,
             path_data: dict,
-            margins: dict[str, tuple], 
+            margins: dict[str, tuple],
+            figsize: tuple[float, float],  
             x_min_max: tuple[float, float] | list[float] | float | None = None,
         ) -> None:
         # Regularize x_min_max and get all the numbers to plot
         x_min_max = NumberManager._regularize_x_min_max(x_min_max)
         values_to_print = NumberManager._get_all_visible_numbers(path_data, x_min_max)
-        diff_per_step = (margins["y"][1] - margins["y"][0]) * constants.DISTANCE_NUMBER_NUMBER
+        _, diff_per_step = NumberManager._get_diffs(margins, figsize)
 
         # Get a list of all x values where to print
         x_places = []
@@ -136,8 +146,8 @@ class NumberManager:
                 ]
                 # Increse print height, until no overlap
                 while True:
-                    if NumberManager._check_no_number_overlap(y_print_start, numbers_to_stack_current, higher_numbers_at_x, margins):
-                        self._print_stacked(x_current, numbers_to_stack_current, y_print_start, margins)
+                    if NumberManager._check_no_number_overlap(y_print_start, numbers_to_stack_current, higher_numbers_at_x, margins, figsize):
+                        self._print_stacked(x_current, numbers_to_stack_current, y_print_start, margins, figsize)
                         y_last_printed = y_print_start + (len(numbers_to_stack_current) - 1) * diff_per_step
                         n_numbers_printed += len(numbers_to_stack_current)
                         break
@@ -157,7 +167,8 @@ class NumberManager:
     def add_numbers_average(
             self,
             path_data: dict,
-            margins: dict[str, tuple], 
+            margins: dict[str, tuple],
+            figsize: tuple[float, float],  
             x_min_max: tuple[float, float] | list[float] | float | None = None,
             color: str = "black"
         ) -> None:
@@ -189,13 +200,31 @@ class NumberManager:
                 number_to_print,
                 numbers_to_stack_y.max(),
                 margins,
+                figsize,
             )
 
 
     ############################################################
     # Internal helper methods
     ############################################################
-            
+    
+    @staticmethod
+    def _get_diffs(
+            margins: dict[str, tuple], 
+            figsize: tuple[float, float],
+        ) -> tuple[float, float]:
+        diff_bias = (
+            (margins["y"][1] - margins["y"][0])
+            / figsize[1] 
+            * constants.DISTANCE_NUMBER_LINE
+        )
+        diff_per_step = (
+            (margins["y"][1] - margins["y"][0])
+            / figsize[1] 
+            * constants.DISTANCE_NUMBER_NUMBER
+            )
+        return diff_bias, diff_per_step
+
     @staticmethod
     def _regularize_x_min_max(
             x_min_max: tuple[float, float] | list[float] | float | None,                        
@@ -204,7 +233,7 @@ class NumberManager:
         # Convert x_min_max to an inclusive interval
         if x_min_max is not None:
             if isinstance(x_min_max, (Sequence)):
-                Validators._validate_numeric_sequence(x_min_max, "x_min_max", required_length=2)
+                Validators.validate_numeric_sequence(x_min_max, "x_min_max", required_length=2)
             elif isinstance(x_min_max, (int, float)):
                 x_min_max = (x_min_max, x_min_max)
             else:
@@ -264,10 +293,10 @@ class NumberManager:
             numbers_to_stack: Sequence[dict], 
             y_print_start: float,
             margins: dict[str, tuple],
+            figsize: tuple[float, float],
         ) -> None:
         # Print a number stack
-        diff_bias = (margins["y"][1] - margins["y"][0]) * constants.DISTANCE_NUMBER_LINE
-        diff_per_step = (margins["y"][1] - margins["y"][0]) * constants.DISTANCE_NUMBER_NUMBER
+        diff_bias, diff_per_step = NumberManager._get_diffs(margins, figsize)
         n_printed = 0
         for number in numbers_to_stack:
             number_obj = self.figure_manager.ax.text(
@@ -291,9 +320,9 @@ class NumberManager:
             numbers_to_stack: Sequence[dict], 
             higher_numbers_at_x: Sequence[float],
             margins: dict[str, tuple],
+            figsize: tuple[float, float]
         ) -> bool:
-        diff_bias = (margins["y"][1] - margins["y"][0]) * constants.DISTANCE_NUMBER_LINE
-        diff_per_step = (margins["y"][1] - margins["y"][0]) * constants.DISTANCE_NUMBER_NUMBER
+        diff_bias, diff_per_step = NumberManager._get_diffs(margins, figsize)
         stacked_offset = (len(numbers_to_stack) - 1) * diff_per_step
         base_offset = 2 * diff_bias
         y_stacked_max = y_print_start + base_offset + stacked_offset

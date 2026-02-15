@@ -1,11 +1,19 @@
 from __future__ import annotations
+from typing import TYPE_CHECKING
 
 from dataclasses import dataclass
+from collections.abc import Sequence
+
+from matplotlib import font_manager
 
 from ..validation import Validators
 from .. import constants
-from . import FigureManager
+from . import FigureManager, NumberManager
 
+
+if TYPE_CHECKING:
+    from matplotlib.text import Annotation, Text
+    from matplotlib.lines import Line2D
 
 class StyleManager:
     """
@@ -20,7 +28,7 @@ class StyleManager:
         ) -> None:
         self.figure_manager = figure_manager
         self.style = style
-        self.mpl_objects = StyleObjects({},{})
+        self.mpl_objects = StyleObjects({},{},{})
         self.set_diagram_style(self.style)
         
 
@@ -56,9 +64,9 @@ class StyleManager:
         self.figure_manager.ax.spines["bottom"].set_position(('axes', 0))
         
         # Remove unwanted objects
-        self.mpl_objects.delete()
-        axes = {}
-        arrows = {}
+        self.mpl_objects.remove_axes()
+        axes_dict = {}
+        arrows_dict = {}
         
         # Adjust axes
         if style == "boxed":
@@ -72,16 +80,16 @@ class StyleManager:
             self.figure_manager.ax.spines["right"].set_visible(False)
             self.figure_manager.ax.spines["left"].set_visible(True)
             self.figure_manager.ax.spines["bottom"].set_visible(True)
-            arrows["x_arrow"] = draw_arrow((1.02, 0),(0.97, 0))
-            arrows["y_arrow"] = draw_arrow((0, 1.02),(0, 0.97))
+            arrows_dict["x_arrow"] = draw_arrow((1.02, 0),(0.97, 0))
+            arrows_dict["y_arrow"] = draw_arrow((0, 1.02),(0, 0.97))
             
         elif style == "open":
             self.figure_manager.ax.spines["top"].set_visible(False)
             self.figure_manager.ax.spines["right"].set_visible(False)
             self.figure_manager.ax.spines["left"].set_visible(True)
             self.figure_manager.ax.spines["bottom"].set_visible(False)
-            axes["x_axis"] = self.figure_manager.ax.axhline(0, color="black", zorder=0.5, lw=1.0)
-            axes["y_arrow"] = draw_arrow((0, 1.02),(0, 0.97))
+            axes_dict["x_axis"] = self.figure_manager.ax.axhline(0, color="black", zorder=0.5, lw=1.0)
+            axes_dict["y_arrow"] = draw_arrow((0, 1.02),(0, 0.97))
 
         elif style == "twosided":
             self.figure_manager.ax.spines["top"].set_visible(False)
@@ -89,25 +97,106 @@ class StyleManager:
             self.figure_manager.ax.spines["left"].set_visible(True)
             self.figure_manager.ax.spines["bottom"].set_visible(True)
             self.figure_manager.ax.spines["bottom"].set_position(('axes', -0.03))
-            arrows["x_arrow_right"] = draw_arrow((1.01, -0.03),(0.96, -0.03))
-            arrows["x_arrow_left"] = draw_arrow((-0.01, -0.03),(0.04, -0.03))
-            arrows["y_arrow"] = draw_arrow((0, 1.02),(0, 0.97))
+            arrows_dict["x_arrow_right"] = draw_arrow((1.01, -0.03),(0.96, -0.03))
+            arrows_dict["x_arrow_left"] = draw_arrow((-0.01, -0.03),(0.04, -0.03))
+            arrows_dict["y_arrow"] = draw_arrow((0, 1.02),(0, 0.97))
 
-        self.mpl_objects = StyleObjects(arrows,axes)
+        self.mpl_objects.arrows = arrows_dict
+        self.mpl_objects.axes = axes_dict
 
 
+
+    def set_xlabels(
+            self,
+            margins: dict[str, tuple],
+            figsize: tuple[float, float],
+            path_data: dict, 
+            labels: Sequence, 
+            labelplaces: Sequence[float] | None = None, 
+            fontsize: int | None = None, 
+            weight: str = "bold", 
+            in_plot: bool = False
+        ) -> None:
+
+        # Sanity checks
+        Validators.validate_numeric_sequence(labelplaces, "labelplaces", allow_none=True)
+        Validators.validate_number(fontsize, "fontsize", allow_none=True, min_value=0)
+        if labelplaces is not None:
+            if len(labels) != len(labelplaces):
+                raise ValueError("There must be the same number of labels and labelplaces.")
+
+        # Create labelplace list if none given
+        if labelplaces is None:
+            labelplaces = list(range(len(labels)))
+        self.labelproperties = {
+            "labels": labels,
+            "labelplaces": labelplaces,
+            "fontsize": fontsize,
+            "weight": weight,
+            "in_plot": in_plot,
+        }
+
+        # Clear or hide labels if present
+        self.figure_manager.ax.set_xticks([])
+        self.mpl_objects.remove_labels()
+        label_dict = {}
+
+        # Set font of x labels
+        if fontsize is None:
+            fontsize = self.figure_manager.fontsize
+        labelfont = font_manager.FontProperties(
+            weight=weight, 
+            size=fontsize
+        )
+
+        # Set labels in the plot or at axis
+        if in_plot:       
+            for x, labeltext in zip(labelplaces, labels):
+                all_values_at_x = NumberManager._get_all_values_at_x(path_data, x)
+                if all_values_at_x:
+                    y_diff = - constants.DISTANCE_LABEL_LINE * (
+                        (margins["y"][1] - margins["y"][0])
+                        / figsize[1] 
+                    )
+                    y_min_at_x = min(all_values_at_x)
+                    label = self.figure_manager.ax.text(
+                        x,
+                        y_min_at_x + y_diff,
+                        labeltext,
+                        font=labelfont,
+                        ha="center",
+                        va="center",
+                    )
+                    label_dict[str(x)] = label
+                else:
+                    print(f"Warning: There was no datapoint found at x = {x}, therfore no label is shown.")
+            self.mpl_objects.x_labels = label_dict
+        else:
+            self.figure_manager.ax.set_xticks(labelplaces)
+            self.figure_manager.ax.set_xticklabels(labels)
+            for label in self.figure_manager.ax.get_xticklabels():
+                label.set_fontproperties(labelfont)
 
 
 @dataclass
 class StyleObjects:
-    arrows: dict
-    axes: dict
+    arrows: dict[str, Annotation]
+    axes: dict[str, Line2D]
+    x_labels: dict[str, Text]
 
-    def delete(self):
+    def remove_axes(self):
         for _, arrow in self.arrows.items():
             arrow.remove()
         for _, axis in self.axes.items():
             axis.remove()
+        self.arrows = {}
+        self.axes = {}
+    
+    def remove_labels(self):
+        for _, label in self.x_labels.items():
+            label.remove()
+        self.x_labels = {}
+
 
 
     

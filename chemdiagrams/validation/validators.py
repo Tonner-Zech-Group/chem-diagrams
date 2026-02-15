@@ -11,7 +11,7 @@ class Validators:
     """
 
     @staticmethod
-    def _validate_numeric_sequence(
+    def validate_numeric_sequence(
         seq: Sequence | None,
         name: str,
         allow_none: bool = False,
@@ -35,7 +35,7 @@ class Validators:
                 raise ValueError(f"{name} must be of length {required_length}.")       
             
     @staticmethod
-    def _validate_number(
+    def validate_number(
         num: float | int | None,
         name: str,
         allow_none: bool = False,
