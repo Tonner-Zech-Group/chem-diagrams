@@ -50,12 +50,20 @@ class LayoutManager:
         # Adjust the axis limits
         margins = {
             "x": (
-                min(x_all)-0.5+self.extra_x_margin[0], 
-                max(x_all)+0.5+self.extra_x_margin[1]
+                min(x_all) 
+                + constants.DEFAULT_X_MARGINS[0] 
+                + self.extra_x_margin[0], 
+                max(x_all) 
+                + constants.DEFAULT_X_MARGINS[1] 
+                + self.extra_x_margin[1],
             ),
             "y": (
-                min(y_all) + (max(y_all)-min(y_all)) * self.extra_y_margin[0], 
-                max(y_all) + (max(y_all)-min(y_all)) * self.extra_y_margin[1]
+                min(y_all) 
+                + (max(y_all)-min(y_all)) 
+                * (constants.DEFAULT_Y_MARGINS[0] + self.extra_y_margin[0]), 
+                max(y_all) 
+                + (max(y_all)-min(y_all)) 
+                * (constants.DEFAULT_Y_MARGINS[1] + self.extra_y_margin[1]),
             )
         }
         self.figure_manager.ax.set_xlim(margins["x"])

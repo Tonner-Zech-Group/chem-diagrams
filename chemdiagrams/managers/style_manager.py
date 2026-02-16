@@ -89,7 +89,7 @@ class StyleManager:
             self.figure_manager.ax.spines["left"].set_visible(True)
             self.figure_manager.ax.spines["bottom"].set_visible(False)
             axes_dict["x_axis"] = self.figure_manager.ax.axhline(0, color="black", zorder=0.5, lw=1.0)
-            axes_dict["y_arrow"] = draw_arrow((0, 1.02),(0, 0.97))
+            arrows_dict["y_arrow"] = draw_arrow((0, 1.02),(0, 0.97))
 
         elif style == "twosided":
             self.figure_manager.ax.spines["top"].set_visible(False)
@@ -167,7 +167,7 @@ class StyleManager:
                         ha="center",
                         va="center",
                     )
-                    label_dict[str(x)] = label
+                    label_dict[f"{x:.1f}"] = label
                 else:
                     print(f"Warning: There was no datapoint found at x = {x}, therfore no label is shown.")
             self.mpl_objects.x_labels = label_dict

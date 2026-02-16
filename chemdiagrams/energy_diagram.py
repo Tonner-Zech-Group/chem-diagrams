@@ -40,7 +40,7 @@ class EnergyDiagram:
     def __init__(
             self, 
             extra_x_margin: tuple[float, float] | list[float] = (0,0), 
-            extra_y_margin: tuple[float, float] | list[float] = (-0.1,0.15), 
+            extra_y_margin: tuple[float, float] | list[float] = (0,0), 
             figsize: tuple[float, float] | list[float] | None = None, 
             fontsize: int = 8, 
             verbose: bool = False, 
@@ -102,7 +102,7 @@ class EnergyDiagram:
         self._layout_manager.adjust_xy_limits(self._path_manager.path_data)  
         self._style_manager.set_diagram_style(style)
         try:
-            self.set_xlabels(**self._figure_manager.labelproperties)
+            self.set_xlabels(**self._style_manager.labelproperties)
         except AttributeError:
             pass
 
