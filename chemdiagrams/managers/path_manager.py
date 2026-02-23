@@ -17,8 +17,11 @@ from . import FigureManager
 
 class PathManager:
     """
-    PathManager class for handling the Paths
+    Manages the creation and storage of reaction path artists.
 
+    Draws horizontal energy levels (plateaus) and the connectors
+    between them, storing all rendered artists in ``mpl_objects`` and
+    the underlying data in ``path_data`` for use by other managers.
     """
 
     def __init__(
@@ -84,7 +87,6 @@ class PathManager:
         # Create lists in order to draw the lines
         x_corners = []
         y_corners = []
-        linetypes = linetypes
 
         # Draw the lines
         for i, v in enumerate(y_data):
@@ -143,7 +145,7 @@ class PathManager:
             dotted: bool = True
         ) -> dict[str, Line2D | Annotation]:
         # Portion of the line that has a gap
-        linegap = 0.2 
+        linegap = constants.BROKEN_LINE_GAP
         # Ensure tuples are converted to list
         x_coords = list(x_coords)
         y_coords = list(y_coords)
@@ -180,6 +182,18 @@ class PathManager:
 
 @dataclass
 class PathObject:
+    """
+    Container for the Matplotlib artists that make up a single reaction path.
+
+    Attributes
+    ----------
+    connections : dict of str to Line2D, BrokenLine, or None
+        Connector artists between energy levels, keyed by the midpoint
+        x-coordinate of each segment as a formatted string (e.g. ``"1.5"``).
+    plateaus : dict of str to LineCollection
+        Horizontal energy bar artists, keyed by their x-coordinate
+        as a formatted string (e.g. ``"1.0"``).
+    """
     connections: dict
     plateaus: dict
 
@@ -191,6 +205,24 @@ class PathObject:
 
 @dataclass
 class BrokenLine:
+    """
+    Container for the four artists that make up a broken connector line.
+
+    A broken line is drawn as two half-segments with small orthogonal
+    tick marks at the break point, indicating a discontinuity in the
+    reaction coordinate.
+
+    Attributes
+    ----------
+    line_part_1 : Line2D
+        The first half of the connector, from the start to the break.
+    line_part_2 : Line2D
+        The second half of the connector, from the break to the end.
+    stopper_1 : Annotation
+        Orthogonal tick mark at the end of ``line_part_1``.
+    stopper_2 : Annotation
+        Orthogonal tick mark at the start of ``line_part_2``.
+    """
     line_part_1: Line2D
     line_part_2: Line2D
     stopper_1: Annotation

@@ -12,8 +12,14 @@ from . import FigureManager
 
 class NumberManager:
     """
-    NumberManager class for handling the Numbers
+    Manages energy value annotations on the diagram.
 
+    Provides four strategies for placing numeric labels above energy
+    levels: naive (directly above each bar), stacked (vertically
+    arranged), auto (distribution without collision), and average 
+    (one label per x-position showing the mean across paths). 
+    Rendered Text artists are stored in ``mpl_objects`` keyed by 
+    path name and x-coordinate.
     """
 
     def __init__(
@@ -82,7 +88,7 @@ class NumberManager:
             x_places = np.concatenate((x_places, np.array(value_series["x"])))
         x_places = np.unique(x_places)
         
-        # For every step, get all energies, assign the colors and sort by energy if sortenergy == True then, print the numbers
+        # For every step, get all energies, assign the colors and sort by energy if sortenergy is True then print the numbers
         for x_current in x_places:
             numbers_to_stack = NumberManager._get_numbers_to_stack_at_x(values_to_print, x_current, sort_by_energy=sort_by_energy)
 
@@ -134,7 +140,7 @@ class NumberManager:
             x_places = np.concatenate((x_places, np.array(value_series["x"])))
         x_places = np.unique(x_places)
         
-        # For every step, get all energies, assign the colors and sort by energy if sortenergy == True then, print the numbers
+        # For every step, get all energies, assign the colors and sort by energy, print the numbers
         for x_current in x_places:
             numbers_to_stack = NumberManager._get_numbers_to_stack_at_x(values_to_print, x_current)
             # Start with lowest to print
@@ -249,6 +255,20 @@ class NumberManager:
             figsize: tuple[float, float],
             fontsize: int,
         ) -> tuple[float, float]:
+        """
+        Compute vertical spacing values for label placement in data coordinates.
+
+        Both values scale proportionally with font size, y-axis range, and
+        figure height so that spacing remains visually consistent regardless
+        of the diagram's scale.
+
+        Returns
+        -------
+        diff_bias : float
+            The vertical gap between an energy bar and the first label.
+        diff_per_step : float
+            The vertical distance between consecutive stacked labels.
+        """
         diff_bias = (
             (fontsize / constants.STD_FONTSIZE)
             * (margins["y"][1] - margins["y"][0])
@@ -267,7 +287,6 @@ class NumberManager:
     def _regularize_x_min_max(
             x_min_max: tuple[float, float] | list[float] | float | None,                        
         ) -> tuple[float, float]:
-
         # Convert x_min_max to an inclusive interval
         if x_min_max is not None:
             if isinstance(x_min_max, (Sequence)):
@@ -289,7 +308,7 @@ class NumberManager:
         values_to_print = []
         for path_name, path in path_data.items():
             # Only select data [[x...],[y...],color] in interval if show_numbers=True 
-            if path["show_numbers"] == True:
+            if path["show_numbers"]:
                 values_to_print.append({
                     "x": [path["x"][i] for i in range(len(path["x"])) if x_min_max[0] <= path["x"][i] <= x_min_max[1]],
                     "y": [path["y"][i] for i in range(len(path["x"])) if x_min_max[0] <= path["x"][i] <= x_min_max[1]],
@@ -334,8 +353,17 @@ class NumberManager:
             figsize: tuple[float, float],
             fontsize: int,
         ) -> None:
-        # Print a number stack
-        diff_bias, diff_per_step = NumberManager._get_diffs(margins, figsize, fontsize)
+        """
+        Render a vertical stack of energy labels at a given x-position.
+
+        Labels are placed starting at ``y_print_start`` plus ``diff_bias``,
+        with each subsequent label offset upward by ``diff_per_step``. The
+        resulting Text artists are saved into ``mpl_objects`` under their
+        path name and x-coordinate key.
+        """
+        diff_bias, diff_per_step = NumberManager._get_diffs(
+            margins, figsize, fontsize
+        )
         n_printed = 0
         for number in numbers_to_stack:
             number_obj = self.figure_manager.ax.text(
@@ -362,6 +390,14 @@ class NumberManager:
             figsize: tuple[float, float],
             fontsize: int,
         ) -> bool:
+        """
+        Return True if a proposed label stack would not collide with any higher bar.
+
+        Computes the top edge of the stacked labels (including bias and
+        per-step offsets) and checks that it falls below the nearest energy
+        bar above ``y_print_start``. Returns True unconditionally if there
+        are no higher bars.
+        """
         diff_bias, diff_per_step = NumberManager._get_diffs(margins, figsize, fontsize)
         stacked_offset = (len(numbers_to_stack) - 1) * diff_per_step
         base_offset = 2 * diff_bias

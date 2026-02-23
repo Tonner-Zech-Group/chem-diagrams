@@ -17,8 +17,12 @@ if TYPE_CHECKING:
 
 class StyleManager:
     """
-    StyleManager class for handling the Styles
+    Manages the visual style and x-axis labels of the diagram.
 
+    Handles spine visibility, axis arrows, and background elements
+    for the four supported styles: ``"boxed"``, ``"halfboxed"``,
+    ``"open"``, and ``"twosided"``. Also manages x-axis label
+    placement, either below the axis or inside the plot area.
     """
 
     def __init__(
@@ -181,6 +185,22 @@ class StyleManager:
 
 @dataclass
 class StyleObjects:
+    """
+    Container for the Matplotlib artists controlled by the style manager.
+
+    Attributes
+    ----------
+    arrows : dict of str to Annotation
+        Axis arrow artists, keyed by name (e.g. ``"x_arrow"``, ``"y_arrow"``).
+    axes : dict of str to Line2D
+        Supplementary axis line artists, such as the horizontal zero line
+        in the ``"open"`` style, keyed by name (e.g. ``"x_axis"``).
+    x_labels : dict of str to Text
+        In-plot x label artists, keyed by x-coordinate as a formatted
+        string. Only populated when ``in_plot=True`` is used in
+        ``set_xlabels``; otherwise labels are handled by Matplotlib's
+        own tick system and not stored here.
+    """
     arrows: dict[str, Annotation]
     axes: dict[str, Line2D]
     x_labels: dict[str, Text]

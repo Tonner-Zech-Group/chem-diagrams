@@ -18,7 +18,10 @@ class Validators:
         min_value: float | None = None,
         required_length: int | None = None
     ) -> None:
-        """Validation helper function for numeric sequences"""
+        """Validate that a sequence is non-None, numeric, and meets optional constraints.
+
+        Raises TypeError or ValueError if the sequence is invalid.
+        """
         if not allow_none and seq is None:
             raise ValueError(f"{name} cannot be None.")
         
@@ -42,7 +45,10 @@ class Validators:
         min_value: float | None = None,
         only_integer: bool = False,
     ) -> None:
-        """Validation helper function for numbers"""
+        """Validate that a value is non-None, numeric, and meets optional constraints.
+
+        Raises TypeError or ValueError if the value is invalid.
+        """
         if not allow_none and num is None:
             raise ValueError(f"{name} cannot be None.")
         

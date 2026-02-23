@@ -17,14 +17,14 @@ from .. import constants
 from . import FigureManager
 
 
-
-
-
-
 class BarManager:
     """
-    BarManager class for handling the bars
+    Manages the creation and storage of energy difference bars.
 
+    Handles drawing of annotated double-headed arrows that span between
+    two energy levels, including optional horizontal whisker lines and
+    text labels. Rendered artists are stored in ``mpl_objects`` for
+    later access via ``EnergyDiagram.bars``.
     """
 
     def __init__(
@@ -63,11 +63,11 @@ class BarManager:
             raise ValueError("Elements of x_whiskers must be a float or None.")
 
         y_start, y_end = y_start_end
-        if fontsize == None:
+        if fontsize is None:
             fontsize = self.figure_manager.fontsize
 
         # Automatic scaling of diff
-        if diff == None:
+        if diff is None:
             diff = constants.DISTANCE_TEXT_DIFFBAR
             diff *= margins["x"][1] - margins["x"][0]
             diff /= (self.figure_manager.fig.get_figwidth())
@@ -128,9 +128,24 @@ class BarManager:
 
 @dataclass
 class DifferenceBar:
+    """
+    Container for the Matplotlib artists that make up a single difference bar.
+
+    Attributes
+    ----------
+    bar : Annotation
+        The double-headed arrow spanning the two energy levels.
+    text : Text
+        The label displayed beside the arrow.
+    whisker_1 : Line2D or None
+        Horizontal whisker line at the bottom energy level, or None if not drawn.
+    whisker_2 : Line2D or None
+        Horizontal whisker line at the top energy level, or None if not drawn.
+    """
     bar: Annotation
     text: Text
     whisker_1: Line2D | None
     whisker_2: Line2D | None
+    
     
         

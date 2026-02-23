@@ -6,8 +6,11 @@ from . import FigureManager
 
 class LayoutManager:
     """
-    LayoutManager class for handling the Styles
+    Manages axis limits and figure dimensions based on the plotted path data.
 
+    Computes appropriate x/y axis limits from the data range plus configured
+    margins, and scales the figure size automatically unless an explicit size
+    was provided.
     """
 
     def __init__(
@@ -30,6 +33,25 @@ class LayoutManager:
 
 
     def adjust_xy_limits(self, path_data: dict) -> dict[str, tuple]:
+        """
+        Recompute and apply x/y axis limits from the current path data.
+
+        Called before rendering any element that depends on the data range,
+        such as difference bars and labels. Returns a margins dict that other
+        managers use to scale positions relative to the plot extents.
+
+        Parameters
+        ----------
+        path_data : dict
+            The path registry from ``PathManager.path_data``.
+
+        Returns
+        -------
+        dict
+            A dict with keys ``"x"`` and ``"y"``, each a tuple of
+            ``(lower_limit, upper_limit)`` in data coordinates, after
+            applying default and user-specified margins.
+        """
         # Get all x and y values out of the path data dictionary
         x_all = [
                 element
@@ -74,6 +96,25 @@ class LayoutManager:
         return margins
 
     def scale_figure(self, path_data: dict) -> tuple[float, float]:
+        """
+        Resize the figure to fit the current data range.
+
+        If a fixed ``figsize`` was provided at construction, that size is
+        applied directly. Otherwise, width is derived from the x data range
+        and capped at ``constants.MAX_WIDTH`` (unless ``no_width_limit`` is
+        True), and height is set to ``constants.HEIGHT`` or the width,
+        whichever is smaller, to avoid disproportionate figures.
+
+        Parameters
+        ----------
+        path_data : dict
+            The path registry from ``PathManager.path_data``.
+
+        Returns
+        -------
+        tuple of float
+            The resulting figure size as ``(width, height)`` in inches.
+        """
         # Scale only, if no figure size is predetermined
         if self.figsize is None:
             # Function for scaling the figure automatically

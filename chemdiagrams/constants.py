@@ -17,6 +17,9 @@ DEFAULT_Y_MARGINS = (-0.1, 0.15)
 # Default width of a plateau
 WIDTH_PLATEAU = 0.5
 
+# Default width of a plateau
+BROKEN_LINE_GAP = 0.2
+
 
 
 # Default distance of text next to Bar in x units
