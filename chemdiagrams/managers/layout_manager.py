@@ -14,7 +14,8 @@ class LayoutManager:
             self,
             figure_manager: FigureManager,
             extra_x_margin: tuple[float, float] | list[float],
-            extra_y_margin: tuple[float, float] | list[float], 
+            extra_y_margin: tuple[float, float] | list[float],
+            no_width_limit: bool,
             figsize: tuple[float, float] | list[float] | None = None, 
         ) -> None:
         Validators.validate_numeric_sequence(figsize, "figsize", allow_none=True, min_value=0, required_length=2)
@@ -25,6 +26,7 @@ class LayoutManager:
         self.figsize = figsize
         self.extra_x_margin = extra_x_margin
         self.extra_y_margin = extra_y_margin
+        self.no_width_limit = no_width_limit
 
 
     def adjust_xy_limits(self, path_data: dict) -> dict[str, tuple]:
@@ -79,9 +81,9 @@ class LayoutManager:
 
             # Determine and set width
             x_size = constants.X_SCALE*(margins["x"][1] - margins["x"][0])
-            if x_size > constants.MAX_WIDTH:
+            if x_size > constants.MAX_WIDTH and not self.no_width_limit:
                 x_size = constants.MAX_WIDTH
-            elif x_size <= 0: # Avoid a figure without size
+            if x_size <= 0: # Avoid a figure without size
                 x_size = 1
             self.figure_manager.fig.set_figwidth(x_size)
 

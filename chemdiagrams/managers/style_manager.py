@@ -155,7 +155,8 @@ class StyleManager:
                 all_values_at_x = NumberManager._get_all_values_at_x(path_data, x)
                 if all_values_at_x:
                     y_diff = - constants.DISTANCE_LABEL_LINE * (
-                        (margins["y"][1] - margins["y"][0])
+                        (fontsize / constants.STD_FONTSIZE)
+                        * (margins["y"][1] - margins["y"][0])
                         / figsize[1] 
                     )
                     y_min_at_x = min(all_values_at_x)

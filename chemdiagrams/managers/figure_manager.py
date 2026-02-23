@@ -19,7 +19,7 @@ class FigureManager:
 
     def __init__(
             self,
-            fontsize: int = 8, 
+            fontsize: int = constants.STD_FONTSIZE, 
             dpi: int = 150,
             verbose: bool = False, 
         ) -> None:

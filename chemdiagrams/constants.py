@@ -1,15 +1,37 @@
 
 """Constants for plotting the energy diagram"""
 
+# Default maximum width of Diagram in inches
 MAX_WIDTH = 7
-HEIGHT = 3
-X_SCALE = 0.8 # Inches per x-tick
-WIDTH_PLATEAU = 0.5
-DISTANCE_TEXT_DIFFBAR = 0.02
-DISTANCE_NUMBER_LINE = 0.09
-DISTANCE_LABEL_LINE = 0.12
-DISTANCE_NUMBER_NUMBER = 0.135
 
+# Default height of Diagram in inches
+HEIGHT = 3
+
+# Default width in inches per x-tick
+X_SCALE = 0.8
+
+# Default margins (x absolute, y relative)
 DEFAULT_X_MARGINS = (-0.5, 0.5)
 DEFAULT_Y_MARGINS = (-0.1, 0.15)
+
+# Default width of a plateau
+WIDTH_PLATEAU = 0.5
+
+
+
+# Default distance of text next to Bar in x units
+DISTANCE_TEXT_DIFFBAR = 0.02
+
+# Default distance numbers above plateau (inches at sdt fontsize)
+DISTANCE_NUMBER_LINE = 0.09
+
+# Default distance labels below plateau (inches at sdt fontsize)
+DISTANCE_LABEL_LINE = 0.12
+
+# Default distance between numbers (inches at sdt fontsize)
+DISTANCE_NUMBER_NUMBER = 0.135
+
+# Standard fontsize
+STD_FONTSIZE = 8
+
  

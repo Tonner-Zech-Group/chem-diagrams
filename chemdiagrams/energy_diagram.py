@@ -40,9 +40,10 @@ class EnergyDiagram:
     def __init__(
             self, 
             extra_x_margin: tuple[float, float] | list[float] = (0,0), 
-            extra_y_margin: tuple[float, float] | list[float] = (0,0), 
+            extra_y_margin: tuple[float, float] | list[float] = (0,0),
+            no_width_limit: bool = False, 
             figsize: tuple[float, float] | list[float] | None = None, 
-            fontsize: int = 8, 
+            fontsize: int = constants.STD_FONTSIZE, 
             verbose: bool = False, 
             style: str = "open",
             dpi: int = 150,
@@ -65,8 +66,9 @@ class EnergyDiagram:
         self._layout_manager = LayoutManager(
             self._figure_manager, 
             extra_x_margin=extra_x_margin, 
-            extra_y_margin=extra_y_margin, 
-            figsize=figsize
+            extra_y_margin=extra_y_margin,
+            no_width_limit=no_width_limit, 
+            figsize=figsize,
         )
         self._bar_manager = BarManager(
             self._figure_manager
@@ -195,6 +197,7 @@ class EnergyDiagram:
     def add_numbers_naive(
             self,
             x_min_max: tuple[float, float] | list[float] | float | None = None,
+            fontsize: int | None = None,
         ) -> None:
         margins = self._layout_manager.adjust_xy_limits(
             self._path_manager.path_data
@@ -203,12 +206,13 @@ class EnergyDiagram:
             self._path_manager.path_data
         )
         self._number_manager.add_numbers_naive(
-            self._path_manager.path_data, margins, figsize, x_min_max
+            self._path_manager.path_data, margins, figsize, x_min_max, fontsize=fontsize,
         )
 
     def add_numbers_stacked(
         self,
-        x_min_max: tuple[float, float] | list[float] | float | None = None, 
+        x_min_max: tuple[float, float] | list[float] | float | None = None,
+        fontsize: int | None = None, 
         sort_by_energy: bool = True, 
         no_overlap_with_nonnumbered: bool = True
         ) -> None:
@@ -223,6 +227,7 @@ class EnergyDiagram:
             margins,
             figsize, 
             x_min_max,
+            fontsize=fontsize,
             sort_by_energy=sort_by_energy,
             no_overlap_with_nonnumbered=no_overlap_with_nonnumbered
         )
@@ -230,6 +235,7 @@ class EnergyDiagram:
     def add_numbers_auto(
             self, 
             x_min_max: tuple[float, float] | list[float] | float | None = None,
+            fontsize: int | None = None,
         ) -> None:
         margins = self._layout_manager.adjust_xy_limits(
             self._path_manager.path_data
@@ -242,11 +248,13 @@ class EnergyDiagram:
             margins,
             figsize,
             x_min_max = x_min_max,
+            fontsize=fontsize,
         )
 
     def add_numbers_average(
             self, 
             x_min_max: tuple[float, float] | list[float] | float | None = None,
+            fontsize: int | None = None,
             color: str = "black"
         ) -> None:
         margins = self._layout_manager.adjust_xy_limits(
@@ -260,6 +268,7 @@ class EnergyDiagram:
             margins,
             figsize,
             x_min_max = x_min_max,
+            fontsize=fontsize,
             color = color
         )
         
