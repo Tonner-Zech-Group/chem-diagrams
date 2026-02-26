@@ -21,6 +21,7 @@ from .managers import (
     PathObject,
     StyleObjects,
     DifferenceBar,
+    ImageManager,
 )
 
 from . import constants
@@ -77,6 +78,8 @@ class EnergyDiagram:
         List of energy difference bar objects in the diagram.
     numbers : dict
         Dictionary containing energy annotation text objects.
+    images : dict
+        Dictionary containing image artists, keyed by image or series name.
 
     Methods
     -------
@@ -107,6 +110,12 @@ class EnergyDiagram:
 
     add_numbers_average(...)
         Add averaged energy annotations.
+
+    add_image_in_plot(img_path, position, ...)
+        Place a single image at an explicit position within the diagram.
+
+    add_image_series_in_plot(img_paths, img_x_places=None, ...)
+        Place a series of images along the diagram, one per x-position.
 
     show()
         Display the figure.
@@ -156,6 +165,9 @@ class EnergyDiagram:
             figsize=figsize,
         )
         self._bar_manager = BarManager(
+            self._figure_manager
+        )
+        self._image_manager = ImageManager(
             self._figure_manager
         )
         self.verbose = verbose
@@ -215,6 +227,13 @@ class EnergyDiagram:
             weight=weight,
             in_plot=in_plot,
         )
+        self._image_manager.reset_image_series(
+            margins,
+            figsize,
+            self._path_manager.path_data,
+            self._number_manager.mpl_objects,
+            self._style_manager.mpl_objects.x_labels,
+        )
         return self
 
     def set_diagram_style(self, style: str) -> EnergyDiagram:
@@ -251,6 +270,7 @@ class EnergyDiagram:
             description: str, 
             diff: float | None = None,
             left_side: bool = False,
+            add_difference: bool = True,
             fontsize: int | None = None, 
             color: str = "black", 
             arrowstyle: str = "|-|", 
@@ -282,6 +302,10 @@ class EnergyDiagram:
         left_side : bool, optional
             If True the bar and label are placed to the left of ``x``
             instead of to the right. Default is False.
+        add_difference: bool, optional
+            If True, the difference between y_start and y_end
+            gets automatically added to the description. Default
+            is True.
         fontsize : int or None, optional
             Font size for the description label. When None the
             diagram's base font size is used. Default is None.
@@ -312,6 +336,7 @@ class EnergyDiagram:
             x, y_start_end, description, margins,
             diff=diff,
             left_side=left_side,
+            add_difference=add_difference,
             fontsize=fontsize,
             color=color,
             arrowstyle=arrowstyle,
@@ -488,6 +513,13 @@ class EnergyDiagram:
         self._number_manager.add_numbers_naive(
             self._path_manager.path_data, margins, figsize, x_min_max, fontsize=fontsize,
         )
+        self._image_manager.reset_image_series(
+            margins,
+            figsize,
+            self._path_manager.path_data,
+            self._number_manager.mpl_objects,
+            self._style_manager.mpl_objects.x_labels,
+        )
         return self
 
     def add_numbers_stacked(
@@ -545,6 +577,13 @@ class EnergyDiagram:
             sort_by_energy=sort_by_energy,
             no_overlap_with_nonnumbered=no_overlap_with_nonnumbered
         )
+        self._image_manager.reset_image_series(
+            margins,
+            figsize,
+            self._path_manager.path_data,
+            self._number_manager.mpl_objects,
+            self._style_manager.mpl_objects.x_labels,
+        )
         return self
 
     def add_numbers_auto(
@@ -586,8 +625,15 @@ class EnergyDiagram:
             self._path_manager.path_data,
             margins,
             figsize,
-            x_min_max = x_min_max,
+            x_min_max=x_min_max,
             fontsize=fontsize,
+        )
+        self._image_manager.reset_image_series(
+            margins,
+            figsize,
+            self._path_manager.path_data,
+            self._number_manager.mpl_objects,
+            self._style_manager.mpl_objects.x_labels,
         )
         return self
 
@@ -638,8 +684,153 @@ class EnergyDiagram:
             fontsize=fontsize,
             color = color
         )
+        self._image_manager.reset_image_series(
+            margins,
+            figsize,
+            self._path_manager.path_data,
+            self._number_manager.mpl_objects,
+            self._style_manager.mpl_objects.x_labels,
+        )
         return self
         
+
+    ############################################################
+    # Methods for plotting images
+    ############################################################
+
+    def add_image_in_plot(
+            self,
+            img_path: str,
+            position: tuple[float, float] | list[float],
+            img_name: str | None = None,
+            horizontal_alignment: str = "center",
+            vertical_alignment: str = "center",
+            width: float | None = None,
+            height: float | None = None,
+            framed: bool = False,
+            frame_color: str = "black",
+        ) -> EnergyDiagram:
+        """
+        Place a single image at an explicit data-coordinate position.
+
+        The image is scaled to the requested ``width`` and/or ``height`` in
+        data coordinates, preserving the aspect ratio when only one dimension
+        is supplied. The rendered artist is stored in ``self.images`` under
+        ``img_name``.
+
+        Parameters
+        ----------
+        img_path : str
+            File path to the image (any format supported by Matplotlib).
+        position : tuple of float or list of float
+            The (x, y) anchor point in data coordinates.
+        img_name : str or None, optional
+            Key under which the artist is stored. An automatic key is
+            assigned when None. Default is None.
+        horizontal_alignment : str, optional
+            Horizontal anchor of ``position``: ``"left"``, ``"center"``,
+            or ``"right"``. Default ``"center"``.
+        vertical_alignment : str, optional
+            Vertical anchor of ``position``: ``"top"``, ``"center"``,
+            or ``"bottom"``. Default ``"center"``.
+        width : float or None, optional
+            Image width in data coordinate units. Default is None.
+        height : float or None, optional
+            Image height in data coordinate units. Default is None.
+        framed : bool, optional
+            If True, draws a rectangular border around the image. Default False.
+        frame_color : str, optional
+            Color of the frame border. Default ``"black"``.
+        """
+        margins = self._layout_manager.adjust_xy_limits(
+            self._path_manager.path_data
+        )
+        figsize = self._layout_manager.scale_figure(
+            self._path_manager.path_data
+        )
+        self._image_manager.add_image_in_plot(
+            img_path,
+            position,
+            margins=margins,
+            figsize=figsize,
+            img_name=img_name,
+            horizontal_alignment=horizontal_alignment,
+            vertical_alignment=vertical_alignment,
+            width=width,
+            height=height,
+            framed=framed,
+            frame_color=frame_color,
+        )
+        return self
+
+    def add_image_series_in_plot(
+            self,
+            img_paths: Sequence[str],
+            img_x_places: Sequence[float] | None = None,
+            y_placement: Sequence[str] | str = "auto",
+            y_offsets: Sequence[float] | float = 0,
+            img_series_name: str | None = None,
+            width: Sequence[float | None] | float | None = None,
+            height: Sequence[float| None] | float | None = None,
+            framed: Sequence[bool] | bool = False,
+            frame_colors: Sequence[str] | str = "black",
+        ) -> EnergyDiagram:
+        """
+        Place a series of images, one per x-position, avoiding visual collisions.
+
+        For each image the method finds free vertical space above or below the
+        nearest energy bar, number annotation, and x-axis label. Placement is
+        chosen automatically or forced to ``"top"``/``"bottom"`` via
+        ``y_placement``. The series artists are stored in ``self.images`` under
+        ``img_series_name``.
+
+        Parameters
+        ----------
+        img_paths : sequence of str
+            Ordered file paths for each image in the series.
+        img_x_places : sequence of float or None, optional
+            x-coordinates for each image. Defaults to ``[0, 1, 2, ...]``.
+        y_placement : sequence of str or str, optional
+            Vertical placement strategy per image: ``"top"``, ``"bottom"``,
+            or ``"auto"``. Default ``"auto"``.
+        y_offsets : sequence of float or float, optional
+            Additional vertical offset applied after collision avoidance.
+            Default 0.
+        img_series_name : str or None, optional
+            Key under which artists are stored. Auto-assigned when None.
+        width : sequence or float or None, optional
+            Image widths in data coordinate units.
+        height : sequence or float or None, optional
+            Image heights in data coordinate units.
+        framed : sequence of bool or bool, optional
+            Whether to draw a border around each image. Default False.
+        frame_colors : sequence of str or str, optional
+            Border colors. Default ``"black"``.
+        """
+        margins = self._layout_manager.adjust_xy_limits(
+            self._path_manager.path_data
+        )
+        figsize = self._layout_manager.scale_figure(
+            self._path_manager.path_data
+        )
+        self._image_manager.add_image_series_in_plot(
+                img_paths,
+                margins=margins,
+                figsize=figsize,
+                path_data=self._path_manager.path_data,
+                number_mpl_objects=self._number_manager.mpl_objects,
+                xlabel_mpl_objects=self._style_manager.mpl_objects.x_labels,
+                img_x_places=img_x_places,
+                y_placement=y_placement,
+                y_offsets=y_offsets,
+                img_series_name=img_series_name,
+                width=width,
+                height=height,
+                framed=framed,
+                frame_colors=frame_colors,
+        )
+        return self
+
 
     ############################################################
     # Getters
@@ -705,6 +896,18 @@ class EnergyDiagram:
         any of the ``add_numbers_*`` methods.
         """
         return self._number_manager.mpl_objects
+    
+    @property
+    def images(self) -> dict:
+        """dict: Image artists stored by the image manager.
+
+        Keys are image or series names (as supplied via ``img_name`` or
+        ``img_series_name``). Standalone images map directly to an
+        ``ImageObject``; series map to a nested dict keyed by x-coordinate.
+        Populated after calling :meth:`add_image_in_plot` or
+        :meth:`add_image_series_in_plot`.
+        """
+        return self._image_manager.mpl_objects
 
     
     

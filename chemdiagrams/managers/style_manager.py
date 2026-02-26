@@ -48,10 +48,10 @@ class StyleManager:
                     arrowprops=dict(
                         arrowstyle='-|>', 
                         color="black", 
-                        lw=0.8,
+                        lw=0.0,
                         shrinkA=0,
                         shrinkB=0, 
-                        mutation_scale=10,
+                        mutation_scale=12,
                         zorder=1
                         )
                  )
@@ -92,7 +92,7 @@ class StyleManager:
             self.figure_manager.ax.spines["right"].set_visible(False)
             self.figure_manager.ax.spines["left"].set_visible(True)
             self.figure_manager.ax.spines["bottom"].set_visible(False)
-            axes_dict["x_axis"] = self.figure_manager.ax.axhline(0, color="black", zorder=0.5, lw=1.0)
+            axes_dict["x_axis"] = self.figure_manager.ax.axhline(0, color="black", zorder=0.5, lw=0.8)
             arrows_dict["y_arrow"] = draw_arrow((0, 1.02),(0, 0.97))
 
         elif style == "twosided":

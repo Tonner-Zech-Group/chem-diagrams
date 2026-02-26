@@ -1,11 +1,12 @@
 
 """Constants for plotting the energy diagram"""
 
+
 # Default maximum width of Diagram in inches
-MAX_WIDTH = 7
+FIG_MAX_WIDTH = 7
 
 # Default height of Diagram in inches
-HEIGHT = 3
+FIG_HEIGHT = 3
 
 # Default width in inches per x-tick
 X_SCALE = 0.8
@@ -19,6 +20,9 @@ WIDTH_PLATEAU = 0.5
 
 # Default width of a plateau
 BROKEN_LINE_GAP = 0.2
+
+# Standard fontsize
+STD_FONTSIZE = 8
 
 
 
@@ -34,7 +38,16 @@ DISTANCE_LABEL_LINE = 0.12
 # Default distance between numbers (inches at sdt fontsize)
 DISTANCE_NUMBER_NUMBER = 0.135
 
-# Standard fontsize
-STD_FONTSIZE = 8
 
- 
+
+# Standard width of an image in x units
+STD_IMAGE_WIDTH = 0.6
+
+# Default distance numbers above plateau (inches at sdt fontsize)
+DISTANCE_IMAGE_LINE = 0.09
+
+# Default distance labels below plateau (inches at sdt fontsize)
+DISTANCE_IMAGE_LABEL = 0.12
+
+# Default distance between numbers (inches at sdt fontsize)
+DISTANCE_IMAGE_NUMBER = 0.135

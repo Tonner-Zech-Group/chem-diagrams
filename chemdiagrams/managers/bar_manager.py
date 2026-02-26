@@ -43,6 +43,7 @@ class BarManager:
             margins: dict, 
             diff: float | None = None,
             left_side: bool = False,
+            add_difference: bool = True,
             fontsize: int | None = None, 
             color: str = "black", 
             arrowstyle: str = "|-|", 
@@ -94,10 +95,14 @@ class BarManager:
                         )
                 )
                    
-        # Draw text next to bar 
+        # Draw text next to bar
+        if add_difference:
+            difference_str =  str(round(y_end-y_start))
+        else:
+            difference_str = ""
         text = self.figure_manager.ax.text(
                     x+diff, (y_start+y_end)/2,  # Adjust the x and y coordinates for text placement
-                    description + str(round(y_end-y_start)),  # Text to display
+                    description + difference_str,  # Text to display
                     ha=horizontal_alignment, va='center', fontsize=fontsize, color=color, 
                 )
         

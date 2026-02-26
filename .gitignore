@@ -11,3 +11,11 @@ __pycache__/
 
 # VSCode settings
 .vscode/
+
+# figures
+examples/figures/
+*.png
+*.jpg
+*.jpeg
+*.svg
+*.eps

@@ -6,6 +6,7 @@ from .number_manager import NumberManager
 from .style_manager import StyleManager, StyleObjects
 from .layout_manager import LayoutManager
 from .bar_manager import BarManager, DifferenceBar
+from .image_manager import ImageManager
 
 __all__ = [
     "FigureManager",

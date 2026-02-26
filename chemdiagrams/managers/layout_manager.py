@@ -122,14 +122,14 @@ class LayoutManager:
 
             # Determine and set width
             x_size = constants.X_SCALE*(margins["x"][1] - margins["x"][0])
-            if x_size > constants.MAX_WIDTH and not self.no_width_limit:
-                x_size = constants.MAX_WIDTH
+            if x_size > constants.FIG_MAX_WIDTH and not self.no_width_limit:
+                x_size = constants.FIG_MAX_WIDTH
             if x_size <= 0: # Avoid a figure without size
                 x_size = 1
             self.figure_manager.fig.set_figwidth(x_size)
 
             # Determine and set height
-            y_size = constants.HEIGHT
+            y_size = constants.FIG_HEIGHT
             if y_size > x_size:
                 y_size = x_size  # Avoid ugly diagrams
             self.figure_manager.fig.set_figheight(y_size)

@@ -37,7 +37,7 @@ class PathManager:
             x_data: Sequence[float], 
             y_data: Sequence[float], 
             color: str, 
-            linetypes: Sequence[int] | None = None, 
+            linetypes: Sequence[int] | int | None = None, 
             path_name: str | None = None, 
             show_numbers: bool = True
         ) -> None:
