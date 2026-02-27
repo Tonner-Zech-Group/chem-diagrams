@@ -38,6 +38,7 @@ class ImageManager:
         ) -> None:
         self.figure_manager = figure_manager
         self.image_series_data = {}
+        self.has_image_series = False
         self.solo_image_data = {}
         self.mpl_objects = {}
 
@@ -209,6 +210,7 @@ class ImageManager:
         else:
             raise TypeError("frame_colors must be a Sequence, or a string")
         
+        self.has_image_series = True
         # Print the image for each x
         series_mpl_objects = {}
         for index in range(len(img_paths)):

@@ -94,7 +94,15 @@ class PathManager:
             x_corners.append(x_data[i]+0.5*constants.WIDTH_PLATEAU)
             y_corners.append(y_data[i])
             y_corners.append(y_data[i])
-            plateau = self.figure_manager.ax.hlines(v, x_data[i]-0.25, x_data[i]+0.25, zorder=2, lw=1.8, color=color, capstyle='round')
+            plateau = self.figure_manager.ax.hlines(
+                v, 
+                x_corners[-2], 
+                x_corners[-1], 
+                zorder=2, 
+                lw=1.8, 
+                color=color, 
+                capstyle='round'
+            )
             plateaus[f"{x_data[i]:.1f}"] = plateau
             if i > 0:
                 connector = self._draw_connector(x_corners[-3:-1],y_corners[-3:-1], linetypes[i-1], color)
@@ -129,14 +137,28 @@ class PathManager:
             y_coords: Sequence[float], 
             color: str
         ) -> Line2D:
-        return self.figure_manager.ax.plot(x_coords, y_coords, zorder=1, ls=':', lw=1.0, color=color)[0]
+        return self.figure_manager.ax.plot(
+            x_coords, 
+            y_coords, 
+            zorder=1, 
+            ls=':', 
+            lw=1.0, 
+            color=color
+        )[0]
     
     def _draw_line(self, 
             x_coords: Sequence[float], 
             y_coords: Sequence[float], 
             color: str
         ) -> Line2D:
-        return self.figure_manager.ax.plot(x_coords, y_coords, zorder=1, ls='-', lw=0.8, color=color)[0]
+        return self.figure_manager.ax.plot(
+            x_coords, 
+            y_coords, 
+            zorder=1, 
+            ls='-', 
+            lw=0.8, 
+            color=color
+        )[0]
 
     def _draw_broken_line(self, 
             x_coords: Sequence[float], 
@@ -171,11 +193,39 @@ class PathManager:
             line_2 = self._draw_line(x2, y2, color=color)
 
         # Draw small orthogonal lines
-        stopper_1 = self.figure_manager.ax.annotate('', xy=(x1[1], y1[1]), xytext=(x1[1]+0.001*(x2[0]-x1[1]), y1[1]+0.001*(y2[0]-y1[1])), 
-                arrowprops=dict(arrowstyle='|-|', color=color, lw=0.8, shrinkA=15, shrinkB=15, mutation_scale=3,zorder=1)
+        stopper_1 = self.figure_manager.ax.annotate(
+            '', 
+            xy=(x1[1], y1[1]), 
+            xytext=(
+                x1[1]+0.001*(x2[0]-x1[1]), 
+                y1[1]+0.001*(y2[0]-y1[1])
+            ), 
+            arrowprops=dict(
+                arrowstyle='|-|', 
+                color=color, 
+                lw=0.8, 
+                shrinkA=15, 
+                shrinkB=15, 
+                mutation_scale=3,
+                zorder=1
+            )
         )
-        stopper_2 = self.figure_manager.ax.annotate('', xy=(x2[0], y2[0]), xytext=(x2[0]-0.001*(x2[0]-x1[1]), y2[0]-0.001*(y2[0]-y1[1])), 
-                arrowprops=dict(arrowstyle='|-|', color=color, lw=0.8, shrinkA=15, shrinkB=15, mutation_scale=3,zorder=1)
+        stopper_2 = self.figure_manager.ax.annotate(
+            '', 
+            xy=(x2[0], y2[0]), 
+            xytext=(
+                x2[0]-0.001*(x2[0]-x1[1]), 
+                y2[0]-0.001*(y2[0]-y1[1])
+            ), 
+            arrowprops=dict(
+                arrowstyle='|-|', 
+                color=color, 
+                lw=0.8, 
+                shrinkA=15, 
+                shrinkB=15, 
+                mutation_scale=3,
+                zorder=1
+            )
         )
         return BrokenLine(line_1, line_2, stopper_1, stopper_2)
         

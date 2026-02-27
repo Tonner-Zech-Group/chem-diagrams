@@ -84,7 +84,7 @@ class EnergyDiagram:
     Methods
     -------
     draw_path(x_data, y_data, color, linetypes=None, path_name=None,
-              show_numbers=True)
+            show_numbers=True)
         Add a reaction path to the diagram.
 
     draw_difference_bar(x, y_start_end, description, ...)
@@ -95,6 +95,12 @@ class EnergyDiagram:
 
     set_diagram_style(style)
         Change the visual style of the diagram.
+
+    add_xaxis_break(x, gap_scale=1, stopper_scale=1, angle=30)
+        Add a break marker on the x-axis at a given position.
+
+    add_yaxis_break(y, gap_scale=1, stopper_scale=1, angle=30)
+        Add a break marker on the y-axis at a given position.
 
     legend(loc='best', fontsize=None)
         Add a legend for labeled reaction paths.
@@ -172,96 +178,7 @@ class EnergyDiagram:
         )
         self.verbose = verbose
 
-    def set_xlabels(
-            self, 
-            labels: Sequence, 
-            labelplaces: Sequence[float] | None = None, 
-            fontsize: int | None = None, 
-            weight: str = "bold", 
-            in_plot: bool = False
-        ) -> EnergyDiagram:
-        """Set text labels for the reaction states along the x-axis.
 
-        Labels are placed below the horizontal energy bars by default.
-        If ``in_plot`` is True they are rendered inside the plot area
-        directly below the lowest state.
-
-        Parameters
-        ----------
-        labels : sequence
-            Ordered sequence of label strings, one per reaction state
-            (i.e. one per unique x-position in the plotted paths).
-        labelplaces : sequence of float or None, optional
-            Explicit x-coordinates at which to place each label.
-            When None the labels are naively placed starting at 
-            x = 0. Default is None.
-        fontsize : int or None, optional
-            Font size for the labels. When None the diagram's base
-            font size is used. Default is None.
-        weight : str, optional
-            Font weight for the labels, e.g. ``"bold"`` or
-            ``"normal"``. Default is ``"bold"``.
-        in_plot : bool, optional
-            If True, labels are drawn inside the plot area below the 
-            lowest state rather than below the x-axis. Default 
-            is False.
-
-        Returns
-        -------
-        EnergyDiagram
-            Returns *self* to allow method chaining.
-        """
-        margins = self._layout_manager.adjust_xy_limits(
-            self._path_manager.path_data
-        )
-        figsize = self._layout_manager.scale_figure(
-            self._path_manager.path_data
-        )
-        self._style_manager.set_xlabels(
-            margins,
-            figsize,
-            self._path_manager.path_data,
-            labels,
-            labelplaces=labelplaces,
-            fontsize=fontsize,
-            weight=weight,
-            in_plot=in_plot,
-        )
-        self._image_manager.reset_image_series(
-            margins,
-            figsize,
-            self._path_manager.path_data,
-            self._number_manager.mpl_objects,
-            self._style_manager.mpl_objects.x_labels,
-        )
-        return self
-
-    def set_diagram_style(self, style: str) -> EnergyDiagram:
-        """Change the overall visual style of the diagram.
-
-        Applies a named style preset that controls the appearance of
-        the plot background, spines, tick marks, and other decorative
-        elements.
-
-        Parameters
-        ----------
-        style : str
-            Name of the style preset to apply. Supported values
-            are ``"open"``, ``"boxed"``, ``"halfboxed"`` and 
-            ``"twosided"``. Default style is ``"open"``.
-
-        Returns
-        -------
-        EnergyDiagram
-            Returns *self* to allow method chaining.
-        """
-        self._layout_manager.adjust_xy_limits(self._path_manager.path_data)  
-        self._style_manager.set_diagram_style(style)
-        try:
-            self.set_xlabels(**self._style_manager.labelproperties)
-        except AttributeError:
-            pass
-        return self
 
     def draw_difference_bar(
             self, 
@@ -403,14 +320,20 @@ class EnergyDiagram:
             path_name=path_name,
             show_numbers=show_numbers,
         )
-
-        self._layout_manager.scale_figure(
+        margins = self._layout_manager.adjust_xy_limits(
+                self._path_manager.path_data
+            )
+        figsize = self._layout_manager.scale_figure(
             self._path_manager.path_data
         )
         try: 
             self.set_xlabels(**self._figure_manager.labelproperties)
         except AttributeError:
             pass
+        if self._style_manager.has_axes_breaks:
+            self._style_manager.reset_axis_breaks(
+                margins, figsize
+            )
         return self
 
 
@@ -470,6 +393,189 @@ class EnergyDiagram:
             print(f"Figure size is {round(figsize[0],2)} x {round(figsize[1],2)} inches.")
         plt.show()
 
+
+    ############################################################
+    # Style-related methods
+    ############################################################
+
+    def set_xlabels(
+            self, 
+            labels: Sequence, 
+            labelplaces: Sequence[float] | None = None, 
+            fontsize: int | None = None, 
+            weight: str = "bold", 
+            in_plot: bool = False
+        ) -> EnergyDiagram:
+        """Set text labels for the reaction states along the x-axis.
+
+        Labels are placed below the horizontal energy bars by default.
+        If ``in_plot`` is True they are rendered inside the plot area
+        directly below the lowest state.
+
+        Parameters
+        ----------
+        labels : sequence
+            Ordered sequence of label strings, one per reaction state
+            (i.e. one per unique x-position in the plotted paths).
+        labelplaces : sequence of float or None, optional
+            Explicit x-coordinates at which to place each label.
+            When None the labels are naively placed starting at 
+            x = 0. Default is None.
+        fontsize : int or None, optional
+            Font size for the labels. When None the diagram's base
+            font size is used. Default is None.
+        weight : str, optional
+            Font weight for the labels, e.g. ``"bold"`` or
+            ``"normal"``. Default is ``"bold"``.
+        in_plot : bool, optional
+            If True, labels are drawn inside the plot area below the 
+            lowest state rather than below the x-axis. Default 
+            is False.
+
+        Returns
+        -------
+        EnergyDiagram
+            Returns *self* to allow method chaining.
+        """
+        margins = self._layout_manager.adjust_xy_limits(
+            self._path_manager.path_data
+        )
+        figsize = self._layout_manager.scale_figure(
+            self._path_manager.path_data
+        )
+        self._style_manager.set_xlabels(
+            margins,
+            figsize,
+            self._path_manager.path_data,
+            labels,
+            labelplaces=labelplaces,
+            fontsize=fontsize,
+            weight=weight,
+            in_plot=in_plot,
+        )
+        if self._image_manager.has_image_series:
+            self._image_manager.reset_image_series(
+                margins,
+                figsize,
+                self._path_manager.path_data,
+                self._number_manager.mpl_objects,
+                self._style_manager.mpl_objects.x_labels,
+            )
+        return self
+
+    def set_diagram_style(self, style: str) -> EnergyDiagram:
+        """Change the overall visual style of the diagram.
+
+        Applies a named style preset that controls the appearance of
+        the plot background, spines, tick marks, and other decorative
+        elements.
+
+        Parameters
+        ----------
+        style : str
+            Name of the style preset to apply. Supported values
+            are ``"open"``, ``"boxed"``, ``"halfboxed"`` and 
+            ``"twosided"``. Default style is ``"open"``.
+
+        Returns
+        -------
+        EnergyDiagram
+            Returns *self* to allow method chaining.
+        """
+        self._layout_manager.adjust_xy_limits(self._path_manager.path_data)  
+        self._style_manager.set_diagram_style(style)
+        try:
+            self.set_xlabels(**self._style_manager.labelproperties)
+        except AttributeError:
+            pass
+        return self
+    
+    def add_xaxis_break(
+            self,
+            x: float,
+            gap_scale: float = 1,
+            stopper_scale: float = 1,
+            angle: float = 30,
+        ) -> None:
+        """Add a break marker on the x-axis at a given position.
+
+        Draws a pair of diagonal stopper lines over a white gap rectangle on
+        the x-axis (or axes spine) to indicate a discontinuity in the x scale.
+
+        Not compatible with the ``"open"`` diagram style.
+
+        Parameters
+        ----------
+        x : float
+            Position along the x-axis (in data coordinates) where the break
+            should be placed.
+        gap_scale : float, optional
+            Multiplicative scaling factor for the width of the white gap that
+            covers the axis spine. Default is ``1``.
+        stopper_scale : float, optional
+            Multiplicative scaling factor for the size of the diagonal stopper
+            tick marks. Default is ``1``.
+        angle : float, optional
+            Angle of the stopper tick marks in degrees from the vertical.
+            Default is ``30``.
+        """
+        margins = self._layout_manager.adjust_xy_limits(
+            self._path_manager.path_data
+        )
+        figsize = self._layout_manager.scale_figure(
+            self._path_manager.path_data
+        )
+        self._style_manager.add_xaxis_break(
+            margins=margins,
+            figsize=figsize,
+            x=x,
+            gap_scale=gap_scale,
+            stopper_scale=stopper_scale,
+            angle=angle,
+        )
+
+    def add_yaxis_break(
+            self,
+            y: float,
+            gap_scale: float = 1,
+            stopper_scale: float = 1,
+            angle: float = 30,
+        ) -> None:
+        """Add a break marker on the y-axis at a given position.
+
+        Draws a pair of diagonal stopper lines over a white gap rectangle on
+        the y-axis spine to indicate a discontinuity in the y scale.
+
+        Parameters
+        ----------
+        y : float
+            Position along the y-axis (in data coordinates) where the break
+            should be placed.
+        gap_scale : float, optional
+            Multiplicative scaling factor for the height of the white gap that
+            covers the axis spine. Default is ``1``.
+        stopper_scale : float, optional
+            Multiplicative scaling factor for the size of the diagonal stopper
+            tick marks. Default is ``1``.
+        angle : float, optional
+            Angle of the stopper tick marks in degrees from the horizontal.
+            Default is ``30``.
+        """
+        margins = self._layout_manager.adjust_xy_limits(
+            self._path_manager.path_data
+        )
+        figsize = self._layout_manager.scale_figure(
+            self._path_manager.path_data
+        )
+        self._style_manager.add_yaxis_break(
+            margins=margins,
+            figsize=figsize,
+            y=y,
+            gap_scale=gap_scale,
+            stopper_scale=stopper_scale,
+            angle=angle,
+        )
+
     ############################################################
     # Methods for plotting numbers
     ############################################################
@@ -513,13 +619,14 @@ class EnergyDiagram:
         self._number_manager.add_numbers_naive(
             self._path_manager.path_data, margins, figsize, x_min_max, fontsize=fontsize,
         )
-        self._image_manager.reset_image_series(
-            margins,
-            figsize,
-            self._path_manager.path_data,
-            self._number_manager.mpl_objects,
-            self._style_manager.mpl_objects.x_labels,
-        )
+        if self._image_manager.has_image_series:
+            self._image_manager.reset_image_series(
+                margins,
+                figsize,
+                self._path_manager.path_data,
+                self._number_manager.mpl_objects,
+                self._style_manager.mpl_objects.x_labels,
+            )
         return self
 
     def add_numbers_stacked(
@@ -577,13 +684,14 @@ class EnergyDiagram:
             sort_by_energy=sort_by_energy,
             no_overlap_with_nonnumbered=no_overlap_with_nonnumbered
         )
-        self._image_manager.reset_image_series(
-            margins,
-            figsize,
-            self._path_manager.path_data,
-            self._number_manager.mpl_objects,
-            self._style_manager.mpl_objects.x_labels,
-        )
+        if self._image_manager.has_image_series:
+            self._image_manager.reset_image_series(
+                margins,
+                figsize,
+                self._path_manager.path_data,
+                self._number_manager.mpl_objects,
+                self._style_manager.mpl_objects.x_labels,
+            )
         return self
 
     def add_numbers_auto(
@@ -628,13 +736,14 @@ class EnergyDiagram:
             x_min_max=x_min_max,
             fontsize=fontsize,
         )
-        self._image_manager.reset_image_series(
-            margins,
-            figsize,
-            self._path_manager.path_data,
-            self._number_manager.mpl_objects,
-            self._style_manager.mpl_objects.x_labels,
-        )
+        if self._image_manager.has_image_series:
+            self._image_manager.reset_image_series(
+                margins,
+                figsize,
+                self._path_manager.path_data,
+                self._number_manager.mpl_objects,
+                self._style_manager.mpl_objects.x_labels,
+            )
         return self
 
     def add_numbers_average(
@@ -684,13 +793,14 @@ class EnergyDiagram:
             fontsize=fontsize,
             color = color
         )
-        self._image_manager.reset_image_series(
-            margins,
-            figsize,
-            self._path_manager.path_data,
-            self._number_manager.mpl_objects,
-            self._style_manager.mpl_objects.x_labels,
-        )
+        if self._image_manager.has_image_series:
+            self._image_manager.reset_image_series(
+                margins,
+                figsize,
+                self._path_manager.path_data,
+                self._number_manager.mpl_objects,
+                self._style_manager.mpl_objects.x_labels,
+            )
         return self
         
 

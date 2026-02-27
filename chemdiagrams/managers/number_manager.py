@@ -374,7 +374,7 @@ class NumberManager:
                             ha='center', 
                             va='center', 
                             fontsize=fontsize,
-                            color=number["color"]
+                            color=number["color"],
                             )
             n_printed += 1
             if not number["name"] in self.mpl_objects:

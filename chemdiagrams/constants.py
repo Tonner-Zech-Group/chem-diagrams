@@ -43,11 +43,16 @@ DISTANCE_NUMBER_NUMBER = 0.135
 # Standard width of an image in x units
 STD_IMAGE_WIDTH = 0.6
 
-# Default distance numbers above plateau (inches at sdt fontsize)
+# Default distances of images (inches at sdt fontsize)
 DISTANCE_IMAGE_LINE = 0.09
-
-# Default distance labels below plateau (inches at sdt fontsize)
 DISTANCE_IMAGE_LABEL = 0.12
-
-# Default distance between numbers (inches at sdt fontsize)
 DISTANCE_IMAGE_NUMBER = 0.135
+
+
+# Axes break parameters in inches or degree
+STD_BREAK_GAP = 0.1
+STD_BREAK_COVER_WIDTH = 0.03
+STOPPER_ROTATION = 30 
+
+# Placement of x axis at style="open"
+X_AXIS_OFFSET_OPENSTYLE = -0.03
