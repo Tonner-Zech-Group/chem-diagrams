@@ -183,7 +183,7 @@ class StyleManager:
                     )
                     label_dict[f"{x:.1f}"] = label
                 else:
-                    print(f"Warning: There was no datapoint found at x = {x}, therfore no label is shown.")
+                    print(f"Warning: There was no datapoint found at x = {x}, therefore no label is shown.")
             self.mpl_objects.x_labels = label_dict
         else:
             self.figure_manager.ax.set_xticks(labelplaces)
@@ -200,11 +200,15 @@ class StyleManager:
             stopper_scale: float = 1,
             angle: float =  30,
         ) -> None:
+        Validators.validate_number(x, "x")
+        Validators.validate_number(gap_scale, "gap_scale", min_value=0)
+        Validators.validate_number(stopper_scale, "stopper_scale", min_value=0)
+        Validators.validate_number(angle, "angle")
 
         def draw_xaxis_break(x_pos, y_pos):
             # gap in x data coords
             gap = (
-                constants.STD_BREAK_GAP
+                constants.BREAK_GAP
                 * (margins["x"][1] - margins["x"][0])
                 / figsize[0]
                 * gap_scale
@@ -212,7 +216,7 @@ class StyleManager:
 
             # cover_width in y axis fraction
             cover_width = (
-                constants.STD_BREAK_COVER_WIDTH
+                constants.BREAK_COVER_WIDTH
                 / figsize[1]
             )
 
@@ -256,7 +260,7 @@ class StyleManager:
                     lw=0.8, 
                     shrinkA=15, 
                     shrinkB=15, 
-                    mutation_scale=3*stopper_scale,
+                    mutation_scale=2*stopper_scale,
                     zorder=0.7,
                 )
             )
@@ -276,7 +280,7 @@ class StyleManager:
                     lw=0.8, 
                     shrinkA=15, 
                     shrinkB=15, 
-                    mutation_scale=3*stopper_scale,
+                    mutation_scale=2*stopper_scale,
                     zorder=0.7,
                 )
             )
@@ -320,11 +324,15 @@ class StyleManager:
             stopper_scale: float = 1,
             angle: float = 30,
         ) -> None:
+        Validators.validate_number(y, "y")
+        Validators.validate_number(gap_scale, "gap_scale", min_value=0)
+        Validators.validate_number(stopper_scale, "stopper_scale", min_value=0)
+        Validators.validate_number(angle, "angle")
 
         def draw_xaxis_break(x_pos, y_pos):
             # Gap in y data coords
             gap = (
-                constants.STD_BREAK_GAP
+                constants.BREAK_GAP
                 * (margins["y"][1] - margins["y"][0])
                 / figsize[1]
                 * gap_scale
@@ -332,7 +340,7 @@ class StyleManager:
 
             # Cover_width in x axis fraction
             cover_width = (
-                constants.STD_BREAK_COVER_WIDTH
+                constants.BREAK_COVER_WIDTH
                 / figsize[0]
 
             )
@@ -379,7 +387,7 @@ class StyleManager:
                     lw=0.8, 
                     shrinkA=15, 
                     shrinkB=15, 
-                    mutation_scale=3*stopper_scale,
+                    mutation_scale=2*stopper_scale,
                     zorder=0.7,
                 )
             )
@@ -399,7 +407,7 @@ class StyleManager:
                     lw=0.8, 
                     shrinkA=15, 
                     shrinkB=15, 
-                    mutation_scale=3*stopper_scale,
+                    mutation_scale=2*stopper_scale,
                     zorder=0.7,
                 )
             )
@@ -429,7 +437,7 @@ class StyleManager:
         })
 
 
-    def reset_axis_breaks(
+    def recalculate_axis_breaks(
             self,
             margins: dict[str, tuple],
             figsize: tuple[float, float],

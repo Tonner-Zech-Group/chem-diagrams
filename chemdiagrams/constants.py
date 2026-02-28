@@ -2,9 +2,6 @@
 """Constants for plotting the energy diagram"""
 
 
-# Default maximum width of Diagram in inches
-FIG_MAX_WIDTH = 7
-
 # Default height of Diagram in inches
 FIG_HEIGHT = 3
 
@@ -17,6 +14,10 @@ DEFAULT_Y_MARGINS = (-0.1, 0.15)
 
 # Default width of a plateau
 WIDTH_PLATEAU = 0.5
+
+# Merged plateau gap
+MERGED_PLATEAU_GAP = 0.1
+MERGED_PLATEAU_COVER_WIDTH = 0.05
 
 # Default width of a plateau
 BROKEN_LINE_GAP = 0.2
@@ -41,7 +42,7 @@ DISTANCE_NUMBER_NUMBER = 0.135
 
 
 # Standard width of an image in x units
-STD_IMAGE_WIDTH = 0.6
+IMAGE_WIDTH = 0.6
 
 # Default distances of images (inches at sdt fontsize)
 DISTANCE_IMAGE_LINE = 0.09
@@ -50,9 +51,9 @@ DISTANCE_IMAGE_NUMBER = 0.135
 
 
 # Axes break parameters in inches or degree
-STD_BREAK_GAP = 0.1
-STD_BREAK_COVER_WIDTH = 0.03
-STOPPER_ROTATION = 30 
+BREAK_GAP = 0.1
+BREAK_COVER_WIDTH = 0.03
 
 # Placement of x axis at style="open"
 X_AXIS_OFFSET_OPENSTYLE = -0.03
+

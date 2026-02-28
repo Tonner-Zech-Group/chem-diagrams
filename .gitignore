@@ -19,3 +19,6 @@ examples/figures/
 *.jpeg
 *.svg
 *.eps
+
+# Test notebook
+examples/test_use.ipynb

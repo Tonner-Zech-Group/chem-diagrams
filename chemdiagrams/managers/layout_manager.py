@@ -18,18 +18,19 @@ class LayoutManager:
             figure_manager: FigureManager,
             extra_x_margin: tuple[float, float] | list[float],
             extra_y_margin: tuple[float, float] | list[float],
-            no_width_limit: bool,
+            width_limit: float | None = None,
             figsize: tuple[float, float] | list[float] | None = None, 
         ) -> None:
         Validators.validate_numeric_sequence(figsize, "figsize", allow_none=True, min_value=0, required_length=2)
         Validators.validate_numeric_sequence(extra_x_margin, "extra_x_margin", required_length=2)
         Validators.validate_numeric_sequence(extra_y_margin, "extra_x_margin", required_length=2)
+        Validators.validate_number(width_limit, "width_limit", min_value=0, allow_none=True)
 
         self.figure_manager = figure_manager
         self.figsize = figsize
         self.extra_x_margin = extra_x_margin
         self.extra_y_margin = extra_y_margin
-        self.no_width_limit = no_width_limit
+        self.width_limit = width_limit
 
 
     def adjust_xy_limits(self, path_data: dict) -> dict[str, tuple]:
@@ -101,8 +102,8 @@ class LayoutManager:
 
         If a fixed ``figsize`` was provided at construction, that size is
         applied directly. Otherwise, width is derived from the x data range
-        and capped at ``constants.MAX_WIDTH`` (unless ``no_width_limit`` is
-        True), and height is set to ``constants.HEIGHT`` or the width,
+        and capped at ``width_limit`` (unless ``width_limit`` is
+        None), and height is set to ``constants.HEIGHT`` or the width,
         whichever is smaller, to avoid disproportionate figures.
 
         Parameters
@@ -122,8 +123,8 @@ class LayoutManager:
 
             # Determine and set width
             x_size = constants.X_SCALE*(margins["x"][1] - margins["x"][0])
-            if x_size > constants.FIG_MAX_WIDTH and not self.no_width_limit:
-                x_size = constants.FIG_MAX_WIDTH
+            if self.width_limit is not None and x_size > self.width_limit:
+                x_size = self.width_limit
             if x_size <= 0: # Avoid a figure without size
                 x_size = 1
             self.figure_manager.fig.set_figwidth(x_size)

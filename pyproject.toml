@@ -1,0 +1,37 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.backends.legacy:build"
+
+[project]
+name = "chemdiagrams"
+version = "0.1.0"
+description = "Publication-quality reaction energy diagrams for computational chemistry"
+readme = "README.md"
+license = { file = "LICENSE" }
+authors = [
+    { name = "Tim Bastian Enders" }
+]
+requires-python = ">=3.10"
+dependencies = [
+    "matplotlib>=3.7",
+    "numpy>=1.23",
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Chemistry",
+    "Topic :: Scientific/Engineering :: Visualization",
+]
+
+[project.urls]
+Repository = "https://github.com/Tonner-Zech-Group/chem-diagrams"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["chemdiagrams*"]

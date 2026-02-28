@@ -183,7 +183,7 @@ class ImageManager:
         elif width is None:
             # Only set width to default if no height value for same image
             width = [
-                constants.STD_IMAGE_WIDTH if value is None 
+                constants.IMAGE_WIDTH if value is None 
                 else None 
                 for value in height
             ]
@@ -306,7 +306,7 @@ class ImageManager:
             "frame_colors": frame_colors,
         }
 
-    def reset_image_series(
+    def recalculate_image_series(
             self,
             margins: dict[str, tuple],
             figsize: dict[str, tuple],
@@ -380,7 +380,7 @@ class ImageManager:
         positimg_height_px = img_file.shape[0]
         img_width_px = img_file.shape[1]
         if width is None and height is None:
-            width = constants.STD_IMAGE_WIDTH
+            width = constants.IMAGE_WIDTH
             height = (width 
                     * positimg_height_px / img_width_px
                     * (margins["y"][1] - margins["y"][0])

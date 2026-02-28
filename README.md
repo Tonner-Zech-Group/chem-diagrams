@@ -1,18 +1,220 @@
 # chemdiagrams
 
-A Python tool for conveniently plotting reaction energy diagrams.
+A Python package for creating publication-quality reaction energy diagrams with Matplotlib.
+
+```python
+from chemdiagrams import EnergyDiagram
+
+dia = EnergyDiagram()
+dia.draw_path(x_data=[0,1,2,3,4], y_data=[0,28,-14,15,-22], color="blue")
+dia.add_numbers_auto()
+dia.set_xlabels(["E", "TS1", "I", "TS2", "P"])
+dia.ax.set_ylabel("Energy / kJ mol$^{-1}$", fontsize=8)
+dia.show()
+```
+
+![Basic diagram](https://raw.githubusercontent.com/Tonner-Zech-Group/chem-diagrams/main/docs/img/example_basic.png)
 
 ## Installation
 
-Clone the repository and install locally:
-
 ```bash
-pip install .
+pip install chemdiagrams
 ```
+
+**Requirements:** Python ≥ 3.10, Matplotlib ≥ 3.7, NumPy ≥ 1.23
+
+## Features
+
+- Multiple reaction paths on a single diagram
+- Five connector styles: dotted, solid, broken dotted, broken solid, or none
+- Four diagram styles: `open`, `halfboxed`, `boxed`, `twosided`
+- Automatic, stacked, naïve, and averaged energy label placement
+- Energy difference bars with optional whiskers
+- Axis break markers for both x and y axes
+- Image placement along the diagram, with automatic collision avoidance
+- Full access to the underlying Matplotlib objects for fine-grained customisation
+- Method chaining for compact, readable diagram construction
 
 ## Usage
 
-Currently, documentation is under development. However, there is an extensive set of examples in 
-```bash
-examples/example_use.ipynb.
+### Drawing paths
+
+Each call to `draw_path` adds one reaction pathway. Paths can span different x-ranges, allowing branching or incomplete pathways.
+
+```python
+dia = EnergyDiagram()
+
+dia.draw_path(
+    x_data=[0, 1, 2, 3, 4, 5],
+    y_data=[0, -13, 22, 75, 39, 20],
+    color="blue",
+    path_name="Pathway A",      # name appears in the legend
+    linetypes=[1, 1, 2, -1, 0], # connector style per segment
+)
+
+dia.draw_path(
+    x_data=[0, 1, 2, 3, 5],
+    y_data=[0, -25, 20, 50, 6],
+    color="red",
+    path_name="Pathway B",
+)
+
+dia.legend(fontsize=7)
+dia.add_numbers_auto()
+dia.set_xlabels(["A", "B", "C", "D", "E", "F"])
+dia.ax.set_ylabel("Energy / kJ mol$^{-1}$", fontsize=8)
+
+dia.show()
 ```
+
+![Multiple paths](https://raw.githubusercontent.com/Tonner-Zech-Group/chem-diagrams/main/docs/img/example_multipaths.png)
+
+**Connector styles** (`linetypes`):
+
+| Value | Style |
+|-------|-------|
+| `1` | dotted line (default) |
+| `-1` | dotted line with gap |
+| `2` | solid line |
+| `-2` | solid line with gap |
+| `0` | no connector |
+
+A single integer applies the same style to all segments. A list applies styles individually.
+
+### Diagram styles
+
+```python
+dia.set_diagram_style("halfboxed")  # open | halfboxed | boxed | twosided
+```
+
+The style can be set at construction via `EnergyDiagram(style="boxed")` or changed afterwards with `set_diagram_style`.
+
+![Diagram styles](https://raw.githubusercontent.com/Tonner-Zech-Group/chem-diagrams/main/docs/img/example_styles.png)
+
+### Energy labels
+
+Four numbering strategies are available. Call them after all paths have been drawn.
+
+```python
+dia.add_numbers_auto()                   # distributes labels to avoid overlaps (recommended)
+dia.add_numbers_stacked()                # stacks all labels above the highest state
+dia.add_numbers_naive()                  # places each label directly above its bar
+dia.add_numbers_average()                # displays the mean energy across all paths
+
+# Restrict to a range of x-values
+dia.add_numbers_auto(x_min_max=(1, 4))
+
+# Exclude a path from labelling
+dia.draw_path(..., show_numbers=False)
+```
+
+### Energy difference bars
+
+```python
+dia = EnergyDiagram(style="halfboxed")
+dia.draw_path(x_data=[0,1,2,3,4,5], y_data=[0,-13,22,75,39,-25], color="blue")
+
+dia.draw_difference_bar(
+    x=3,
+    y_start_end=(-25, 0),
+    description=r"$\Delta E_\mathrm{R}$: ",
+    color="black",
+    x_whiskers=(5, 0),       # draw horizontal whiskers from x=5 and x=0
+    whiskercolor="blue",
+    left_side=True           # text on the left
+)
+dia.set_xlabels(["A", "B", "C", "D", "E", "F"])
+dia.add_numbers_auto()
+dia.show()
+```
+
+![Difference bar](https://raw.githubusercontent.com/Tonner-Zech-Group/chem-diagrams/main/docs/img/example_diffbar.png)
+
+### Axis breaks
+
+```python
+dia = EnergyDiagram(style="twosided")
+dia.draw_path(...)
+
+dia.add_yaxis_break(y=5)
+dia.add_xaxis_break(x=2, gap_scale=2, stopper_scale=1.5, angle=60)
+
+dia.show()
+```
+
+Note: x-axis breaks are not compatible with the `"open"` style.
+
+### Figure settings
+
+```python
+dia = EnergyDiagram(
+    extra_x_margin=(0, 0.5),   # additional margin in x (axis units)
+    extra_y_margin=(0, 0.2),   # additional margin in y (relative units)
+    figsize=(6, 4),             # explicit figure size in inches
+    width_limit=7,              # maximum auto-scaled width in inches
+    fontsize=10,
+    style="halfboxed",
+    dpi=150,
+)
+```
+
+### Placing images
+
+```python
+# Single image at a fixed position
+dia.add_image_in_plot(
+    "path/to/image.png",
+    position=(2, 30),           # (x, y) in data coordinates
+    width=0.5,                  # width in axis units
+    framed=True,
+    frame_color="black",
+)
+
+# Series of images distributed automatically along the diagram
+dia.add_image_series_in_plot(
+    ["img0.png", "img1.png", "img2.png", "img3.png", "img4.png"],
+    y_placement=["auto", "top", "auto", "bottom", "auto"],
+    y_offsets=5,
+    width=0.6,
+)
+```
+
+SVG and EPS formats are not supported; PNG and JPEG work best.
+
+### Accessing Matplotlib objects
+
+All artists are accessible after drawing for direct Matplotlib customisation.
+
+```python
+dia.draw_path(..., path_name="My Path")
+dia.add_numbers_auto()
+
+# Plateau and connector lines
+plateau   = dia.lines["My Path"].plateaus["2.0"]
+connector = dia.lines["My Path"].connections["1.5"]
+plateau.set_color("green")
+
+# Energy labels
+label = dia.numbers["My Path"]["2.0"]
+label.set_color("red")
+label.set_fontsize(12)
+
+# Difference bar components
+dia.bars[0].text.set_color("red")
+dia.bars[0].bar.arrow_patch.set_color("green")
+
+# Style objects (axes, arrows, x-labels)
+dia.ax_objects.x_labels["2.0"].set_color("purple")
+
+# Direct Matplotlib axes access
+dia.ax.set_ylabel("Energy / kJ mol$^{-1}$", fontsize=10)
+dia.fig.savefig("diagram.png", dpi=300, bbox_inches="tight")
+```
+
+## Examples
+
+A full set of examples covering all features is available in [`examples/example_use.ipynb`](examples/example_use.ipynb).
+
+## License
+
+MIT — see [LICENSE](LICENSE) for details.
