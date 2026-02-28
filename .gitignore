@@ -13,12 +13,13 @@ __pycache__/
 .vscode/
 
 # figures
+examples/*.png
+examples/*.jpg
+examples/*.jpeg
+examples/*.svg
+examples/*.eps
 examples/figures/
-*.png
-*.jpg
-*.jpeg
-*.svg
-*.eps
+
 
 # Test notebook
 examples/test_use.ipynb
