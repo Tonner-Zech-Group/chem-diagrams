@@ -1,21 +1,62 @@
+Readme · MD
 # chemdiagrams
+
+[![PyPI version](https://img.shields.io/pypi/v/chemdiagrams.svg)](https://pypi.org/project/chemdiagrams/)
+[![Python versions](https://img.shields.io/pypi/pyversions/chemdiagrams.svg)](https://pypi.org/project/chemdiagrams/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 A Python package for creating publication-quality reaction energy diagrams with Matplotlib.
 
 ```python
 from chemdiagrams import EnergyDiagram
 
-dia = EnergyDiagram()
-dia.draw_path(x_data=[0,1,2,3,4], y_data=[0,28,-14,15,-22], color="blue")
-dia.add_numbers_auto()
-dia.set_xlabels(["E", "TS1", "I", "TS2", "P"])
-dia.ax.set_ylabel("Energy / kJ mol$^{-1}$", fontsize=8)
+dia = EnergyDiagram(
+    style="twosided",
+    dpi=250,
+    extra_y_margin=(0,0.25)
+    )
+
+dia.draw_path(
+    [0,1,2], [-32, 18, 0], "blue",
+    path_name="Blue path",   
+)
+
+dia.draw_path(
+    [2,3,4], [0, 25, -42], "red",
+    path_name="Red path",
+)
+
+dia.draw_difference_bar(
+    2, (-32, -42),
+    r"$\Delta E_\mathrm{R}$: ",
+    left_side=True,
+    x_whiskers=(0,4),
+    whiskercolor="red"
+)
+dia.bars[0].whisker_1.set_color("blue")
+
+dia.add_image_series_in_plot(
+    [penguin_II, penguin_TS, penguin, penguin_TS, penguin_II],
+    y_placement="top",
+    y_offsets=2
+)
+
+dia.add_numbers_average(color="black")
+dia.merge_plateaus(2, "Blue path", "Red path")
+dia.add_xaxis_break(2)
+dia.set_xlabels(["P1", "TS1", "E", "TS2", "P2"])
+dia.ax.set_ylabel(r"$\Delta E$ in kJ mol$^{-1}$", fontsize=8)
+
 dia.show()
 ```
 
-![Basic diagram](https://raw.githubusercontent.com/Tonner-Zech-Group/chem-diagrams/main/docs/img/example_basic.png)
+![Complex diagram](https://raw.githubusercontent.com/Tonner-Zech-Group/chem-diagrams/main/docs/img/example_complex.png)
 
 ## Installation
+
+Clone this repository and run pip install . inside the main directory.
+
+You can also use the latest release by installing it from PyPi:
 
 ```bash
 pip install chemdiagrams
@@ -144,6 +185,32 @@ dia.show()
 
 Note: x-axis breaks are not compatible with the `"open"` style.
 
+### Merging degenerate plateaus
+
+When two paths share the same energy level at the same x-position, `merge_plateaus`
+replaces both full-width bars with two shorter half-bars separated by a gap, with
+diagonal tick marks to indicate degeneracy.
+```python
+dia = EnergyDiagram()
+dia.draw_path(x_data=[0, 1, 2], y_data=[0, 50, 10], color="blue", path_name="Path A")
+dia.draw_path(x_data=[0, 1, 2], y_data=[0, 50, -5], color="red",  path_name="Path B")
+
+# Both paths share y=50 at x=1
+dia.merge_plateaus(
+    x=1,
+    path_name_left="Path A",
+    path_name_right="Path B",
+    gap_scale=1.0,       # width of the gap between the two half-bars
+    stopper_scale=1.0,   # size of the diagonal tick marks
+    angle=30,            # angle of the tick marks in degrees
+)
+
+dia.add_numbers_auto()
+dia.show()
+```
+
+Both paths must already be drawn and must have exactly the same y-value at `x`.
+
 ### Figure settings
 
 ```python
@@ -181,6 +248,13 @@ dia.add_image_series_in_plot(
 
 SVG and EPS formats are not supported; PNG and JPEG work best.
 
+### Saving figures
+
+```python
+dia.fig.savefig("diagram.png", dpi=300, bbox_inches="tight")
+dia.fig.savefig("diagram.pdf", bbox_inches="tight")
+```
+
 ### Accessing Matplotlib objects
 
 All artists are accessible after drawing for direct Matplotlib customisation.
@@ -214,6 +288,14 @@ dia.fig.savefig("diagram.png", dpi=300, bbox_inches="tight")
 ## Examples
 
 A full set of examples covering all features is available in [`examples/example_use.ipynb`](examples/example_use.ipynb).
+
+## Citation
+
+If you use chemdiagrams in published work, please consider citing the repository:
+
+```
+Tim Bastian Enders, chemdiagrams, https://github.com/Tonner-Zech-Group/chem-diagrams
+```
 
 ## License
 
