@@ -8,16 +8,16 @@ Or from the project root with the src layout:
     PYTHONPATH=src pytest test_chemdiagrams.py
 """
 
-import pytest
 import matplotlib
+import pytest
+
 matplotlib.use("Agg")  # non-interactive backend — no display required
 
 import matplotlib.pyplot as plt
-from matplotlib.figure import Figure
 from matplotlib.axes import Axes
+from matplotlib.figure import Figure
 
 from chemdiagrams import EnergyDiagram
-
 
 # ---------------------------------------------------------------------------
 # Helpers

@@ -6,6 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "chemdiagrams"
 version = "0.0.1"
 description = "Publication-quality reaction energy diagrams for computational chemistry"
+keywords = ["chemistry", "energy diagram", "reaction profile", "potential energy surface", "matplotlib", "computational chemistry", "theoretical chemistry", "visualization"]
 readme = "README.md"
 license = { file = "LICENSE" }
 authors = [
@@ -25,12 +26,14 @@ classifiers = [
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
     "Topic :: Scientific/Engineering :: Chemistry",
     "Topic :: Scientific/Engineering :: Visualization",
 ]
 
 [project.urls]
 Repository = "https://github.com/Tonner-Zech-Group/chem-diagrams"
+"Bug Tracker" = "https://github.com/Tonner-Zech-Group/chem-diagrams/issues"
 
 [tool.setuptools.packages.find]
 where = ["src"]
@@ -38,3 +41,15 @@ include = ["chemdiagrams*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+
+[tool.ruff]
+src = ["src"]
+exclude = ["examples"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I"]
+
+[tool.mypy]
+[[tool.mypy.overrides]]
+module = ["matplotlib.*"]
+ignore_missing_imports = true

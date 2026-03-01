@@ -1,24 +1,21 @@
 from __future__ import annotations
-from typing import TYPE_CHECKING
 
-
-from dataclasses import dataclass
 from collections.abc import Sequence
+from dataclasses import dataclass
+from typing import TYPE_CHECKING
 
 import matplotlib.image as mpimg
 
 if TYPE_CHECKING:
-    from matplotlib.lines import Line2D
-    from matplotlib.text import Annotation
-    from matplotlib.text import Text
     from matplotlib.image import AxesImage
+    from matplotlib.lines import Line2D
 
 
 
-from ..validation import Validators
 from .. import constants
-from . import FigureManager
-from . import NumberManager
+from ..validation import Validators
+from .figure_manager import FigureManager
+from .number_manager import NumberManager
 
 
 class ImageManager:
@@ -37,17 +34,17 @@ class ImageManager:
             figure_manager: FigureManager,
         ) -> None:
         self.figure_manager = figure_manager
-        self.image_series_data = {}
+        self.image_series_data: dict = {}
         self.has_image_series = False
-        self.solo_image_data = {}
-        self.mpl_objects = {}
+        self.solo_image_data: dict = {}
+        self.mpl_objects: dict = {}
 
     def add_image_in_plot(
             self,
             img_path: str,
             position: tuple[float, float] | list[float],
             margins: dict[str, tuple],
-            figsize: dict[str, tuple],
+            figsize: tuple[float, float],
             img_name: str | None = None,
             width: float | None = None,
             height: float | None = None,
@@ -103,7 +100,7 @@ class ImageManager:
             self,
             img_paths: Sequence[str],
             margins: dict[str, tuple],
-            figsize: dict[str, tuple],
+            figsize: tuple[float, float],
             path_data: dict,
             number_mpl_objects: dict,
             xlabel_mpl_objects: dict,
@@ -118,31 +115,42 @@ class ImageManager:
         ) -> None:
         # Sanity checks
         Validators.validate_string_sequence(img_paths, "img_paths")
-        Validators.validate_numeric_sequence(img_x_places, "img_places", allow_none=True)
+        Validators.validate_numeric_sequence(
+            img_x_places, "img_places", allow_none=True
+        )
 
         # Sanity checks y_placement
         ALLOWED_Y_PLACEMENT = ["top", "bottom", "auto"]
         if isinstance(y_placement, (list, tuple)):
             Validators.validate_string_sequence(y_placement, "y_placement")
             if len(img_paths) != len(y_placement):
-                raise ValueError("There must be the same number of images and elements in y_placement.")
+                raise ValueError(
+                    "There must be the same number " 
+                    "of images and elements in y_placement."
+                )
             
             for value in y_placement:
                 if value not in ALLOWED_Y_PLACEMENT:
-                    raise ValueError(f"All values of y_placement must be one of {ALLOWED_Y_PLACEMENT}.")
+                    raise ValueError(
+                        f"All values of y_placement must be one"
+                        f"of {ALLOWED_Y_PLACEMENT}."
+                    )
         else:
-            if not y_placement in ALLOWED_Y_PLACEMENT:
+            if y_placement not in ALLOWED_Y_PLACEMENT:
                 raise ValueError(f"y_placement must be one of {ALLOWED_Y_PLACEMENT}.")
-            y_placement = [y_placement] * len(img_paths)
+            y_placement = [str(y_placement)] * len(img_paths)
 
         # Sanity checks y_offsets
         if isinstance(y_offsets, Sequence):
             Validators.validate_numeric_sequence(y_offsets, "y_offsets")
             if len(img_paths) != len(y_offsets):
-                raise ValueError("There must be the same number of images and elements in y_offsets.")
+                raise ValueError(
+                    "There must be the same number of images "
+                    "and elements in y_offsets."
+                )
         else:
             if not isinstance(y_offsets, (int, float)):
-                raise ValueError(f"y_offsets must be a float.")
+                raise ValueError("y_offsets must be a float.")
             y_offsets = [y_offsets] * len(img_paths)
 
         # Sanity checks img_series_name
@@ -153,7 +161,10 @@ class ImageManager:
         # Sanity checks img_x_places
         if img_x_places is not None:
             if len(img_paths) != len(img_x_places):
-                raise ValueError("There must be the same number of images and img_x_places.")
+                raise ValueError(
+                    "There must be the same number " 
+                    "of images and img_x_places."
+                )
         else:
             img_x_places = list(range(len(img_paths)))
         
@@ -204,7 +215,9 @@ class ImageManager:
         # Sanity checks frame colors
         if isinstance(frame_colors, (list, tuple)):
             if len(img_paths) != len(frame_colors):
-                raise ValueError("frame_colors must have the same length as img_paths.")
+                raise ValueError(
+                    "frame_colors must have the same length as img_paths."
+                )
         elif isinstance(frame_colors, str):
             frame_colors = [frame_colors] * len(img_paths)
         else:
@@ -309,7 +322,7 @@ class ImageManager:
     def recalculate_image_series(
             self,
             margins: dict[str, tuple],
-            figsize: dict[str, tuple],
+            figsize: tuple[float, float],
             path_data: dict,
             number_mpl_objects: dict,
             xlabel_mpl_objects: dict, 
@@ -341,7 +354,7 @@ class ImageManager:
             img_path: str,
             position: tuple[float, float] | list[float],
             margins: dict[str, tuple],
-            figsize: dict[str, tuple],
+            figsize: tuple[float, float],
             vertical_alignment: str = "bottom",
             horizontal_alignment: str = "center",
             width: float | None = None,
@@ -401,38 +414,41 @@ class ImageManager:
                     / (margins["x"][1] - margins["x"][0])
                     * figsize[0] / figsize[1]
                     )
+        
+        assert width is not None
+        assert height is not None
             
         if horizontal_alignment == "center":
-            img_x_extent = [
+            img_x_extent = (
                 position[0] - width / 2, 
                 position[0] + width / 2,
-            ]
+            )
         elif horizontal_alignment == "left":
-            img_x_extent = [
+            img_x_extent = (
                 position[0], 
                 position[0] + width,
-            ]
+            )
         elif horizontal_alignment == "right":
-            img_x_extent = [
+            img_x_extent = (
                 position[0] - width, 
                 position[0],
-            ]
+            )
 
         if vertical_alignment == "bottom":
-            img_y_extent = [
+            img_y_extent = (
                     position[1],
                     position[1] + height,
-                ]
+            )
         elif vertical_alignment == "top":
-            img_y_extent = [
+            img_y_extent = (
                     position[1] - height,
                     position[1],
-                ]
+            )
         elif vertical_alignment == "center":
-            img_y_extent = [
+            img_y_extent = (
                     position[1] - height / 2,
                     position[1] + height / 2,
-                ]
+            )
 
         img_extent = img_x_extent + img_y_extent
 

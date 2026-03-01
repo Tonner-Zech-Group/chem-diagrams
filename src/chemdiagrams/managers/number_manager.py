@@ -1,13 +1,12 @@
 from __future__ import annotations
-from typing import TYPE_CHECKING
-
-import numpy as np
 
 from collections.abc import Sequence
 
-from ..validation import Validators
+import numpy as np
+
 from .. import constants
-from . import FigureManager
+from ..validation import Validators
+from .figure_manager import FigureManager
 
 
 class NumberManager:
@@ -27,7 +26,7 @@ class NumberManager:
             figure_manager: FigureManager,
         ) -> None:
         self.figure_manager = figure_manager
-        self.mpl_objects = {}
+        self.mpl_objects: dict[str, dict] = {}
 
     ############################################################
     # Main numbering methods
@@ -83,25 +82,38 @@ class NumberManager:
             fontsize = self.figure_manager.fontsize
 
         # Get a list of all x values where to print
-        x_places = []
+        x_places: list | np.ndarray = []
         for value_series in values_to_print:
             x_places = np.concatenate((x_places, np.array(value_series["x"])))
         x_places = np.unique(x_places)
         
-        # For every step, get all energies, assign the colors and sort by energy if sortenergy is True then print the numbers
+        # For every step, get all energies, assign the colors and sort by energy 
+        # If sortenergy is True then print the numbers
         for x_current in x_places:
-            numbers_to_stack = NumberManager._get_numbers_to_stack_at_x(values_to_print, x_current, sort_by_energy=sort_by_energy)
+            numbers_to_stack = NumberManager._get_numbers_to_stack_at_x(
+                values_to_print, x_current, sort_by_energy=sort_by_energy
+            )
 
             # Find y where to print
             y_print_start = max(num["y"] for num in numbers_to_stack)
             if no_overlap_with_nonnumbered:
-                all_numbers_at_x = NumberManager._get_all_values_at_x(path_data, x_current)
+                all_numbers_at_x = NumberManager._get_all_values_at_x(
+                    path_data, x_current
+                )
                 higher_numbers_at_x = [
                     val for val in all_numbers_at_x 
                     if val > y_print_start
                 ]
                 while True:
-                    if NumberManager._check_no_number_overlap(y_print_start, numbers_to_stack, higher_numbers_at_x, margins, figsize, fontsize):
+                    no_number_overlap = NumberManager._check_no_number_overlap(
+                        y_print_start, 
+                        numbers_to_stack, 
+                        higher_numbers_at_x, 
+                        margins, 
+                        figsize, 
+                        fontsize
+                    )
+                    if no_number_overlap:
                         break
                     else:
                         y_print_start = higher_numbers_at_x[0]
@@ -135,14 +147,16 @@ class NumberManager:
         
 
         # Get a list of all x values where to print
-        x_places = []
+        x_places: list | np.ndarray = []
         for value_series in values_to_print:
             x_places = np.concatenate((x_places, np.array(value_series["x"])))
         x_places = np.unique(x_places)
         
-        # For every step, get all energies, assign the colors and sort by energy, print the numbers
+        # For every step, get all energies, assign the colors and sort by energy
         for x_current in x_places:
-            numbers_to_stack = NumberManager._get_numbers_to_stack_at_x(values_to_print, x_current)
+            numbers_to_stack = NumberManager._get_numbers_to_stack_at_x(
+                values_to_print, x_current
+            )
             # Start with lowest to print
             n_numbers_printed = 0
             y_last_printed = -np.inf
@@ -157,7 +171,9 @@ class NumberManager:
                     y_last_printed + diff_per_step
                 )
                 # Append more numbers, if they have the same value
-                for number in numbers_to_stack[len(numbers_to_stack_current)+n_numbers_printed:]:
+                start_index = len(numbers_to_stack_current) + n_numbers_printed
+                numbers_to_check = numbers_to_stack[start_index:]
+                for number in numbers_to_check:
                     if y_print_start >= number["y"]:
                         numbers_to_stack_current.append(number)
                 # Determine every value greater than where to print
@@ -184,14 +200,20 @@ class NumberManager:
                             figsize,
                             fontsize,
                         )
-                        y_last_printed = y_print_start + (len(numbers_to_stack_current) - 1) * diff_per_step
+                        y_last_printed = (
+                            y_print_start 
+                            + (len(numbers_to_stack_current) - 1) 
+                            * diff_per_step
+                        )
                         n_numbers_printed += len(numbers_to_stack_current)
                         break
                     else:
                         # Get next possible print height
                         y_print_start = higher_numbers_at_x[0]
                         # Append all numbers if they are on the print height
-                        for number in numbers_to_stack[len(numbers_to_stack_current)+n_numbers_printed:]:
+                        start_index = len(numbers_to_stack_current) + n_numbers_printed
+                        numbers_to_check = numbers_to_stack[start_index:]
+                        for number in numbers_to_check:
                             if y_print_start >= number["y"]:
                                 numbers_to_stack_current.append(number)
                         # Determine new values above
@@ -218,14 +240,16 @@ class NumberManager:
             fontsize = self.figure_manager.fontsize
 
         # Get a list of all x values where to print
-        x_places = []
+        x_places: list | np.ndarray = []
         for value_series in values_to_print:
             x_places = np.concatenate((x_places, np.array(value_series["x"])))
         x_places = np.unique(x_places)
         
         # For every step, get all y values, average and print
         for x_current in x_places:
-            numbers_to_stack = NumberManager._get_numbers_to_stack_at_x(values_to_print, x_current)
+            numbers_to_stack = NumberManager._get_numbers_to_stack_at_x(
+                values_to_print, x_current
+            )
             numbers_to_stack_y = np.array([
                 number["y"] for number in numbers_to_stack
             ])
@@ -285,19 +309,25 @@ class NumberManager:
 
     @staticmethod
     def _regularize_x_min_max(
-            x_min_max: tuple[float, float] | list[float] | float | None,                        
+            x_min_max: tuple[float, float] | list[float] | float | None,
         ) -> tuple[float, float]:
         # Convert x_min_max to an inclusive interval
         if x_min_max is not None:
             if isinstance(x_min_max, (Sequence)):
-                Validators.validate_numeric_sequence(x_min_max, "x_min_max", required_length=2)
+                Validators.validate_numeric_sequence(
+                    x_min_max, "x_min_max", required_length=2
+                )
+                x_min_max_new = (x_min_max[0], x_min_max[1])
             elif isinstance(x_min_max, (int, float)):
-                x_min_max = (x_min_max, x_min_max)
+                x_min_max_new = (x_min_max, x_min_max)
             else:
-                raise TypeError("x_min_max must be a tuple or list with length 2 or a numeric value.")
+                raise TypeError(
+                    "x_min_max must be a tuple or list " 
+                    "with length 2 or a numeric value."
+                )
         else:
-            x_min_max = (-np.inf, np.inf)
-        return x_min_max
+            x_min_max_new = (-np.inf, np.inf)
+        return x_min_max_new
 
     @staticmethod
     def _get_all_visible_numbers(
@@ -310,8 +340,16 @@ class NumberManager:
             # Only select data [[x...],[y...],color] in interval if show_numbers=True 
             if path["show_numbers"]:
                 values_to_print.append({
-                    "x": [path["x"][i] for i in range(len(path["x"])) if x_min_max[0] <= path["x"][i] <= x_min_max[1]],
-                    "y": [path["y"][i] for i in range(len(path["x"])) if x_min_max[0] <= path["x"][i] <= x_min_max[1]],
+                    "x": [
+                        path["x"][i] 
+                        for i in range(len(path["x"])) 
+                        if x_min_max[0] <= path["x"][i] <= x_min_max[1]
+                    ],
+                    "y": [
+                        path["y"][i] 
+                        for i in range(len(path["x"])) 
+                        if x_min_max[0] <= path["x"][i] <= x_min_max[1]
+                    ],
                     "color": path["color"],
                     "name": path_name,
                 }) 
@@ -322,7 +360,11 @@ class NumberManager:
         # Select y values at ax
         numbers_at_x = []
         for path in path_data.values():
-            numbers_at_x += [path["y"][i] for i in range(len(path["x"])) if path["x"][i] == x]
+            numbers_at_x += [
+                path["y"][i] 
+                for i in range(len(path["x"])) 
+                if path["x"][i] == x
+            ]
         return sorted(numbers_at_x)
     
     @staticmethod
@@ -377,7 +419,7 @@ class NumberManager:
                             color=number["color"],
                             )
             n_printed += 1
-            if not number["name"] in self.mpl_objects:
+            if number["name"] not in self.mpl_objects:
                 self.mpl_objects[number["name"]] = {}
             self.mpl_objects[number["name"]][f"{x:.1f}"] = number_obj
 

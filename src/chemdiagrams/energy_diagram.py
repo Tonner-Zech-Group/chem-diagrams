@@ -1,33 +1,32 @@
 from __future__ import annotations
+
 from typing import TYPE_CHECKING
 
-import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
+import matplotlib.pyplot as plt
 
 if TYPE_CHECKING:
+    from collections.abc import Sequence
+
     from matplotlib.axes import Axes
     from matplotlib.figure import Figure
     from matplotlib.text import Text
-    from collections.abc import Sequence
-    from matplotlib.legend import Legend
-
-from .managers import (
-    FigureManager,
-    PathManager,
-    NumberManager,
-    StyleManager,
-    LayoutManager,
-    BarManager,
-    PathObject,
-    StyleObjects,
-    DifferenceBar,
-    ImageManager,
-)
 
 from . import constants
-
-
+from .managers import (
+    BarManager,
+    DifferenceBar,
+    FigureManager,
+    ImageManager,
+    LayoutManager,
+    NumberManager,
+    PathManager,
+    PathObject,
+    StyleManager,
+    StyleObjects,
+)
 from .validation import Validators
+
 
 class EnergyDiagram:
     """
@@ -318,8 +317,10 @@ class EnergyDiagram:
         figsize = self._layout_manager.scale_figure(
             self._path_manager.path_data
         ) 
-        if self.verbose == True:
-            print(f"Figure size is {round(figsize[0],2)} x {round(figsize[1],2)} inches.")
+        if self.verbose:
+            print(
+                f"Figure size is {round(figsize[0],2)} x {round(figsize[1],2)} inches."
+            )
         plt.show()
 
 
@@ -552,7 +553,9 @@ class EnergyDiagram:
         self._layout_manager.adjust_xy_limits(self._path_manager.path_data)  
         self._style_manager.set_diagram_style(style)
         try:
-            self.set_xlabels(**self._style_manager.labelproperties)
+            self.set_xlabels(
+                **self._style_manager.labelproperties # type: ignore[arg-type]
+            ) 
         except AttributeError:
             pass
         return self
@@ -673,7 +676,11 @@ class EnergyDiagram:
             Returns *self* to allow method chaining.
         """
         self._number_manager.add_numbers_naive(
-            self._path_manager.path_data, self.margins, self.figsize, x_min_max, fontsize=fontsize,
+            self._path_manager.path_data, 
+            self.margins, 
+            self.figsize, 
+            x_min_max, 
+            fontsize=fontsize,
         )
         if self._image_manager.has_image_series:
             self._image_manager.recalculate_image_series(

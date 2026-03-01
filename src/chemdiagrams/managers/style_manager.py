@@ -1,22 +1,22 @@
 from __future__ import annotations
+
+from collections.abc import Sequence
+from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
-from dataclasses import dataclass
-from collections.abc import Sequence
-
-from matplotlib import font_manager
 import matplotlib.patches as mpatches
 import numpy as np
+from matplotlib import font_manager
 
-from ..validation import Validators
 from .. import constants
-from . import FigureManager, NumberManager
-
+from ..validation import Validators
+from .figure_manager import FigureManager
+from .number_manager import NumberManager
 
 if TYPE_CHECKING:
-    from matplotlib.text import Annotation, Text
     from matplotlib.lines import Line2D
     from matplotlib.patches import Rectangle
+    from matplotlib.text import Annotation, Text
 
 class StyleManager:
     """
@@ -36,7 +36,7 @@ class StyleManager:
         self.figure_manager = figure_manager
         self.style = style
         self.mpl_objects = StyleObjects({},{},{},{},{})
-        self.axes_break_data = {"x": [], "y": []}
+        self.axes_break_data: dict[str, list] = {"x": [], "y": []}
         self.has_axes_breaks = False
         self.set_diagram_style(self.style)
         
@@ -99,7 +99,9 @@ class StyleManager:
             self.figure_manager.ax.spines["right"].set_visible(False)
             self.figure_manager.ax.spines["left"].set_visible(True)
             self.figure_manager.ax.spines["bottom"].set_visible(False)
-            axes_dict["x_axis"] = self.figure_manager.ax.axhline(0, color="black", zorder=0.5, lw=0.8)
+            axes_dict["x_axis"] = self.figure_manager.ax.axhline(
+                0, color="black", zorder=0.5, lw=0.8
+            )
             arrows_dict["y_arrow"] = draw_arrow((0, 1.02),(0, 0.97))
 
         elif style == "twosided":
@@ -132,11 +134,15 @@ class StyleManager:
         ) -> None:
 
         # Sanity checks
-        Validators.validate_numeric_sequence(labelplaces, "labelplaces", allow_none=True)
+        Validators.validate_numeric_sequence(
+            labelplaces, "labelplaces", allow_none=True
+        )
         Validators.validate_number(fontsize, "fontsize", allow_none=True, min_value=0)
         if labelplaces is not None:
             if len(labels) != len(labelplaces):
-                raise ValueError("There must be the same number of labels and labelplaces.")
+                raise ValueError(
+                    "There must be the same number of labels and labelplaces."
+                )
 
         # Create labelplace list if none given
         if labelplaces is None:
@@ -183,7 +189,10 @@ class StyleManager:
                     )
                     label_dict[f"{x:.1f}"] = label
                 else:
-                    print(f"Warning: There was no datapoint found at x = {x}, therefore no label is shown.")
+                    print(
+                        f"Warning: There was no datapoint found at x = {x}, "
+                        f"therefore no label is shown."
+                    )
             self.mpl_objects.x_labels = label_dict
         else:
             self.figure_manager.ax.set_xticks(labelplaces)
@@ -290,7 +299,9 @@ class StyleManager:
         
         self.has_axes_breaks = True
         if self.style == "open":
-            raise NotImplementedError("x-axis breaks are not compatible with open diagram style")
+            raise NotImplementedError(
+                "x-axis breaks are not compatible with open diagram style"
+            )
         elif self.style == "halfboxed":
             break_object = draw_xaxis_break(x, 0) 
         elif self.style == "boxed":
@@ -488,8 +499,8 @@ class StyleObjects:
     arrows: dict[str, Annotation]
     axes: dict[str, Line2D]
     x_labels: dict[str, Text]
-    xaxis_breaks: dict[str, AxisBreak]
-    yaxis_breaks: dict[str, AxisBreak]
+    xaxis_breaks: dict[str, AxisBreak | dict[str, AxisBreak]] 
+    yaxis_breaks: dict[str, AxisBreak | dict[str, AxisBreak]] 
 
     def remove_axes(self):
         for _, arrow in self.arrows.items():

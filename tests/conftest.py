@@ -1,5 +1,5 @@
-import sys
 import os
+import sys
 
 # Ensure the src directory is on the path so pytest can find chemdiagrams
 # without requiring an editable install.

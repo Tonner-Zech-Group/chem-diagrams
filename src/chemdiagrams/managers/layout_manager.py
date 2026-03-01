@@ -1,8 +1,9 @@
 from __future__ import annotations
 
-from ..validation import Validators
 from .. import constants
-from . import FigureManager
+from ..validation import Validators
+from .figure_manager import FigureManager
+
 
 class LayoutManager:
     """
@@ -21,10 +22,18 @@ class LayoutManager:
             width_limit: float | None = None,
             figsize: tuple[float, float] | list[float] | None = None, 
         ) -> None:
-        Validators.validate_numeric_sequence(figsize, "figsize", allow_none=True, min_value=0, required_length=2)
-        Validators.validate_numeric_sequence(extra_x_margin, "extra_x_margin", required_length=2)
-        Validators.validate_numeric_sequence(extra_y_margin, "extra_x_margin", required_length=2)
-        Validators.validate_number(width_limit, "width_limit", min_value=0, allow_none=True)
+        Validators.validate_numeric_sequence(
+            figsize, "figsize", allow_none=True, min_value=0, required_length=2
+        )
+        Validators.validate_numeric_sequence(
+            extra_x_margin, "extra_x_margin", required_length=2
+        )
+        Validators.validate_numeric_sequence(
+            extra_y_margin, "extra_x_margin", required_length=2
+        )
+        Validators.validate_number(
+            width_limit, "width_limit", min_value=0, allow_none=True
+        )
 
         self.figure_manager = figure_manager
         self.figsize = figsize
@@ -140,6 +149,6 @@ class LayoutManager:
             self.adjust_xy_limits(path_data)
             self.figure_manager.fig.set_figwidth(self.figsize[0])
             self.figure_manager.fig.set_figheight(self.figsize[1])
-            return self.figsize[:]
+            return (self.figsize[0], self.figsize[1])
 
 

@@ -1,14 +1,14 @@
 from __future__ import annotations
+
 from typing import TYPE_CHECKING
 
 import matplotlib.pyplot as plt
 
-
 if TYPE_CHECKING:
-    from collections.abc import Sequence
+    pass
 
-from ..validation import Validators
 from .. import constants
+from ..validation import Validators
 
 
 class FigureManager:
@@ -44,7 +44,9 @@ class FigureManager:
         # Initialize the diagram, get the axis and set axis limits
         self.fig = plt.figure(dpi=dpi)
         self.ax = self.fig.gca()
-        self.ax.tick_params(which='both', direction="inout", top=False, right=False, bottom=False)
+        self.ax.tick_params(
+            which='both', direction="inout", top=False, right=False, bottom=False
+        )
         self.ax.tick_params(which='both',labelsize=fontsize)
         self.fontsize = fontsize
 

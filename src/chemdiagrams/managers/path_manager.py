@@ -1,20 +1,21 @@
 from __future__ import annotations
+
+from collections.abc import Sequence
+from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
-from dataclasses import dataclass
-from collections.abc import Sequence
-import numpy as np
 import matplotlib.patches as mpatches
+import numpy as np
 
 if TYPE_CHECKING:
-    from matplotlib.lines import Line2D
-    from matplotlib.text import Annotation
     from matplotlib.collections import LineCollection
+    from matplotlib.lines import Line2D
     from matplotlib.patches import Rectangle
+    from matplotlib.text import Annotation
 
-from ..validation import Validators
 from .. import constants
-from . import FigureManager
+from ..validation import Validators
+from .figure_manager import FigureManager
 
 
 class PathManager:
@@ -31,9 +32,9 @@ class PathManager:
             figure_manager: FigureManager,
         ) -> None:
         self.figure_manager = figure_manager
-        self.path_data = {}
-        self.mpl_objects = {}
-        self.merged_plateau_objects = []
+        self.path_data: dict[str, dict] = {}
+        self.mpl_objects: dict[str, PathObject] = {}
+        self.merged_plateau_objects: list[dict] = []
 
     def draw_path(
             self, 
@@ -66,7 +67,10 @@ class PathManager:
             if not all(val in ALLOWED_LINETYPES for val in linetypes):
                 raise ValueError(f"linetype elements must be in {ALLOWED_LINETYPES}.")
             if len(linetypes) != len(x_data) - 1 or len(linetypes) != len(y_data) - 1:
-                raise ValueError(f"Length of linetypes + 1 (now {len(linetypes)} + 1) must equal the number of data points (right now {len(x_data)}).")
+                raise ValueError(
+                    f"Length of linetypes + 1 (now {len(linetypes)} + 1) "
+                    f"must equal the number of data points (right now {len(x_data)})."
+                )
         else:
             raise TypeError("linetypes must be an tuple, list or integer.")
         
@@ -108,7 +112,9 @@ class PathManager:
             )
             plateaus[f"{x_data[i]:.1f}"] = plateau
             if i > 0:
-                connector = self._draw_connector(x_corners[-3:-1],y_corners[-3:-1], linetypes[i-1], color)
+                connector = self._draw_connector(
+                    x_corners[-3:-1],y_corners[-3:-1], linetypes[i-1], color
+                )
                 connections[f"{sum(x_corners[-3:-1]) / 2:.1f}"] = connector
 
         # Save Path
@@ -133,13 +139,23 @@ class PathManager:
         try:
             full_plateau_left = self.mpl_objects[path_name_left].plateaus[f"{x:.1f}"]
         except KeyError:
-            raise ValueError(f"Path \"{path_name_left}\" must exist and have a value at x = {x}.")
+            raise ValueError(
+                f"Path \"{path_name_left}\" must exist and have a value at x = {x}."
+            )
         try:
             full_plateau_right = self.mpl_objects[path_name_right].plateaus[f"{x:.1f}"]
         except KeyError:
-            raise ValueError(f"Path \"{path_name_right}\" must exist and have a value at x = {x}.")
-        if (y := full_plateau_left.get_segments()[0][0][1]) != full_plateau_right.get_segments()[0][0][1]:
-            raise ValueError(f"{path_name_left} and {path_name_right} must have the same y at x = {x}.")
+            raise ValueError(
+                f"Path \"{path_name_right}\" must exist and have a value at x = {x}."
+            )
+        y_left = full_plateau_left.get_segments()[0][0][1]
+        y_right = full_plateau_right.get_segments()[0][0][1]
+        if (y_left != y_right):
+            raise ValueError(
+                f"{path_name_left} and {path_name_right} "
+                f"must have the same y at x = {x}."
+            )
+        y = y_left
 
         # Get color information
         color_left = full_plateau_left.get_color()
@@ -260,7 +276,8 @@ class PathManager:
             y_coords: Sequence[float], 
             linetype: int, 
             color: str
-        ) -> Line2D | dict[str, Line2D | Annotation] | None:
+        ) -> Line2D | BrokenLine | None:
+        connector: Line2D | BrokenLine | None = None
         if linetype == 0:
             connector = None
         elif linetype == 1:
@@ -308,7 +325,7 @@ class PathManager:
             y_coords: Sequence[float], 
             color: str, 
             dotted: bool = True
-        ) -> dict[str, Line2D | Annotation]:
+        ) -> BrokenLine:
         # Portion of the line that has a gap
         linegap = constants.BROKEN_LINE_GAP
         # Ensure tuples are converted to list

@@ -2,6 +2,7 @@
 __pycache__/
 *.py[cod]
 *$py.class
+*_cache_/
 
 # Editable install metadata
 *.egg-info/

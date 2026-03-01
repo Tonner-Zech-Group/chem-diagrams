@@ -1,20 +1,18 @@
 from __future__ import annotations
-from typing import TYPE_CHECKING
 
-
-from dataclasses import dataclass
 from collections.abc import Sequence
+from dataclasses import dataclass
+from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from matplotlib.lines import Line2D
-    from matplotlib.text import Annotation
-    from matplotlib.text import Text
+    from matplotlib.text import Annotation, Text
 
 
 
-from ..validation import Validators
 from .. import constants
-from . import FigureManager
+from ..validation import Validators
+from .figure_manager import FigureManager
 
 
 class BarManager:
@@ -32,7 +30,7 @@ class BarManager:
             figure_manager: FigureManager,
         ) -> None:
         self.figure_manager = figure_manager
-        self.mpl_objects = []
+        self.mpl_objects: list = []
 
 
     def draw_difference_bar(
@@ -53,8 +51,12 @@ class BarManager:
 
         # Sanity checks
         Validators.validate_number(x, "x")
-        Validators.validate_numeric_sequence(y_start_end, "y_start_end", required_length=2)
-        Validators.validate_number(fontsize, "fontsize", allow_none=True, min_value=0)
+        Validators.validate_numeric_sequence(
+            y_start_end, "y_start_end", required_length=2
+        )
+        Validators.validate_number(
+            fontsize, "fontsize", allow_none=True, min_value=0
+        )
         Validators.validate_number(diff, "diff", allow_none=True)
         if not isinstance(x_whiskers, Sequence):
             raise TypeError("x_whiskers must be a list or tuple of length 2.")
@@ -101,9 +103,10 @@ class BarManager:
         else:
             difference_str = ""
         text = self.figure_manager.ax.text(
-                    x+diff, (y_start+y_end)/2,  # Adjust the x and y coordinates for text placement
-                    description + difference_str,  # Text to display
-                    ha=horizontal_alignment, va='center', fontsize=fontsize, color=color, 
+                    x + diff, (y_start + y_end) / 2,  
+                    description + difference_str,  
+                    ha=horizontal_alignment, va='center', 
+                    fontsize=fontsize, color=color, 
                 )
         
 
