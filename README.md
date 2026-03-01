@@ -46,6 +46,7 @@ dia.merge_plateaus(2, "Blue path", "Red path")
 dia.add_xaxis_break(2)
 dia.set_xlabels(["P1", "TS1", "E", "TS2", "P2"])
 dia.ax.set_ylabel(r"$\Delta E$ in kJ mol$^{-1}$", fontsize=8)
+dia.legend(fontsize=5)
 
 dia.show()
 ```

@@ -120,9 +120,9 @@ class BarManager:
                 whisker = self.figure_manager.ax.plot(
                     (x_whisker, x),
                     (y_start_end[i], y_start_end[i]),
-                    zorder=0.8, 
+                    zorder=constants.ZORDER_WHISKER, 
                     ls=':', 
-                    lw=0.7, 
+                    lw=constants.LW_WHISKER, 
                     color=whiskercolor
                 )[0]
                 if i == 0:

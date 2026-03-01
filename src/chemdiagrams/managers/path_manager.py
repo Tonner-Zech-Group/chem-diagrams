@@ -105,8 +105,8 @@ class PathManager:
                 v, 
                 x_corners[-2], 
                 x_corners[-1], 
-                zorder=2, 
-                lw=1.8, 
+                zorder=constants.ZORDER_PLATEAU, 
+                lw=constants.LW_PLATEAU, 
                 color=color, 
                 capstyle='round'
             )
@@ -169,8 +169,8 @@ class PathManager:
                 y, 
                 x - constants.WIDTH_PLATEAU / 2, 
                 x - gap / 2, 
-                zorder=2, 
-                lw=1.8, 
+                zorder=constants.ZORDER_PLATEAU, 
+                lw=constants.ZORDER_PLATEAU, 
                 color=color_left, 
                 capstyle='round'
             )
@@ -178,8 +178,8 @@ class PathManager:
                 y, 
                 x + constants.WIDTH_PLATEAU / 2, 
                 x + gap / 2, 
-                zorder=2, 
-                lw=1.8, 
+                zorder=constants.ZORDER_PLATEAU, 
+                lw=constants.ZORDER_PLATEAU, 
                 color=color_right, 
                 capstyle='round'
             )
@@ -195,7 +195,7 @@ class PathManager:
             cover_width,                          
             facecolor='white',
             edgecolor='white',
-            zorder=2.1,
+            zorder=constants.ZORDER_MERGED_PLATEAU_COVER,
         )
         
         # Calculate stopper direction in data coordinates
@@ -215,11 +215,11 @@ class PathManager:
                 arrowprops=dict(
                     arrowstyle='|-|', 
                     color=color_left, 
-                    lw=1.5, 
+                    lw=constants.LW_MERGED_PLATEAU_STOPPER, 
                     shrinkA=15, 
                     shrinkB=15, 
-                    mutation_scale=1.5*stopper_scale,
-                    zorder=2.5,
+                    mutation_scale=constants.SIZE_MERGED_PLATEAU_STOPPER*stopper_scale,
+                    zorder=constants.ZORDER_MERGED_PLATEAU_STOPPER,
                 )
             )
         stopper_right = self.figure_manager.ax.annotate(
@@ -232,11 +232,11 @@ class PathManager:
                 arrowprops=dict(
                     arrowstyle='|-|', 
                     color=color_right, 
-                    lw=1.5, 
+                    lw=constants.LW_MERGED_PLATEAU_STOPPER, 
                     shrinkA=15, 
                     shrinkB=15, 
-                    mutation_scale=1.5*stopper_scale,
-                    zorder=2.5,
+                    mutation_scale=constants.SIZE_MERGED_PLATEAU_STOPPER*stopper_scale,
+                    zorder=constants.ZORDER_MERGED_PLATEAU_STOPPER,
                 )
             )
         
@@ -268,8 +268,6 @@ class PathManager:
                 margins, figsize, angle
             )
 
-
-
     def _draw_connector(
             self, 
             x_coords: Sequence[float], 
@@ -300,9 +298,9 @@ class PathManager:
         return self.figure_manager.ax.plot(
             x_coords, 
             y_coords, 
-            zorder=1, 
+            zorder=constants.ZORDER_CONNECTOR, 
             ls=':', 
-            lw=1.0, 
+            lw=constants.LW_CONNECTOR, 
             color=color
         )[0]
     
@@ -314,9 +312,9 @@ class PathManager:
         return self.figure_manager.ax.plot(
             x_coords, 
             y_coords, 
-            zorder=1, 
+            zorder=constants.ZORDER_CONNECTOR, 
             ls='-', 
-            lw=0.8, 
+            lw=constants.LW_CONNECTOR, 
             color=color
         )[0]
 
@@ -363,11 +361,11 @@ class PathManager:
             arrowprops=dict(
                 arrowstyle='|-|', 
                 color=color, 
-                lw=0.8, 
+                lw=constants.LW_BROKEN_LINE_STOPPER, 
                 shrinkA=15, 
                 shrinkB=15, 
-                mutation_scale=3,
-                zorder=1
+                mutation_scale=constants.SIZE_BROKEN_LINE_STOPPER,
+                zorder=constants.ZORDER_BROKEN_LINE_STOPPER,
             )
         )
         stopper_2 = self.figure_manager.ax.annotate(
@@ -380,11 +378,11 @@ class PathManager:
             arrowprops=dict(
                 arrowstyle='|-|', 
                 color=color, 
-                lw=0.8, 
+                lw=constants.LW_BROKEN_LINE_STOPPER, 
                 shrinkA=15, 
                 shrinkB=15, 
-                mutation_scale=3,
-                zorder=1
+                mutation_scale=constants.SIZE_BROKEN_LINE_STOPPER,
+                zorder=constants.ZORDER_BROKEN_LINE_STOPPER,
             )
         )
         return BrokenLine(line_1, line_2, stopper_1, stopper_2)

@@ -417,6 +417,7 @@ class NumberManager:
                             va='center', 
                             fontsize=fontsize,
                             color=number["color"],
+                            zorder=constants.ZORDER_NUMBERS,
                             )
             n_printed += 1
             if number["name"] not in self.mpl_objects:

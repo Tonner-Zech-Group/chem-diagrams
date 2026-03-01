@@ -52,11 +52,11 @@ class StyleManager:
                     arrowprops=dict(
                         arrowstyle='-|>', 
                         color="black", 
-                        lw=0.0,
+                        lw=0,
                         shrinkA=0,
                         shrinkB=0, 
-                        mutation_scale=12,
-                        zorder=1
+                        mutation_scale=constants.SIZE_AXIS_ARROWS,
+                        zorder=constants.ZORDER_AXIS_ARROWS,
                         )
                  )
             return arrow
@@ -100,7 +100,10 @@ class StyleManager:
             self.figure_manager.ax.spines["left"].set_visible(True)
             self.figure_manager.ax.spines["bottom"].set_visible(False)
             axes_dict["x_axis"] = self.figure_manager.ax.axhline(
-                0, color="black", zorder=0.5, lw=0.8
+                0, 
+                color="black", 
+                zorder=constants.ZORDER_X_AXIS, 
+                lw=constants.LW_X_AXIS,
             )
             arrows_dict["y_arrow"] = draw_arrow((0, 1.02),(0, 0.97))
 
@@ -186,6 +189,7 @@ class StyleManager:
                         font=labelfont,
                         ha="center",
                         va="center",
+                        zorder=constants.ZORDER_X_LABEL,
                     )
                     label_dict[f"{x:.1f}"] = label
                 else:
@@ -217,7 +221,7 @@ class StyleManager:
         def draw_xaxis_break(x_pos, y_pos):
             # gap in x data coords
             gap = (
-                constants.BREAK_GAP
+                constants.AXIS_BREAK_GAP
                 * (margins["x"][1] - margins["x"][0])
                 / figsize[0]
                 * gap_scale
@@ -225,7 +229,7 @@ class StyleManager:
 
             # cover_width in y axis fraction
             cover_width = (
-                constants.BREAK_COVER_WIDTH
+                constants.AXIS_BREAK_COVER_WIDTH
                 / figsize[1]
             )
 
@@ -238,7 +242,7 @@ class StyleManager:
                 transform=self.figure_manager.ax.get_xaxis_transform(),
                 facecolor='white',
                 edgecolor='white',
-                zorder=4.5,
+                zorder=constants.ZORDER_AXIS_BREAK_COVER,
                 clip_on=False,
             )
             self.figure_manager.ax.add_artist(rect)
@@ -266,14 +270,14 @@ class StyleManager:
                 arrowprops=dict(
                     arrowstyle='|-|', 
                     color="black", 
-                    lw=0.8, 
+                    lw=constants.LW_AXIS_BREAK_STOPPER, 
                     shrinkA=15, 
                     shrinkB=15, 
-                    mutation_scale=2*stopper_scale,
-                    zorder=0.7,
+                    mutation_scale=constants.SIZE_AXIS_BREAK_STOPPER*stopper_scale,
+                    zorder=constants.ZORDER_AXIS_BREAK_STOPPER,
                 )
             )
-            stopper_1.set_zorder(5)
+            stopper_1.set_zorder(constants.ZORDER_AXIS_BREAK_STOPPER)
 
             stopper_2 = self.figure_manager.ax.annotate(
                 '', 
@@ -286,14 +290,14 @@ class StyleManager:
                 arrowprops=dict(
                     arrowstyle='|-|', 
                     color="black", 
-                    lw=0.8, 
+                    lw=constants.LW_AXIS_BREAK_STOPPER, 
                     shrinkA=15, 
                     shrinkB=15, 
-                    mutation_scale=2*stopper_scale,
-                    zorder=0.7,
+                    mutation_scale=constants.SIZE_AXIS_BREAK_STOPPER*stopper_scale,
+                    zorder=constants.ZORDER_AXIS_BREAK_STOPPER,
                 )
             )
-            stopper_2.set_zorder(5)
+            stopper_2.set_zorder(constants.ZORDER_AXIS_BREAK_STOPPER)
 
             return AxisBreak(rect, stopper_1, stopper_2)
         
@@ -343,7 +347,7 @@ class StyleManager:
         def draw_xaxis_break(x_pos, y_pos):
             # Gap in y data coords
             gap = (
-                constants.BREAK_GAP
+                constants.AXIS_BREAK_GAP
                 * (margins["y"][1] - margins["y"][0])
                 / figsize[1]
                 * gap_scale
@@ -351,7 +355,7 @@ class StyleManager:
 
             # Cover_width in x axis fraction
             cover_width = (
-                constants.BREAK_COVER_WIDTH
+                constants.AXIS_BREAK_COVER_WIDTH
                 / figsize[0]
 
             )
@@ -365,7 +369,7 @@ class StyleManager:
                 transform=self.figure_manager.ax.get_yaxis_transform(),
                 facecolor='white',
                 edgecolor='white',
-                zorder=4.5,
+                zorder=constants.ZORDER_AXIS_BREAK_COVER,
                 clip_on=False,
             )
             self.figure_manager.ax.add_artist(rect)
@@ -395,14 +399,14 @@ class StyleManager:
                 arrowprops=dict(
                     arrowstyle='|-|', 
                     color="black", 
-                    lw=0.8, 
+                    lw=constants.LW_AXIS_BREAK_STOPPER, 
                     shrinkA=15, 
                     shrinkB=15, 
-                    mutation_scale=2*stopper_scale,
-                    zorder=0.7,
+                    mutation_scale=constants.SIZE_AXIS_BREAK_STOPPER*stopper_scale,
+                    zorder=constants.ZORDER_AXIS_BREAK_STOPPER,
                 )
             )
-            stopper_1.set_zorder(5)
+            stopper_1.set_zorder(constants.ZORDER_AXIS_BREAK_STOPPER)
 
             stopper_2 = self.figure_manager.ax.annotate(
                 '', 
@@ -415,14 +419,14 @@ class StyleManager:
                 arrowprops=dict(
                     arrowstyle='|-|', 
                     color="black", 
-                    lw=0.8, 
+                    lw=constants.LW_AXIS_BREAK_STOPPER, 
                     shrinkA=15, 
                     shrinkB=15, 
-                    mutation_scale=2*stopper_scale,
-                    zorder=0.7,
+                    mutation_scale=constants.SIZE_AXIS_BREAK_STOPPER*stopper_scale,
+                    zorder=constants.ZORDER_AXIS_BREAK_STOPPER,
                 )
             )
-            stopper_2.set_zorder(5)
+            stopper_2.set_zorder(constants.ZORDER_AXIS_BREAK_STOPPER)
 
             return AxisBreak(rect, stopper_1, stopper_2)
 

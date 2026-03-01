@@ -365,9 +365,9 @@ class ImageManager:
         def draw_frame_part(x_coords, y_coords):
             return self.figure_manager.ax.plot(
                         x_coords, y_coords, 
-                        zorder=0.5, 
+                        zorder=constants.ZORDER_IMAGE_FRAME, 
                         ls='-', 
-                        lw=0.5, 
+                        lw=constants.LW_IMAGE_FRAME, 
                         color=frame_color
                      )[0]
         # Sanity checks
