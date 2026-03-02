@@ -45,6 +45,7 @@ testpaths = ["tests"]
 [tool.ruff]
 src = ["src"]
 exclude = ["examples"]
+line-length = 95
 
 [tool.ruff.lint]
 select = ["E", "F", "I"]
