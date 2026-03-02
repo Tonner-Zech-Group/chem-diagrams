@@ -13,8 +13,8 @@ from chemdiagrams import EnergyDiagram
 dia = EnergyDiagram(
     style="twosided",
     dpi=250,
-    extra_y_margin=(0,0.25)
-    )
+    extra_y_margin=(0,0.25),
+)
 
 dia.draw_path(
     [0,1,2], [-32, 18, 0], "blue",
@@ -238,8 +238,8 @@ Both paths must already be drawn and must have exactly the same y-value at `x`.
 dia = EnergyDiagram(
     extra_x_margin=(0, 0.5),   # additional margin in x (axis units)
     extra_y_margin=(0, 0.2),   # additional margin in y (relative units)
-    figsize=(6, 4),             # explicit figure size in inches
-    width_limit=7,              # maximum auto-scaled width in inches
+    figsize=(6, 4),            # explicit figure size in inches
+    width_limit=7,             # maximum auto-scaled width in inches
     fontsize=10,
     style="halfboxed",
     dpi=150,
@@ -248,22 +248,42 @@ dia = EnergyDiagram(
 
 ### Placing images
 
+`add_image_in_plot` places a single image at an explicit position in data coordinates.
+
 ```python
 # Single image at a fixed position
 dia.add_image_in_plot(
     "path/to/image.png",
-    position=(2, 30),           # (x, y) in data coordinates
-    width=0.5,                  # width in axis units
-    framed=True,
-    frame_color="black",
+    position=(2, 30),               # (x, y) in data coordinates
+    img_name="my_image",            # optional name to access the artist later via dia.images
+    width=0.5,                      # width in axis units; 
+                                    # if omitted, height is used to scale or width is set automatically
+    height=None,                    # height in axis units
+    horizontal_alignment="center",  # "center", "left", or "right" relative to position
+    vertical_alignment="center",    # "center", "top", or "bottom" relative to position
+    framed=True,                    # draw a border rectangle around the image
+    frame_color="black",            # color of the border
 )
+```
 
+`add_image_series_in_plot` places one image per reaction state, with automatic collision avoidance against energy numbers and x-axis labels.
+
+```python
 # Series of images distributed automatically along the diagram
 dia.add_image_series_in_plot(
     ["img0.png", "img1.png", "img2.png", "img3.png", "img4.png"],
-    y_placement=["auto", "top", "auto", "bottom", "auto"],
-    y_offsets=5,
-    width=0.6,
+    img_x_places=[0, 1, 2, 3, 4],        # which x positions to place images at;
+                                         # defaults to 0,1,2,... if omitted
+    y_placement="auto",                  # "auto", "top", or "bottom" — can also be a list
+                                         # per image, e.g. ["auto", "top", "auto", "bottom", "auto"]
+                                         # "auto" automatically decides whether it is placed on top or bottom
+    y_offsets=5,                         # additional vertical offset in data units, scalar or per-image list
+    img_series_name="my_series",         # optional name to access artists later via dia.images
+    width=0.6,                           # scalar applies to all; pass a list for per-image widths
+                                         # if omitted, height is used to scale or width is set automatically
+    height=None,                         # scalar applies to all; pass a list for per-image heights
+    framed=False,                        # scalar or per-image list of bools
+    frame_colors="black",                # scalar or per-image list of color strings
 )
 ```
 
@@ -285,25 +305,47 @@ dia.draw_path(..., path_name="My Path")
 dia.add_numbers_auto()
 
 # Plateau and connector lines
-plateau   = dia.lines["My Path"].plateaus["2.0"]
-connector = dia.lines["My Path"].connections["1.5"]
+# Keys are x-positions formatted to one decimal place
+plateau   = dia.lines["My Path"].plateaus["2.0"]     # x=2
+connector = dia.lines["My Path"].connections["1.5"]  # midpoint between x=1 and x=2
 plateau.set_color("green")
 
 # Energy labels
-label = dia.numbers["My Path"]["2.0"]
+label = dia.numbers["My Path"]["2.0"]                # x=2
 label.set_color("red")
 label.set_fontsize(12)
 
 # Difference bar components
 dia.bars[0].text.set_color("red")
 dia.bars[0].bar.arrow_patch.set_color("green")
+dia.bars[0].whisker_2.set_linestyle("--")
 
 # Style objects (axes, arrows, x-labels)
 dia.ax_objects.x_labels["2.0"].set_color("purple")
 
+# Axis arrows (twosided/open/halfopen styles)
+dia.ax_objects.arrows["x_arrow"].set_color("gray")
+
+# Axis break artists
+dia.ax_objects.xaxis_breaks["2.0"].stopper_1.set_color("red")
+dia.ax_objects.yaxis_breaks["5.0"].whitespace.set_facecolor("lightyellow")
+
 # Direct Matplotlib axes access
 dia.ax.set_ylabel("Energy / kJ mol$^{-1}$", fontsize=10)
 dia.fig.savefig("diagram.png", dpi=300, bbox_inches="tight")
+
+# Access a single image artist added with add_image_in_plot
+img_object = dia.images["my_image"]                  # ImageObject
+img_object.image.set_alpha(0.8)                      # AxesImage — any matplotlib imshow property
+img_object.borders["top"].set_color("red")           # frame border lines, keyed by "top",
+img_object.borders["left"].set_linewidth(2)          # "bottom", "top", "left", "right"
+
+# Access images added with add_image_series_in_plot
+series = dia.images["my_series"]                     # dict keyed by x-position as "x.x" string
+img_at_x1 = series["1.0"]                            # ImageObject at x=1
+img_at_x1.image.set_alpha(0.5)
+img_at_x1.borders["bottom"].set_linestyle("--")
+
 ```
 
 ## Examples
