@@ -1,4 +1,3 @@
-
 """Constants for plotting the energy diagram"""
 
 #################################
@@ -13,7 +12,7 @@ ZORDER_WHISKER = 0.8
 
 
 #################################
-# Image Manager  
+# Image Manager
 #################################
 
 # Standard fontsize
@@ -21,7 +20,7 @@ STD_FONTSIZE = 8
 
 
 #################################
-# Image Manager  
+# Image Manager
 #################################
 
 # Standard width of an image in x units
@@ -38,7 +37,7 @@ ZORDER_IMAGE_FRAME = 0.5
 
 
 #################################
-# Layout Manager  
+# Layout Manager
 #################################
 
 # Default margins (x absolute, y relative)
@@ -52,7 +51,7 @@ FIG_HEIGHT = 3
 X_SCALE = 0.8
 
 #################################
-# Number Manager  
+# Number Manager
 #################################
 
 # Default distance numbers above plateau (inches at sdt fontsize)
@@ -65,7 +64,7 @@ ZORDER_NUMBERS = 2
 
 
 #################################
-# Path Manager  
+# Path Manager
 #################################
 
 # Plateu parameters
@@ -93,7 +92,7 @@ ZORDER_MERGED_PLATEAU_STOPPER = 2.5
 
 
 #################################
-# Style Manager  
+# Style Manager
 #################################
 
 # Axis arrow parameters
@@ -118,6 +117,3 @@ ZORDER_AXIS_BREAK_COVER = 4.5
 LW_AXIS_BREAK_STOPPER = 0.8
 SIZE_AXIS_BREAK_STOPPER = 2
 ZORDER_AXIS_BREAK_STOPPER = 5
-
-
-

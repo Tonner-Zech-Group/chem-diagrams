@@ -41,11 +41,11 @@ class EnergyDiagram:
     Parameters
     ----------
     extra_x_margin : tuple of float or list of float, optional
-        Additional horizontal margins in data coordinate units 
-        added to the plot limits as (left, right). 
+        Additional horizontal margins in data coordinate units
+        added to the plot limits as (left, right).
         Default is (0, 0).
     extra_y_margin : tuple of float or list of float, optional
-        Additional vertical margins in relative units added to 
+        Additional vertical margins in relative units added to
         the plot limits as (bottom, top). Default is (0, 0).
     width_limit : float or None, optional
         Maximum figure width in inches. When None, the width scales
@@ -140,72 +140,55 @@ class EnergyDiagram:
     ############################################################
 
     def __init__(
-            self, 
-            extra_x_margin: tuple[float, float] | list[float] = (0,0), 
-            extra_y_margin: tuple[float, float] | list[float] = (0,0),
-            width_limit: float | None = None, 
-            figsize: tuple[float, float] | list[float] | None = None, 
-            fontsize: int = constants.STD_FONTSIZE, 
-            verbose: bool = False, 
-            style: str = "open",
-            dpi: int = 150,
-        ):
-        
-        self._figure_manager = FigureManager(
-            fontsize=fontsize, 
-            dpi=dpi
-        )
-        self._path_manager = PathManager(
-            self._figure_manager
-        )
-        self._number_manager = NumberManager(
-            self._figure_manager
-        )
-        self._style_manager = StyleManager(
-            self._figure_manager, 
-            style=style
-        )
+        self,
+        extra_x_margin: tuple[float, float] | list[float] = (0, 0),
+        extra_y_margin: tuple[float, float] | list[float] = (0, 0),
+        width_limit: float | None = None,
+        figsize: tuple[float, float] | list[float] | None = None,
+        fontsize: int = constants.STD_FONTSIZE,
+        verbose: bool = False,
+        style: str = "open",
+        dpi: int = 150,
+    ):
+        self._figure_manager = FigureManager(fontsize=fontsize, dpi=dpi)
+        self._path_manager = PathManager(self._figure_manager)
+        self._number_manager = NumberManager(self._figure_manager)
+        self._style_manager = StyleManager(self._figure_manager, style=style)
         self._layout_manager = LayoutManager(
-            self._figure_manager, 
-            extra_x_margin=extra_x_margin, 
+            self._figure_manager,
+            extra_x_margin=extra_x_margin,
             extra_y_margin=extra_y_margin,
-            width_limit=width_limit, 
+            width_limit=width_limit,
             figsize=figsize,
         )
-        self._bar_manager = BarManager(
-            self._figure_manager
-        )
-        self._image_manager = ImageManager(
-            self._figure_manager
-        )
+        self._bar_manager = BarManager(self._figure_manager)
+        self._image_manager = ImageManager(self._figure_manager)
         self.verbose = verbose
         self.margins = self._layout_manager.adjust_xy_limits(
-                self._path_manager.path_data
-            )
-        self.figsize = self._layout_manager.scale_figure(
             self._path_manager.path_data
         )
+        self.figsize = self._layout_manager.scale_figure(self._path_manager.path_data)
 
     def draw_difference_bar(
-            self, 
-            x: float, 
-            y_start_end: tuple[float, float] | list[float], 
-            description: str, 
-            diff: float | None = None,
-            left_side: bool = False,
-            add_difference: bool = True,
-            fontsize: int | None = None, 
-            color: str = "black", 
-            arrowstyle: str = "|-|", 
-            x_whiskers: Sequence[float | None] = (None, None), 
-            whiskercolor: str | None = None
-        ) -> EnergyDiagram:
+        self,
+        x: float,
+        y_start_end: tuple[float, float] | list[float],
+        description: str,
+        diff: float | None = None,
+        left_side: bool = False,
+        add_difference: bool = True,
+        fontsize: int | None = None,
+        color: str = "black",
+        arrowstyle: str = "|-|",
+        x_whiskers: Sequence[float | None] = (None, None),
+        whiskercolor: str | None = None,
+    ) -> EnergyDiagram:
         """Draw a vertical energy difference bar between two energy levels.
 
         Renders a double-headed arrow that spans from one energy level
         to another at a given x-position, with a text label showing
-        the energy difference - the latter being calculated automatically. 
-        Optional horizontal whiskers can be drawn from the energy 
+        the energy difference - the latter being calculated automatically.
+        Optional horizontal whiskers can be drawn from the energy
         levels to the bar.
 
         Parameters
@@ -216,7 +199,7 @@ class EnergyDiagram:
             A two-element sequence ``(y_start, y_end)`` specifying the
             bottom and top energy values spanned by the bar.
         description : str
-            Text label placed beside the bar, typically the energy 
+            Text label placed beside the bar, typically the energy
             difference symbol (e.g. ``"ΔE: "``).
         diff : float or None, optional
             Horizontal offset in data coordinates between the bar and
@@ -251,9 +234,12 @@ class EnergyDiagram:
         -------
         EnergyDiagram
             Returns *self* to allow method chaining.
-        """ 
+        """
         self._bar_manager.draw_difference_bar(
-            x, y_start_end, description, self.margins,
+            x,
+            y_start_end,
+            description,
+            self.margins,
             diff=diff,
             left_side=left_side,
             add_difference=add_difference,
@@ -262,13 +248,10 @@ class EnergyDiagram:
             arrowstyle=arrowstyle,
             x_whiskers=x_whiskers,
             whiskercolor=whiskercolor,
-            )
+        )
         return self
 
-    def legend(self, 
-            loc: str = "best", 
-            fontsize: int | None = None
-        ) -> EnergyDiagram:
+    def legend(self, loc: str = "best", fontsize: int | None = None) -> EnergyDiagram:
         """Add a legend for all named reaction paths.
 
         Generates legend entries for every path that was drawn with a
@@ -297,16 +280,9 @@ class EnergyDiagram:
         for path_name, path_info in self._path_manager.path_data.items():
             if path_info["has_label"]:
                 patches.append(
-                    mpatches.Patch(
-                        color=path_info["color"], 
-                        label=path_name
-                    )
+                    mpatches.Patch(color=path_info["color"], label=path_name)
                 )
-        self._figure_manager.ax.legend(
-            handles=patches, 
-            fontsize=fontsize, 
-            loc=loc
-        )
+        self._figure_manager.ax.legend(handles=patches, fontsize=fontsize, loc=loc)
         return self
 
     def show(self) -> None:
@@ -314,29 +290,26 @@ class EnergyDiagram:
 
         Finalizes the figure layout and calls ``matplotlib.pyplot.show()``.
         """
-        figsize = self._layout_manager.scale_figure(
-            self._path_manager.path_data
-        ) 
+        figsize = self._layout_manager.scale_figure(self._path_manager.path_data)
         if self.verbose:
             print(
                 f"Figure size is {round(figsize[0],2)} x {round(figsize[1],2)} inches."
             )
         plt.show()
 
-
     ############################################################
     # Path-related methods
     ############################################################
 
     def draw_path(
-            self, 
-            x_data: Sequence[float], 
-            y_data: Sequence[float], 
-            color: str, 
-            linetypes: Sequence[int] | None = None, 
-            path_name: str | None = None, 
-            show_numbers: bool = True
-        ) -> EnergyDiagram:
+        self,
+        x_data: Sequence[float],
+        y_data: Sequence[float],
+        color: str,
+        linetypes: Sequence[int] | None = None,
+        path_name: str | None = None,
+        show_numbers: bool = True,
+    ) -> EnergyDiagram:
         """Add a reaction path to the energy diagram.
 
         Draws a series of horizontal energy levels connected by
@@ -381,31 +354,31 @@ class EnergyDiagram:
             Returns *self* to allow method chaining.
         """
         self._path_manager.draw_path(
-            x_data, y_data, color,
+            x_data,
+            y_data,
+            color,
             linetypes=linetypes,
             path_name=path_name,
             show_numbers=show_numbers,
         )
         self.margins = self._layout_manager.adjust_xy_limits(
-                self._path_manager.path_data
-            )
-        self.figsize = self._layout_manager.scale_figure(
             self._path_manager.path_data
         )
+        self.figsize = self._layout_manager.scale_figure(self._path_manager.path_data)
         self._recalculate_xlabels()
         self._recalculate_axis_breaks()
         self._recalculate_merged_plateaus()
         return self
 
     def merge_plateaus(
-            self,
-            x: int,
-            path_name_left: str,
-            path_name_right: str,
-            gap_scale: float = 1,
-            stopper_scale: float = 1,
-            angle: float =  30,
-        ) -> EnergyDiagram:
+        self,
+        x: int,
+        path_name_left: str,
+        path_name_right: str,
+        gap_scale: float = 1,
+        stopper_scale: float = 1,
+        angle: float = 30,
+    ) -> EnergyDiagram:
         """Visually merge two coincident plateaus at a shared x-position.
 
         When two paths have identical energy levels at the same x-coordinate,
@@ -456,24 +429,22 @@ class EnergyDiagram:
             angle=angle,
         )
         return self
-    
+
     def _recalculate_merged_plateaus(self):
-        self._path_manager._recalculate_merged_plateaus(
-            self.margins, self.figsize
-        )
+        self._path_manager._recalculate_merged_plateaus(self.margins, self.figsize)
 
     ############################################################
     # Style-related methods
     ############################################################
 
     def set_xlabels(
-            self, 
-            labels: Sequence, 
-            labelplaces: Sequence[float] | None = None, 
-            fontsize: int | None = None, 
-            weight: str = "bold", 
-            in_plot: bool = False
-        ) -> EnergyDiagram:
+        self,
+        labels: Sequence,
+        labelplaces: Sequence[float] | None = None,
+        fontsize: int | None = None,
+        weight: str = "bold",
+        in_plot: bool = False,
+    ) -> EnergyDiagram:
         """Set text labels for the reaction states along the x-axis.
 
         Labels are placed below the horizontal energy bars by default.
@@ -487,7 +458,7 @@ class EnergyDiagram:
             (i.e. one per unique x-position in the plotted paths).
         labelplaces : sequence of float or None, optional
             Explicit x-coordinates at which to place each label.
-            When None the labels are naively placed starting at 
+            When None the labels are naively placed starting at
             x = 0. Default is None.
         fontsize : int or None, optional
             Font size for the labels. When None the diagram's base
@@ -496,8 +467,8 @@ class EnergyDiagram:
             Font weight for the labels, e.g. ``"bold"`` or
             ``"normal"``. Default is ``"bold"``.
         in_plot : bool, optional
-            If True, labels are drawn inside the plot area below the 
-            lowest state rather than below the x-axis. Default 
+            If True, labels are drawn inside the plot area below the
+            lowest state rather than below the x-axis. Default
             is False.
 
         Returns
@@ -524,9 +495,9 @@ class EnergyDiagram:
                 self._style_manager.mpl_objects.x_labels,
             )
         return self
-    
+
     def _recalculate_xlabels(self):
-        try: 
+        try:
             self.set_xlabels(**self._style_manager.labelproperties)
         except AttributeError:
             pass
@@ -542,7 +513,7 @@ class EnergyDiagram:
         ----------
         style : str
             Name of the style preset to apply. Supported values
-            are ``"open"``, ``"boxed"``, ``"halfboxed"`` and 
+            are ``"open"``, ``"boxed"``, ``"halfboxed"`` and
             ``"twosided"``. Default style is ``"open"``.
 
         Returns
@@ -550,23 +521,23 @@ class EnergyDiagram:
         EnergyDiagram
             Returns *self* to allow method chaining.
         """
-        self._layout_manager.adjust_xy_limits(self._path_manager.path_data)  
+        self._layout_manager.adjust_xy_limits(self._path_manager.path_data)
         self._style_manager.set_diagram_style(style)
         try:
             self.set_xlabels(
-                **self._style_manager.labelproperties # type: ignore[arg-type]
-            ) 
+                **self._style_manager.labelproperties  # type: ignore[arg-type]
+            )
         except AttributeError:
             pass
         return self
-    
+
     def add_xaxis_break(
-            self,
-            x: float,
-            gap_scale: float = 1,
-            stopper_scale: float = 1,
-            angle: float = 30,
-        ) -> None:
+        self,
+        x: float,
+        gap_scale: float = 1,
+        stopper_scale: float = 1,
+        angle: float = 30,
+    ) -> None:
         """Add a break marker on the x-axis at a given position.
 
         Draws a pair of diagonal stopper lines over a white gap rectangle on
@@ -599,12 +570,12 @@ class EnergyDiagram:
         )
 
     def add_yaxis_break(
-            self,
-            y: float,
-            gap_scale: float = 1,
-            stopper_scale: float = 1,
-            angle: float = 30,
-        ) -> None:
+        self,
+        y: float,
+        gap_scale: float = 1,
+        stopper_scale: float = 1,
+        angle: float = 30,
+    ) -> None:
         """Add a break marker on the y-axis at a given position.
 
         Draws a pair of diagonal stopper lines over a white gap rectangle on
@@ -636,20 +607,17 @@ class EnergyDiagram:
 
     def _recalculate_axis_breaks(self):
         if self._style_manager.has_axes_breaks:
-            self._style_manager.recalculate_axis_breaks(
-                self.margins, self.figsize
-            )
-
+            self._style_manager.recalculate_axis_breaks(self.margins, self.figsize)
 
     ############################################################
     # Methods for plotting numbers
     ############################################################
 
     def add_numbers_naive(
-            self,
-            x_min_max: tuple[float, float] | list[float] | float | None = None,
-            fontsize: int | None = None,
-        ) -> EnergyDiagram:
+        self,
+        x_min_max: tuple[float, float] | list[float] | float | None = None,
+        fontsize: int | None = None,
+    ) -> EnergyDiagram:
         """Annotate energy levels with their values, placed directly above each bar.
 
         This is the simplest numbering strategy: each energy value is
@@ -676,10 +644,10 @@ class EnergyDiagram:
             Returns *self* to allow method chaining.
         """
         self._number_manager.add_numbers_naive(
-            self._path_manager.path_data, 
-            self.margins, 
-            self.figsize, 
-            x_min_max, 
+            self._path_manager.path_data,
+            self.margins,
+            self.figsize,
+            x_min_max,
             fontsize=fontsize,
         )
         if self._image_manager.has_image_series:
@@ -695,10 +663,10 @@ class EnergyDiagram:
     def add_numbers_stacked(
         self,
         x_min_max: tuple[float, float] | list[float] | float | None = None,
-        fontsize: int | None = None, 
-        sort_by_energy: bool = True, 
-        no_overlap_with_nonnumbered: bool = True
-        ) -> EnergyDiagram:
+        fontsize: int | None = None,
+        sort_by_energy: bool = True,
+        no_overlap_with_nonnumbered: bool = True,
+    ) -> EnergyDiagram:
         """Annotate energy levels with stacked labels above the highest state.
 
         When multiple paths share the same x-position the labels are
@@ -733,13 +701,13 @@ class EnergyDiagram:
             Returns *self* to allow method chaining.
         """
         self._number_manager.add_numbers_stacked(
-            self._path_manager.path_data, 
+            self._path_manager.path_data,
             self.margins,
-            self.figsize, 
+            self.figsize,
             x_min_max,
             fontsize=fontsize,
             sort_by_energy=sort_by_energy,
-            no_overlap_with_nonnumbered=no_overlap_with_nonnumbered
+            no_overlap_with_nonnumbered=no_overlap_with_nonnumbered,
         )
         if self._image_manager.has_image_series:
             self._image_manager.recalculate_image_series(
@@ -752,10 +720,10 @@ class EnergyDiagram:
         return self
 
     def add_numbers_auto(
-            self, 
-            x_min_max: tuple[float, float] | list[float] | float | None = None,
-            fontsize: int | None = None,
-        ) -> EnergyDiagram:
+        self,
+        x_min_max: tuple[float, float] | list[float] | float | None = None,
+        fontsize: int | None = None,
+    ) -> EnergyDiagram:
         """Annotate energy levels with automatically placed labels.
 
         Chooses label placement (above which bar) automatically
@@ -798,11 +766,11 @@ class EnergyDiagram:
         return self
 
     def add_numbers_average(
-            self, 
-            x_min_max: tuple[float, float] | list[float] | float | None = None,
-            fontsize: int | None = None,
-            color: str = "black"
-        ) -> EnergyDiagram:
+        self,
+        x_min_max: tuple[float, float] | list[float] | float | None = None,
+        fontsize: int | None = None,
+        color: str = "black",
+    ) -> EnergyDiagram:
         """Annotate energy states with the average value across all paths.
 
         At each x-position the mean energy of all visible paths is
@@ -834,9 +802,9 @@ class EnergyDiagram:
             self._path_manager.path_data,
             self.margins,
             self.figsize,
-            x_min_max = x_min_max,
+            x_min_max=x_min_max,
             fontsize=fontsize,
-            color = color
+            color=color,
         )
         if self._image_manager.has_image_series:
             self._image_manager.recalculate_image_series(
@@ -847,24 +815,23 @@ class EnergyDiagram:
                 self._style_manager.mpl_objects.x_labels,
             )
         return self
-        
 
     ############################################################
     # Methods for plotting images
     ############################################################
 
     def add_image_in_plot(
-            self,
-            img_path: str,
-            position: tuple[float, float] | list[float],
-            img_name: str | None = None,
-            horizontal_alignment: str = "center",
-            vertical_alignment: str = "center",
-            width: float | None = None,
-            height: float | None = None,
-            framed: bool = False,
-            frame_color: str = "black",
-        ) -> EnergyDiagram:
+        self,
+        img_path: str,
+        position: tuple[float, float] | list[float],
+        img_name: str | None = None,
+        horizontal_alignment: str = "center",
+        vertical_alignment: str = "center",
+        width: float | None = None,
+        height: float | None = None,
+        framed: bool = False,
+        frame_color: str = "black",
+    ) -> EnergyDiagram:
         """
         Place a single image at an explicit data-coordinate position.
 
@@ -913,17 +880,17 @@ class EnergyDiagram:
         return self
 
     def add_image_series_in_plot(
-            self,
-            img_paths: Sequence[str],
-            img_x_places: Sequence[float] | None = None,
-            y_placement: Sequence[str] | str = "auto",
-            y_offsets: Sequence[float] | float = 0,
-            img_series_name: str | None = None,
-            width: Sequence[float | None] | float | None = None,
-            height: Sequence[float| None] | float | None = None,
-            framed: Sequence[bool] | bool = False,
-            frame_colors: Sequence[str] | str = "black",
-        ) -> EnergyDiagram:
+        self,
+        img_paths: Sequence[str],
+        img_x_places: Sequence[float] | None = None,
+        y_placement: Sequence[str] | str = "auto",
+        y_offsets: Sequence[float] | float = 0,
+        img_series_name: str | None = None,
+        width: Sequence[float | None] | float | None = None,
+        height: Sequence[float | None] | float | None = None,
+        framed: Sequence[bool] | bool = False,
+        frame_colors: Sequence[str] | str = "black",
+    ) -> EnergyDiagram:
         """
         Place a series of images, one per x-position, avoiding visual collisions.
 
@@ -957,23 +924,22 @@ class EnergyDiagram:
             Border colors. Default ``"black"``.
         """
         self._image_manager.add_image_series_in_plot(
-                img_paths,
-                margins=self.margins,
-                figsize=self.figsize,
-                path_data=self._path_manager.path_data,
-                number_mpl_objects=self._number_manager.mpl_objects,
-                xlabel_mpl_objects=self._style_manager.mpl_objects.x_labels,
-                img_x_places=img_x_places,
-                y_placement=y_placement,
-                y_offsets=y_offsets,
-                img_series_name=img_series_name,
-                width=width,
-                height=height,
-                framed=framed,
-                frame_colors=frame_colors,
+            img_paths,
+            margins=self.margins,
+            figsize=self.figsize,
+            path_data=self._path_manager.path_data,
+            number_mpl_objects=self._number_manager.mpl_objects,
+            xlabel_mpl_objects=self._style_manager.mpl_objects.x_labels,
+            img_x_places=img_x_places,
+            y_placement=y_placement,
+            y_offsets=y_offsets,
+            img_series_name=img_series_name,
+            width=width,
+            height=height,
+            framed=framed,
+            frame_colors=frame_colors,
         )
         return self
-
 
     ############################################################
     # Getters
@@ -988,7 +954,7 @@ class EnergyDiagram:
         adjusting tick marks.
         """
         return self._figure_manager.ax
-    
+
     @property
     def fig(self) -> Figure:
         """matplotlib.figure.Figure: The underlying Figure object for the diagram.
@@ -997,7 +963,7 @@ class EnergyDiagram:
         such as DPI or size, or pass it to external Matplotlib routines.
         """
         return self._figure_manager.fig
-    
+
     @property
     def lines(self) -> dict[str, PathObject]:
         """dict of str to PathObject: Matplotlib line objects for each reaction path.
@@ -1008,7 +974,7 @@ class EnergyDiagram:
         Paths drawn without a name are keyed by an internal identifier.
         """
         return self._path_manager.mpl_objects
-    
+
     @property
     def ax_objects(self) -> StyleObjects:
         """StyleObjects: Matplotlib artists related to diagram styling.
@@ -1018,7 +984,7 @@ class EnergyDiagram:
         adjustments after calling :meth:`set_diagram_style`.
         """
         return self._style_manager.mpl_objects
-    
+
     @property
     def bars(self) -> list[DifferenceBar]:
         """list of DifferenceBar: Energy difference bar objects in the diagram.
@@ -1028,7 +994,7 @@ class EnergyDiagram:
         The list is ordered by the sequence in which bars were added.
         """
         return self._bar_manager.mpl_objects
-    
+
     @property
     def numbers(self) -> dict[str, dict[str, Text]]:
         """dict of str to dict of str to Text: Energy annotation text objects.
@@ -1039,7 +1005,7 @@ class EnergyDiagram:
         any of the ``add_numbers_*`` methods.
         """
         return self._number_manager.mpl_objects
-    
+
     @property
     def images(self) -> dict:
         """dict: Image artists stored by the image manager.
@@ -1051,6 +1017,3 @@ class EnergyDiagram:
         :meth:`add_image_series_in_plot`.
         """
         return self._image_manager.mpl_objects
-
-    
-    

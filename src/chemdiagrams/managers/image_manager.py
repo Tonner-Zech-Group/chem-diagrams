@@ -11,7 +11,6 @@ if TYPE_CHECKING:
     from matplotlib.lines import Line2D
 
 
-
 from .. import constants
 from ..validation import Validators
 from .figure_manager import FigureManager
@@ -30,9 +29,9 @@ class ImageManager:
     """
 
     def __init__(
-            self,
-            figure_manager: FigureManager,
-        ) -> None:
+        self,
+        figure_manager: FigureManager,
+    ) -> None:
         self.figure_manager = figure_manager
         self.image_series_data: dict = {}
         self.has_image_series = False
@@ -40,20 +39,19 @@ class ImageManager:
         self.mpl_objects: dict = {}
 
     def add_image_in_plot(
-            self,
-            img_path: str,
-            position: tuple[float, float] | list[float],
-            margins: dict[str, tuple],
-            figsize: tuple[float, float],
-            img_name: str | None = None,
-            width: float | None = None,
-            height: float | None = None,
-            framed: bool = False,
-            frame_color: str = "black",
-            horizontal_alignment: str = "center",
-            vertical_alignment: str = "center",
-        ) -> None:
-        
+        self,
+        img_path: str,
+        position: tuple[float, float] | list[float],
+        margins: dict[str, tuple],
+        figsize: tuple[float, float],
+        img_name: str | None = None,
+        width: float | None = None,
+        height: float | None = None,
+        framed: bool = False,
+        frame_color: str = "black",
+        horizontal_alignment: str = "center",
+        vertical_alignment: str = "center",
+    ) -> None:
         # Sanity checks
         Validators.validate_numeric_sequence(position, "position", required_length=2)
         if img_name is not None:
@@ -63,7 +61,7 @@ class ImageManager:
         Validators.validate_number(height, "height", allow_none=True, min_value=0)
         if not isinstance(framed, bool):
             raise TypeError("framed must be a bool.")
-        
+
         # Construct the image
         img_object = self._construct_image(
             img_path=img_path,
@@ -78,7 +76,7 @@ class ImageManager:
             frame_color=frame_color,
         )
 
-        #Save mpl objects
+        # Save mpl objects
         if img_name is None:
             img_name = f"__Image_{len(self.mpl_objects)}"
         self.mpl_objects[img_name] = img_object
@@ -97,22 +95,22 @@ class ImageManager:
         }
 
     def add_image_series_in_plot(
-            self,
-            img_paths: Sequence[str],
-            margins: dict[str, tuple],
-            figsize: tuple[float, float],
-            path_data: dict,
-            number_mpl_objects: dict,
-            xlabel_mpl_objects: dict,
-            img_x_places: Sequence[float] | None = None,
-            y_placement: Sequence[str] | str = "auto",
-            y_offsets: Sequence[float] | float = 0,
-            img_series_name: str | None = None,
-            width: Sequence[float | None] | float | None = None,
-            height: Sequence[float| None] | float | None = None,
-            framed: Sequence[bool] | bool = False,
-            frame_colors: Sequence[str] | str = "black",
-        ) -> None:
+        self,
+        img_paths: Sequence[str],
+        margins: dict[str, tuple],
+        figsize: tuple[float, float],
+        path_data: dict,
+        number_mpl_objects: dict,
+        xlabel_mpl_objects: dict,
+        img_x_places: Sequence[float] | None = None,
+        y_placement: Sequence[str] | str = "auto",
+        y_offsets: Sequence[float] | float = 0,
+        img_series_name: str | None = None,
+        width: Sequence[float | None] | float | None = None,
+        height: Sequence[float | None] | float | None = None,
+        framed: Sequence[bool] | bool = False,
+        frame_colors: Sequence[str] | str = "black",
+    ) -> None:
         # Sanity checks
         Validators.validate_string_sequence(img_paths, "img_paths")
         Validators.validate_numeric_sequence(
@@ -125,10 +123,10 @@ class ImageManager:
             Validators.validate_string_sequence(y_placement, "y_placement")
             if len(img_paths) != len(y_placement):
                 raise ValueError(
-                    "There must be the same number " 
+                    "There must be the same number "
                     "of images and elements in y_placement."
                 )
-            
+
             for value in y_placement:
                 if value not in ALLOWED_Y_PLACEMENT:
                     raise ValueError(
@@ -162,16 +160,17 @@ class ImageManager:
         if img_x_places is not None:
             if len(img_paths) != len(img_x_places):
                 raise ValueError(
-                    "There must be the same number " 
-                    "of images and img_x_places."
+                    "There must be the same number " "of images and img_x_places."
                 )
         else:
             img_x_places = list(range(len(img_paths)))
-        
+
         # Sanity checks height
         if isinstance(height, Sequence):
             Validators.validate_numeric_sequence(
-                height, "height", allow_none_elements=True,
+                height,
+                "height",
+                allow_none_elements=True,
             )
             if len(img_paths) != len(height):
                 raise ValueError("height must have the same length as img_paths.")
@@ -185,7 +184,9 @@ class ImageManager:
         # Sanity checks width
         if isinstance(width, Sequence):
             Validators.validate_numeric_sequence(
-                width, "width",allow_none_elements=True,
+                width,
+                "width",
+                allow_none_elements=True,
             )
             if len(img_paths) != len(width):
                 raise ValueError("width must have the same length as img_paths.")
@@ -194,13 +195,11 @@ class ImageManager:
         elif width is None:
             # Only set width to default if no height value for same image
             width = [
-                constants.IMAGE_WIDTH if value is None 
-                else None 
-                for value in height
+                constants.IMAGE_WIDTH if value is None else None for value in height
             ]
         else:
             raise TypeError("width must be a Sequence, numeric value or None.")
-        
+
         # Sanity checks framed
         if isinstance(framed, (list, tuple)):
             if any([not isinstance(entry, bool) for entry in framed]):
@@ -211,18 +210,16 @@ class ImageManager:
             framed = [framed] * len(img_paths)
         else:
             raise TypeError("framed must be a Sequence of bools, or a bool.")
-        
+
         # Sanity checks frame colors
         if isinstance(frame_colors, (list, tuple)):
             if len(img_paths) != len(frame_colors):
-                raise ValueError(
-                    "frame_colors must have the same length as img_paths."
-                )
+                raise ValueError("frame_colors must have the same length as img_paths.")
         elif isinstance(frame_colors, str):
             frame_colors = [frame_colors] * len(img_paths)
         else:
             raise TypeError("frame_colors must be a Sequence, or a string")
-        
+
         self.has_image_series = True
         # Print the image for each x
         series_mpl_objects = {}
@@ -242,7 +239,7 @@ class ImageManager:
 
             # Avoid collision with numbers
             for _, numbers in number_mpl_objects.items():
-                try: 
+                try:
                     number_fontsize = numbers[f"{x:.1f}"].get_fontsize()
                     number_y = numbers[f"{x:.1f}"].get_position()[1]
                     diff_to_number = ImageManager._get_diff_number(
@@ -254,7 +251,7 @@ class ImageManager:
                         y_max_bottom = number_y - diff_to_number
                 except KeyError:
                     pass
-            
+
             # Avoid collision with label
             try:
                 label_fontsize = xlabel_mpl_objects[f"{x:.1f}"].get_fontsize()
@@ -296,12 +293,12 @@ class ImageManager:
                 width=width[index],
                 height=height[index],
                 framed=framed[index],
-                frame_color=frame_colors[index]
+                frame_color=frame_colors[index],
             )
 
             series_mpl_objects[f"{x:.1f}"] = img_object
 
-        #Save mpl objects
+        # Save mpl objects
         if img_series_name is None:
             img_series_name = f"__Series_{len(self.mpl_objects)}"
         self.mpl_objects[img_series_name] = series_mpl_objects
@@ -320,13 +317,13 @@ class ImageManager:
         }
 
     def recalculate_image_series(
-            self,
-            margins: dict[str, tuple],
-            figsize: tuple[float, float],
-            path_data: dict,
-            number_mpl_objects: dict,
-            xlabel_mpl_objects: dict, 
-        ) -> None:
+        self,
+        margins: dict[str, tuple],
+        figsize: tuple[float, float],
+        path_data: dict,
+        number_mpl_objects: dict,
+        xlabel_mpl_objects: dict,
+    ) -> None:
         # Series images are removed and redrawn; standalone images are permanent
         self._remove_image_series()
         for _, image_series in self.image_series_data.items():
@@ -350,36 +347,32 @@ class ImageManager:
                     image.remove()
 
     def _construct_image(
-            self,
-            img_path: str,
-            position: tuple[float, float] | list[float],
-            margins: dict[str, tuple],
-            figsize: tuple[float, float],
-            vertical_alignment: str = "bottom",
-            horizontal_alignment: str = "center",
-            width: float | None = None,
-            height: float | None = None,
-            framed: bool = False,
-            frame_color: str = "black",
-        ) -> ImageObject:
+        self,
+        img_path: str,
+        position: tuple[float, float] | list[float],
+        margins: dict[str, tuple],
+        figsize: tuple[float, float],
+        vertical_alignment: str = "bottom",
+        horizontal_alignment: str = "center",
+        width: float | None = None,
+        height: float | None = None,
+        framed: bool = False,
+        frame_color: str = "black",
+    ) -> ImageObject:
         def draw_frame_part(x_coords, y_coords):
             return self.figure_manager.ax.plot(
-                        x_coords, y_coords, 
-                        zorder=constants.ZORDER_IMAGE_FRAME, 
-                        ls='-', 
-                        lw=constants.LW_IMAGE_FRAME, 
-                        color=frame_color
-                     )[0]
+                x_coords,
+                y_coords,
+                zorder=constants.ZORDER_IMAGE_FRAME,
+                ls="-",
+                lw=constants.LW_IMAGE_FRAME,
+                color=frame_color,
+            )[0]
+
         # Sanity checks
-        Validators.validate_numeric_sequence(
-            position, "position", required_length=2
-        )
-        Validators.validate_number(
-            width, "width", allow_none=True, min_value=0
-        )
-        Validators.validate_number(
-            height, "height", allow_none=True, min_value=0
-        )
+        Validators.validate_numeric_sequence(position, "position", required_length=2)
+        Validators.validate_number(width, "width", allow_none=True, min_value=0)
+        Validators.validate_number(height, "height", allow_none=True, min_value=0)
 
         ALLOWED_VA_VALUES = ["top", "bottom", "center"]
         if vertical_alignment not in ALLOWED_VA_VALUES:
@@ -394,60 +387,69 @@ class ImageManager:
         img_width_px = img_file.shape[1]
         if width is None and height is None:
             width = constants.IMAGE_WIDTH
-            height = (width 
-                    * positimg_height_px / img_width_px
-                    * (margins["y"][1] - margins["y"][0])
-                    / (margins["x"][1] - margins["x"][0])
-                    * figsize[0] / figsize[1]
-                    )
+            height = (
+                width
+                * positimg_height_px
+                / img_width_px
+                * (margins["y"][1] - margins["y"][0])
+                / (margins["x"][1] - margins["x"][0])
+                * figsize[0]
+                / figsize[1]
+            )
         elif width is None:
-            width = (height 
-                    * img_width_px / positimg_height_px
-                    / (margins["y"][1] - margins["y"][0])
-                    * (margins["x"][1] - margins["x"][0])
-                    / figsize[0] * figsize[1]
-                    )
+            width = (
+                height
+                * img_width_px
+                / positimg_height_px
+                / (margins["y"][1] - margins["y"][0])
+                * (margins["x"][1] - margins["x"][0])
+                / figsize[0]
+                * figsize[1]
+            )
         elif height is None:
-            height = (width 
-                    * positimg_height_px / img_width_px
-                    * (margins["y"][1] - margins["y"][0])
-                    / (margins["x"][1] - margins["x"][0])
-                    * figsize[0] / figsize[1]
-                    )
-        
+            height = (
+                width
+                * positimg_height_px
+                / img_width_px
+                * (margins["y"][1] - margins["y"][0])
+                / (margins["x"][1] - margins["x"][0])
+                * figsize[0]
+                / figsize[1]
+            )
+
         assert width is not None
         assert height is not None
-            
+
         if horizontal_alignment == "center":
             img_x_extent = (
-                position[0] - width / 2, 
+                position[0] - width / 2,
                 position[0] + width / 2,
             )
         elif horizontal_alignment == "left":
             img_x_extent = (
-                position[0], 
+                position[0],
                 position[0] + width,
             )
         elif horizontal_alignment == "right":
             img_x_extent = (
-                position[0] - width, 
+                position[0] - width,
                 position[0],
             )
 
         if vertical_alignment == "bottom":
             img_y_extent = (
-                    position[1],
-                    position[1] + height,
+                position[1],
+                position[1] + height,
             )
         elif vertical_alignment == "top":
             img_y_extent = (
-                    position[1] - height,
-                    position[1],
+                position[1] - height,
+                position[1],
             )
         elif vertical_alignment == "center":
             img_y_extent = (
-                    position[1] - height / 2,
-                    position[1] + height / 2,
+                position[1] - height / 2,
+                position[1] + height / 2,
             )
 
         img_extent = img_x_extent + img_y_extent
@@ -456,7 +458,7 @@ class ImageManager:
         img_artist = self.figure_manager.ax.imshow(
             img_file,
             extent=img_extent,
-            interpolation="bilinear", #nearest/bilinear/bicubic (nearest ugly)
+            interpolation="bilinear",  # nearest/bilinear/bicubic (nearest ugly)
             aspect="auto",
         )
 
@@ -464,63 +466,54 @@ class ImageManager:
         border_objects = {}
         if framed:
             border_objects["top"] = draw_frame_part(
-                (img_extent[0], img_extent[1]),
-                (img_extent[3], img_extent[3])
+                (img_extent[0], img_extent[1]), (img_extent[3], img_extent[3])
             )
             border_objects["bottom"] = draw_frame_part(
-                (img_extent[0], img_extent[1]),
-                (img_extent[2], img_extent[2])
+                (img_extent[0], img_extent[1]), (img_extent[2], img_extent[2])
             )
             border_objects["left"] = draw_frame_part(
-                (img_extent[0], img_extent[0]),
-                (img_extent[2], img_extent[3])
+                (img_extent[0], img_extent[0]), (img_extent[2], img_extent[3])
             )
             border_objects["right"] = draw_frame_part(
-                (img_extent[1], img_extent[1]),
-                (img_extent[2], img_extent[3])
+                (img_extent[1], img_extent[1]), (img_extent[2], img_extent[3])
             )
         return ImageObject(img_artist, border_objects)
-        
+
     @staticmethod
     def _get_diff_plateau(
-            margins: dict[str, tuple], 
-            figsize: tuple[float, float],
-        ) -> float:
+        margins: dict[str, tuple],
+        figsize: tuple[float, float],
+    ) -> float:
         diff_to_plateau = (
             (margins["y"][1] - margins["y"][0])
-            / figsize[1] 
+            / figsize[1]
             * constants.DISTANCE_IMAGE_LINE
         )
         return diff_to_plateau
 
     @staticmethod
     def _get_diff_number(
-            margins: dict[str, tuple], 
-            figsize: tuple[float, float],
-            fontsize
-        ) -> float:
+        margins: dict[str, tuple], figsize: tuple[float, float], fontsize
+    ) -> float:
         diff_to_number = (
             (fontsize / constants.STD_FONTSIZE)
             * (margins["y"][1] - margins["y"][0])
-            / figsize[1] 
+            / figsize[1]
             * constants.DISTANCE_NUMBER_LINE
         )
         return diff_to_number
-    
+
     @staticmethod
     def _get_diff_label(
-            margins: dict[str, tuple], 
-            figsize: tuple[float, float],
-            fontsize
-        ) -> float:
+        margins: dict[str, tuple], figsize: tuple[float, float], fontsize
+    ) -> float:
         diff_to_label = (
             (fontsize / constants.STD_FONTSIZE)
             * (margins["y"][1] - margins["y"][0])
-            / figsize[1] 
+            / figsize[1]
             * constants.DISTANCE_IMAGE_LABEL
         )
         return diff_to_label
-
 
 
 @dataclass
@@ -536,6 +529,7 @@ class ImageObject:
         Frame border lines keyed by side (``"top"``, ``"bottom"``, ``"left"``,
         ``"right"``). Empty when ``framed=False``.
     """
+
     image: AxesImage
     borders: dict[str, Line2D]
 
@@ -548,6 +542,3 @@ class ImageObject:
         for _, border in self.borders.items():
             border.remove()
         self.borders = {}
-
-
-

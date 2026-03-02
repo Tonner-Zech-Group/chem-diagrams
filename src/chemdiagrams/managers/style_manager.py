@@ -18,6 +18,7 @@ if TYPE_CHECKING:
     from matplotlib.patches import Rectangle
     from matplotlib.text import Annotation, Text
 
+
 class StyleManager:
     """
     Manages the visual style and x-axis labels of the diagram.
@@ -29,56 +30,54 @@ class StyleManager:
     """
 
     def __init__(
-            self,
-            figure_manager: FigureManager,
-            style: str,
-        ) -> None:
+        self,
+        figure_manager: FigureManager,
+        style: str,
+    ) -> None:
         self.figure_manager = figure_manager
         self.style = style
-        self.mpl_objects = StyleObjects({},{},{},{},{})
+        self.mpl_objects = StyleObjects({}, {}, {}, {}, {})
         self.axes_break_data: dict[str, list] = {"x": [], "y": []}
         self.has_axes_breaks = False
         self.set_diagram_style(self.style)
-        
-    
-    
+
     def set_diagram_style(self, style: str) -> None:
         def draw_arrow(xy, xytext):
             arrow = self.figure_manager.ax.annotate(
-                    '', 
-                    xy=xy, 
-                    xytext=xytext,
-                    xycoords="axes fraction", 
-                    arrowprops=dict(
-                        arrowstyle='-|>', 
-                        color="black", 
-                        lw=0,
-                        shrinkA=0,
-                        shrinkB=0, 
-                        mutation_scale=constants.SIZE_AXIS_ARROWS,
-                        zorder=constants.ZORDER_AXIS_ARROWS,
-                        )
-                 )
+                "",
+                xy=xy,
+                xytext=xytext,
+                xycoords="axes fraction",
+                arrowprops=dict(
+                    arrowstyle="-|>",
+                    color="black",
+                    lw=0,
+                    shrinkA=0,
+                    shrinkB=0,
+                    mutation_scale=constants.SIZE_AXIS_ARROWS,
+                    zorder=constants.ZORDER_AXIS_ARROWS,
+                ),
+            )
             return arrow
-        
+
         ALLOWED_STYLES = ["boxed", "halfboxed", "open", "twosided"]
 
         if style not in ALLOWED_STYLES:
             raise ValueError(f"style must be one of {ALLOWED_STYLES}.")
-        
+
         self.style = style
 
         # Remove grid lines and set x axes to default cover_width
         self.figure_manager.ax.xaxis.grid(False)
         self.figure_manager.ax.yaxis.grid(False)
-        self.figure_manager.ax.spines["bottom"].set_position(('axes', 0))
+        self.figure_manager.ax.spines["bottom"].set_position(("axes", 0))
         self.figure_manager.ax.set_zorder(0.5)
-        
+
         # Remove unwanted objects
         self.mpl_objects.remove_axes()
         axes_dict = {}
         arrows_dict = {}
-        
+
         # Adjust axes
         if style == "boxed":
             self.figure_manager.ax.spines["top"].set_visible(True)
@@ -91,21 +90,21 @@ class StyleManager:
             self.figure_manager.ax.spines["right"].set_visible(False)
             self.figure_manager.ax.spines["left"].set_visible(True)
             self.figure_manager.ax.spines["bottom"].set_visible(True)
-            arrows_dict["x_arrow"] = draw_arrow((1.02, 0),(0.97, 0))
-            arrows_dict["y_arrow"] = draw_arrow((0, 1.02),(0, 0.97))
-            
+            arrows_dict["x_arrow"] = draw_arrow((1.02, 0), (0.97, 0))
+            arrows_dict["y_arrow"] = draw_arrow((0, 1.02), (0, 0.97))
+
         elif style == "open":
             self.figure_manager.ax.spines["top"].set_visible(False)
             self.figure_manager.ax.spines["right"].set_visible(False)
             self.figure_manager.ax.spines["left"].set_visible(True)
             self.figure_manager.ax.spines["bottom"].set_visible(False)
             axes_dict["x_axis"] = self.figure_manager.ax.axhline(
-                0, 
-                color="black", 
-                zorder=constants.ZORDER_X_AXIS, 
+                0,
+                color="black",
+                zorder=constants.ZORDER_X_AXIS,
                 lw=constants.LW_X_AXIS,
             )
-            arrows_dict["y_arrow"] = draw_arrow((0, 1.02),(0, 0.97))
+            arrows_dict["y_arrow"] = draw_arrow((0, 1.02), (0, 0.97))
 
         elif style == "twosided":
             self.figure_manager.ax.spines["top"].set_visible(False)
@@ -113,29 +112,26 @@ class StyleManager:
             self.figure_manager.ax.spines["left"].set_visible(True)
             self.figure_manager.ax.spines["bottom"].set_visible(True)
             self.figure_manager.ax.spines["bottom"].set_position(
-                ('axes', constants.X_AXIS_OFFSET_OPENSTYLE)
+                ("axes", constants.X_AXIS_OFFSET_OPENSTYLE)
             )
-            arrows_dict["x_arrow_right"] = draw_arrow((1.01, -0.03),(0.96, -0.03))
-            arrows_dict["x_arrow_left"] = draw_arrow((-0.01, -0.03),(0.04, -0.03))
-            arrows_dict["y_arrow"] = draw_arrow((0, 1.02),(0, 0.97))
+            arrows_dict["x_arrow_right"] = draw_arrow((1.01, -0.03), (0.96, -0.03))
+            arrows_dict["x_arrow_left"] = draw_arrow((-0.01, -0.03), (0.04, -0.03))
+            arrows_dict["y_arrow"] = draw_arrow((0, 1.02), (0, 0.97))
 
         self.mpl_objects.arrows = arrows_dict
         self.mpl_objects.axes = axes_dict
 
-
-
     def set_xlabels(
-            self,
-            margins: dict[str, tuple],
-            figsize: tuple[float, float],
-            path_data: dict, 
-            labels: Sequence, 
-            labelplaces: Sequence[float] | None = None, 
-            fontsize: int | None = None, 
-            weight: str = "bold", 
-            in_plot: bool = False
-        ) -> None:
-
+        self,
+        margins: dict[str, tuple],
+        figsize: tuple[float, float],
+        path_data: dict,
+        labels: Sequence,
+        labelplaces: Sequence[float] | None = None,
+        fontsize: int | None = None,
+        weight: str = "bold",
+        in_plot: bool = False,
+    ) -> None:
         # Sanity checks
         Validators.validate_numeric_sequence(
             labelplaces, "labelplaces", allow_none=True
@@ -166,20 +162,17 @@ class StyleManager:
         # Set font of x labels
         if fontsize is None:
             fontsize = self.figure_manager.fontsize
-        labelfont = font_manager.FontProperties(
-            weight=weight, 
-            size=fontsize
-        )
+        labelfont = font_manager.FontProperties(weight=weight, size=fontsize)
 
         # Set labels in the plot or at axis
-        if in_plot:       
+        if in_plot:
             for x, labeltext in zip(labelplaces, labels):
                 all_values_at_x = NumberManager._get_all_values_at_x(path_data, x)
                 if all_values_at_x:
-                    y_diff = - constants.DISTANCE_LABEL_LINE * (
+                    y_diff = -constants.DISTANCE_LABEL_LINE * (
                         (fontsize / constants.STD_FONTSIZE)
                         * (margins["y"][1] - margins["y"][0])
-                        / figsize[1] 
+                        / figsize[1]
                     )
                     y_min_at_x = min(all_values_at_x)
                     label = self.figure_manager.ax.text(
@@ -205,14 +198,14 @@ class StyleManager:
                 label.set_fontproperties(labelfont)
 
     def add_xaxis_break(
-            self,
-            margins: dict[str, tuple],
-            figsize: tuple[float, float],
-            x: float,
-            gap_scale: float = 1,
-            stopper_scale: float = 1,
-            angle: float =  30,
-        ) -> None:
+        self,
+        margins: dict[str, tuple],
+        figsize: tuple[float, float],
+        x: float,
+        gap_scale: float = 1,
+        stopper_scale: float = 1,
+        angle: float = 30,
+    ) -> None:
         Validators.validate_number(x, "x")
         Validators.validate_number(gap_scale, "gap_scale", min_value=0)
         Validators.validate_number(stopper_scale, "stopper_scale", min_value=0)
@@ -228,30 +221,27 @@ class StyleManager:
             )
 
             # cover_width in y axis fraction
-            cover_width = (
-                constants.AXIS_BREAK_COVER_WIDTH
-                / figsize[1]
-            )
+            cover_width = constants.AXIS_BREAK_COVER_WIDTH / figsize[1]
 
-            # Add white covering reactange 
+            # Add white covering reactange
             # x in data coords, y in axis fractions
             rect = mpatches.Rectangle(
-                (x_pos - gap / 2, y_pos - cover_width / 2),                         
-                gap,       
-                cover_width,                          
+                (x_pos - gap / 2, y_pos - cover_width / 2),
+                gap,
+                cover_width,
                 transform=self.figure_manager.ax.get_xaxis_transform(),
-                facecolor='white',
-                edgecolor='white',
+                facecolor="white",
+                edgecolor="white",
                 zorder=constants.ZORDER_AXIS_BREAK_COVER,
                 clip_on=False,
             )
             self.figure_manager.ax.add_artist(rect)
-            
+
             # Convert stopper angle
             # delta_x in data coords, delta_y in axis coords
             delta_x = np.cos(angle * np.pi / 180) * 0.001
             delta_y = (
-                np.sin(angle * np.pi / 180) 
+                np.sin(angle * np.pi / 180)
                 * 0.001
                 / (margins["x"][1] - margins["x"][0])
                 * figsize[1]
@@ -260,54 +250,48 @@ class StyleManager:
 
             # Draw stoppers
             stopper_1 = self.figure_manager.ax.annotate(
-                '', 
-                xy=(x_pos - gap/2, y_pos), 
-                xytext=(
-                    x_pos - gap/2 + delta_x, 
-                    y_pos + delta_y
-                ),
+                "",
+                xy=(x_pos - gap / 2, y_pos),
+                xytext=(x_pos - gap / 2 + delta_x, y_pos + delta_y),
                 xycoords=self.figure_manager.ax.get_xaxis_transform(),
                 arrowprops=dict(
-                    arrowstyle='|-|', 
-                    color="black", 
-                    lw=constants.LW_AXIS_BREAK_STOPPER, 
-                    shrinkA=15, 
-                    shrinkB=15, 
-                    mutation_scale=constants.SIZE_AXIS_BREAK_STOPPER*stopper_scale,
+                    arrowstyle="|-|",
+                    color="black",
+                    lw=constants.LW_AXIS_BREAK_STOPPER,
+                    shrinkA=15,
+                    shrinkB=15,
+                    mutation_scale=constants.SIZE_AXIS_BREAK_STOPPER * stopper_scale,
                     zorder=constants.ZORDER_AXIS_BREAK_STOPPER,
-                )
+                ),
             )
             stopper_1.set_zorder(constants.ZORDER_AXIS_BREAK_STOPPER)
 
             stopper_2 = self.figure_manager.ax.annotate(
-                '', 
-                xy=(x_pos + gap/2, y_pos), 
-                xytext=(
-                    x_pos + gap/2 + delta_x, 
-                    y_pos + delta_y
-                ),
+                "",
+                xy=(x_pos + gap / 2, y_pos),
+                xytext=(x_pos + gap / 2 + delta_x, y_pos + delta_y),
                 xycoords=self.figure_manager.ax.get_xaxis_transform(),
                 arrowprops=dict(
-                    arrowstyle='|-|', 
-                    color="black", 
-                    lw=constants.LW_AXIS_BREAK_STOPPER, 
-                    shrinkA=15, 
-                    shrinkB=15, 
-                    mutation_scale=constants.SIZE_AXIS_BREAK_STOPPER*stopper_scale,
+                    arrowstyle="|-|",
+                    color="black",
+                    lw=constants.LW_AXIS_BREAK_STOPPER,
+                    shrinkA=15,
+                    shrinkB=15,
+                    mutation_scale=constants.SIZE_AXIS_BREAK_STOPPER * stopper_scale,
                     zorder=constants.ZORDER_AXIS_BREAK_STOPPER,
-                )
+                ),
             )
             stopper_2.set_zorder(constants.ZORDER_AXIS_BREAK_STOPPER)
 
             return AxisBreak(rect, stopper_1, stopper_2)
-        
+
         self.has_axes_breaks = True
         if self.style == "open":
             raise NotImplementedError(
                 "x-axis breaks are not compatible with open diagram style"
             )
         elif self.style == "halfboxed":
-            break_object = draw_xaxis_break(x, 0) 
+            break_object = draw_xaxis_break(x, 0)
         elif self.style == "boxed":
             break_object_bottom = draw_xaxis_break(x, 0)
             break_object_top = draw_xaxis_break(x, 1)
@@ -321,24 +305,24 @@ class StyleManager:
         self.mpl_objects.xaxis_breaks[f"{x:.1f}"] = break_object
 
         # Save for redrawing
-        self.axes_break_data["x"].append({
-            "x": x,
-            "gap_scale": gap_scale,
-            "stopper_scale": stopper_scale,
-            "angle": angle,
-        })
-
-
+        self.axes_break_data["x"].append(
+            {
+                "x": x,
+                "gap_scale": gap_scale,
+                "stopper_scale": stopper_scale,
+                "angle": angle,
+            }
+        )
 
     def add_yaxis_break(
-            self,
-            margins: dict[str, tuple],
-            figsize: tuple[float, float],
-            y: float,
-            gap_scale: float = 1,
-            stopper_scale: float = 1,
-            angle: float = 30,
-        ) -> None:
+        self,
+        margins: dict[str, tuple],
+        figsize: tuple[float, float],
+        y: float,
+        gap_scale: float = 1,
+        stopper_scale: float = 1,
+        angle: float = 30,
+    ) -> None:
         Validators.validate_number(y, "y")
         Validators.validate_number(gap_scale, "gap_scale", min_value=0)
         Validators.validate_number(stopper_scale, "stopper_scale", min_value=0)
@@ -354,21 +338,17 @@ class StyleManager:
             )
 
             # Cover_width in x axis fraction
-            cover_width = (
-                constants.AXIS_BREAK_COVER_WIDTH
-                / figsize[0]
+            cover_width = constants.AXIS_BREAK_COVER_WIDTH / figsize[0]
 
-            )
-
-            # Add white covering reactange 
+            # Add white covering reactange
             # y in data coords, x in axis fractions
             rect = mpatches.Rectangle(
-                (x_pos - cover_width / 2, y_pos - gap / 2),                         
-                cover_width,       
-                gap,                          
+                (x_pos - cover_width / 2, y_pos - gap / 2),
+                cover_width,
+                gap,
                 transform=self.figure_manager.ax.get_yaxis_transform(),
-                facecolor='white',
-                edgecolor='white',
+                facecolor="white",
+                edgecolor="white",
                 zorder=constants.ZORDER_AXIS_BREAK_COVER,
                 clip_on=False,
             )
@@ -376,55 +356,46 @@ class StyleManager:
 
             # Convert stopper angle
             delta_x = (
-                np.sin(angle * np.pi / 180) 
+                np.sin(angle * np.pi / 180)
                 * 0.001
                 / (margins["y"][1] - margins["y"][0])
                 * figsize[1]
                 / figsize[0]
             )
-            delta_y = (
-                np.cos(angle * np.pi / 180) 
-                * 0.001
-            )
+            delta_y = np.cos(angle * np.pi / 180) * 0.001
 
             # Draw stoppers
             stopper_1 = self.figure_manager.ax.annotate(
-                '', 
-                xy=(x_pos, y_pos - gap/2), 
-                xytext=(
-                    x_pos + delta_x, 
-                    y_pos - gap/2 + delta_y
-                ),
+                "",
+                xy=(x_pos, y_pos - gap / 2),
+                xytext=(x_pos + delta_x, y_pos - gap / 2 + delta_y),
                 xycoords=self.figure_manager.ax.get_yaxis_transform(),
                 arrowprops=dict(
-                    arrowstyle='|-|', 
-                    color="black", 
-                    lw=constants.LW_AXIS_BREAK_STOPPER, 
-                    shrinkA=15, 
-                    shrinkB=15, 
-                    mutation_scale=constants.SIZE_AXIS_BREAK_STOPPER*stopper_scale,
+                    arrowstyle="|-|",
+                    color="black",
+                    lw=constants.LW_AXIS_BREAK_STOPPER,
+                    shrinkA=15,
+                    shrinkB=15,
+                    mutation_scale=constants.SIZE_AXIS_BREAK_STOPPER * stopper_scale,
                     zorder=constants.ZORDER_AXIS_BREAK_STOPPER,
-                )
+                ),
             )
             stopper_1.set_zorder(constants.ZORDER_AXIS_BREAK_STOPPER)
 
             stopper_2 = self.figure_manager.ax.annotate(
-                '', 
-                xy=(x_pos, y_pos + gap/2), 
-                xytext=(
-                    x_pos + delta_x, 
-                    y_pos + gap/2 + delta_y
-                ),
+                "",
+                xy=(x_pos, y_pos + gap / 2),
+                xytext=(x_pos + delta_x, y_pos + gap / 2 + delta_y),
                 xycoords=self.figure_manager.ax.get_yaxis_transform(),
                 arrowprops=dict(
-                    arrowstyle='|-|', 
-                    color="black", 
-                    lw=constants.LW_AXIS_BREAK_STOPPER, 
-                    shrinkA=15, 
-                    shrinkB=15, 
-                    mutation_scale=constants.SIZE_AXIS_BREAK_STOPPER*stopper_scale,
+                    arrowstyle="|-|",
+                    color="black",
+                    lw=constants.LW_AXIS_BREAK_STOPPER,
+                    shrinkA=15,
+                    shrinkB=15,
+                    mutation_scale=constants.SIZE_AXIS_BREAK_STOPPER * stopper_scale,
                     zorder=constants.ZORDER_AXIS_BREAK_STOPPER,
-                )
+                ),
             )
             stopper_2.set_zorder(constants.ZORDER_AXIS_BREAK_STOPPER)
 
@@ -442,21 +413,22 @@ class StyleManager:
             break_object = draw_xaxis_break(0, y)
 
         self.mpl_objects.yaxis_breaks[f"{y:.1f}"] = break_object
-        
-        # Save for redrawing
-        self.axes_break_data["y"].append({
-            "y": y,
-            "gap_scale": gap_scale,
-            "stopper_scale": stopper_scale,
-            "angle": angle,
-        })
 
+        # Save for redrawing
+        self.axes_break_data["y"].append(
+            {
+                "y": y,
+                "gap_scale": gap_scale,
+                "stopper_scale": stopper_scale,
+                "angle": angle,
+            }
+        )
 
     def recalculate_axis_breaks(
-            self,
-            margins: dict[str, tuple],
-            figsize: tuple[float, float],
-        ) -> None:
+        self,
+        margins: dict[str, tuple],
+        figsize: tuple[float, float],
+    ) -> None:
         self.mpl_objects.remove_axes_breaks()
         xaxis_breaks = self.axes_break_data["x"][:]
         yaxis_breaks = self.axes_break_data["y"][:]
@@ -464,13 +436,13 @@ class StyleManager:
         self.axes_break_data["y"] = []
         for x_break in xaxis_breaks:
             self.add_xaxis_break(
-                margins=margins, 
+                margins=margins,
                 figsize=figsize,
                 **x_break,
             )
         for y_break in yaxis_breaks:
             self.add_yaxis_break(
-                margins=margins, 
+                margins=margins,
                 figsize=figsize,
                 **y_break,
             )
@@ -500,11 +472,12 @@ class StyleObjects:
         Y-axis break artists, keyed by position as a formatted string
         (e.g. ``"5.0"``).
     """
+
     arrows: dict[str, Annotation]
     axes: dict[str, Line2D]
     x_labels: dict[str, Text]
-    xaxis_breaks: dict[str, AxisBreak | dict[str, AxisBreak]] 
-    yaxis_breaks: dict[str, AxisBreak | dict[str, AxisBreak]] 
+    xaxis_breaks: dict[str, AxisBreak | dict[str, AxisBreak]]
+    yaxis_breaks: dict[str, AxisBreak | dict[str, AxisBreak]]
 
     def remove_axes(self):
         for _, arrow in self.arrows.items():
@@ -527,7 +500,7 @@ class StyleObjects:
             axis_break.remove()
         self.xaxis_breaks = {}
         self.yaxis_breaks = {}
-    
+
     def remove_labels(self):
         for _, label in self.x_labels.items():
             label.remove()
@@ -544,6 +517,3 @@ class AxisBreak:
         self.whitespace.remove()
         self.stopper_1.remove()
         self.stopper_2.remove()
-
-
-    

@@ -21,10 +21,10 @@ class FigureManager:
     """
 
     def __init__(
-            self,
-            fontsize: int = constants.STD_FONTSIZE, 
-            dpi: int = 150,
-        ) -> None:
+        self,
+        fontsize: int = constants.STD_FONTSIZE,
+        dpi: int = 150,
+    ) -> None:
         """
         Initialize the Matplotlib figure and configure default tick styling.
 
@@ -45,10 +45,7 @@ class FigureManager:
         self.fig = plt.figure(dpi=dpi)
         self.ax = self.fig.gca()
         self.ax.tick_params(
-            which='both', direction="inout", top=False, right=False, bottom=False
+            which="both", direction="inout", top=False, right=False, bottom=False
         )
-        self.ax.tick_params(which='both',labelsize=fontsize)
+        self.ax.tick_params(which="both", labelsize=fontsize)
         self.fontsize = fontsize
-
-
-
