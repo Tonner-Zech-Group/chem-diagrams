@@ -113,9 +113,7 @@ class ImageManager:
     ) -> None:
         # Sanity checks
         Validators.validate_string_sequence(img_paths, "img_paths")
-        Validators.validate_numeric_sequence(
-            img_x_places, "img_places", allow_none=True
-        )
+        Validators.validate_numeric_sequence(img_x_places, "img_places", allow_none=True)
 
         # Sanity checks y_placement
         ALLOWED_Y_PLACEMENT = ["top", "bottom", "auto"]
@@ -123,15 +121,13 @@ class ImageManager:
             Validators.validate_string_sequence(y_placement, "y_placement")
             if len(img_paths) != len(y_placement):
                 raise ValueError(
-                    "There must be the same number "
-                    "of images and elements in y_placement."
+                    "There must be the same number of images and elements in y_placement."
                 )
 
             for value in y_placement:
                 if value not in ALLOWED_Y_PLACEMENT:
                     raise ValueError(
-                        f"All values of y_placement must be one"
-                        f"of {ALLOWED_Y_PLACEMENT}."
+                        f"All values of y_placement must be oneof {ALLOWED_Y_PLACEMENT}."
                     )
         else:
             if y_placement not in ALLOWED_Y_PLACEMENT:
@@ -143,8 +139,7 @@ class ImageManager:
             Validators.validate_numeric_sequence(y_offsets, "y_offsets")
             if len(img_paths) != len(y_offsets):
                 raise ValueError(
-                    "There must be the same number of images "
-                    "and elements in y_offsets."
+                    "There must be the same number of images and elements in y_offsets."
                 )
         else:
             if not isinstance(y_offsets, (int, float)):
@@ -159,9 +154,7 @@ class ImageManager:
         # Sanity checks img_x_places
         if img_x_places is not None:
             if len(img_paths) != len(img_x_places):
-                raise ValueError(
-                    "There must be the same number " "of images and img_x_places."
-                )
+                raise ValueError("There must be the same number of images and img_x_places.")
         else:
             img_x_places = list(range(len(img_paths)))
 
@@ -194,9 +187,7 @@ class ImageManager:
             width = [width] * len(img_paths)
         elif width is None:
             # Only set width to default if no height value for same image
-            width = [
-                constants.IMAGE_WIDTH if value is None else None for value in height
-            ]
+            width = [constants.IMAGE_WIDTH if value is None else None for value in height]
         else:
             raise TypeError("width must be a Sequence, numeric value or None.")
 
@@ -256,9 +247,7 @@ class ImageManager:
             try:
                 label_fontsize = xlabel_mpl_objects[f"{x:.1f}"].get_fontsize()
                 label_y = xlabel_mpl_objects[f"{x:.1f}"].get_position()[1]
-                diff_to_label = ImageManager._get_diff_label(
-                    margins, figsize, label_fontsize
-                )
+                diff_to_label = ImageManager._get_diff_label(margins, figsize, label_fontsize)
                 if label_y + diff_to_label > y_min_top:
                     y_min_top = label_y + diff_to_label
                 if label_y - diff_to_label < y_max_bottom:
@@ -485,9 +474,7 @@ class ImageManager:
         figsize: tuple[float, float],
     ) -> float:
         diff_to_plateau = (
-            (margins["y"][1] - margins["y"][0])
-            / figsize[1]
-            * constants.DISTANCE_IMAGE_LINE
+            (margins["y"][1] - margins["y"][0]) / figsize[1] * constants.DISTANCE_IMAGE_LINE
         )
         return diff_to_plateau
 

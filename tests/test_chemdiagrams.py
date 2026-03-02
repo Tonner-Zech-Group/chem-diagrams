@@ -216,16 +216,12 @@ class TestNumbering:
 class TestDifferenceBars:
     def test_basic_bar(self):
         dia = make_diagram()
-        result = dia.draw_difference_bar(
-            x=2.5, y_start_end=(-22, 28), description="ΔE: "
-        )
+        result = dia.draw_difference_bar(x=2.5, y_start_end=(-22, 28), description="ΔE: ")
         assert result is dia
 
     def test_bar_left_side(self):
         dia = make_diagram()
-        dia.draw_difference_bar(
-            x=0.5, y_start_end=(0, 28), description="ΔE: ", left_side=True
-        )
+        dia.draw_difference_bar(x=0.5, y_start_end=(0, 28), description="ΔE: ", left_side=True)
 
     def test_bar_no_auto_diff(self):
         dia = make_diagram()
@@ -238,9 +234,7 @@ class TestDifferenceBars:
 
     def test_bar_custom_color(self):
         dia = make_diagram()
-        dia.draw_difference_bar(
-            x=2.5, y_start_end=(-22, 28), description="ΔE: ", color="red"
-        )
+        dia.draw_difference_bar(x=2.5, y_start_end=(-22, 28), description="ΔE: ", color="red")
 
     def test_bar_whiskers(self):
         dia = make_diagram()

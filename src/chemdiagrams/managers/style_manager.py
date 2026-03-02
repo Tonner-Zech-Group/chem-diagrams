@@ -133,15 +133,11 @@ class StyleManager:
         in_plot: bool = False,
     ) -> None:
         # Sanity checks
-        Validators.validate_numeric_sequence(
-            labelplaces, "labelplaces", allow_none=True
-        )
+        Validators.validate_numeric_sequence(labelplaces, "labelplaces", allow_none=True)
         Validators.validate_number(fontsize, "fontsize", allow_none=True, min_value=0)
         if labelplaces is not None:
             if len(labels) != len(labelplaces):
-                raise ValueError(
-                    "There must be the same number of labels and labelplaces."
-                )
+                raise ValueError("There must be the same number of labels and labelplaces.")
 
         # Create labelplace list if none given
         if labelplaces is None:

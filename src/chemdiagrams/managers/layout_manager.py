@@ -31,9 +31,7 @@ class LayoutManager:
         Validators.validate_numeric_sequence(
             extra_y_margin, "extra_x_margin", required_length=2
         )
-        Validators.validate_number(
-            width_limit, "width_limit", min_value=0, allow_none=True
-        )
+        Validators.validate_number(width_limit, "width_limit", min_value=0, allow_none=True)
 
         self.figure_manager = figure_manager
         self.figsize = figsize

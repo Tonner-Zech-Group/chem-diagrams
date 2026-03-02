@@ -164,9 +164,7 @@ class EnergyDiagram:
         self._bar_manager = BarManager(self._figure_manager)
         self._image_manager = ImageManager(self._figure_manager)
         self.verbose = verbose
-        self.margins = self._layout_manager.adjust_xy_limits(
-            self._path_manager.path_data
-        )
+        self.margins = self._layout_manager.adjust_xy_limits(self._path_manager.path_data)
         self.figsize = self._layout_manager.scale_figure(self._path_manager.path_data)
 
     def draw_difference_bar(
@@ -279,9 +277,7 @@ class EnergyDiagram:
         patches = []
         for path_name, path_info in self._path_manager.path_data.items():
             if path_info["has_label"]:
-                patches.append(
-                    mpatches.Patch(color=path_info["color"], label=path_name)
-                )
+                patches.append(mpatches.Patch(color=path_info["color"], label=path_name))
         self._figure_manager.ax.legend(handles=patches, fontsize=fontsize, loc=loc)
         return self
 
@@ -292,9 +288,7 @@ class EnergyDiagram:
         """
         figsize = self._layout_manager.scale_figure(self._path_manager.path_data)
         if self.verbose:
-            print(
-                f"Figure size is {round(figsize[0],2)} x {round(figsize[1],2)} inches."
-            )
+            print(f"Figure size is {round(figsize[0], 2)} x {round(figsize[1], 2)} inches.")
         plt.show()
 
     ############################################################
@@ -361,9 +355,7 @@ class EnergyDiagram:
             path_name=path_name,
             show_numbers=show_numbers,
         )
-        self.margins = self._layout_manager.adjust_xy_limits(
-            self._path_manager.path_data
-        )
+        self.margins = self._layout_manager.adjust_xy_limits(self._path_manager.path_data)
         self.figsize = self._layout_manager.scale_figure(self._path_manager.path_data)
         self._recalculate_xlabels()
         self._recalculate_axis_breaks()

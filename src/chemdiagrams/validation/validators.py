@@ -37,9 +37,7 @@ class Validators:
             elif not all(isinstance(val, (int, float)) for val in seq):
                 raise TypeError(f"{name} can only contain numeric values.")
             if min_value is not None and any(min_value > val for val in seq):
-                raise ValueError(
-                    f"{name} cannot contain values smaller than {min_value}."
-                )
+                raise ValueError(f"{name} cannot contain values smaller than {min_value}.")
             if required_length is not None and len(seq) != required_length:
                 raise ValueError(f"{name} must be of length {required_length}.")
 
@@ -62,9 +60,7 @@ class Validators:
         if num is not None:
             if min_value is not None:
                 if min_value > num:
-                    raise ValueError(
-                        f"{name} must be equal or larger than {min_value}."
-                    )
+                    raise ValueError(f"{name} must be equal or larger than {min_value}.")
             if only_integer:
                 if not isinstance(num, int):
                     raise TypeError(f"{name} must be an integer.")

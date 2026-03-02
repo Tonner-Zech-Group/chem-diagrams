@@ -151,8 +151,7 @@ class PathManager:
         y_right = full_plateau_right.get_segments()[0][0][1]
         if y_left != y_right:
             raise ValueError(
-                f"{path_name_left} and {path_name_right} "
-                f"must have the same y at x = {x}."
+                f"{path_name_left} and {path_name_right} must have the same y at x = {x}."
             )
         y = y_left
 

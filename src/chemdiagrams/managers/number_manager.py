@@ -99,12 +99,8 @@ class NumberManager:
             # Find y where to print
             y_print_start = max(num["y"] for num in numbers_to_stack)
             if no_overlap_with_nonnumbered:
-                all_numbers_at_x = NumberManager._get_all_values_at_x(
-                    path_data, x_current
-                )
-                higher_numbers_at_x = [
-                    val for val in all_numbers_at_x if val > y_print_start
-                ]
+                all_numbers_at_x = NumberManager._get_all_values_at_x(path_data, x_current)
+                higher_numbers_at_x = [val for val in all_numbers_at_x if val > y_print_start]
                 while True:
                     no_number_overlap = NumberManager._check_no_number_overlap(
                         y_print_start,
@@ -177,9 +173,7 @@ class NumberManager:
                     if y_print_start >= number["y"]:
                         numbers_to_stack_current.append(number)
                 # Determine every value greater than where to print
-                higher_numbers_at_x = [
-                    val for val in all_numbers_at_x if val > y_print_start
-                ]
+                higher_numbers_at_x = [val for val in all_numbers_at_x if val > y_print_start]
                 # Increse print height, until no overlap
                 while True:
                     no_overlap = NumberManager._check_no_number_overlap(
@@ -200,8 +194,7 @@ class NumberManager:
                             fontsize,
                         )
                         y_last_printed = (
-                            y_print_start
-                            + (len(numbers_to_stack_current) - 1) * diff_per_step
+                            y_print_start + (len(numbers_to_stack_current) - 1) * diff_per_step
                         )
                         n_numbers_printed += len(numbers_to_stack_current)
                         break
@@ -309,16 +302,13 @@ class NumberManager:
         # Convert x_min_max to an inclusive interval
         if x_min_max is not None:
             if isinstance(x_min_max, (Sequence)):
-                Validators.validate_numeric_sequence(
-                    x_min_max, "x_min_max", required_length=2
-                )
+                Validators.validate_numeric_sequence(x_min_max, "x_min_max", required_length=2)
                 x_min_max_new = (x_min_max[0], x_min_max[1])
             elif isinstance(x_min_max, (int, float)):
                 x_min_max_new = (x_min_max, x_min_max)
             else:
                 raise TypeError(
-                    "x_min_max must be a tuple or list "
-                    "with length 2 or a numeric value."
+                    "x_min_max must be a tuple or list with length 2 or a numeric value."
                 )
         else:
             x_min_max_new = (-np.inf, np.inf)
@@ -356,9 +346,7 @@ class NumberManager:
         # Select y values at ax
         numbers_at_x = []
         for path in path_data.values():
-            numbers_at_x += [
-                path["y"][i] for i in range(len(path["x"])) if path["x"][i] == x
-            ]
+            numbers_at_x += [path["y"][i] for i in range(len(path["x"])) if path["x"][i] == x]
         return sorted(numbers_at_x)
 
     @staticmethod
