@@ -53,3 +53,10 @@ select = ["E", "F", "I"]
 [[tool.mypy.overrides]]
 module = ["matplotlib.*"]
 ignore_missing_imports = true
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "mypy",
+    "ruff",
+]
