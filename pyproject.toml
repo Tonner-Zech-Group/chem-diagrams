@@ -39,6 +39,9 @@ Repository = "https://github.com/Tonner-Zech-Group/chem-diagrams"
 where = ["src"]
 include = ["chemdiagrams*"]
 
+[tool.setuptools.package-data]
+chemdiagrams = ["py.typed"]
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 
