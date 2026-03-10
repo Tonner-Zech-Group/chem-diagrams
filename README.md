@@ -55,9 +55,7 @@ dia.show()
 
 ## Installation
 
-Clone this repository and run pip install . inside the main directory.
-
-You can also use the latest release by installing it from PyPi:
+You can use the latest release by installing it from PyPi:
 
 ```bash
 pip install chemdiagrams

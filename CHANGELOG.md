@@ -6,9 +6,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 This project does not yet follow semantic versioning; a versioning policy
 will be adopted before the 1.0.0 release.
 
-## [Unreleased]
-
-## [0.0.1] — 2025-01-01
+## [0.0.1] — 2026-03-10
 
 Initial public release.
 

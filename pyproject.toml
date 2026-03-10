@@ -10,7 +10,7 @@ keywords = ["chemistry", "energy diagram", "reaction profile", "potential energy
 readme = "README.md"
 license = { file = "LICENSE" }
 authors = [
-    { name = "Tim Bastian Enders" }
+    { name = "Tim Bastian Enders", email = "chemistry.tim.enders@gmail.com" }
 ]
 requires-python = ">=3.10"
 dependencies = [
@@ -34,6 +34,7 @@ classifiers = [
 [project.urls]
 Repository = "https://github.com/Tonner-Zech-Group/chem-diagrams"
 "Bug Tracker" = "https://github.com/Tonner-Zech-Group/chem-diagrams/issues"
+"Homepage" = "https://github.com/Tonner-Zech-Group"
 
 [tool.setuptools.packages.find]
 where = ["src"]
