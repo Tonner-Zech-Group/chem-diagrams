@@ -687,18 +687,14 @@ class TestImagePlacement:
         """Image series placed before add_numbers_auto should be repositioned after."""
         dia = EnergyDiagram()
         dia.draw_path([0, 1, 2], [0, 10, -5], color="blue")
-        dia.add_image_series_in_plot(
-            [png_path, png_path, png_path], img_series_name="s"
-        )
+        dia.add_image_series_in_plot([png_path, png_path, png_path], img_series_name="s")
         dia.add_numbers_auto()
         assert "s" in dia.images
 
     def test_add_image_series_recalculates_after_xlabels(self, png_path):
         dia = EnergyDiagram()
         dia.draw_path([0, 1, 2], [0, 10, -5], color="blue")
-        dia.add_image_series_in_plot(
-            [png_path, png_path, png_path], img_series_name="s"
-        )
+        dia.add_image_series_in_plot([png_path, png_path, png_path], img_series_name="s")
         dia.set_xlabels(["A", "B", "C"])
         assert "s" in dia.images
 
@@ -708,9 +704,7 @@ class TestImagePlacement:
         dia = EnergyDiagram()
         dia.draw_path([0, 1, 2], [0, 10, -5], color="blue")
         with pytest.raises(ValueError):
-            dia.add_image_series_in_plot(
-                [png_path, png_path], img_x_places=[0, 1, 2]
-            )
+            dia.add_image_series_in_plot([png_path, png_path], img_x_places=[0, 1, 2])
 
     def test_add_image_series_invalid_y_placement_raises(self, png_path):
         dia = EnergyDiagram()
@@ -730,9 +724,7 @@ class TestImagePlacement:
         dia = EnergyDiagram()
         dia.draw_path([0, 1, 2], [0, 10, -5], color="blue")
         with pytest.raises(ValueError):
-            dia.add_image_series_in_plot(
-                [png_path, png_path, png_path], y_offsets=[1, 2]
-            )
+            dia.add_image_series_in_plot([png_path, png_path, png_path], y_offsets=[1, 2])
 
     def test_add_image_series_mismatched_height_list_raises(self, png_path):
         dia = EnergyDiagram()
@@ -774,9 +766,7 @@ class TestImagePlacement:
         dia = EnergyDiagram()
         dia.draw_path([0, 1], [0, 10], color="blue")
         with pytest.raises(ValueError):
-            dia.add_image_series_in_plot(
-                [png_path, png_path], frame_colors=["red"]
-            )
+            dia.add_image_series_in_plot([png_path, png_path], frame_colors=["red"])
 
     def test_add_image_series_invalid_frame_colors_type_raises(self, png_path):
         dia = EnergyDiagram()
@@ -814,17 +804,13 @@ class TestImagePlacement:
         dia = EnergyDiagram()
         dia.draw_path([0, 1], [0, 10], color="blue")
         with pytest.raises(ValueError):
-            dia.add_image_in_plot(
-                png_path, position=(0, 5), vertical_alignment="diagonal"
-            )
+            dia.add_image_in_plot(png_path, position=(0, 5), vertical_alignment="diagonal")
 
     def test_add_image_in_plot_invalid_horizontal_alignment_raises(self, png_path):
         dia = EnergyDiagram()
         dia.draw_path([0, 1], [0, 10], color="blue")
         with pytest.raises(ValueError):
-            dia.add_image_in_plot(
-                png_path, position=(0, 5), horizontal_alignment="diagonal"
-            )
+            dia.add_image_in_plot(png_path, position=(0, 5), horizontal_alignment="diagonal")
 
     def test_add_image_in_plot_horizontal_alignment_left(self, png_path):
         dia = EnergyDiagram()
@@ -845,9 +831,7 @@ class TestImagePlacement:
     def test_image_object_remove_frame(self, png_path):
         dia = EnergyDiagram()
         dia.draw_path([0, 1], [0, 10], color="blue")
-        dia.add_image_in_plot(
-            png_path, position=(0, 5), framed=True, img_name="framed"
-        )
+        dia.add_image_in_plot(png_path, position=(0, 5), framed=True, img_name="framed")
         img_obj = dia.images["framed"]
         assert img_obj.borders  # has borders before removal
         img_obj.remove_frame()
@@ -1019,13 +1003,15 @@ class TestStyleManagerExtra:
     def test_set_xlabels_in_plot_no_data_warns(self, capsys):
         """in_plot label at an x with no path data should warn."""
         dia = make_diagram()  # path at x=0..4
-        dia.set_xlabels(["A", "B", "C", "D", "E", "X"], labelplaces=[0, 1, 2, 3, 4, 9],
-                        in_plot=True)
+        dia.set_xlabels(
+            ["A", "B", "C", "D", "E", "X"], labelplaces=[0, 1, 2, 3, 4, 9], in_plot=True
+        )
         captured = capsys.readouterr()
         assert "Warning" in captured.out
 
     def test_ax_objects_property(self):
         from chemdiagrams.managers.style_manager import StyleObjects
+
         dia = EnergyDiagram()
         assert isinstance(dia.ax_objects, StyleObjects)
 
