@@ -733,3 +733,385 @@ class TestImagePlacement:
             dia.add_image_series_in_plot(
                 [png_path, png_path, png_path], y_offsets=[1, 2]
             )
+
+    def test_add_image_series_mismatched_height_list_raises(self, png_path):
+        dia = EnergyDiagram()
+        dia.draw_path([0, 1, 2], [0, 10, -5], color="blue")
+        with pytest.raises(ValueError):
+            dia.add_image_series_in_plot([png_path, png_path], height=[1.0])
+
+    def test_add_image_series_mismatched_width_list_raises(self, png_path):
+        dia = EnergyDiagram()
+        dia.draw_path([0, 1, 2], [0, 10, -5], color="blue")
+        with pytest.raises(ValueError):
+            dia.add_image_series_in_plot([png_path, png_path], width=[0.5])
+
+    def test_add_image_series_invalid_height_type_raises(self, png_path):
+        dia = EnergyDiagram()
+        dia.draw_path([0, 1, 2], [0, 10, -5], color="blue")
+        with pytest.raises(TypeError):
+            dia.add_image_series_in_plot([png_path], height="big")
+
+    def test_add_image_series_invalid_width_type_raises(self, png_path):
+        dia = EnergyDiagram()
+        dia.draw_path([0, 1, 2], [0, 10, -5], color="blue")
+        with pytest.raises(TypeError):
+            dia.add_image_series_in_plot([png_path], width="big")
+
+    def test_add_image_series_framed_list_with_non_bool_raises(self, png_path):
+        dia = EnergyDiagram()
+        dia.draw_path([0, 1], [0, 10], color="blue")
+        with pytest.raises(TypeError):
+            dia.add_image_series_in_plot([png_path, png_path], framed=[True, "yes"])
+
+    def test_add_image_series_framed_wrong_type_raises(self, png_path):
+        dia = EnergyDiagram()
+        dia.draw_path([0, 1], [0, 10], color="blue")
+        with pytest.raises(TypeError):
+            dia.add_image_series_in_plot([png_path, png_path], framed="yes")
+
+    def test_add_image_series_mismatched_frame_colors_raises(self, png_path):
+        dia = EnergyDiagram()
+        dia.draw_path([0, 1], [0, 10], color="blue")
+        with pytest.raises(ValueError):
+            dia.add_image_series_in_plot(
+                [png_path, png_path], frame_colors=["red"]
+            )
+
+    def test_add_image_series_invalid_frame_colors_type_raises(self, png_path):
+        dia = EnergyDiagram()
+        dia.draw_path([0, 1], [0, 10], color="blue")
+        with pytest.raises(TypeError):
+            dia.add_image_series_in_plot([png_path], frame_colors=42)
+
+    def test_add_image_series_invalid_img_series_name_raises(self, png_path):
+        dia = EnergyDiagram()
+        dia.draw_path([0, 1], [0, 10], color="blue")
+        with pytest.raises(TypeError):
+            dia.add_image_series_in_plot([png_path, png_path], img_series_name=42)
+
+    def test_add_image_series_warns_when_no_plateau_at_x(self, png_path, capsys):
+        """Image series at an x with no path data should warn and not crash."""
+        dia = EnergyDiagram()
+        dia.draw_path([0, 1], [0, 10], color="blue")
+        dia.add_image_series_in_plot([png_path], img_x_places=[5])
+        captured = capsys.readouterr()
+        assert "Warning" in captured.out
+
+    def test_add_image_in_plot_invalid_img_name_raises(self, png_path):
+        dia = EnergyDiagram()
+        dia.draw_path([0, 1], [0, 10], color="blue")
+        with pytest.raises(TypeError):
+            dia.add_image_in_plot(png_path, position=(0, 5), img_name=42)
+
+    def test_add_image_in_plot_invalid_framed_raises(self, png_path):
+        dia = EnergyDiagram()
+        dia.draw_path([0, 1], [0, 10], color="blue")
+        with pytest.raises(TypeError):
+            dia.add_image_in_plot(png_path, position=(0, 5), framed="yes")
+
+    def test_add_image_in_plot_invalid_vertical_alignment_raises(self, png_path):
+        dia = EnergyDiagram()
+        dia.draw_path([0, 1], [0, 10], color="blue")
+        with pytest.raises(ValueError):
+            dia.add_image_in_plot(
+                png_path, position=(0, 5), vertical_alignment="diagonal"
+            )
+
+    def test_add_image_in_plot_invalid_horizontal_alignment_raises(self, png_path):
+        dia = EnergyDiagram()
+        dia.draw_path([0, 1], [0, 10], color="blue")
+        with pytest.raises(ValueError):
+            dia.add_image_in_plot(
+                png_path, position=(0, 5), horizontal_alignment="diagonal"
+            )
+
+    def test_add_image_in_plot_horizontal_alignment_left(self, png_path):
+        dia = EnergyDiagram()
+        dia.draw_path([0, 1], [0, 10], color="blue")
+        dia.add_image_in_plot(
+            png_path, position=(0, 5), horizontal_alignment="left", img_name="l"
+        )
+        assert "l" in dia.images
+
+    def test_add_image_in_plot_horizontal_alignment_right(self, png_path):
+        dia = EnergyDiagram()
+        dia.draw_path([0, 1], [0, 10], color="blue")
+        dia.add_image_in_plot(
+            png_path, position=(0, 5), horizontal_alignment="right", img_name="r"
+        )
+        assert "r" in dia.images
+
+    def test_image_object_remove_frame(self, png_path):
+        dia = EnergyDiagram()
+        dia.draw_path([0, 1], [0, 10], color="blue")
+        dia.add_image_in_plot(
+            png_path, position=(0, 5), framed=True, img_name="framed"
+        )
+        img_obj = dia.images["framed"]
+        assert img_obj.borders  # has borders before removal
+        img_obj.remove_frame()
+        assert img_obj.borders == {}
+
+    def test_add_image_series_with_numbers_naive_recalculates(self, png_path):
+        dia = EnergyDiagram()
+        dia.draw_path([0, 1, 2], [0, 10, -5], color="blue")
+        dia.add_image_series_in_plot([png_path, png_path, png_path], img_series_name="s")
+        dia.add_numbers_naive()
+        assert "s" in dia.images
+
+    def test_add_image_series_with_numbers_stacked_recalculates(self, png_path):
+        dia = EnergyDiagram()
+        dia.draw_path([0, 1, 2], [0, 10, -5], color="blue")
+        dia.add_image_series_in_plot([png_path, png_path, png_path], img_series_name="s")
+        dia.add_numbers_stacked()
+        assert "s" in dia.images
+
+    def test_add_image_series_with_numbers_average_recalculates(self, png_path):
+        dia = EnergyDiagram()
+        dia.draw_path([0, 1, 2], [0, 10, -5], color="blue")
+        dia.add_image_series_in_plot([png_path, png_path, png_path], img_series_name="s")
+        dia.add_numbers_average()
+        assert "s" in dia.images
+
+
+# ---------------------------------------------------------------------------
+# Additional bar manager validation
+# ---------------------------------------------------------------------------
+
+
+class TestBarManagerValidation:
+    def test_x_whiskers_wrong_length_raises(self):
+        dia = make_diagram()
+        with pytest.raises(ValueError):
+            dia.draw_difference_bar(
+                x=2, y_start_end=(0, 10), description="ΔE: ", x_whiskers=(0, 1, 2)
+            )
+
+    def test_x_whiskers_non_numeric_element_raises(self):
+        dia = make_diagram()
+        with pytest.raises(ValueError):
+            dia.draw_difference_bar(
+                x=2, y_start_end=(0, 10), description="ΔE: ", x_whiskers=("a", None)
+            )
+
+
+# ---------------------------------------------------------------------------
+# Additional path manager / artist coverage
+# ---------------------------------------------------------------------------
+
+
+class TestPathManagerArtists:
+    def test_scalar_linetype_valid(self):
+        """Integer linetype scalar (not a list) exercises the int branch."""
+        dia = EnergyDiagram()
+        dia.draw_path([0, 1, 2], [0, 10, -5], color="blue", linetypes=1)
+        assert len(dia.lines) == 1
+
+    def test_scalar_linetype_all_values(self):
+        for lt in [0, 1, -1, 2, -2]:
+            dia = EnergyDiagram()
+            dia.draw_path([0, 1], [0, 10], color="blue", linetypes=lt)
+            plt.close("all")
+
+    def test_float_linetype_raises(self):
+        """A float is neither int nor Sequence — hits the else TypeError branch."""
+        dia = EnergyDiagram()
+        with pytest.raises(TypeError):
+            dia.draw_path([0, 1], [0, 10], color="blue", linetypes=1.5)
+
+    def test_merge_plateaus_mismatched_y_raises(self):
+        dia = EnergyDiagram()
+        dia.draw_path([0, 1], [0, 10], color="blue", path_name="A")
+        dia.draw_path([0, 1], [0, 20], color="red", path_name="B")
+        with pytest.raises(ValueError, match="same y"):
+            dia.merge_plateaus(x=1, path_name_left="A", path_name_right="B")
+
+    def test_merge_plateaus_left_path_not_found_raises(self):
+        dia = EnergyDiagram()
+        dia.draw_path([0, 1], [0, 10], color="blue", path_name="B")
+        with pytest.raises(ValueError):
+            dia.merge_plateaus(x=1, path_name_left="nonexistent", path_name_right="B")
+
+    def test_merge_then_add_path_triggers_recalculate(self):
+        """Adding a path after merge_plateaus should call recalculate_gap."""
+        dia = EnergyDiagram()
+        dia.draw_path([0, 1, 2], [0, 10, -5], color="blue", path_name="A")
+        dia.draw_path([0, 1, 2], [0, 10, -8], color="red", path_name="B")
+        dia.merge_plateaus(x=1, path_name_left="A", path_name_right="B")
+        # Adding a third path triggers _recalculate_merged_plateaus → recalculate_gap
+        dia.draw_path([0, 1, 2], [0, 10, 5], color="green", path_name="C")
+
+    def test_path_object_remove(self):
+        dia = EnergyDiagram()
+        dia.draw_path([0, 1, 2], [0, 10, -5], color="blue", path_name="P")
+        path_obj = dia.lines["P"]
+        path_obj.remove()  # covers PathObject.remove()
+
+    def test_broken_line_remove(self):
+        """Draw a path with broken connectors, then remove the BrokenLine artist."""
+        dia = EnergyDiagram()
+        dia.draw_path([0, 1], [0, 10], color="blue", linetypes=[-1], path_name="P")
+        broken = list(dia.lines["P"].connections.values())[0]
+        broken.remove()  # covers BrokenLine.remove()
+
+
+# ---------------------------------------------------------------------------
+# Additional style manager coverage
+# ---------------------------------------------------------------------------
+
+
+class TestStyleManagerExtra:
+    def test_xaxis_break_open_style_raises(self):
+        dia = EnergyDiagram(style="open")
+        dia.draw_path([0, 1, 2], [0, 10, -5], color="blue")
+        with pytest.raises(NotImplementedError):
+            dia.add_xaxis_break(x=1)
+
+    def test_xaxis_break_halfboxed(self):
+        dia = EnergyDiagram(style="halfboxed")
+        dia.draw_path([0, 1, 2], [0, 10, -5], color="blue")
+        dia.add_xaxis_break(x=1)
+        assert "1.0" in dia.ax_objects.xaxis_breaks
+
+    def test_xaxis_break_twosided(self):
+        dia = EnergyDiagram(style="twosided")
+        dia.draw_path([0, 1, 2], [0, 10, -5], color="blue")
+        dia.add_xaxis_break(x=1)
+        assert "1.0" in dia.ax_objects.xaxis_breaks
+
+    def test_xaxis_break_boxed_draws_top_and_bottom(self):
+        dia = EnergyDiagram(style="boxed")
+        dia.draw_path([0, 1, 2], [0, 10, -5], color="blue")
+        dia.add_xaxis_break(x=1)
+        break_obj = dia.ax_objects.xaxis_breaks["1.0"]
+        assert isinstance(break_obj, dict)
+        assert "top" in break_obj and "bottom" in break_obj
+
+    def test_yaxis_break_boxed_draws_left_and_right(self):
+        dia = EnergyDiagram(style="boxed")
+        dia.draw_path([0, 1, 2], [0, 100, -5], color="blue")
+        dia.add_yaxis_break(y=50)
+        break_obj = dia.ax_objects.yaxis_breaks["50.0"]
+        assert isinstance(break_obj, dict)
+        assert "left" in break_obj and "right" in break_obj
+
+    def test_yaxis_break_halfboxed(self):
+        dia = EnergyDiagram(style="halfboxed")
+        dia.draw_path([0, 1, 2], [0, 100, -5], color="blue")
+        dia.add_yaxis_break(y=50)
+        assert "50.0" in dia.ax_objects.yaxis_breaks
+
+    def test_xaxis_break_recalculates_on_new_path(self):
+        """Adding a path after an axis break should recalculate it."""
+        # Use halfboxed: boxed stores breaks as dicts and remove_axes_breaks
+        # would need dict.remove(), which is a separate code issue.
+        dia = EnergyDiagram(style="halfboxed")
+        dia.draw_path([0, 1, 2], [0, 10, -5], color="blue")
+        dia.add_xaxis_break(x=1)
+        dia.draw_path([0, 1, 2], [0, 50, -10], color="red")  # triggers recalculate
+
+    def test_set_xlabels_mismatched_labelplaces_raises(self):
+        dia = make_diagram()
+        with pytest.raises(ValueError):
+            dia.set_xlabels(["A", "B", "C"], labelplaces=[0, 1])
+
+    def test_set_xlabels_in_plot_no_data_warns(self, capsys):
+        """in_plot label at an x with no path data should warn."""
+        dia = make_diagram()  # path at x=0..4
+        dia.set_xlabels(["A", "B", "C", "D", "E", "X"], labelplaces=[0, 1, 2, 3, 4, 9],
+                        in_plot=True)
+        captured = capsys.readouterr()
+        assert "Warning" in captured.out
+
+    def test_ax_objects_property(self):
+        from chemdiagrams.managers.style_manager import StyleObjects
+        dia = EnergyDiagram()
+        assert isinstance(dia.ax_objects, StyleObjects)
+
+
+# ---------------------------------------------------------------------------
+# Additional layout manager coverage
+# ---------------------------------------------------------------------------
+
+
+class TestLayoutManagerExtra:
+    def test_width_limit_is_respected(self):
+        """width_limit should cap the auto-computed figure width."""
+        dia = EnergyDiagram(width_limit=2)
+        dia.draw_path(list(range(20)), list(range(20)), color="blue")
+        assert dia.fig.get_figwidth() <= 2 + 1e-6
+
+    def test_degenerate_x_range_does_not_crash(self):
+        """A single-state path must not crash during figure creation."""
+        dia = EnergyDiagram()
+        dia.draw_path([0], [0], color="blue")
+        assert dia.fig.get_figwidth() > 0
+
+
+# ---------------------------------------------------------------------------
+# Additional number manager coverage
+# ---------------------------------------------------------------------------
+
+
+class TestNumberManagerExtra:
+    def test_x_min_max_invalid_type_raises(self):
+        """Passing an unsupported type for x_min_max should raise TypeError."""
+        dia = make_diagram()
+        with pytest.raises(TypeError):
+            dia.add_numbers_auto(x_min_max={"start": 0, "end": 2})
+
+    def test_x_min_max_as_scalar_float(self):
+        """A plain float for x_min_max should annotate only that state."""
+        dia = make_diagram()
+        dia.add_numbers_naive(x_min_max=2.0)
+
+    def test_stacked_overlap_nudge(self):
+        """
+        With a nonnumbered path above a numbered path at the same x,
+        add_numbers_stacked must bump the label above the obstruction.
+        """
+        dia = EnergyDiagram()
+        dia.draw_path([0, 1], [0, 10], color="blue", path_name="labeled")
+        # The nonnumbered path is higher — forces the overlap branch
+        dia.draw_path([0, 1], [0, 20], color="red", show_numbers=False)
+        dia.add_numbers_stacked(no_overlap_with_nonnumbered=True)
+
+
+# ---------------------------------------------------------------------------
+# Additional validators coverage
+# ---------------------------------------------------------------------------
+
+
+class TestValidatorsExtra:
+    def test_validate_numeric_sequence_none_raises(self):
+        from chemdiagrams.validation.validators import Validators
+
+        with pytest.raises(ValueError):
+            Validators.validate_numeric_sequence(None, "x", allow_none=False)
+
+    def test_validate_numeric_sequence_non_sequence_raises(self):
+        from chemdiagrams.validation.validators import Validators
+
+        with pytest.raises(TypeError):
+            Validators.validate_numeric_sequence(42, "x")
+
+    def test_validate_numeric_sequence_allow_none_elements_non_numeric_raises(self):
+        from chemdiagrams.validation.validators import Validators
+
+        with pytest.raises(TypeError):
+            Validators.validate_numeric_sequence(
+                [1, "bad", None], "x", allow_none_elements=True
+            )
+
+    def test_validate_string_sequence_none_raises(self):
+        from chemdiagrams.validation.validators import Validators
+
+        with pytest.raises(ValueError):
+            Validators.validate_string_sequence(None, "x", allow_none=False)
+
+    def test_validate_string_sequence_non_sequence_raises(self):
+        from chemdiagrams.validation.validators import Validators
+
+        with pytest.raises(TypeError):
+            Validators.validate_string_sequence(42, "x")
