@@ -9,6 +9,7 @@ Or from the project root with the src layout:
 """
 
 import matplotlib
+import numpy as np
 import pytest
 
 matplotlib.use("Agg")  # non-interactive backend — no display required
@@ -18,6 +19,7 @@ from matplotlib.axes import Axes
 from matplotlib.figure import Figure
 
 from chemdiagrams import EnergyDiagram
+from chemdiagrams.managers.image_manager import ImageObject
 
 # ---------------------------------------------------------------------------
 # Helpers
@@ -482,3 +484,252 @@ class TestIntegration:
         margins_2 = dia.margins
         # y-range should have grown
         assert margins_2 != margins_1
+
+
+# ---------------------------------------------------------------------------
+# draw_path — invalid input validation
+# ---------------------------------------------------------------------------
+
+
+class TestDrawPathValidation:
+    def test_mismatched_xy_lengths_raises(self):
+        dia = EnergyDiagram()
+        with pytest.raises(ValueError, match="same length"):
+            dia.draw_path([0, 1, 2], [0, 10], color="blue")
+
+    def test_invalid_linetype_value_raises(self):
+        dia = EnergyDiagram()
+        with pytest.raises(ValueError):
+            dia.draw_path([0, 1], [0, 10], color="blue", linetypes=[99])
+
+    def test_linetype_wrong_length_raises(self):
+        dia = EnergyDiagram()
+        with pytest.raises(ValueError):
+            dia.draw_path([0, 1, 2], [0, 10, 5], color="blue", linetypes=[1, 1, 1])
+
+    def test_non_numeric_x_data_raises(self):
+        dia = EnergyDiagram()
+        with pytest.raises(TypeError):
+            dia.draw_path(["a", "b"], [0, 10], color="blue")
+
+    def test_non_numeric_y_data_raises(self):
+        dia = EnergyDiagram()
+        with pytest.raises(TypeError):
+            dia.draw_path([0, 1], ["a", "b"], color="blue")
+
+    def test_duplicate_path_name_raises(self):
+        dia = EnergyDiagram()
+        dia.draw_path([0, 1], [0, 10], color="blue", path_name="P")
+        with pytest.raises(ValueError):
+            dia.draw_path([0, 1], [0, 5], color="red", path_name="P")
+
+    def test_non_string_path_name_raises(self):
+        dia = EnergyDiagram()
+        with pytest.raises(TypeError):
+            dia.draw_path([0, 1], [0, 10], color="blue", path_name=42)
+
+    def test_linetype_as_invalid_scalar_raises(self):
+        dia = EnergyDiagram()
+        with pytest.raises(ValueError):
+            dia.draw_path([0, 1], [0, 10], color="blue", linetypes=99)
+
+    def test_linetype_wrong_type_raises(self):
+        # A string is a Sequence in Python, so it reaches the value check
+        # rather than the type check and raises ValueError.
+        dia = EnergyDiagram()
+        with pytest.raises((TypeError, ValueError)):
+            dia.draw_path([0, 1], [0, 10], color="blue", linetypes="dotted")
+
+
+# ---------------------------------------------------------------------------
+# EnergyDiagram constructor — invalid input validation
+# ---------------------------------------------------------------------------
+
+
+class TestConstructorValidation:
+    def test_invalid_style_raises(self):
+        with pytest.raises(ValueError):
+            EnergyDiagram(style="fancy")
+
+    def test_extra_y_margin_wrong_length_raises(self):
+        with pytest.raises(ValueError):
+            EnergyDiagram(extra_y_margin=(0.1,))
+
+    def test_extra_x_margin_wrong_length_raises(self):
+        with pytest.raises(ValueError):
+            EnergyDiagram(extra_x_margin=(0.1,))
+
+    def test_extra_y_margin_non_numeric_raises(self):
+        with pytest.raises(TypeError):
+            EnergyDiagram(extra_y_margin=("a", "b"))
+
+    def test_width_limit_negative_raises(self):
+        with pytest.raises(ValueError):
+            EnergyDiagram(width_limit=-1)
+
+    def test_figsize_negative_raises(self):
+        with pytest.raises(ValueError):
+            EnergyDiagram(figsize=(-1, 4))
+
+    def test_figsize_wrong_length_raises(self):
+        with pytest.raises(ValueError):
+            EnergyDiagram(figsize=(6,))
+
+
+# ---------------------------------------------------------------------------
+# Image placement
+# ---------------------------------------------------------------------------
+
+
+@pytest.fixture()
+def png_path(tmp_path):
+    """Write a tiny 4×4 RGBA PNG and return its path as a string."""
+    img_file = tmp_path / "test_image.png"
+    arr = np.zeros((4, 4, 4), dtype=np.uint8)
+    arr[:, :, 3] = 255  # fully opaque
+    plt.imsave(str(img_file), arr)
+    return str(img_file)
+
+
+class TestImagePlacement:
+    def test_add_image_in_plot_returns_self(self, png_path):
+        dia = EnergyDiagram()
+        dia.draw_path([0, 1, 2], [0, 10, -5], color="blue")
+        result = dia.add_image_in_plot(png_path, position=(1, 5))
+        assert result is dia
+
+    def test_add_image_in_plot_stored_in_images(self, png_path):
+        dia = EnergyDiagram()
+        dia.draw_path([0, 1, 2], [0, 10, -5], color="blue")
+        dia.add_image_in_plot(png_path, position=(1, 5), img_name="my_img")
+        assert "my_img" in dia.images
+        assert isinstance(dia.images["my_img"], ImageObject)
+
+    def test_add_image_in_plot_auto_name(self, png_path):
+        dia = EnergyDiagram()
+        dia.draw_path([0, 1, 2], [0, 10, -5], color="blue")
+        dia.add_image_in_plot(png_path, position=(1, 5))
+        assert len(dia.images) == 1
+
+    def test_add_image_in_plot_framed(self, png_path):
+        dia = EnergyDiagram()
+        dia.draw_path([0, 1, 2], [0, 10, -5], color="blue")
+        dia.add_image_in_plot(png_path, position=(1, 5), img_name="framed", framed=True)
+        img_obj = dia.images["framed"]
+        assert set(img_obj.borders.keys()) == {"top", "bottom", "left", "right"}
+
+    def test_add_image_in_plot_not_framed_has_no_borders(self, png_path):
+        dia = EnergyDiagram()
+        dia.draw_path([0, 1, 2], [0, 10, -5], color="blue")
+        dia.add_image_in_plot(png_path, position=(1, 5), img_name="plain", framed=False)
+        assert dia.images["plain"].borders == {}
+
+    def test_add_image_in_plot_with_explicit_width(self, png_path):
+        dia = EnergyDiagram()
+        dia.draw_path([0, 1, 2], [0, 10, -5], color="blue")
+        dia.add_image_in_plot(png_path, position=(1, 5), width=0.4)
+
+    def test_add_image_in_plot_with_explicit_height(self, png_path):
+        dia = EnergyDiagram()
+        dia.draw_path([0, 1, 2], [0, 10, -5], color="blue")
+        dia.add_image_in_plot(png_path, position=(1, 5), height=3.0)
+
+    def test_add_image_series_returns_self(self, png_path):
+        dia = EnergyDiagram()
+        dia.draw_path([0, 1, 2], [0, 10, -5], color="blue")
+        result = dia.add_image_series_in_plot([png_path, png_path, png_path])
+        assert result is dia
+
+    def test_add_image_series_stored_by_name(self, png_path):
+        dia = EnergyDiagram()
+        dia.draw_path([0, 1, 2], [0, 10, -5], color="blue")
+        dia.add_image_series_in_plot(
+            [png_path, png_path, png_path], img_series_name="my_series"
+        )
+        assert "my_series" in dia.images
+        assert isinstance(dia.images["my_series"], dict)
+
+    def test_add_image_series_keyed_by_x(self, png_path):
+        dia = EnergyDiagram()
+        dia.draw_path([0, 1, 2], [0, 10, -5], color="blue")
+        dia.add_image_series_in_plot(
+            [png_path, png_path, png_path],
+            img_x_places=[0, 1, 2],
+            img_series_name="s",
+        )
+        assert set(dia.images["s"].keys()) == {"0.0", "1.0", "2.0"}
+
+    def test_add_image_series_placement_top(self, png_path):
+        dia = EnergyDiagram()
+        dia.draw_path([0, 1, 2], [0, 10, -5], color="blue")
+        dia.add_image_series_in_plot(
+            [png_path, png_path, png_path], y_placement="top", img_series_name="top"
+        )
+        assert "top" in dia.images
+
+    def test_add_image_series_placement_bottom(self, png_path):
+        dia = EnergyDiagram()
+        dia.draw_path([0, 1, 2], [0, 10, -5], color="blue")
+        dia.add_image_series_in_plot(
+            [png_path, png_path, png_path], y_placement="bottom", img_series_name="bot"
+        )
+        assert "bot" in dia.images
+
+    def test_add_image_series_per_image_placement(self, png_path):
+        dia = EnergyDiagram()
+        dia.draw_path([0, 1, 2], [0, 10, -5], color="blue")
+        dia.add_image_series_in_plot(
+            [png_path, png_path, png_path],
+            y_placement=["top", "auto", "bottom"],
+        )
+
+    def test_add_image_series_with_numbers_recalculates(self, png_path):
+        """Image series placed before add_numbers_auto should be repositioned after."""
+        dia = EnergyDiagram()
+        dia.draw_path([0, 1, 2], [0, 10, -5], color="blue")
+        dia.add_image_series_in_plot(
+            [png_path, png_path, png_path], img_series_name="s"
+        )
+        dia.add_numbers_auto()
+        assert "s" in dia.images
+
+    def test_add_image_series_recalculates_after_xlabels(self, png_path):
+        dia = EnergyDiagram()
+        dia.draw_path([0, 1, 2], [0, 10, -5], color="blue")
+        dia.add_image_series_in_plot(
+            [png_path, png_path, png_path], img_series_name="s"
+        )
+        dia.set_xlabels(["A", "B", "C"])
+        assert "s" in dia.images
+
+    # --- validation ---
+
+    def test_add_image_series_mismatched_x_places_raises(self, png_path):
+        dia = EnergyDiagram()
+        dia.draw_path([0, 1, 2], [0, 10, -5], color="blue")
+        with pytest.raises(ValueError):
+            dia.add_image_series_in_plot(
+                [png_path, png_path], img_x_places=[0, 1, 2]
+            )
+
+    def test_add_image_series_invalid_y_placement_raises(self, png_path):
+        dia = EnergyDiagram()
+        dia.draw_path([0, 1, 2], [0, 10, -5], color="blue")
+        with pytest.raises(ValueError):
+            dia.add_image_series_in_plot([png_path], y_placement="sideways")
+
+    def test_add_image_series_mismatched_y_placement_list_raises(self, png_path):
+        dia = EnergyDiagram()
+        dia.draw_path([0, 1, 2], [0, 10, -5], color="blue")
+        with pytest.raises(ValueError):
+            dia.add_image_series_in_plot(
+                [png_path, png_path, png_path], y_placement=["top", "bottom"]
+            )
+
+    def test_add_image_series_mismatched_y_offsets_raises(self, png_path):
+        dia = EnergyDiagram()
+        dia.draw_path([0, 1, 2], [0, 10, -5], color="blue")
+        with pytest.raises(ValueError):
+            dia.add_image_series_in_plot(
+                [png_path, png_path, png_path], y_offsets=[1, 2]
+            )
