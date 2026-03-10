@@ -29,7 +29,7 @@ class LayoutManager:
             extra_x_margin, "extra_x_margin", required_length=2
         )
         Validators.validate_numeric_sequence(
-            extra_y_margin, "extra_x_margin", required_length=2
+            extra_y_margin, "extra_y_margin", required_length=2
         )
         Validators.validate_number(width_limit, "width_limit", min_value=0, allow_none=True)
 

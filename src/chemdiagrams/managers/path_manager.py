@@ -168,7 +168,7 @@ class PathManager:
             x - constants.WIDTH_PLATEAU / 2,
             x - gap / 2,
             zorder=constants.ZORDER_PLATEAU,
-            lw=constants.ZORDER_PLATEAU,
+            lw=constants.LW_PLATEAU,
             color=color_left,
             capstyle="round",
         )
@@ -177,7 +177,7 @@ class PathManager:
             x + constants.WIDTH_PLATEAU / 2,
             x + gap / 2,
             zorder=constants.ZORDER_PLATEAU,
-            lw=constants.ZORDER_PLATEAU,
+            lw=constants.LW_PLATEAU,
             color=color_right,
             capstyle="round",
         )
@@ -397,7 +397,7 @@ class PathManager:
     ) -> float:
         cover_width = (
             constants.MERGED_PLATEAU_COVER_WIDTH
-            * (margins["y"][1] - margins["x"][0])
+            * (margins["y"][1] - margins["y"][0])
             / figsize[1]
         )
         return cover_width
