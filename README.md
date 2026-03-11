@@ -3,7 +3,7 @@
 [![PyPI version](https://img.shields.io/pypi/v/chemdiagrams.svg)](https://pypi.org/project/chemdiagrams/)
 [![Python versions](https://img.shields.io/pypi/pyversions/chemdiagrams.svg)](https://pypi.org/project/chemdiagrams/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.ZENODO_DOI.svg)](https://doi.org/10.5281/zenodo.ZENODO_DOI)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18957965.svg)](https://doi.org/10.5281/zenodo.18957965)
 
 A Python package for creating publication-quality reaction energy diagrams with Matplotlib.
 
@@ -372,7 +372,7 @@ A full set of examples covering all features is available in [`examples/example_
 If you use chemdiagrams in published work, please consider citing the repository:
 
 ```
-Tim Bastian Enders, chemdiagrams, https://github.com/Tonner-Zech-Group/chem-diagrams
+Tim Bastian Enders, chemdiagrams, https://github.com/Tonner-Zech-Group/chem-diagrams, https://doi.org/10.5281/zenodo.18957965
 ```
 
 ## License

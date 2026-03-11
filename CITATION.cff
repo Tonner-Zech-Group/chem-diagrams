@@ -6,8 +6,8 @@ version: "0.1.0"
 date-released: "2026-03-11"
 license: MIT
 repository-code: "https://github.com/Tonner-Zech-Group/chem-diagrams"
-url: "https://zenodo.org/records/ZENODO_RECORD_ID"  # TODO: replace with actual Zenodo record URL after first deposit
-doi: "10.5281/zenodo.ZENODO_DOI"  # TODO: replace with actual Zenodo DOI after first deposit
+url: "https://zenodo.org/records/18957965"
+doi: "10.5281/zenodo.18957965"
 authors:
   - family-names: "Enders"
     given-names: "Tim Bastian"
