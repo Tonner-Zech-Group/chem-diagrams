@@ -1,4 +1,3 @@
-Readme · MD
 # chemdiagrams
 
 [![PyPI version](https://img.shields.io/pypi/v/chemdiagrams.svg)](https://pypi.org/project/chemdiagrams/)
@@ -151,6 +150,23 @@ dia.set_diagram_style("halfboxed")  # open | halfboxed | boxed | twosided
 The style can be set at construction via `EnergyDiagram(style="boxed")` or changed afterwards with `set_diagram_style`.
 
 ![Diagram styles](https://raw.githubusercontent.com/Tonner-Zech-Group/chem-diagrams/main/docs/img/example_styles.png)
+
+### X-axis labels
+
+By default labels are placed **below** the x-axis:
+```python
+dia.set_xlabels(["A", "TS", "B"], fontsize=8, weight="normal")
+```
+
+Pass `in_plot=True` to render them **inside** the plot area, directly below the lowest energy state.
+```python
+dia.set_xlabels(["A", "TS", "B"], in_plot=True)
+```
+
+Use `labelplaces` to set explicit x-coordinates instead of the default sequential placement:
+```python
+dia.set_xlabels(["A", "TS", "B"], labelplaces=[0, 2, 3])
+```
 
 ### Energy labels
 
@@ -349,7 +365,7 @@ img_at_x1.borders["bottom"].set_linestyle("--")
 
 ## Examples
 
-A full set of examples covering all features is available in [`examples/example_use.ipynb`](examples/example_use.ipynb).
+A full set of examples covering all features is available in [`examples/example_use.ipynb`](https://github.com/Tonner-Zech-Group/chem-diagrams/blob/main/examples/example_use.ipynb).
 
 ## Citation
 
