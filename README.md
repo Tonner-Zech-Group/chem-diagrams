@@ -1,4 +1,3 @@
-Readme · MD
 # chemdiagrams
 
 [![PyPI version](https://img.shields.io/pypi/v/chemdiagrams.svg)](https://pypi.org/project/chemdiagrams/)
@@ -348,7 +347,7 @@ img_at_x1.borders["bottom"].set_linestyle("--")
 
 ## Examples
 
-A full set of examples covering all features is available in [`examples/example_use.ipynb`](examples/example_use.ipynb).
+A full set of examples covering all features is available in [`examples/example_use.ipynb`](https://github.com/Tonner-Zech-Group/chem-diagrams/blob/main/examples/example_use.ipynb).
 
 ## Citation
 
