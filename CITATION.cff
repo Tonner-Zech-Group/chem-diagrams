@@ -1,0 +1,23 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it using the metadata below."
+title: "chemdiagrams"
+abstract: "Publication-quality reaction energy diagrams for computational chemistry"
+version: "0.1.0"
+date-released: "2026-03-11"
+license: MIT
+repository-code: "https://github.com/Tonner-Zech-Group/chem-diagrams"
+url: "https://zenodo.org/records/ZENODO_RECORD_ID"  # TODO: replace with actual Zenodo record URL after first deposit
+doi: "10.5281/zenodo.ZENODO_DOI"  # TODO: replace with actual Zenodo DOI after first deposit
+authors:
+  - family-names: "Enders"
+    given-names: "Tim Bastian"
+    email: "chemistry.tim.enders@gmail.com"
+keywords:
+  - chemistry
+  - energy diagram
+  - reaction profile
+  - potential energy surface
+  - matplotlib
+  - computational chemistry
+  - theoretical chemistry
+  - visualization

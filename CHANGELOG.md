@@ -6,6 +6,13 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 This project does not yet follow semantic versioning; a versioning policy
 will be adopted before the 1.0.0 release.
 
+## [0.1.0] — 2026-03-11
+
+### Changed
+
+- Bumped version to 0.1.0 for first PyPI release
+- Added `__version__` attribute to package (`chemdiagrams.__version__`)
+
 ## [0.0.1] — 2026-03-10
 
 Initial public release.
