@@ -150,6 +150,23 @@ The style can be set at construction via `EnergyDiagram(style="boxed")` or chang
 
 ![Diagram styles](https://raw.githubusercontent.com/Tonner-Zech-Group/chem-diagrams/main/docs/img/example_styles.png)
 
+### X-axis labels
+
+By default labels are placed **below** the x-axis:
+```python
+dia.set_xlabels(["A", "TS", "B"], fontsize=8, weight="normal")
+```
+
+Pass `in_plot=True` to render them **inside** the plot area, directly below the lowest energy state.
+```python
+dia.set_xlabels(["A", "TS", "B"], in_plot=True)
+```
+
+Use `labelplaces` to set explicit x-coordinates instead of the default sequential placement:
+```python
+dia.set_xlabels(["A", "TS", "B"], labelplaces=[0, 2, 3])
+```
+
 ### Energy labels
 
 Four numbering strategies are available. Call them after all paths have been drawn.
