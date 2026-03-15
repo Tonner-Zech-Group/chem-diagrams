@@ -6,6 +6,13 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 This project does not yet follow semantic versioning; a versioning policy
 will be adopted before the 1.0.0 release.
 
+## [0.1.1] — 2026-03-15
+
+### Changed
+
+- Added `borderless` style option.
+- Fixed placement bug of multiline x-axis labels when `in_plot=True`.
+
 ## [0.1.0] — 2026-03-11
 
 ### Changed
