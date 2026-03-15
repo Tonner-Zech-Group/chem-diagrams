@@ -12,7 +12,7 @@ ZORDER_WHISKER = 0.8
 
 
 #################################
-# Image Manager
+# Figure Manager
 #################################
 
 # Standard fontsize
@@ -106,6 +106,7 @@ X_AXIS_OFFSET_OPENSTYLE = -0.03
 
 # Label (in_plot=True) parameters
 DISTANCE_LABEL_LINE = 0.12
+DISTANCE_LABEL_NEWLINE = 0.095
 ZORDER_X_LABEL = 1
 
 # Axes break cover parameters in inches or degree

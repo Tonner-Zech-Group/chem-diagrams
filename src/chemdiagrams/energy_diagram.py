@@ -505,8 +505,8 @@ class EnergyDiagram:
         ----------
         style : str
             Name of the style preset to apply. Supported values
-            are ``"open"``, ``"boxed"``, ``"halfboxed"`` and
-            ``"twosided"``. Default style is ``"open"``.
+            are ``"boxed"``, ``"halfboxed"``, ``"open"``, ``"twosided"``
+            and ``"borderless"``. Default style is ``"open"``.
 
         Returns
         -------

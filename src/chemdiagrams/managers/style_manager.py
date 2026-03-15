@@ -2,9 +2,11 @@ from __future__ import annotations
 
 from collections.abc import Sequence
 from dataclasses import dataclass
+from re import findall
 from typing import TYPE_CHECKING
 
 import matplotlib.patches as mpatches
+import matplotlib.ticker as ticker
 import numpy as np
 from matplotlib import font_manager
 
@@ -24,8 +26,8 @@ class StyleManager:
     Manages the visual style and x-axis labels of the diagram.
 
     Handles spine visibility, axis arrows, and background elements
-    for the four supported styles: ``"boxed"``, ``"halfboxed"``,
-    ``"open"``, and ``"twosided"``. Also manages x-axis label
+    for the five supported styles: ``"boxed"``, ``"halfboxed"``,
+    ``"open"``, ``"twosided"`` and ``"borderless"``. Also manages x-axis label
     placement, either below the axis or inside the plot area.
     """
 
@@ -60,7 +62,7 @@ class StyleManager:
             )
             return arrow
 
-        ALLOWED_STYLES = ["boxed", "halfboxed", "open", "twosided"]
+        ALLOWED_STYLES = ["boxed", "halfboxed", "open", "twosided", "borderless"]
 
         if style not in ALLOWED_STYLES:
             raise ValueError(f"style must be one of {ALLOWED_STYLES}.")
@@ -78,6 +80,10 @@ class StyleManager:
         axes_dict = {}
         arrows_dict = {}
 
+        # Reset y labels and ticks automatically
+        self.figure_manager.ax.yaxis.set_major_locator(ticker.AutoLocator())
+        self.figure_manager.ax.yaxis.set_major_formatter(ticker.ScalarFormatter())
+
         # Adjust axes
         if style == "boxed":
             self.figure_manager.ax.spines["top"].set_visible(True)
@@ -90,8 +96,8 @@ class StyleManager:
             self.figure_manager.ax.spines["right"].set_visible(False)
             self.figure_manager.ax.spines["left"].set_visible(True)
             self.figure_manager.ax.spines["bottom"].set_visible(True)
-            arrows_dict["x_arrow"] = draw_arrow((1.02, 0), (0.97, 0))
-            arrows_dict["y_arrow"] = draw_arrow((0, 1.02), (0, 0.97))
+            arrows_dict["x_arrow"] = draw_arrow((1.01, 0), (0.97, 0))
+            arrows_dict["y_arrow"] = draw_arrow((0, 1.01), (0, 0.97))
 
         elif style == "open":
             self.figure_manager.ax.spines["top"].set_visible(False)
@@ -104,7 +110,7 @@ class StyleManager:
                 zorder=constants.ZORDER_X_AXIS,
                 lw=constants.LW_X_AXIS,
             )
-            arrows_dict["y_arrow"] = draw_arrow((0, 1.02), (0, 0.97))
+            arrows_dict["y_arrow"] = draw_arrow((0, 1.01), (0, 0.97))
 
         elif style == "twosided":
             self.figure_manager.ax.spines["top"].set_visible(False)
@@ -116,7 +122,15 @@ class StyleManager:
             )
             arrows_dict["x_arrow_right"] = draw_arrow((1.01, -0.03), (0.96, -0.03))
             arrows_dict["x_arrow_left"] = draw_arrow((-0.01, -0.03), (0.04, -0.03))
-            arrows_dict["y_arrow"] = draw_arrow((0, 1.02), (0, 0.97))
+            arrows_dict["y_arrow"] = draw_arrow((0, 1.01), (0, 0.97))
+
+        elif style == "borderless":
+            self.figure_manager.ax.spines["top"].set_visible(False)
+            self.figure_manager.ax.spines["right"].set_visible(False)
+            self.figure_manager.ax.spines["left"].set_visible(False)
+            self.figure_manager.ax.spines["bottom"].set_visible(False)
+            self.figure_manager.ax.set_yticklabels([])
+            self.figure_manager.ax.set_yticks([])
 
         self.mpl_objects.arrows = arrows_dict
         self.mpl_objects.axes = axes_dict
@@ -165,10 +179,8 @@ class StyleManager:
             for x, labeltext in zip(labelplaces, labels):
                 all_values_at_x = NumberManager._get_all_values_at_x(path_data, x)
                 if all_values_at_x:
-                    y_diff = -constants.DISTANCE_LABEL_LINE * (
-                        (fontsize / constants.STD_FONTSIZE)
-                        * (margins["y"][1] - margins["y"][0])
-                        / figsize[1]
+                    y_diff = -StyleManager._get_diff_label(
+                        margins, figsize, fontsize, labeltext
                     )
                     y_min_at_x = min(all_values_at_x)
                     label = self.figure_manager.ax.text(
@@ -297,6 +309,10 @@ class StyleManager:
             }
         elif self.style == "twosided":
             break_object = draw_xaxis_break(x, constants.X_AXIS_OFFSET_OPENSTYLE)
+        elif self.style == "borderless":
+            raise NotImplementedError(
+                "x-axis breaks are not compatible with borderless diagram style"
+            )
 
         self.mpl_objects.xaxis_breaks[f"{x:.1f}"] = break_object
 
@@ -405,6 +421,10 @@ class StyleManager:
                 "left": break_object_left,
                 "right": break_object_right,
             }
+        elif self.style == "borderless":
+            raise NotImplementedError(
+                "y-axis breaks are not compatible with borderless diagram style"
+            )
         else:
             break_object = draw_xaxis_break(0, y)
 
@@ -442,6 +462,22 @@ class StyleManager:
                 figsize=figsize,
                 **y_break,
             )
+
+    @staticmethod
+    def _get_diff_label(
+        margins: dict[str, tuple],
+        figsize: tuple[float, float],
+        fontsize: int,
+        labeltext: str,
+    ) -> float:
+        n_linebreaks = len(findall("\n", labeltext))
+        diff_to_label = (
+            (fontsize / constants.STD_FONTSIZE)
+            * (margins["y"][1] - margins["y"][0])
+            / figsize[1]
+            * (constants.DISTANCE_LABEL_LINE + n_linebreaks * constants.DISTANCE_LABEL_NEWLINE)
+        )
+        return diff_to_label
 
 
 @dataclass

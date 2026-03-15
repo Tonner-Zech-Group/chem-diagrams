@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from collections.abc import Sequence
 from dataclasses import dataclass
+from re import findall
 from typing import TYPE_CHECKING
 
 import matplotlib.image as mpimg
@@ -247,7 +248,10 @@ class ImageManager:
             try:
                 label_fontsize = xlabel_mpl_objects[f"{x:.1f}"].get_fontsize()
                 label_y = xlabel_mpl_objects[f"{x:.1f}"].get_position()[1]
-                diff_to_label = ImageManager._get_diff_label(margins, figsize, label_fontsize)
+                labeltext = xlabel_mpl_objects[f"{x:.1f}"].get_text()
+                diff_to_label = ImageManager._get_diff_label(
+                    margins, figsize, label_fontsize, labeltext
+                )
                 if label_y + diff_to_label > y_min_top:
                     y_min_top = label_y + diff_to_label
                 if label_y - diff_to_label < y_max_bottom:
@@ -492,13 +496,20 @@ class ImageManager:
 
     @staticmethod
     def _get_diff_label(
-        margins: dict[str, tuple], figsize: tuple[float, float], fontsize
+        margins: dict[str, tuple],
+        figsize: tuple[float, float],
+        fontsize: int,
+        labeltext: str,
     ) -> float:
+        n_linebreaks = len(findall("\n", labeltext))
         diff_to_label = (
             (fontsize / constants.STD_FONTSIZE)
             * (margins["y"][1] - margins["y"][0])
             / figsize[1]
-            * constants.DISTANCE_IMAGE_LABEL
+            * (
+                constants.DISTANCE_IMAGE_LABEL
+                + n_linebreaks * constants.DISTANCE_LABEL_NEWLINE
+            )
         )
         return diff_to_label
 

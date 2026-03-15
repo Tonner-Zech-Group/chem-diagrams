@@ -72,7 +72,7 @@ class TestConstruction:
         assert w == pytest.approx(8)
         assert h == pytest.approx(4)
 
-    @pytest.mark.parametrize("style", ["open", "boxed", "halfboxed", "twosided"])
+    @pytest.mark.parametrize("style", ["open", "boxed", "halfboxed", "twosided", "borderless"])
     def test_valid_styles(self, style):
         dia = EnergyDiagram(style=style)
         assert isinstance(dia, EnergyDiagram)
@@ -256,7 +256,7 @@ class TestDifferenceBars:
 
 
 class TestDiagramStyle:
-    @pytest.mark.parametrize("style", ["open", "boxed", "halfboxed", "twosided"])
+    @pytest.mark.parametrize("style", ["open", "boxed", "halfboxed", "twosided", "borderless"])
     def test_set_diagram_style(self, style):
         dia = make_diagram()
         result = dia.set_diagram_style(style)
@@ -1014,6 +1014,57 @@ class TestStyleManagerExtra:
 
         dia = EnergyDiagram()
         assert isinstance(dia.ax_objects, StyleObjects)
+
+    def test_xaxis_break_borderless_raises(self):
+        dia = EnergyDiagram(style="borderless")
+        dia.draw_path([0, 1, 2], [0, 10, -5], color="blue")
+        with pytest.raises(NotImplementedError):
+            dia.add_xaxis_break(x=1)
+
+    def test_yaxis_break_borderless_raises(self):
+        dia = EnergyDiagram(style="borderless")
+        dia.draw_path([0, 1, 2], [0, 100, -5], color="blue")
+        with pytest.raises(NotImplementedError):
+            dia.add_yaxis_break(y=50)
+
+    def test_borderless_hides_all_spines(self):
+        """borderless style should hide all four spines."""
+        dia = EnergyDiagram(style="borderless")
+        ax = dia.ax
+        for spine in ["top", "bottom", "left", "right"]:
+            assert not ax.spines[spine].get_visible(), f"spine '{spine}' should be hidden"
+
+    def test_borderless_hides_yticks(self):
+        """borderless style should suppress y-axis ticks and tick labels."""
+        dia = EnergyDiagram(style="borderless")
+        assert dia.ax.get_yticks().size == 0
+
+    def test_borderless_in_plot_labels(self):
+        """borderless + in_plot=True is the primary use-case; should not raise."""
+        dia = make_diagram()
+        dia.set_diagram_style("borderless")
+        dia.set_xlabels(["E", "TS1", "I", "TS2", "P"], in_plot=True)
+
+    def test_diff_label_multiline_larger_than_single_line(self):
+        """A label with a newline should produce a larger y-offset than a plain label."""
+        from chemdiagrams.managers.style_manager import StyleManager
+
+        margins = {"x": (-0.5, 4.5), "y": (-30.0, 40.0)}
+        figsize = (4.0, 3.0)
+        fontsize = 8
+        single = StyleManager._get_diff_label(margins, figsize, fontsize, "label")
+        multi = StyleManager._get_diff_label(margins, figsize, fontsize, "line1\nline2")
+        assert multi > single
+
+    def test_diff_label_scales_with_fontsize(self):
+        """A larger fontsize should produce a proportionally larger y-offset."""
+        from chemdiagrams.managers.style_manager import StyleManager
+
+        margins = {"x": (-0.5, 4.5), "y": (-30.0, 40.0)}
+        figsize = (4.0, 3.0)
+        small = StyleManager._get_diff_label(margins, figsize, 8, "label")
+        large = StyleManager._get_diff_label(margins, figsize, 16, "label")
+        assert large == pytest.approx(small * 2)
 
 
 # ---------------------------------------------------------------------------

@@ -144,7 +144,7 @@ A single integer applies the same style to all segments. A list applies styles i
 ### Diagram styles
 
 ```python
-dia.set_diagram_style("halfboxed")  # open | halfboxed | boxed | twosided
+dia.set_diagram_style("halfboxed")  # open | halfboxed | boxed | twosided | borderless
 ```
 
 The style can be set at construction via `EnergyDiagram(style="boxed")` or changed afterwards with `set_diagram_style`.
@@ -170,7 +170,7 @@ dia.set_xlabels(["A", "TS", "B"], labelplaces=[0, 2, 3])
 
 ### Energy labels
 
-Four numbering strategies are available. Call them after all paths have been drawn.
+Four numbering strategies are available. Call them after all paths have been drawn. All numbers are automatically rounded to integers.
 
 ```python
 dia.add_numbers_auto()                   # distributes labels to avoid overlaps (recommended)
@@ -377,4 +377,4 @@ Tim Bastian Enders, chemdiagrams, https://github.com/Tonner-Zech-Group/chem-diag
 
 ## License
 
-MIT — see [LICENSE](LICENSE) for details.
+MIT — see [LICENSE](https://github.com/Tonner-Zech-Group/chem-diagrams/blob/main/LICENSE) for details.
