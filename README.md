@@ -2,7 +2,7 @@
 
 [![PyPI version](https://img.shields.io/pypi/v/chemdiagrams.svg)](https://pypi.org/project/chemdiagrams/)
 [![Python versions](https://img.shields.io/pypi/pyversions/chemdiagrams.svg)](https://pypi.org/project/chemdiagrams/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/Tonner-Zech-Group/chem-diagrams/blob/main/LICENSE)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18957965.svg)](https://doi.org/10.5281/zenodo.18957965)
 
 A Python package for creating publication-quality reaction energy diagrams with Matplotlib.
@@ -67,13 +67,12 @@ pip install chemdiagrams
 
 - Multiple reaction paths on a single diagram
 - Five connector styles: dotted, solid, broken dotted, broken solid, or none
-- Four diagram styles: `open`, `halfboxed`, `boxed`, `twosided`
+- Five diagram styles: `open`, `halfboxed`, `boxed`, `twosided`, `borderless`
 - Automatic, stacked, naïve, and averaged energy label placement
 - Energy difference bars with optional whiskers
 - Axis break markers for both x and y axes
 - Image placement along the diagram, with automatic collision avoidance
 - Full access to the underlying Matplotlib objects for fine-grained customisation
-- Method chaining for compact, readable diagram construction
 
 ## Methods
 
@@ -83,7 +82,7 @@ pip install chemdiagrams
 | `draw_difference_bar()` | Draw a vertical energy difference arrow between two levels |
 | `merge_plateaus()` | Visually merge two coincident energy levels at a shared x-position |
 | `set_xlabels()` | Set text labels for the reaction states along the x-axis |
-| `set_diagram_style()` | Change the overall visual style (`open`, `boxed`, `halfboxed`, `twosided`) |
+| `set_diagram_style()` | Change the overall visual style (`open`, `boxed`, `halfboxed`, `twosided`, `borderless`) |
 | `add_numbers_naive()` | Annotate each energy level directly above its bar |
 | `add_numbers_stacked()` | Stack labels above the highest state to avoid overlap |
 | `add_numbers_auto()` | Automatically distribute labels to minimise clutter (recommended) |
@@ -97,6 +96,22 @@ pip install chemdiagrams
 
 ## Usage
 
+### General figure settings
+
+General settings like figure size, margins and font size are usually handled automatically by `EnergyDiagram`, but can be customised at construction.
+
+```python
+dia = EnergyDiagram(
+    extra_x_margin=(0, 0.5),   # additional margin in x (data units)
+    extra_y_margin=(0, 0.2),   # additional margin in y (relative units)
+    figsize=(6, 4),            # explicit figure size in inches
+    width_limit=7,             # maximum width in inches if figure is scaled automatically (figsize is not set, default: None)
+    fontsize=10,               # default font size for all text elements (can be overridden individually)
+    style="halfboxed",         # diagram style (see later sections for details)
+    dpi=150,                   # resolution in dots per inch for raster formats (ignored for vector formats like PDF, svg and eps)
+)
+```
+
 ### Drawing paths
 
 Each call to `draw_path` adds one reaction pathway. Paths can span different x-ranges, allowing branching or incomplete pathways.
@@ -109,7 +124,7 @@ dia.draw_path(
     y_data=[0, -13, 22, 75, 39, 20],
     color="blue",
     path_name="Pathway A",      # name appears in the legend
-    linetypes=[1, 1, 2, -1, 0], # connector style per segment
+    linetypes=[1, 1, 2, -1, 0], # connector style per segment, a single value applies to all segments
 )
 
 dia.draw_path(
@@ -177,15 +192,35 @@ dia.add_numbers_auto()                   # distributes labels to avoid overlaps 
 dia.add_numbers_stacked()                # stacks all labels above the highest state
 dia.add_numbers_naive()                  # places each label directly above its bar
 dia.add_numbers_average()                # displays the mean energy across all paths
+```
 
-# Restrict to a range of x-values
+To restrict the numbering to a specific range of x-values, pass `x_min_max=(x_min, x_max)` to the numbering method.
+
+```python
 dia.add_numbers_auto(x_min_max=(1, 4))
+```
 
-# Exclude a path from labelling
+To exclude numbers for a specific path, pass `show_numbers=False` to `draw_path` for that path.
+
+```python
 dia.draw_path(..., show_numbers=False)
 ```
 
+It is possible to adjust the fontsize of the numbers via the `fontsize` parameter of the numbering methods, or by direct Matplotlib access after drawing (see below).
+
+```python
+dia.add_numbers_auto(..., fontsize=6)
+```
+
+For `add_numbers_average`, the color of the labels can be set with the `color` parameter.
+
+```python
+dia.add_numbers_average(color="red")
+```
+
 ### Energy difference bars
+
+`draw_difference_bar` draws a vertical bar between two energy levels at a specified x-position, with optional horizontal whiskers to indicate the reference points for the difference.
 
 ```python
 dia = EnergyDiagram(style="halfboxed")
@@ -196,11 +231,16 @@ dia.draw_difference_bar(
     y_start_end=(-25, 0),
     description=r"$\Delta E_\mathrm{R}$: ",
     color="black",
-    x_whiskers=(5, 0),       # draw horizontal whiskers from x=5 and x=0
-    whiskercolor="blue",
-    left_side=True           # text on the left
+    arrowstyle="|-|",               # arrow style (default: "|-|")
+    x_whiskers=(5, 0),              # x-positions for whisker endpoints; None to omit
+    whiskercolor="blue",            # whisker color (defaults to bar color if omitted)
+    left_side=True,                 # place bar and text on the left of x
+    add_difference=True,            # automatically append the difference value rounded to an integer to description
+    fontsize=8,                     # font size for the label (uses diagram default if None)
+    diff=None,                      # horizontal offset of text (auto-computed if None)
 )
 dia.set_xlabels(["A", "B", "C", "D", "E", "F"])
+dia.ax.set_ylabel("Energy / kJ mol$^{-1}$", fontsize=8)
 dia.add_numbers_auto()
 dia.show()
 ```
@@ -209,57 +249,58 @@ dia.show()
 
 ### Axis breaks
 
+Axis breaks can be added to either axis to indicate a discontinuity in the scale. The break is drawn at the specified x or y position in data coordinates, with a gap in the axis line and diagonal tick marks.
+
 ```python
 dia = EnergyDiagram(style="twosided")
-dia.draw_path(...)
+dia.draw_path(x_data=[0,1,2,3,4,5], y_data=[0,-13,22,75,39,-25], color="blue")
 
 dia.add_yaxis_break(y=5)
-dia.add_xaxis_break(x=2, gap_scale=2, stopper_scale=1.5, angle=60)
-
+dia.add_xaxis_break(
+    x=2,                        # x-position of the break in data coordinates
+    gap_scale=2,                # scaling factor for the gap in the axis line (default: 1)
+    stopper_scale=1.5,          # scaling factor for the size of the stopper tick marks (default: 1)
+    angle=60,                   # angle of the stopper tick marks in degrees (default: 60)
+)
+dia.set_xlabels(["A", "B", "C", "D", "E", "F"])
+dia.add_numbers_auto()
+dia.ax.set_ylabel("Energy / kJ mol$^{-1}$", fontsize=8)
 dia.show()
 ```
 
-Note: x-axis breaks are not compatible with the `"open"` style.
+![Axis breaks](https://raw.githubusercontent.com/Tonner-Zech-Group/chem-diagrams/main/docs/img/example_breaks.png)
+
+Note: x-axis breaks are not compatible with the `"open"` and `"borderless"` styles. y-axis breaks are not compatible with the `"borderless"` style.
 
 ### Merging degenerate plateaus
 
 When two paths share the same energy level at the same x-position, `merge_plateaus`
 replaces both full-width bars with two shorter half-bars separated by a gap, with
 diagonal tick marks to indicate degeneracy.
-```python
-dia = EnergyDiagram()
-dia.draw_path(x_data=[0, 1, 2], y_data=[0, 50, 10], color="blue", path_name="Path A")
-dia.draw_path(x_data=[0, 1, 2], y_data=[0, 50, -5], color="red",  path_name="Path B")
 
-# Both paths share y=50 at x=1
+```python
+dia = EnergyDiagram(style="twosided")
+dia.draw_path(x_data=[0, 1, 2], y_data=[10, 55, 0], color="blue", path_name="Path A")
+dia.draw_path(x_data=[2, 3, 4], y_data=[0, 50, -5], color="red",  path_name="Path B")
+
+# Both paths share y=0 at x=2
 dia.merge_plateaus(
-    x=1,
-    path_name_left="Path A",
-    path_name_right="Path B",
-    gap_scale=1.0,       # width of the gap between the two half-bars
-    stopper_scale=1.0,   # size of the diagonal tick marks
-    angle=30,            # angle of the tick marks in degrees
+    x=2,                        # x-position of the shared plateau in data coordinates
+    path_name_left="Path A",    # name of the left path to merge (must match the path_name used in draw_path)
+    path_name_right="Path B",   # name of the right path to merge (must match the path_name used in draw_path)
+    gap_scale=1.0,              # width of the gap between the two half-bars
+    stopper_scale=1.0,          # size of the diagonal tick marks
+    angle=30,                   # angle of the tick marks in degrees
 )
 
 dia.add_numbers_auto()
+dia.set_xlabels(["P1", "TS1", "E", "TS2", "P2"])
+dia.ax.set_ylabel("Energy / kJ mol$^{-1}$", fontsize=8)
 dia.show()
 ```
+![Merge plateaus](https://raw.githubusercontent.com/Tonner-Zech-Group/chem-diagrams/main/docs/img/example_merge_plateaus.png)
 
 Both paths must already be drawn and must have exactly the same y-value at `x`.
-
-### Figure settings
-
-```python
-dia = EnergyDiagram(
-    extra_x_margin=(0, 0.5),   # additional margin in x (axis units)
-    extra_y_margin=(0, 0.2),   # additional margin in y (relative units)
-    figsize=(6, 4),            # explicit figure size in inches
-    width_limit=7,             # maximum auto-scaled width in inches
-    fontsize=10,
-    style="halfboxed",
-    dpi=150,
-)
-```
 
 ### Placing images
 
@@ -313,42 +354,76 @@ dia.fig.savefig("diagram.pdf", bbox_inches="tight")
 
 ### Accessing Matplotlib objects
 
-All artists are accessible after drawing for direct Matplotlib customisation.
+All Matplotlib artists are accessible after drawing for direct customisation. Most importantly, the figure and axes objects are available as `dia.fig` and `dia.ax` for direct Matplotlib calls. This allows to set axis labels, titles, limits, or any other Matplotlib property before saving or showing the figure.
 
 ```python
 dia.draw_path(..., path_name="My Path")
 dia.add_numbers_auto()
+figure = dia.fig  # Matplotlib Figure object
+axes = dia.ax     # Matplotlib Axes object
+dia.ax.set_ylabel("Energy / kJ mol$^{-1}$", fontsize=10)
+dia.fig.savefig("diagram.png", dpi=300, bbox_inches="tight")
+```
 
+All objects of a path (plateaus and connectors) are stored in dia.lines and can be accessed by the path name and x-position.
+
+```python
 # Plateau and connector lines
-# Keys are x-positions formatted to one decimal place
-plateau   = dia.lines["My Path"].plateaus["2.0"]     # x=2
-connector = dia.lines["My Path"].connections["1.5"]  # midpoint between x=1 and x=2
+# Keys are x-position strings formatted to one decimal place
+plateau   = dia.lines["My Path"].plateaus["2.0"]     # Plateau of "My Path" at x=2
+connector = dia.lines["My Path"].connections["1.5"]  # Connector of "My Path" between x=1 and x=2 (x=1.5)
 plateau.set_color("green")
+connector.set_linestyle("--")
+```
 
+All energy labels are stored in dia.numbers and can be accessed by path name and x-position.
+
+```python
 # Energy labels
-label = dia.numbers["My Path"]["2.0"]                # x=2
+label = dia.numbers["My Path"]["2.0"]                # Number of "My Path" at x=2
 label.set_color("red")
 label.set_fontsize(12)
+```
 
+Components of difference bars are stored in dia.bars and can be accessed by the order of bar placement (e.g., `dia.bars[0]` for the first one, `dia.bars[1]` for the second one...). A difference bar consists of the vertical bar (`bar`), an optional text label (`text`), and optional horizontal whiskers (`whisker_1`, `whisker_2`).
+
+```python
 # Difference bar components
-dia.bars[0].text.set_color("red")
-dia.bars[0].bar.arrow_patch.set_color("green")
-dia.bars[0].whisker_2.set_linestyle("--")
+first_bar = dia.bars[0]                                 # First difference bar added to the diagram
+first_bar.text.set_color("red")
+first_bar.bar.arrow_patch.set_color("green")
+first_bar.whisker_2.set_linestyle("--")
+```
 
-# Style objects (axes, arrows, x-labels)
+Style objects for axes, arrows, and x-labels are stored in `dia.ax_objects` and can be accessed by their type and x-position (for x-labels). x-labels (`x_labels`) are only stored if they were created with `set_xlabels(..., in_plot=True)`. 
+
+```python
+# Set color for x label at x=2.0 
 dia.ax_objects.x_labels["2.0"].set_color("purple")
+```
 
+Arrows (`arrows`) are stored by their name, which is `"x_arrow"` (`"x_arrow_left"` and `"x_arrow_right"` in case of `style="twosided"`) or `"y_arrow"` for the axis arrows.
+
+```python
 # Axis arrows (twosided/open/halfopen styles)
 dia.ax_objects.arrows["x_arrow"].set_color("gray")
+```
 
-# Axis break artists
+Axis break components are stored in `xaxis_breaks` and `yaxis_breaks` by their x or y position as a string formatted to one decimal place. Each break consists of two stopper lines (`stopper_1`, `stopper_2`) and a whitespace rectangle (`whitespace`) that covers the gap in the axis line. In case of `"style=boxed"` there are two break objects accessible via a dictionary keyed by "left" and "right" or "bottom" and "top".
+
+```python
+# Axis break artists if style is not "boxed"
 dia.ax_objects.xaxis_breaks["2.0"].stopper_1.set_color("red")
 dia.ax_objects.yaxis_breaks["5.0"].whitespace.set_facecolor("lightyellow")
 
-# Direct Matplotlib axes access
-dia.ax.set_ylabel("Energy / kJ mol$^{-1}$", fontsize=10)
-dia.fig.savefig("diagram.png", dpi=300, bbox_inches="tight")
+# Axis break artists if style is "boxed"
+dia.ax_objects.xaxis_breaks["2.0"]["top"].stopper_1.set_color("red")
+dia.ax_objects.yaxis_breaks["5.0"]["left"].stopper_1.set_color("blue")
+```
 
+Images are stored in `dia.images` by their name, which is either the `img_name` passed to `add_image_in_plot` or the `img_series_name` passed to `add_image_series_in_plot`. The former is stored as an `ImageObject`, which has an `image` attribute for the Matplotlib AxesImage and a `borders` dictionary for the frame lines keyed by "top", "bottom", "left", and "right". The latter is stored as a dictionary keyed by x-position as a string formatted to one decimal place, with each entry being an `ImageObject`.
+
+```python
 # Access a single image artist added with add_image_in_plot
 img_object = dia.images["my_image"]                  # ImageObject
 img_object.image.set_alpha(0.8)                      # AxesImage — any matplotlib imshow property
