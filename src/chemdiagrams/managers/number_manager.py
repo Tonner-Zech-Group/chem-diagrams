@@ -7,6 +7,8 @@ import numpy as np
 from .. import constants
 from ..validation import Validators
 from .figure_manager import FigureManager
+from .style_manager import StyleManager
+from .path_manager import PathManager
 
 
 class NumberManager:
@@ -24,8 +26,10 @@ class NumberManager:
     def __init__(
         self,
         figure_manager: FigureManager,
+        path_manager: PathManager,
     ) -> None:
         self.figure_manager = figure_manager
+        self.path_manager = path_manager
         self.mpl_objects: dict[str, dict] = {}
 
     ############################################################
@@ -102,15 +106,20 @@ class NumberManager:
                 all_numbers_at_x = NumberManager._get_all_values_at_x(path_data, x_current)
                 higher_numbers_at_x = [val for val in all_numbers_at_x if val > y_print_start]
                 while True:
-                    no_number_overlap = NumberManager._check_no_number_overlap(
+                    no_overlap = NumberManager._check_no_overlap(
                         y_print_start,
                         numbers_to_stack,
                         higher_numbers_at_x,
                         margins,
                         figsize,
                         fontsize,
+                        self.path_manager.mpl_objects,
+                        x_current,
                     )
-                    if no_number_overlap:
+                    if no_overlap:
+                        break
+                    if not higher_numbers_at_x:
+                        print(f"Warning: Could not accurately place numbers at x={x_current}")
                         break
                     else:
                         y_print_start = higher_numbers_at_x[0]
@@ -176,15 +185,22 @@ class NumberManager:
                 higher_numbers_at_x = [val for val in all_numbers_at_x if val > y_print_start]
                 # Increse print height, until no overlap
                 while True:
-                    no_overlap = NumberManager._check_no_number_overlap(
+                    no_overlap = NumberManager._check_no_overlap(
                         y_print_start,
                         numbers_to_stack_current,
                         higher_numbers_at_x,
                         margins,
                         figsize,
                         fontsize,
+                        self.path_manager.mpl_objects,
+                        x_current,
                     )
-                    if no_overlap:
+                    if no_overlap or not higher_numbers_at_x:
+                        if not no_overlap:
+                            print(
+                                f"Warning: Could not accurately "
+                                f"place numbers at x={x_current}"
+                            )
                         self._print_stacked(
                             x_current,
                             numbers_to_stack_current,
@@ -211,6 +227,9 @@ class NumberManager:
                         higher_numbers_at_x = [
                             val for val in all_numbers_at_x if val > y_print_start
                         ]
+
+
+
 
     def add_numbers_average(
         self,
@@ -403,8 +422,85 @@ class NumberManager:
                 self.mpl_objects[number["name"]] = {}
             self.mpl_objects[number["name"]][f"{x:.1f}"] = number_obj
 
+
     @staticmethod
-    def _check_no_number_overlap(
+    def _check_no_overlap(
+        y_print_start: float,
+        numbers_to_stack: Sequence[dict],
+        higher_numbers_at_x: Sequence[float],
+        margins: dict[str, tuple],
+        figsize: tuple[float, float],
+        fontsize: int,
+        path_mpl_objects: dict,
+        x: float,
+    ) -> bool:
+        """
+        Return True if a proposed label stack would not collide with 
+        any higher plateaus or path labels.
+        """
+        no_number_overlap = NumberManager._check_no_plateau_overlap(
+            y_print_start=y_print_start,
+            numbers_to_stack=numbers_to_stack,
+            higher_numbers_at_x=higher_numbers_at_x,
+            margins=margins,
+            figsize=figsize,
+            fontsize=fontsize,
+        )
+        no_overlap_with_path_labels = NumberManager._check_no_overlap_with_path_labels(
+            y_print_start=y_print_start,
+            numbers_to_stack=numbers_to_stack,
+            margins=margins,
+            figsize=figsize,
+            fontsize=fontsize,
+            paths_mpl_objects=path_mpl_objects,
+            x=x,
+        )
+        return no_number_overlap and no_overlap_with_path_labels
+
+    @staticmethod
+    def _check_no_overlap_with_path_labels(
+        y_print_start: float,
+        numbers_to_stack: Sequence[dict],
+        margins: dict[str, tuple],
+        figsize: tuple[float, float],
+        fontsize: int,
+        paths_mpl_objects: dict,
+        x: float,
+    ) -> bool:
+        """
+        Return True if a proposed label stack would not collide with any path labels.
+
+        Checks the vertical position of all path labels at the given x-coordinate
+        and compares it to the proposed stack position. Returns True if there is no
+        overlap, False otherwise.
+        """
+        diff_bias, diff_per_step = NumberManager._get_diffs(margins, figsize, fontsize)
+        stacked_offset = (len(numbers_to_stack) - 1) * diff_per_step
+        base_offset = 2 * diff_bias
+        y_stacked_max = y_print_start + base_offset + stacked_offset
+        no_overlap_with_path_labels = True
+        for path_obj in paths_mpl_objects.values():
+            try:
+                label_obj = path_obj.labels[f"{x:.1f}"]
+                label_fontsize = label_obj.get_fontsize()
+                label_y = label_obj.get_position()[1]
+                labeltext = label_obj.get_text()
+                diff_to_label = StyleManager._get_diff_label(
+                    margins, figsize, label_fontsize, labeltext
+                )
+                has_collision = (
+                    label_y - diff_to_label < y_stacked_max and
+                    label_y + diff_to_label > y_print_start
+                )
+                if has_collision:
+                    no_overlap_with_path_labels = False
+            except KeyError:
+                pass
+        return no_overlap_with_path_labels
+
+
+    @staticmethod
+    def _check_no_plateau_overlap(
         y_print_start: float,
         numbers_to_stack: Sequence[dict],
         higher_numbers_at_x: Sequence[float],
@@ -413,7 +509,7 @@ class NumberManager:
         fontsize: int,
     ) -> bool:
         """
-        Return True if a proposed label stack would not collide with any higher bar.
+        Return True if a proposed label stack would not collide with any higher plateaus.
 
         Computes the top edge of the stacked labels (including bias and
         per-step offsets) and checks that it falls below the nearest energy

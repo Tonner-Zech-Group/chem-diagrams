@@ -5,6 +5,7 @@ from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
 import matplotlib.patches as mpatches
+from matplotlib import font_manager
 import numpy as np
 
 if TYPE_CHECKING:
@@ -16,6 +17,7 @@ if TYPE_CHECKING:
 from .. import constants
 from ..validation import Validators
 from .figure_manager import FigureManager
+from .style_manager import StyleManager
 
 
 class PathManager:
@@ -74,21 +76,22 @@ class PathManager:
             raise TypeError("linetypes must be an tuple, list or integer.")
 
         # Save data for numbering or legend
-        has_label = True
+        has_name = True
         if path_name is None:
-            has_label = False
+            has_name = False
             path_name = f"__NONAME{len(self.path_data)}"
         self.path_data[path_name] = {
             "x": x_data,
             "y": y_data,
             "color": color,
-            "has_label": has_label,
+            "has_name": has_name,
             "show_numbers": show_numbers,
         }
 
         # Initialize nested dics
         connections = {}
         plateaus = {}
+        labels = {}
 
         # Create lists in order to draw the lines
         x_corners = []
@@ -115,9 +118,54 @@ class PathManager:
                     x_corners[-3:-1], y_corners[-3:-1], linetypes[i - 1], color
                 )
                 connections[f"{sum(x_corners[-3:-1]) / 2:.1f}"] = connector
-
         # Save Path
-        self.mpl_objects[path_name] = PathObject(connections, plateaus)
+        self.mpl_objects[path_name] = PathObject(connections, plateaus, labels)
+
+    def add_path_labels(
+        self,
+        margins: dict[str, tuple],
+        figsize: tuple[float, float],
+        path_name: str,
+        labels: Sequence[str],
+        fontsize: int | None = None,
+        weight: str = "normal",
+        color: str = None,
+    ) -> None:
+        # Sanity checks
+        if path_name not in self.path_data.keys():
+            raise ValueError(f'Path "{path_name}" does not exist.')
+        Validators.validate_string_sequence(
+            labels, 
+            "labels", 
+            can_contain_none=True, 
+            required_length=len(self.path_data[path_name]["x"])
+        )
+        if fontsize is not None:
+            Validators.validate_number(fontsize, "fontsize", min_value=0, allow_none=True)
+        else:
+            fontsize = self.figure_manager.fontsize
+        if color is None:
+            color = self.path_data[path_name]["color"]
+        
+        labelfont = font_manager.FontProperties(weight=weight, size=fontsize)
+
+        for i, labeltext in enumerate(labels):
+            if labeltext is not None:
+                x = self.path_data[path_name]["x"][i]
+                y = self.path_data[path_name]["y"][i]
+                label_artist = StyleManager._add_label_in_plot(
+                    figure_manager=self.figure_manager,
+                    margins=margins,
+                    figsize=figsize,
+                    labeltext=labeltext,
+                    fontsize=fontsize,
+                    labelfont=labelfont,
+                    x=x,
+                    y=y,
+                    color=color,
+                )
+                self.mpl_objects[path_name].labels[f"{x:.1f}"] = label_artist
+
 
     def merge_plateaus(
         self,
@@ -420,12 +468,15 @@ class PathObject:
 
     connections: dict
     plateaus: dict
+    labels: dict
 
     def remove(self):
         for _, connection in self.connections.items():
             connection.remove()
         for _, plateau in self.plateaus.items():
             plateau.remove()
+        for _, label in self.labels.items():
+            label.remove()
 
 
 @dataclass

@@ -73,6 +73,7 @@ class Validators:
         seq: Sequence | None,
         name: str,
         allow_none: bool = False,
+        can_contain_none: bool = False,
         required_length: int | None = None,
     ) -> None:
         """
@@ -89,7 +90,11 @@ class Validators:
                 raise TypeError(f"{name} must be a tuple or list.")
             if isinstance(seq, (str, bytes)):
                 raise TypeError(f"{name} must be a tuple or list.")
-            if not all(isinstance(val, (str)) for val in seq):
-                raise TypeError(f"{name} can only contain strings.")
+            if not can_contain_none:
+                if not all(isinstance(val, (str)) for val in seq):
+                    raise TypeError(f"{name} can only contain strings.")
+            else:
+                if not all(isinstance(val, (str, type(None))) for val in seq):
+                    raise TypeError(f"{name} can only contain strings or None.")
             if required_length is not None and len(seq) != required_length:
                 raise ValueError(f"{name} must be of length {required_length}.")

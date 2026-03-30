@@ -103,6 +103,7 @@ class ImageManager:
         path_data: dict,
         number_mpl_objects: dict,
         xlabel_mpl_objects: dict,
+        path_mpl_objects: dict,
         img_x_places: Sequence[float] | None = None,
         y_placement: Sequence[str] | str = "auto",
         y_offsets: Sequence[float] | float = 0,
@@ -244,7 +245,7 @@ class ImageManager:
                 except KeyError:
                     pass
 
-            # Avoid collision with label
+            # Avoid collision with x-labels
             try:
                 label_fontsize = xlabel_mpl_objects[f"{x:.1f}"].get_fontsize()
                 label_y = xlabel_mpl_objects[f"{x:.1f}"].get_position()[1]
@@ -258,6 +259,22 @@ class ImageManager:
                     y_max_bottom = label_y - diff_to_label
             except KeyError:
                 pass
+
+            # Avoid collision with path labels
+            for _, paths_obj in path_mpl_objects.items():
+                try:
+                    label_fontsize = paths_obj.labels[f"{x:.1f}"].get_fontsize()
+                    label_y = paths_obj.labels[f"{x:.1f}"].get_position()[1]
+                    labeltext = paths_obj.labels[f"{x:.1f}"].get_text()
+                    diff_to_label = ImageManager._get_diff_label(
+                        margins, figsize, label_fontsize, labeltext
+                    )
+                    if label_y + diff_to_label > y_min_top:
+                        y_min_top = label_y + diff_to_label
+                    if label_y - diff_to_label < y_max_bottom:
+                        y_max_bottom = label_y - diff_to_label
+                except KeyError:
+                    pass
 
             # Determine current vertival alignment and position
             if y_placement[index] == "auto":
@@ -316,6 +333,7 @@ class ImageManager:
         path_data: dict,
         number_mpl_objects: dict,
         xlabel_mpl_objects: dict,
+        path_mpl_objects: dict,
     ) -> None:
         # Series images are removed and redrawn; standalone images are permanent
         self._remove_image_series()
@@ -326,6 +344,7 @@ class ImageManager:
                 path_data=path_data,
                 number_mpl_objects=number_mpl_objects,
                 xlabel_mpl_objects=xlabel_mpl_objects,
+                path_mpl_objects=path_mpl_objects,
                 **image_series,
             )
 

@@ -11,8 +11,8 @@ from .style_manager import StyleManager, StyleObjects
 __all__ = [
     "FigureManager",
     "PathManager",
-    "NumberManager",
     "StyleManager",
+    "NumberManager",
     "LayoutManager",
     "BarManager",
     "ImageManager",
