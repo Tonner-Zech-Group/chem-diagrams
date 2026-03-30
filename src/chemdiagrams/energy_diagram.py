@@ -33,8 +33,8 @@ class EnergyDiagram:
     Create and manage chemical reaction energy diagrams.
 
     This class provides a high-level interface for constructing
-    reaction energy profiles, including reaction paths, transition
-    states, energy difference bars, labels, legends, and numerical
+    reaction energy profiles, including reaction paths, images, 
+    energy difference bars, labels, legends, and numerical
     annotations. Layout, scaling, and styling are handled
     automatically based on the plotted data.
 
@@ -175,6 +175,7 @@ class EnergyDiagram:
         diff: float | None = None,
         left_side: bool = False,
         add_difference: bool = True,
+        n_decimals: int = 0,
         fontsize: int | None = None,
         color: str = "black",
         arrowstyle: str = "|-|",
@@ -210,6 +211,9 @@ class EnergyDiagram:
             If True, the difference between y_start and y_end
             gets automatically added to the description. Default
             is True.
+        n_decimals : int, optional
+            Number of decimal places to show for the energy difference.
+            Default is 0.
         fontsize : int or None, optional
             Font size for the description label. When None the
             diagram's base font size is used. Default is None.
@@ -241,6 +245,7 @@ class EnergyDiagram:
             diff=diff,
             left_side=left_side,
             add_difference=add_difference,
+            n_decimals=n_decimals,
             fontsize=fontsize,
             color=color,
             arrowstyle=arrowstyle,
@@ -609,6 +614,7 @@ class EnergyDiagram:
         self,
         x_min_max: tuple[float, float] | list[float] | float | None = None,
         fontsize: int | None = None,
+        n_decimals: int = 0,
     ) -> EnergyDiagram:
         """Annotate energy levels with their values, placed directly above each bar.
 
@@ -629,6 +635,9 @@ class EnergyDiagram:
         fontsize : int or None, optional
             Font size for the annotations. When None the diagram's
             base font size is used. Default is None.
+        n_decimals : int, optional
+            Number of decimal places to show for the energy values.
+            Default is 0.
 
         Returns
         -------
@@ -641,6 +650,7 @@ class EnergyDiagram:
             self.figsize,
             x_min_max,
             fontsize=fontsize,
+            n_decimals=n_decimals,
         )
         if self._image_manager.has_image_series:
             self._image_manager.recalculate_image_series(
@@ -658,6 +668,7 @@ class EnergyDiagram:
         fontsize: int | None = None,
         sort_by_energy: bool = True,
         no_overlap_with_nonnumbered: bool = True,
+        n_decimals: int = 0,
     ) -> EnergyDiagram:
         """Annotate energy levels with stacked labels above the highest state.
 
@@ -686,6 +697,9 @@ class EnergyDiagram:
             If True, labels are also offset to avoid colliding with
             energy bars belonging to paths that have ``show_numbers=False``.
             Default is True.
+        n_decimals : int, optional
+            Number of decimal places to show for the energy values.
+            Default is 0.
 
         Returns
         -------
@@ -700,6 +714,7 @@ class EnergyDiagram:
             fontsize=fontsize,
             sort_by_energy=sort_by_energy,
             no_overlap_with_nonnumbered=no_overlap_with_nonnumbered,
+            n_decimals=n_decimals,
         )
         if self._image_manager.has_image_series:
             self._image_manager.recalculate_image_series(
@@ -715,6 +730,7 @@ class EnergyDiagram:
         self,
         x_min_max: tuple[float, float] | list[float] | float | None = None,
         fontsize: int | None = None,
+        n_decimals: int = 0,
     ) -> EnergyDiagram:
         """Annotate energy levels with automatically placed labels.
 
@@ -734,6 +750,9 @@ class EnergyDiagram:
         fontsize : int or None, optional
             Font size for the annotations. When None the diagram's
             base font size is used. Default is None.
+        n_decimals : int, optional
+            Number of decimal places to show for the energy values.
+            Default is 0.
 
         Returns
         -------
@@ -746,6 +765,7 @@ class EnergyDiagram:
             self.figsize,
             x_min_max=x_min_max,
             fontsize=fontsize,
+            n_decimals=n_decimals,
         )
         if self._image_manager.has_image_series:
             self._image_manager.recalculate_image_series(
@@ -762,6 +782,7 @@ class EnergyDiagram:
         x_min_max: tuple[float, float] | list[float] | float | None = None,
         fontsize: int | None = None,
         color: str = "black",
+        n_decimals: int = 0,
     ) -> EnergyDiagram:
         """Annotate energy states with the average value across all paths.
 
@@ -797,6 +818,7 @@ class EnergyDiagram:
             x_min_max=x_min_max,
             fontsize=fontsize,
             color=color,
+            n_decimals=n_decimals,
         )
         if self._image_manager.has_image_series:
             self._image_manager.recalculate_image_series(

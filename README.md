@@ -185,7 +185,7 @@ dia.set_xlabels(["A", "TS", "B"], labelplaces=[0, 2, 3])
 
 ### Energy labels
 
-Four numbering strategies are available. Call them after all paths have been drawn. All numbers are automatically rounded to integers.
+Four numbering strategies are available. Call them after all paths have been drawn. 
 
 ```python
 dia.add_numbers_auto()                   # distributes labels to avoid overlaps (recommended)
@@ -212,6 +212,12 @@ It is possible to adjust the fontsize of the numbers via the `fontsize` paramete
 dia.add_numbers_auto(..., fontsize=6)
 ```
 
+All numbers are automatically rounded to integers by default. The number of decimal places can be manually set with the `n_decimals` parameter of the numbering methods.
+
+```python
+dia.add_numbers_auto(..., n_decimals=2)
+```
+
 For `add_numbers_average`, the color of the labels can be set with the `color` parameter.
 
 ```python
@@ -236,6 +242,7 @@ dia.draw_difference_bar(
     whiskercolor="blue",            # whisker color (defaults to bar color if omitted)
     left_side=True,                 # place bar and text on the left of x
     add_difference=True,            # automatically append the difference value rounded to an integer to description
+    n_decimals=0,                   # number of decimal places to show for the difference value (default: 0)
     fontsize=8,                     # font size for the label (uses diagram default if None)
     diff=None,                      # horizontal offset of text (auto-computed if None)
 )

@@ -39,11 +39,13 @@ class NumberManager:
         figsize: tuple[float, float],
         x_min_max: tuple[float, float] | list[float] | float | None = None,
         fontsize: int | None = None,
+        n_decimals: int = 0,
     ) -> None:
         # Regularize x_min_max, fontsize and get all the numbers to plot
         x_min_max = NumberManager._regularize_x_min_max(x_min_max)
         values_to_print = NumberManager._get_all_visible_numbers(path_data, x_min_max)
         Validators.validate_number(fontsize, "fontsize", min_value=0, allow_none=True)
+        Validators.validate_number(n_decimals, "n_decimals", min_value=0)
         if fontsize is None:
             fontsize = self.figure_manager.fontsize
 
@@ -64,6 +66,7 @@ class NumberManager:
                     margins,
                     figsize,
                     fontsize,
+                    n_decimals,
                 )
 
     def add_numbers_stacked(
@@ -75,11 +78,13 @@ class NumberManager:
         fontsize: int | None = None,
         sort_by_energy: bool = True,
         no_overlap_with_nonnumbered: bool = True,
+        n_decimals: int = 0,
     ) -> None:
         # Regularize x_min_max, fontsize and get all the numbers to plot
         x_min_max = NumberManager._regularize_x_min_max(x_min_max)
         values_to_print = NumberManager._get_all_visible_numbers(path_data, x_min_max)
         Validators.validate_number(fontsize, "fontsize", min_value=0, allow_none=True)
+        Validators.validate_number(n_decimals, "n_decimals", min_value=0)
         if fontsize is None:
             fontsize = self.figure_manager.fontsize
 
@@ -124,6 +129,7 @@ class NumberManager:
                 margins,
                 figsize,
                 fontsize,
+                n_decimals,
             )
 
     def add_numbers_auto(
@@ -133,9 +139,11 @@ class NumberManager:
         figsize: tuple[float, float],
         x_min_max: tuple[float, float] | list[float] | float | None = None,
         fontsize: int | None = None,
+        n_decimals: int = 0,
     ) -> None:
         # Regularize x_min_max, fontsize and get all the numbers to plot
         Validators.validate_number(fontsize, "fontsize", min_value=0, allow_none=True)
+        Validators.validate_number(n_decimals, "n_decimals", min_value=0)
         if fontsize is None:
             fontsize = self.figure_manager.fontsize
         x_min_max = NumberManager._regularize_x_min_max(x_min_max)
@@ -192,6 +200,7 @@ class NumberManager:
                             margins,
                             figsize,
                             fontsize,
+                            n_decimals,
                         )
                         y_last_printed = (
                             y_print_start + (len(numbers_to_stack_current) - 1) * diff_per_step
@@ -220,11 +229,13 @@ class NumberManager:
         x_min_max: tuple[float, float] | list[float] | float | None = None,
         fontsize: int | None = None,
         color: str = "black",
+        n_decimals: int = 0,
     ) -> None:
         # Regularize x_min_max, fontsize and get all the numbers to plot
         x_min_max = NumberManager._regularize_x_min_max(x_min_max)
         values_to_print = NumberManager._get_all_visible_numbers(path_data, x_min_max)
         Validators.validate_number(fontsize, "fontsize", min_value=0, allow_none=True)
+        Validators.validate_number(n_decimals, "n_decimals", min_value=0)
         if fontsize is None:
             fontsize = self.figure_manager.fontsize
 
@@ -255,6 +266,7 @@ class NumberManager:
                 margins,
                 figsize,
                 fontsize,
+                n_decimals,
             )
 
     ############################################################
@@ -376,6 +388,7 @@ class NumberManager:
         margins: dict[str, tuple],
         figsize: tuple[float, float],
         fontsize: int,
+        n_decimals: int = 0,
     ) -> None:
         """
         Render a vertical stack of energy labels at a given x-position.
@@ -401,7 +414,7 @@ class NumberManager:
             n_printed += 1
             if number["name"] not in self.mpl_objects:
                 self.mpl_objects[number["name"]] = {}
-            self.mpl_objects[number["name"]][f"{x:.1f}"] = number_obj
+            self.mpl_objects[number["name"]][f"{x:.{n_decimals}f}"] = number_obj
 
     @staticmethod
     def _check_no_number_overlap(
