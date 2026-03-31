@@ -8,7 +8,6 @@ from .. import constants
 from ..validation import Validators
 from .figure_manager import FigureManager
 from .style_manager import StyleManager
-from .path_manager import PathManager
 
 
 class NumberManager:
@@ -26,11 +25,10 @@ class NumberManager:
     def __init__(
         self,
         figure_manager: FigureManager,
-        path_manager: PathManager,
     ) -> None:
         self.figure_manager = figure_manager
-        self.path_manager = path_manager
         self.mpl_objects: dict[str, dict] = {}
+        self.numberings_added = []
 
     ############################################################
     # Main numbering methods
@@ -69,12 +67,18 @@ class NumberManager:
                     figsize,
                     fontsize,
                 )
+        self.numberings_added.append({
+            "type": self.add_numbers_naive,
+            "x_min_max": x_min_max,
+            "fontsize": fontsize,
+        })
 
     def add_numbers_stacked(
         self,
         path_data: dict,
         margins: dict[str, tuple],
         figsize: tuple[float, float],
+        path_mpl_objects: dict,
         x_min_max: tuple[float, float] | list[float] | float | None = None,
         fontsize: int | None = None,
         sort_by_energy: bool = True,
@@ -113,7 +117,7 @@ class NumberManager:
                         margins,
                         figsize,
                         fontsize,
-                        self.path_manager.mpl_objects,
+                        path_mpl_objects,
                         x_current,
                     )
                     if no_overlap:
@@ -134,12 +138,20 @@ class NumberManager:
                 figsize,
                 fontsize,
             )
+        self.numberings_added.append({
+            "type": self.add_numbers_stacked,
+            "x_min_max": x_min_max,
+            "fontsize": fontsize,
+            "sort_by_energy": sort_by_energy,
+            "no_overlap_with_nonnumbered": no_overlap_with_nonnumbered,
+        })
 
     def add_numbers_auto(
         self,
         path_data: dict,
         margins: dict[str, tuple],
         figsize: tuple[float, float],
+        path_mpl_objects: dict,
         x_min_max: tuple[float, float] | list[float] | float | None = None,
         fontsize: int | None = None,
     ) -> None:
@@ -192,7 +204,7 @@ class NumberManager:
                         margins,
                         figsize,
                         fontsize,
-                        self.path_manager.mpl_objects,
+                        path_mpl_objects,
                         x_current,
                     )
                     if no_overlap or not higher_numbers_at_x:
@@ -227,9 +239,11 @@ class NumberManager:
                         higher_numbers_at_x = [
                             val for val in all_numbers_at_x if val > y_print_start
                         ]
-
-
-
+        self.numberings_added.append({
+            "type": self.add_numbers_auto,
+            "x_min_max": x_min_max,
+            "fontsize": fontsize,
+        })
 
     def add_numbers_average(
         self,
@@ -275,6 +289,43 @@ class NumberManager:
                 figsize,
                 fontsize,
             )
+        self.numberings_added.append({
+            "type": self.add_numbers_average,
+            "x_min_max": x_min_max,
+            "fontsize": fontsize,
+            "color": color,
+        })
+
+    def _recalculate_numbers(
+            self,
+            path_data: dict,
+            margins: dict[str, tuple],
+            figsize: tuple[float, float],
+            path_mpl_objects: dict,
+    ) -> None:
+        # Remove all numbers from the plot
+        for path_numbers in self.mpl_objects.values():
+            for number in path_numbers.values():
+                number.remove()
+        self.mpl_objects = {} 
+        # Recalculate all numbers that have been added
+        old_numberings = self.numberings_added.copy()
+        self.numberings_added = []
+        for numbering in old_numberings:
+            settings = numbering.copy() 
+            del settings["type"]
+            need_path_mpl_objects = (
+                numbering["type"] in [self.add_numbers_stacked, self.add_numbers_auto]
+            )
+            if need_path_mpl_objects:
+                settings["path_mpl_objects"] = path_mpl_objects
+            numbering["type"](
+                path_data=path_data,
+                margins=margins,
+                figsize=figsize,
+                **settings,
+            )
+
 
     ############################################################
     # Internal helper methods
@@ -452,7 +503,7 @@ class NumberManager:
             margins=margins,
             figsize=figsize,
             fontsize=fontsize,
-            paths_mpl_objects=path_mpl_objects,
+            path_mpl_objects=path_mpl_objects,
             x=x,
         )
         return no_number_overlap and no_overlap_with_path_labels
@@ -464,7 +515,7 @@ class NumberManager:
         margins: dict[str, tuple],
         figsize: tuple[float, float],
         fontsize: int,
-        paths_mpl_objects: dict,
+        path_mpl_objects: dict,
         x: float,
     ) -> bool:
         """
@@ -479,7 +530,7 @@ class NumberManager:
         base_offset = 2 * diff_bias
         y_stacked_max = y_print_start + base_offset + stacked_offset
         no_overlap_with_path_labels = True
-        for path_obj in paths_mpl_objects.values():
+        for path_obj in path_mpl_objects.values():
             try:
                 label_obj = path_obj.labels[f"{x:.1f}"]
                 label_fontsize = label_obj.get_fontsize()

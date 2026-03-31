@@ -152,7 +152,7 @@ class EnergyDiagram:
     ):
         self._figure_manager = FigureManager(fontsize=fontsize, dpi=dpi)
         self._path_manager = PathManager(self._figure_manager)
-        self._number_manager = NumberManager(self._figure_manager, self._path_manager)
+        self._number_manager = NumberManager(self._figure_manager)
         self._style_manager = StyleManager(self._figure_manager, style=style)
         self._layout_manager = LayoutManager(
             self._figure_manager,
@@ -418,6 +418,13 @@ class EnergyDiagram:
                 self._number_manager.mpl_objects,
                 self._style_manager.mpl_objects.x_labels,
                 self._path_manager.mpl_objects,
+            )
+        if self._number_manager.numberings_added:
+            self._number_manager._recalculate_numbers(
+                path_data=self._path_manager.path_data,
+                margins=self.margins,
+                figsize=self.figsize,
+                path_mpl_objects=self._path_manager.mpl_objects,
             )
         return self
 
@@ -757,6 +764,7 @@ class EnergyDiagram:
             self._path_manager.path_data,
             self.margins,
             self.figsize,
+            self._path_manager.mpl_objects,
             x_min_max,
             fontsize=fontsize,
             sort_by_energy=sort_by_energy,
@@ -806,6 +814,7 @@ class EnergyDiagram:
             self._path_manager.path_data,
             self.margins,
             self.figsize,
+            path_mpl_objects=self._path_manager.mpl_objects,
             x_min_max=x_min_max,
             fontsize=fontsize,
         )
