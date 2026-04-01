@@ -267,8 +267,8 @@ class PathManager:
         y_coords: Sequence[float],
         linetype: int,
         color: str,
-    ) -> Line2D | BrokenLine | None:
-        connector: Line2D | BrokenLine | None = None
+    ) -> Line2D | list[Line2D] | BrokenLine | None:
+        connector: Line2D | list[Line2D] | BrokenLine | None = None
         if linetype == 0:
             connector = None
         elif linetype == 1:
@@ -374,7 +374,7 @@ class PathManager:
             ),
         )
         return BrokenLine(line_1, line_2, stopper_1, stopper_2)
-    
+
     def _draw_dotted_spline(
         self, x_coords: Sequence[float], y_coords: Sequence[float], color: str
     ) -> list[Line2D]:
@@ -392,7 +392,7 @@ class PathManager:
             lw=constants.LW_CONNECTOR,
             color=color,
         )
-    
+
     def _draw_spline(
         self, x_coords: Sequence[float], y_coords: Sequence[float], color: str
     ) -> list[Line2D]:
