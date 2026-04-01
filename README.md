@@ -148,11 +148,13 @@ dia.show()
 
 | Value | Style |
 |-------|-------|
+| `0` | no connector |
 | `1` | dotted line (default) |
 | `-1` | dotted line with gap |
 | `2` | solid line |
 | `-2` | solid line with gap |
-| `0` | no connector |
+| `3` | dotted cubic spline |
+| `4` | solid cubic spline |
 
 A single integer applies the same style to all segments. A list applies styles individually.
 

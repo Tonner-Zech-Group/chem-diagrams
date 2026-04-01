@@ -333,6 +333,8 @@ class EnergyDiagram:
             *  ``-1`` : broken dotted line
             *  ``2``  : solid line
             *  ``-2`` : broken solid line
+            *  ``3``  : dotted cubic spline
+            *  ``4``  : solid cubic spline
 
             When None, all segments use a dotted line (``1``).
         path_name : str or None, optional
