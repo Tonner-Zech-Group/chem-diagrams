@@ -404,7 +404,7 @@ class NumberManager:
             number_obj = self.figure_manager.ax.text(
                 x,
                 (y_print_start + diff_bias + n_printed * diff_per_step),
-                round(number["y"]),
+                f"{number['y']:.{n_decimals}f}",
                 ha="center",
                 va="center",
                 fontsize=fontsize,
@@ -414,7 +414,7 @@ class NumberManager:
             n_printed += 1
             if number["name"] not in self.mpl_objects:
                 self.mpl_objects[number["name"]] = {}
-            self.mpl_objects[number["name"]][f"{x:.{n_decimals}f}"] = number_obj
+            self.mpl_objects[number["name"]][f"{x:.1f}"] = number_obj
 
     @staticmethod
     def _check_no_number_overlap(
