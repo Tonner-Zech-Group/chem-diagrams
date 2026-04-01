@@ -6,6 +6,7 @@ from typing import TYPE_CHECKING
 
 import matplotlib.patches as mpatches
 import numpy as np
+from scipy.interpolate import CubicSpline
 
 if TYPE_CHECKING:
     from matplotlib.collections import LineCollection
@@ -55,7 +56,7 @@ class PathManager:
         if len(x_data) != len(y_data):
             raise ValueError("x_data and y_data must have the same length")
 
-        ALLOWED_LINETYPES = [-2, -1, 0, 1, 2]
+        ALLOWED_LINETYPES = [-2, -1, 0, 1, 2, 3, 4]
         if linetypes is None:
             linetypes = [1] * (len(y_data) - 1)
         elif isinstance(linetypes, int):
@@ -278,6 +279,10 @@ class PathManager:
             connector = self._draw_line(x_coords, y_coords, color)
         elif linetype == -2:
             connector = self._draw_broken_line(x_coords, y_coords, color, dotted=False)
+        elif linetype == 3:
+            connector = self._draw_dotted_spline(x_coords, y_coords, color)
+        elif linetype == 4:
+            connector = self._draw_spline(x_coords, y_coords, color)
         else:
             raise ValueError(f"Invalid linetype argument: {linetype}")
         return connector
@@ -369,6 +374,42 @@ class PathManager:
             ),
         )
         return BrokenLine(line_1, line_2, stopper_1, stopper_2)
+    
+    def _draw_dotted_spline(
+        self, x_coords: Sequence[float], y_coords: Sequence[float], color: str
+    ) -> list[Line2D]:
+        # Create a cubic spline interpolation of the points
+        cs = CubicSpline(x_coords, y_coords, bc_type="clamped")
+        x_spline = np.linspace(x_coords[0], x_coords[-1], 100)
+        y_spline = cs(x_spline)
+
+        # Draw the spline as a dotted line
+        return self.figure_manager.ax.plot(
+            x_spline,
+            y_spline,
+            zorder=constants.ZORDER_CONNECTOR,
+            ls=":",
+            lw=constants.LW_CONNECTOR,
+            color=color,
+        )
+    
+    def _draw_spline(
+        self, x_coords: Sequence[float], y_coords: Sequence[float], color: str
+    ) -> list[Line2D]:
+        # Create a cubic spline interpolation of the points
+        cs = CubicSpline(x_coords, y_coords, bc_type="clamped")
+        x_spline = np.linspace(x_coords[0], x_coords[-1], 100)
+        y_spline = cs(x_spline)
+
+        # Draw the spline as a solid line
+        return self.figure_manager.ax.plot(
+            x_spline,
+            y_spline,
+            zorder=constants.ZORDER_CONNECTOR,
+            ls="-",
+            lw=constants.LW_CONNECTOR,
+            color=color,
+        )
 
     @staticmethod
     def _get_stopper_differences(
