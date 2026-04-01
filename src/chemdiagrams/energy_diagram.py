@@ -33,7 +33,7 @@ class EnergyDiagram:
     Create and manage chemical reaction energy diagrams.
 
     This class provides a high-level interface for constructing
-    reaction energy profiles, including reaction paths, images, 
+    reaction energy profiles, including reaction paths, images,
     energy difference bars, labels, legends, and numerical
     annotations. Layout, scaling, and styling are handled
     automatically based on the plotted data.
@@ -308,6 +308,8 @@ class EnergyDiagram:
         linetypes: Sequence[int] | None = None,
         path_name: str | None = None,
         show_numbers: bool = True,
+        width_plateau: float | None = None,
+        lw_plateau: float | str = "plateau",
     ) -> EnergyDiagram:
         """Add a reaction path to the energy diagram.
 
@@ -348,6 +350,13 @@ class EnergyDiagram:
         show_numbers : bool, optional
             If False, energy values along this path are excluded from
             any subsequent ``add_numbers_*`` calls. Default is True.
+        width_plateau : float or None, optional
+            Width of the horizontal energy level bars in data coordinate
+            units. When None, a default width is applied. Default is None.
+        lw_plateau : float, str, or None, optional
+            Line width for the horizontal energy level bars. Can be a
+            float in points, or a string referring to a predefined
+            value (``"plateau"`` or ``"connector"``). Default is ``"plateau"``.
 
         Returns
         -------
@@ -361,6 +370,8 @@ class EnergyDiagram:
             linetypes=linetypes,
             path_name=path_name,
             show_numbers=show_numbers,
+            width_plateau=width_plateau,
+            lw_plateau=lw_plateau,
         )
         self.margins = self._layout_manager.adjust_xy_limits(self._path_manager.path_data)
         self.figsize = self._layout_manager.scale_figure(self._path_manager.path_data)

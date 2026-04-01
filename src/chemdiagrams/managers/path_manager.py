@@ -45,6 +45,8 @@ class PathManager:
         linetypes: Sequence[int] | int | None = None,
         path_name: str | None = None,
         show_numbers: bool = True,
+        width_plateau: float | None = None,
+        lw_plateau: float | str = "plateau",
     ) -> None:
         # Sanity checks and linetype normalization
         Validators.validate_numeric_sequence(x_data, "x_data")
@@ -55,6 +57,10 @@ class PathManager:
             raise ValueError("path_name must not already exist")
         if len(x_data) != len(y_data):
             raise ValueError("x_data and y_data must have the same length")
+        if width_plateau is not None:
+            Validators.validate_number(width_plateau, "width_plateau", min_value=0)
+        else:
+            width_plateau = constants.WIDTH_PLATEAU
 
         ALLOWED_LINETYPES = [-2, -1, 0, 1, 2, 3, 4]
         if linetypes is None:
@@ -73,6 +79,20 @@ class PathManager:
                 )
         else:
             raise TypeError("linetypes must be an tuple, list or integer.")
+
+        if isinstance(lw_plateau, str):
+            if lw_plateau == "plateau":
+                lw_plateau = constants.LW_PLATEAU
+            elif lw_plateau == "connector":
+                lw_plateau = constants.LW_CONNECTOR
+            else:
+                raise ValueError(
+                    "Invalid string value for lw_plateau. "
+                    "Use 'plateau', 'connector', or a number."
+                )
+        else:
+            Validators.validate_number(lw_plateau, "lw_plateau", min_value=0)
+        assert isinstance(lw_plateau, (float, int))
 
         # Save data for numbering or legend
         has_label = True
@@ -97,19 +117,22 @@ class PathManager:
 
         # Draw the lines
         for i, v in enumerate(y_data):
-            x_corners.append(x_data[i] - 0.5 * constants.WIDTH_PLATEAU)
-            x_corners.append(x_data[i] + 0.5 * constants.WIDTH_PLATEAU)
+            x_corners.append(x_data[i] - 0.5 * width_plateau)
+            x_corners.append(x_data[i] + 0.5 * width_plateau)
             y_corners.append(y_data[i])
             y_corners.append(y_data[i])
-            plateau = self.figure_manager.ax.hlines(
-                v,
-                x_corners[-2],
-                x_corners[-1],
-                zorder=constants.ZORDER_PLATEAU,
-                lw=constants.LW_PLATEAU,
-                color=color,
-                capstyle="round",
-            )
+            if width_plateau > 0:
+                plateau = self.figure_manager.ax.hlines(
+                    v,
+                    x_corners[-2],
+                    x_corners[-1],
+                    zorder=constants.ZORDER_PLATEAU,
+                    lw=lw_plateau,
+                    color=color,
+                    capstyle="round",
+                )
+            else:
+                plateau = None
             plateaus[f"{x_data[i]:.1f}"] = plateau
             if i > 0:
                 connector = self._draw_connector(
@@ -148,6 +171,10 @@ class PathManager:
             raise ValueError(
                 f'Path "{path_name_right}" must exist and have a value at x = {x}.'
             )
+        if full_plateau_left is None:
+            raise ValueError(f"Plateau for {path_name_left} at x = {x} is non-existent.")
+        if full_plateau_right is None:
+            raise ValueError(f"Plateau for {path_name_right} at x = {x} is non-existent.")
         y_left = full_plateau_left.get_segments()[0][0][1]
         y_right = full_plateau_right.get_segments()[0][0][1]
         if y_left != y_right:
@@ -466,7 +493,10 @@ class PathObject:
         for _, connection in self.connections.items():
             connection.remove()
         for _, plateau in self.plateaus.items():
-            plateau.remove()
+            try:
+                plateau.remove()
+            except AttributeError:
+                pass
 
 
 @dataclass

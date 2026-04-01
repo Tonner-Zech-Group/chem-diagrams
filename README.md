@@ -158,6 +158,28 @@ dia.show()
 
 A single integer applies the same style to all segments. A list applies styles individually.
 
+The width of a plateau can be adjusted with the keyword `width_plateau`. It can be a float in data units (Default is 0.5). Furthermore, the linewidth of the plateaus can be set to one of the strings `"plateau"` or `"connector"` to refer to predefined values or a number.
+
+```python
+dia.draw_path(
+    x_data=[0, 1, 2, 3, 4, 5],
+    y_data=[0, -13, 22, 75, 39, 20],
+    color="blue",
+    path_name="Pathway A",
+    width_plateau=0.3,
+    lw_plateau="connector",
+)
+
+dia.draw_path(
+    x_data=[0, 1, 2, 3, 5],
+    y_data=[0, -25, 20, 50, 6],
+    color="red",
+    path_name="Pathway B",
+    width_plateau=0,
+    lw_plateau=1.5,
+)
+```
+
 ### Diagram styles
 
 ```python
@@ -374,7 +396,7 @@ dia.ax.set_ylabel("Energy / kJ mol$^{-1}$", fontsize=10)
 dia.fig.savefig("diagram.png", dpi=300, bbox_inches="tight")
 ```
 
-All objects of a path (plateaus and connectors) are stored in dia.lines and can be accessed by the path name and x-position.
+All objects of a path (plateaus and connectors) are stored in dia.lines and can be accessed by the path name and x-position. If a path was drawn with `width_plateau=0`, it has no plateau objects.
 
 ```python
 # Plateau and connector lines
