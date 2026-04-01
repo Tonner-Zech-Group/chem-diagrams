@@ -45,7 +45,7 @@ class NumberManager:
         x_min_max = NumberManager._regularize_x_min_max(x_min_max)
         values_to_print = NumberManager._get_all_visible_numbers(path_data, x_min_max)
         Validators.validate_number(fontsize, "fontsize", min_value=0, allow_none=True)
-        Validators.validate_number(n_decimals, "n_decimals", min_value=0)
+        Validators.validate_number(n_decimals, "n_decimals", min_value=0, only_integer=True)
         if fontsize is None:
             fontsize = self.figure_manager.fontsize
 
@@ -84,7 +84,7 @@ class NumberManager:
         x_min_max = NumberManager._regularize_x_min_max(x_min_max)
         values_to_print = NumberManager._get_all_visible_numbers(path_data, x_min_max)
         Validators.validate_number(fontsize, "fontsize", min_value=0, allow_none=True)
-        Validators.validate_number(n_decimals, "n_decimals", min_value=0)
+        Validators.validate_number(n_decimals, "n_decimals", min_value=0, only_integer=True)
         if fontsize is None:
             fontsize = self.figure_manager.fontsize
 
@@ -143,7 +143,7 @@ class NumberManager:
     ) -> None:
         # Regularize x_min_max, fontsize and get all the numbers to plot
         Validators.validate_number(fontsize, "fontsize", min_value=0, allow_none=True)
-        Validators.validate_number(n_decimals, "n_decimals", min_value=0)
+        Validators.validate_number(n_decimals, "n_decimals", min_value=0, only_integer=True)
         if fontsize is None:
             fontsize = self.figure_manager.fontsize
         x_min_max = NumberManager._regularize_x_min_max(x_min_max)
@@ -235,7 +235,7 @@ class NumberManager:
         x_min_max = NumberManager._regularize_x_min_max(x_min_max)
         values_to_print = NumberManager._get_all_visible_numbers(path_data, x_min_max)
         Validators.validate_number(fontsize, "fontsize", min_value=0, allow_none=True)
-        Validators.validate_number(n_decimals, "n_decimals", min_value=0)
+        Validators.validate_number(n_decimals, "n_decimals", min_value=0, only_integer=True)
         if fontsize is None:
             fontsize = self.figure_manager.fontsize
 
