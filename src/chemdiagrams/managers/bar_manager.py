@@ -52,7 +52,7 @@ class BarManager:
         Validators.validate_numeric_sequence(y_start_end, "y_start_end", required_length=2)
         Validators.validate_number(fontsize, "fontsize", allow_none=True, min_value=0)
         Validators.validate_number(diff, "diff", allow_none=True)
-        Validators.validate_number(n_decimals, "n_decimals", min_value=0)
+        Validators.validate_number(n_decimals, "n_decimals", min_value=0, only_integer=True)
         if not isinstance(x_whiskers, Sequence):
             raise TypeError("x_whiskers must be a list or tuple of length 2.")
         if len(x_whiskers) != 2:
