@@ -79,6 +79,7 @@ pip install chemdiagrams
 | Method | Description |
 |--------|-------------|
 | `draw_path()` | Add a reaction pathway to the diagram |
+| `add_path_labels()` | Add text labels for a specific path at the respective x-positions |
 | `draw_difference_bar()` | Draw a vertical energy difference arrow between two levels |
 | `merge_plateaus()` | Visually merge two coincident energy levels at a shared x-position |
 | `set_xlabels()` | Set text labels for the reaction states along the x-axis |
@@ -155,6 +156,20 @@ dia.show()
 | `0` | no connector |
 
 A single integer applies the same style to all segments. A list applies styles individually.
+
+### Path labels
+
+Text labels can be added for each path at each position with `add_path_labels`. This is useful to label specific states along a pathway.
+
+```python
+dia.add_path_labels(
+    "Pathway A",                        # Name of the path, for which the labels are to be added
+    ["A", "B", "C", "D", None, "F"],    # Labels for the path, None can be used to not display a label at a specific position
+    fontsize=6,                         # Font size for the labels (uses diagram default if None)
+    color="black",                      # Color for the labels (uses diagram default if None)
+    weight="bold"                       # Font weight for the labels (uses "normal" if None)
+)
+```
 
 ### Diagram styles
 
@@ -365,7 +380,7 @@ dia.ax.set_ylabel("Energy / kJ mol$^{-1}$", fontsize=10)
 dia.fig.savefig("diagram.png", dpi=300, bbox_inches="tight")
 ```
 
-All objects of a path (plateaus and connectors) are stored in dia.lines and can be accessed by the path name and x-position.
+All objects of a path (plateaus and connectors and path labels) are stored in dia.lines and can be accessed by the path name and x-position.
 
 ```python
 # Plateau and connector lines
@@ -374,6 +389,8 @@ plateau   = dia.lines["My Path"].plateaus["2.0"]     # Plateau of "My Path" at x
 connector = dia.lines["My Path"].connections["1.5"]  # Connector of "My Path" between x=1 and x=2 (x=1.5)
 plateau.set_color("green")
 connector.set_linestyle("--")
+path_labels = dia.lines["My Path"].labels["2.0"]       # Label of "My Path" at x=2
+path_labels.set_color("blue")
 ```
 
 All energy labels are stored in dia.numbers and can be accessed by path name and x-position.

@@ -6,8 +6,8 @@ import numpy as np
 
 from .. import constants
 from ..validation import Validators
+from .difference_manager import DifferenceManager
 from .figure_manager import FigureManager
-from .style_manager import StyleManager
 
 
 class NumberManager:
@@ -161,7 +161,7 @@ class NumberManager:
             fontsize = self.figure_manager.fontsize
         x_min_max = NumberManager._regularize_x_min_max(x_min_max)
         values_to_print = NumberManager._get_all_visible_numbers(path_data, x_min_max)
-        _, diff_per_step = NumberManager._get_diffs(margins, figsize, fontsize)
+        _, diff_per_step =  DifferenceManager._get_number_diffs(margins, figsize, fontsize)
 
         # Get a list of all x values where to print
         x_places: list | np.ndarray = []
@@ -332,40 +332,6 @@ class NumberManager:
     ############################################################
 
     @staticmethod
-    def _get_diffs(
-        margins: dict[str, tuple],
-        figsize: tuple[float, float],
-        fontsize: int,
-    ) -> tuple[float, float]:
-        """
-        Compute vertical spacing values for label placement in data coordinates.
-
-        Both values scale proportionally with font size, y-axis range, and
-        figure height so that spacing remains visually consistent regardless
-        of the diagram's scale.
-
-        Returns
-        -------
-        diff_bias : float
-            The vertical gap between an energy bar and the first label.
-        diff_per_step : float
-            The vertical distance between consecutive stacked labels.
-        """
-        diff_bias = (
-            (fontsize / constants.STD_FONTSIZE)
-            * (margins["y"][1] - margins["y"][0])
-            / figsize[1]
-            * constants.DISTANCE_NUMBER_LINE
-        )
-        diff_per_step = (
-            (fontsize / constants.STD_FONTSIZE)
-            * (margins["y"][1] - margins["y"][0])
-            / figsize[1]
-            * constants.DISTANCE_NUMBER_NUMBER
-        )
-        return diff_bias, diff_per_step
-
-    @staticmethod
     def _regularize_x_min_max(
         x_min_max: tuple[float, float] | list[float] | float | None,
     ) -> tuple[float, float]:
@@ -455,7 +421,7 @@ class NumberManager:
         resulting Text artists are saved into ``mpl_objects`` under their
         path name and x-coordinate key.
         """
-        diff_bias, diff_per_step = NumberManager._get_diffs(margins, figsize, fontsize)
+        diff_bias, diff_per_step = DifferenceManager._get_number_diffs(margins, figsize, fontsize)
         n_printed = 0
         for number in numbers_to_stack:
             number_obj = self.figure_manager.ax.text(
@@ -525,7 +491,7 @@ class NumberManager:
         and compares it to the proposed stack position. Returns True if there is no
         overlap, False otherwise.
         """
-        diff_bias, diff_per_step = NumberManager._get_diffs(margins, figsize, fontsize)
+        diff_bias, diff_per_step = DifferenceManager._get_number_diffs(margins, figsize, fontsize)
         stacked_offset = (len(numbers_to_stack) - 1) * diff_per_step
         base_offset = 2 * diff_bias
         y_stacked_max = y_print_start + base_offset + stacked_offset
@@ -536,7 +502,7 @@ class NumberManager:
                 label_fontsize = label_obj.get_fontsize()
                 label_y = label_obj.get_position()[1]
                 labeltext = label_obj.get_text()
-                diff_to_label = StyleManager._get_diff_label(
+                diff_to_label = DifferenceManager._get_diff_img_label(
                     margins, figsize, label_fontsize, labeltext
                 )
                 has_collision = (
@@ -567,7 +533,7 @@ class NumberManager:
         bar above ``y_print_start``. Returns True unconditionally if there
         are no higher bars.
         """
-        diff_bias, diff_per_step = NumberManager._get_diffs(margins, figsize, fontsize)
+        diff_bias, diff_per_step = DifferenceManager._get_number_diffs(margins, figsize, fontsize)
         stacked_offset = (len(numbers_to_stack) - 1) * diff_per_step
         base_offset = 2 * diff_bias
         y_stacked_max = y_print_start + base_offset + stacked_offset

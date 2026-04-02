@@ -238,6 +238,7 @@ class EnergyDiagram:
             y_start_end,
             description,
             self.margins,
+            self.figsize,
             diff=diff,
             left_side=left_side,
             add_difference=add_difference,
@@ -360,6 +361,7 @@ class EnergyDiagram:
         self._recalculate_xlabels()
         self._recalculate_axis_breaks()
         self._recalculate_merged_plateaus()
+        self._recalculate_path_labels()
         return self
 
     def add_path_labels(
@@ -427,6 +429,12 @@ class EnergyDiagram:
                 path_mpl_objects=self._path_manager.mpl_objects,
             )
         return self
+
+    def _recalculate_path_labels(self):
+        self._path_manager._recalculate_path_labels(
+            margins=self.margins,
+            figsize=self.figsize,
+        )
 
     def merge_plateaus(
         self,

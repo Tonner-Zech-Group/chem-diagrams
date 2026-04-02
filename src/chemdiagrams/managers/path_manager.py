@@ -16,6 +16,7 @@ if TYPE_CHECKING:
 
 from .. import constants
 from ..validation import Validators
+from .difference_manager import DifferenceManager
 from .figure_manager import FigureManager
 from .style_manager import StyleManager
 
@@ -35,6 +36,7 @@ class PathManager:
     ) -> None:
         self.figure_manager = figure_manager
         self.path_data: dict[str, dict] = {}
+        self.path_label_data: list[dict] = []
         self.mpl_objects: dict[str, PathObject] = {}
         self.merged_plateau_objects: list[dict] = []
 
@@ -166,6 +168,31 @@ class PathManager:
                 )
                 self.mpl_objects[path_name].labels[f"{x:.1f}"] = label_artist
 
+        self.path_label_data.append({
+            "path_name": path_name,
+            "labels": labels,
+            "fontsize": fontsize,
+            "weight": weight,
+            "color": color,
+        })
+
+    def _recalculate_path_labels(
+        self,
+        margins: dict[str, tuple],
+        figsize: tuple[float, float],
+    ) -> None:
+        old_path_label_data = self.path_label_data.copy()
+        self.path_label_data = []
+        for label_data in old_path_label_data:
+            # Remove old labels
+            self.mpl_objects[label_data["path_name"]].remove_labels()
+
+            # Add new labels with updated positions
+            self.add_path_labels(
+                margins=margins,
+                figsize=figsize,
+                **label_data,
+            )
 
     def merge_plateaus(
         self,
@@ -231,7 +258,10 @@ class PathManager:
         )
 
         # Draw white rectangle to
-        cover_width = PathManager._get_whitespace_cover_width(margins, figsize)
+        cover_width = DifferenceManager._get_axis_break_whitespace_cover_width(
+            margins, 
+            figsize
+        )
 
         # Add white covering reactange
         # x in data coords, y in axis fractions
@@ -245,7 +275,7 @@ class PathManager:
         )
 
         # Calculate stopper direction in data coordinates
-        delta_x, delta_y = PathManager._get_stopper_differences(
+        delta_x, delta_y = DifferenceManager._get_axis_break_stopper_differences(
             margins,
             figsize,
             angle,
@@ -417,39 +447,7 @@ class PathManager:
             ),
         )
         return BrokenLine(line_1, line_2, stopper_1, stopper_2)
-
-    @staticmethod
-    def _get_stopper_differences(
-        margins: dict[str, tuple],
-        figsize: tuple[float, float],
-        angle: float,
-    ) -> tuple[float, float]:
-        delta_x = (
-            np.cos(angle * np.pi / 180)
-            * 0.001
-            * (margins["x"][1] - margins["x"][0])
-            / figsize[0]
-        )
-        delta_y = (
-            np.sin(angle * np.pi / 180)
-            * 0.001
-            * (margins["y"][1] - margins["y"][0])
-            / figsize[1]
-        )
-        return delta_x, delta_y
-
-    @staticmethod
-    def _get_whitespace_cover_width(
-        margins: dict[str, tuple],
-        figsize: tuple[float, float],
-    ) -> float:
-        cover_width = (
-            constants.MERGED_PLATEAU_COVER_WIDTH
-            * (margins["y"][1] - margins["y"][0])
-            / figsize[1]
-        )
-        return cover_width
-
+    
 
 @dataclass
 class PathObject:
@@ -477,6 +475,11 @@ class PathObject:
             plateau.remove()
         for _, label in self.labels.items():
             label.remove()
+    
+    def remove_labels(self):
+        for _, label in self.labels.items():
+            label.remove()
+        self.labels = {}
 
 
 @dataclass
@@ -570,7 +573,7 @@ class MergedPlateau:
             Angle of the stopper tick marks in degrees from the vertical,
             as originally passed to ``merge_plateaus``.
         """
-        delta_x, delta_y = PathManager._get_stopper_differences(
+        delta_x, delta_y = DifferenceManager._get_axis_break_stopper_differences(
             margins,
             figsize,
             angle,
@@ -579,7 +582,10 @@ class MergedPlateau:
         x_right, y_right = self.stopper_right.xy
         self.stopper_left.set_position((x_left + delta_x, y_left + delta_y))
         self.stopper_right.set_position((x_right - delta_x, y_right - delta_y))
-        cover_width = PathManager._get_whitespace_cover_width(margins, figsize)
+        cover_width = DifferenceManager._get_axis_break_whitespace_cover_width(
+            margins,
+            figsize
+        )
         self.whitespace.set_height(cover_width)
         y_whitespace = self.whitespace.get_y()
         self.whitespace.set_y(y_whitespace - cover_width / 2)

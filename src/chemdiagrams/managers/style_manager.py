@@ -12,8 +12,9 @@ from matplotlib import font_manager
 
 from .. import constants
 from ..validation import Validators
+from .difference_manager import DifferenceManager
 from .figure_manager import FigureManager
-#from .number_manager import NumberManager #delaying import to avoid circular import
+from .number_manager import NumberManager 
 
 if TYPE_CHECKING:
     from matplotlib.lines import Line2D
@@ -176,7 +177,6 @@ class StyleManager:
 
         # Set labels in the plot or at axis
         if in_plot:
-            from .number_manager import NumberManager
             for x, labeltext in zip(labelplaces, labels):
                 all_values_at_x = NumberManager._get_all_values_at_x(path_data, x)
                 if all_values_at_x:
@@ -464,21 +464,7 @@ class StyleManager:
                 **y_break,
             )
 
-    @staticmethod
-    def _get_diff_label(
-        margins: dict[str, tuple],
-        figsize: tuple[float, float],
-        fontsize: int,
-        labeltext: str,
-    ) -> float:
-        n_linebreaks = len(findall("\n", labeltext))
-        diff_to_label = (
-            (fontsize / constants.STD_FONTSIZE)
-            * (margins["y"][1] - margins["y"][0])
-            / figsize[1]
-            * (constants.DISTANCE_LABEL_LINE + n_linebreaks * constants.DISTANCE_LABEL_NEWLINE)
-        )
-        return diff_to_label
+
     
     @staticmethod
     def _add_label_in_plot(
@@ -492,7 +478,7 @@ class StyleManager:
             y: float,
             color: str = "black",
     ) -> Text:
-        y_diff = -StyleManager._get_diff_label(
+        y_diff = -DifferenceManager._get_diff_plateau_label(
             margins, figsize, fontsize, labeltext
         )
         label = figure_manager.ax.text(

@@ -14,6 +14,7 @@ if TYPE_CHECKING:
 
 from .. import constants
 from ..validation import Validators
+from .difference_manager import DifferenceManager
 from .figure_manager import FigureManager
 from .number_manager import NumberManager
 
@@ -220,7 +221,7 @@ class ImageManager:
             x = img_x_places[index]
 
             # Avoid collision with plateaus
-            diff_to_plateau = ImageManager._get_diff_plateau(margins, figsize)
+            diff_to_plateau = DifferenceManager._get_diff_img_plateau(margins, figsize)
             all_values_at_x = NumberManager._get_all_values_at_x(path_data, x)
             if all_values_at_x:
                 y_min_top = max(all_values_at_x) + diff_to_plateau
@@ -235,7 +236,7 @@ class ImageManager:
                 try:
                     number_fontsize = numbers[f"{x:.1f}"].get_fontsize()
                     number_y = numbers[f"{x:.1f}"].get_position()[1]
-                    diff_to_number = ImageManager._get_diff_number(
+                    diff_to_number = DifferenceManager._get_diff_img_number(
                         margins, figsize, number_fontsize
                     )
                     if number_y + diff_to_number > y_min_top:
@@ -250,7 +251,7 @@ class ImageManager:
                 label_fontsize = xlabel_mpl_objects[f"{x:.1f}"].get_fontsize()
                 label_y = xlabel_mpl_objects[f"{x:.1f}"].get_position()[1]
                 labeltext = xlabel_mpl_objects[f"{x:.1f}"].get_text()
-                diff_to_label = ImageManager._get_diff_label(
+                diff_to_label = DifferenceManager._get_diff_img_label(
                     margins, figsize, label_fontsize, labeltext
                 )
                 if label_y + diff_to_label > y_min_top:
@@ -266,7 +267,7 @@ class ImageManager:
                     label_fontsize = paths_obj.labels[f"{x:.1f}"].get_fontsize()
                     label_y = paths_obj.labels[f"{x:.1f}"].get_position()[1]
                     labeltext = paths_obj.labels[f"{x:.1f}"].get_text()
-                    diff_to_label = ImageManager._get_diff_label(
+                    diff_to_label = DifferenceManager._get_diff_img_label(
                         margins, figsize, label_fontsize, labeltext
                     )
                     if label_y + diff_to_label > y_min_top:
@@ -491,46 +492,7 @@ class ImageManager:
             )
         return ImageObject(img_artist, border_objects)
 
-    @staticmethod
-    def _get_diff_plateau(
-        margins: dict[str, tuple],
-        figsize: tuple[float, float],
-    ) -> float:
-        diff_to_plateau = (
-            (margins["y"][1] - margins["y"][0]) / figsize[1] * constants.DISTANCE_IMAGE_LINE
-        )
-        return diff_to_plateau
 
-    @staticmethod
-    def _get_diff_number(
-        margins: dict[str, tuple], figsize: tuple[float, float], fontsize
-    ) -> float:
-        diff_to_number = (
-            (fontsize / constants.STD_FONTSIZE)
-            * (margins["y"][1] - margins["y"][0])
-            / figsize[1]
-            * constants.DISTANCE_NUMBER_LINE
-        )
-        return diff_to_number
-
-    @staticmethod
-    def _get_diff_label(
-        margins: dict[str, tuple],
-        figsize: tuple[float, float],
-        fontsize: int,
-        labeltext: str,
-    ) -> float:
-        n_linebreaks = len(findall("\n", labeltext))
-        diff_to_label = (
-            (fontsize / constants.STD_FONTSIZE)
-            * (margins["y"][1] - margins["y"][0])
-            / figsize[1]
-            * (
-                constants.DISTANCE_IMAGE_LABEL
-                + n_linebreaks * constants.DISTANCE_LABEL_NEWLINE
-            )
-        )
-        return diff_to_label
 
 
 @dataclass

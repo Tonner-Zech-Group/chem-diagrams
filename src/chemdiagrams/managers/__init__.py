@@ -1,5 +1,6 @@
 """Manager classes for EnergyDiagram"""
 
+from .difference_manager import DifferenceManager
 from .bar_manager import BarManager, DifferenceBar
 from .figure_manager import FigureManager
 from .image_manager import ImageManager
@@ -9,10 +10,11 @@ from .path_manager import BrokenLine, MergedPlateau, PathManager, PathObject
 from .style_manager import StyleManager, StyleObjects
 
 __all__ = [
+    "DifferenceManager",
     "FigureManager",
+    "NumberManager",
     "PathManager",
     "StyleManager",
-    "NumberManager",
     "LayoutManager",
     "BarManager",
     "ImageManager",
