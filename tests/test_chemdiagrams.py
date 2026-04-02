@@ -12,6 +12,8 @@ import matplotlib
 import numpy as np
 import pytest
 
+from chemdiagrams.managers.difference_manager import DifferenceManager
+
 matplotlib.use("Agg")  # non-interactive backend — no display required
 
 import matplotlib.pyplot as plt
@@ -29,7 +31,9 @@ from chemdiagrams.managers.image_manager import ImageObject
 def make_diagram(**kwargs) -> EnergyDiagram:
     """Return a fresh EnergyDiagram with a simple single path."""
     dia = EnergyDiagram(**kwargs)
-    dia.draw_path(x_data=[0, 1, 2, 3, 4], y_data=[0, 28, -14, 15, -22], color="blue")
+    dia.draw_path(
+        x_data=[0, 1, 2, 3, 4], y_data=[0, 28, -14, 15, -22], color="blue", path_name="A"
+    )
     return dia
 
 
@@ -958,7 +962,121 @@ class TestPathManagerArtists:
         for lt in [0, 1, -1, 2, -2, 3, 4]:
             dia = EnergyDiagram()
             dia.draw_path([0, 1], [0, 10], color="blue", linetypes=lt)
-            plt.close("all")
+
+
+# ---------------------------------------------------------------------------
+# add_path_labels
+# ---------------------------------------------------------------------------
+
+
+class TestAddPathLabels:
+    def test_basic_labels(self):
+        """Test basic label addition with all labels provided."""
+        dia = make_diagram()
+        result = dia.add_path_labels(path_name="A", labels=["E", "TS1", "I", "TS2", "P"])
+        assert result is dia  # method chaining
+
+    def test_labels_with_none_values(self):
+        """Test that None values in labels don't raise errors."""
+        dia = make_diagram()
+        dia.add_path_labels(path_name="A", labels=["E", None, "I", None, "P"])
+
+    def test_custom_fontsize(self):
+        """Test adding labels with custom fontsize."""
+        dia = make_diagram()
+        dia.add_path_labels(path_name="A", labels=["A", "B", "C", "D", "E"], fontsize=12)
+
+    def test_custom_weight(self):
+        """Test adding labels with custom font weight."""
+        dia = make_diagram()
+        dia.add_path_labels(path_name="A", labels=["A", "B", "C", "D", "E"], weight="bold")
+
+    def test_custom_color(self):
+        """Test adding labels with custom color."""
+        dia = make_diagram()
+        dia.add_path_labels(path_name="A", labels=["A", "B", "C", "D", "E"], color="red")
+
+    def test_custom_fontsize_and_weight_and_color(self):
+        """Test adding labels with all customizations at once."""
+        dia = make_diagram()
+        dia.add_path_labels(
+            path_name="A",
+            labels=["A", "B", "C", "D", "E"],
+            fontsize=10,
+            weight="bold",
+            color="green",
+        )
+
+    def test_labels_stored_in_path_label_data(self):
+        """Test that label data is stored in path_label_data."""
+        dia = make_diagram()
+        dia.add_path_labels(path_name="A", labels=["E", "TS1", "I", "TS2", "P"])
+        assert len(dia._path_manager.path_label_data) == 1
+        label_entry = dia._path_manager.path_label_data[0]
+        assert label_entry["labels"] == ["E", "TS1", "I", "TS2", "P"]
+
+    def test_labels_with_named_path(self):
+        """Test adding labels to a specifically named path."""
+        dia = EnergyDiagram()
+        dia.draw_path([0, 1, 2], [0, 10, -5], color="blue", path_name="path_A")
+        dia.draw_path([0, 1, 2], [0, 5, -2], color="red", path_name="path_B")
+        dia.add_path_labels(path_name="path_A", labels=["A1", "A2", "A3"])
+        # Ensure only one label set was added for path_A
+        label_entries = [
+            e for e in dia._path_manager.path_label_data if e["path_name"] == "path_A"
+        ]
+        assert len(label_entries) == 1
+
+    def test_labels_added_to_multiple_paths(self):
+        """Test adding labels to different paths sequentially."""
+        dia = EnergyDiagram()
+        dia.draw_path([0, 1, 2], [0, 10, -5], color="blue", path_name="path_A")
+        dia.draw_path([0, 1, 2], [0, 5, -2], color="red", path_name="path_B")
+        dia.add_path_labels(path_name="path_A", labels=["A1", "A2", "A3"])
+        dia.add_path_labels(path_name="path_B", labels=["B1", "B2", "B3"])
+        assert len(dia._path_manager.path_label_data) == 2
+
+    def test_label_metadata_stored_correctly(self):
+        """Test that all metadata is stored correctly in path_label_data."""
+        dia = make_diagram()
+        fontsize = 14
+        weight = "bold"
+        color = "purple"
+        labels = ["A", "B", "C", "D", "E"]
+
+        dia.add_path_labels(
+            path_name="A", labels=labels, fontsize=fontsize, weight=weight, color=color
+        )
+
+        label_entry = dia._path_manager.path_label_data[0]
+        assert label_entry["fontsize"] == fontsize
+        assert label_entry["weight"] == weight
+        assert label_entry["color"] == color
+        assert label_entry["labels"] == labels
+
+    def test_fontsize_none_uses_diagram_fontsize(self):
+        """Test that None fontsize uses the diagram's fontsize."""
+        dia = EnergyDiagram(fontsize=11)
+        dia.draw_path([0, 1, 2], [0, 10, -5], color="blue", path_name="A")
+        dia.add_path_labels(path_name="A", labels=["A", "B", "C"], fontsize=None)
+
+        label_entry = dia._path_manager.path_label_data[0]
+        assert label_entry["fontsize"] == 11
+
+    def test_color_none_uses_path_color(self):
+        """Test that None color uses the path's color."""
+        dia = EnergyDiagram()
+        dia.draw_path([0, 1, 2], [0, 10, -5], color="orange", path_name="A")
+        dia.add_path_labels(path_name="A", labels=["A", "B", "C"], color=None)
+
+        label_entry = dia._path_manager.path_label_data[0]
+        assert label_entry["color"] == "orange"
+
+    def test_all_labels_none_valid(self):
+        """Test that a label sequence with all None values is valid."""
+        dia = make_diagram()
+        dia.add_path_labels(path_name="A", labels=[None, None, None, None, None])
+        plt.close("all")
 
     def test_float_linetype_raises(self):
         """A float is neither int nor Sequence — hits the else TypeError branch."""
@@ -1109,23 +1227,23 @@ class TestStyleManagerExtra:
 
     def test_diff_label_multiline_larger_than_single_line(self):
         """A label with a newline should produce a larger y-offset than a plain label."""
-        from chemdiagrams.managers.style_manager import StyleManager
 
         margins = {"x": (-0.5, 4.5), "y": (-30.0, 40.0)}
         figsize = (4.0, 3.0)
         fontsize = 8
-        single = StyleManager._get_diff_label(margins, figsize, fontsize, "label")
-        multi = StyleManager._get_diff_label(margins, figsize, fontsize, "line1\nline2")
+        single = DifferenceManager._get_diff_plateau_label(margins, figsize, fontsize, "label")
+        multi = DifferenceManager._get_diff_plateau_label(
+            margins, figsize, fontsize, "line1\nline2"
+        )
         assert multi > single
 
     def test_diff_label_scales_with_fontsize(self):
         """A larger fontsize should produce a proportionally larger y-offset."""
-        from chemdiagrams.managers.style_manager import StyleManager
 
         margins = {"x": (-0.5, 4.5), "y": (-30.0, 40.0)}
         figsize = (4.0, 3.0)
-        small = StyleManager._get_diff_label(margins, figsize, 8, "label")
-        large = StyleManager._get_diff_label(margins, figsize, 16, "label")
+        small = DifferenceManager._get_diff_plateau_label(margins, figsize, 8, "label")
+        large = DifferenceManager._get_diff_plateau_label(margins, figsize, 16, "label")
         assert large == pytest.approx(small * 2)
 
 

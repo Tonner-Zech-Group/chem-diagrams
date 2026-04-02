@@ -5,6 +5,7 @@ from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
 import matplotlib.patches as mpatches
+from matplotlib import font_manager
 import numpy as np
 from scipy.interpolate import CubicSpline
 
@@ -16,7 +17,9 @@ if TYPE_CHECKING:
 
 from .. import constants
 from ..validation import Validators
+from .difference_manager import DifferenceManager
 from .figure_manager import FigureManager
+from .style_manager import StyleManager
 
 
 class PathManager:
@@ -34,6 +37,7 @@ class PathManager:
     ) -> None:
         self.figure_manager = figure_manager
         self.path_data: dict[str, dict] = {}
+        self.path_label_data: list[dict] = []
         self.mpl_objects: dict[str, PathObject] = {}
         self.merged_plateau_objects: list[dict] = []
 
@@ -95,21 +99,22 @@ class PathManager:
         assert isinstance(lw_plateau, (float, int))
 
         # Save data for numbering or legend
-        has_label = True
+        has_name = True
         if path_name is None:
-            has_label = False
+            has_name = False
             path_name = f"__NONAME{len(self.path_data)}"
         self.path_data[path_name] = {
             "x": x_data,
             "y": y_data,
             "color": color,
-            "has_label": has_label,
+            "has_name": has_name,
             "show_numbers": show_numbers,
         }
 
         # Initialize nested dics
-        connections = {}
-        plateaus = {}
+        connections: dict = {}
+        plateaus: dict = {}
+        labels: dict = {}
 
         # Create lists in order to draw the lines
         x_corners = []
@@ -139,9 +144,81 @@ class PathManager:
                     x_corners[-3:-1], y_corners[-3:-1], linetypes[i - 1], color
                 )
                 connections[f"{sum(x_corners[-3:-1]) / 2:.1f}"] = connector
-
         # Save Path
-        self.mpl_objects[path_name] = PathObject(connections, plateaus)
+        self.mpl_objects[path_name] = PathObject(connections, plateaus, labels)
+
+    def add_path_labels(
+        self,
+        margins: dict[str, tuple],
+        figsize: tuple[float, float],
+        path_name: str,
+        labels: Sequence[str],
+        fontsize: int | None = None,
+        weight: str = "normal",
+        color: str | None = None,
+    ) -> None:
+        # Sanity checks
+        if path_name not in self.path_data.keys():
+            raise ValueError(f'Path "{path_name}" does not exist.')
+        Validators.validate_string_sequence(
+            labels,
+            "labels",
+            can_contain_none=True,
+            required_length=len(self.path_data[path_name]["x"]),
+        )
+        if fontsize is not None:
+            Validators.validate_number(fontsize, "fontsize", min_value=0, allow_none=True)
+        else:
+            fontsize = self.figure_manager.fontsize
+        if color is None:
+            color = self.path_data[path_name]["color"]
+
+        labelfont = font_manager.FontProperties(weight=weight, size=fontsize)
+
+        for i, labeltext in enumerate(labels):
+            if labeltext is not None:
+                x = self.path_data[path_name]["x"][i]
+                y = self.path_data[path_name]["y"][i]
+                label_artist = StyleManager._add_label_in_plot(
+                    figure_manager=self.figure_manager,
+                    margins=margins,
+                    figsize=figsize,
+                    labeltext=labeltext,
+                    fontsize=fontsize,
+                    labelfont=labelfont,
+                    x=x,
+                    y=y,
+                    color=color,
+                )
+                self.mpl_objects[path_name].labels[f"{x:.1f}"] = label_artist
+
+        self.path_label_data.append(
+            {
+                "path_name": path_name,
+                "labels": labels,
+                "fontsize": fontsize,
+                "weight": weight,
+                "color": color,
+            }
+        )
+
+    def _recalculate_path_labels(
+        self,
+        margins: dict[str, tuple],
+        figsize: tuple[float, float],
+    ) -> None:
+        old_path_label_data = self.path_label_data.copy()
+        self.path_label_data = []
+        for label_data in old_path_label_data:
+            # Remove old labels
+            self.mpl_objects[label_data["path_name"]].remove_labels()
+
+            # Add new labels with updated positions
+            self.add_path_labels(
+                margins=margins,
+                figsize=figsize,
+                **label_data,
+            )
 
     def merge_plateaus(
         self,
@@ -211,7 +288,9 @@ class PathManager:
         )
 
         # Draw white rectangle to
-        cover_width = PathManager._get_whitespace_cover_width(margins, figsize)
+        cover_width = DifferenceManager._get_axis_break_whitespace_cover_width(
+            margins, figsize
+        )
 
         # Add white covering reactange
         # x in data coords, y in axis fractions
@@ -225,7 +304,7 @@ class PathManager:
         )
 
         # Calculate stopper direction in data coordinates
-        delta_x, delta_y = PathManager._get_stopper_differences(
+        delta_x, delta_y = DifferenceManager._get_axis_break_stopper_differences(
             margins,
             figsize,
             angle,
@@ -488,6 +567,7 @@ class PathObject:
 
     connections: dict
     plateaus: dict
+    labels: dict
 
     def remove(self):
         for _, connection in self.connections.items():
@@ -497,6 +577,14 @@ class PathObject:
                 plateau.remove()
             except AttributeError:
                 pass
+        for _, label in self.labels.items():
+            label.remove()
+
+    def remove_labels(self):
+        for _, label in self.labels.items():
+            label.remove()
+        self.labels = {}
+            
 
 
 @dataclass
@@ -590,7 +678,7 @@ class MergedPlateau:
             Angle of the stopper tick marks in degrees from the vertical,
             as originally passed to ``merge_plateaus``.
         """
-        delta_x, delta_y = PathManager._get_stopper_differences(
+        delta_x, delta_y = DifferenceManager._get_axis_break_stopper_differences(
             margins,
             figsize,
             angle,
@@ -599,7 +687,9 @@ class MergedPlateau:
         x_right, y_right = self.stopper_right.xy
         self.stopper_left.set_position((x_left + delta_x, y_left + delta_y))
         self.stopper_right.set_position((x_right - delta_x, y_right - delta_y))
-        cover_width = PathManager._get_whitespace_cover_width(margins, figsize)
+        cover_width = DifferenceManager._get_axis_break_whitespace_cover_width(
+            margins, figsize
+        )
         self.whitespace.set_height(cover_width)
         y_whitespace = self.whitespace.get_y()
         self.whitespace.set_y(y_whitespace - cover_width / 2)

@@ -2,7 +2,6 @@ from __future__ import annotations
 
 from collections.abc import Sequence
 from dataclasses import dataclass
-from re import findall
 from typing import TYPE_CHECKING
 
 import matplotlib.patches as mpatches
@@ -12,6 +11,7 @@ from matplotlib import font_manager
 
 from .. import constants
 from ..validation import Validators
+from .difference_manager import DifferenceManager
 from .figure_manager import FigureManager
 from .number_manager import NumberManager
 
@@ -166,7 +166,7 @@ class StyleManager:
 
         # Clear or hide labels if present
         self.figure_manager.ax.set_xticks([])
-        self.mpl_objects.remove_labels()
+        self.mpl_objects.remove_xlabels()
         label_dict = {}
 
         # Set font of x labels
@@ -179,18 +179,16 @@ class StyleManager:
             for x, labeltext in zip(labelplaces, labels):
                 all_values_at_x = NumberManager._get_all_values_at_x(path_data, x)
                 if all_values_at_x:
-                    y_diff = -StyleManager._get_diff_label(
-                        margins, figsize, fontsize, labeltext
-                    )
-                    y_min_at_x = min(all_values_at_x)
-                    label = self.figure_manager.ax.text(
-                        x,
-                        y_min_at_x + y_diff,
+                    y = min(all_values_at_x)
+                    label = self._add_label_in_plot(
+                        self.figure_manager,
+                        margins,
+                        figsize,
                         labeltext,
-                        font=labelfont,
-                        ha="center",
-                        va="center",
-                        zorder=constants.ZORDER_X_LABEL,
+                        fontsize,
+                        labelfont,
+                        x,
+                        y,
                     )
                     label_dict[f"{x:.1f}"] = label
                 else:
@@ -464,20 +462,31 @@ class StyleManager:
             )
 
     @staticmethod
-    def _get_diff_label(
+    def _add_label_in_plot(
+        figure_manager: FigureManager,
         margins: dict[str, tuple],
         figsize: tuple[float, float],
-        fontsize: int,
         labeltext: str,
-    ) -> float:
-        n_linebreaks = len(findall("\n", labeltext))
-        diff_to_label = (
-            (fontsize / constants.STD_FONTSIZE)
-            * (margins["y"][1] - margins["y"][0])
-            / figsize[1]
-            * (constants.DISTANCE_LABEL_LINE + n_linebreaks * constants.DISTANCE_LABEL_NEWLINE)
+        fontsize: int,
+        labelfont: font_manager.FontProperties,
+        x: float,
+        y: float,
+        color: str = "black",
+    ) -> Text:
+        y_diff = -DifferenceManager._get_diff_plateau_label(
+            margins, figsize, fontsize, labeltext
         )
-        return diff_to_label
+        label = figure_manager.ax.text(
+            x,
+            y + y_diff,
+            labeltext,
+            font=labelfont,
+            ha="center",
+            va="center",
+            color=color,
+            zorder=constants.ZORDER_X_LABEL,
+        )
+        return label
 
 
 @dataclass
@@ -533,7 +542,7 @@ class StyleObjects:
         self.xaxis_breaks = {}
         self.yaxis_breaks = {}
 
-    def remove_labels(self):
+    def remove_xlabels(self):
         for _, label in self.x_labels.items():
             label.remove()
         self.x_labels = {}

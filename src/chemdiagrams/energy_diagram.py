@@ -242,6 +242,7 @@ class EnergyDiagram:
             y_start_end,
             description,
             self.margins,
+            self.figsize,
             diff=diff,
             left_side=left_side,
             add_difference=add_difference,
@@ -281,7 +282,7 @@ class EnergyDiagram:
             fontsize = self._figure_manager.fontsize
         patches = []
         for path_name, path_info in self._path_manager.path_data.items():
-            if path_info["has_label"]:
+            if path_info["has_name"]:
                 patches.append(mpatches.Patch(color=path_info["color"], label=path_name))
         self._figure_manager.ax.legend(handles=patches, fontsize=fontsize, loc=loc)
         return self
@@ -378,7 +379,80 @@ class EnergyDiagram:
         self._recalculate_xlabels()
         self._recalculate_axis_breaks()
         self._recalculate_merged_plateaus()
+        self._recalculate_path_labels()
         return self
+
+    def add_path_labels(
+        self,
+        path_name: str,
+        labels: Sequence[str],
+        fontsize: int | None = None,
+        weight: str = "normal",
+        color: str | None = None,
+    ) -> EnergyDiagram:
+        """Add text labels below the energy levels of a specific path.
+
+        Parameters
+        ----------
+        path_name : str
+            Name of the path to which the labels should be added.
+        labels : sequence of str
+            A sequence of text labels, one for each energy level in the path.
+            If None is passed for a label, no label is drawn for that level.
+            Must have the same length as the number of energy levels in the path.
+        fontsize : int or None, optional
+            Font size for the labels. When None the diagram's base font size
+            is used. Default is None.
+        weight : str, optional
+            Font weight for the labels, e.g. ``"bold"`` or ``"normal"``.
+            Default is ``"normal"``.
+        color : str or None, optional
+            Color for the labels. When None, uses the same color as the path.
+            Default is None.
+
+        Returns
+        -------
+        EnergyDiagram
+            Returns *self* to allow method chaining.
+
+        Raises
+        ------
+        ValueError
+            If the specified path does not exist or if the number of labels
+            does not match the number of energy levels in the path.
+        """
+        self._path_manager.add_path_labels(
+            margins=self.margins,
+            figsize=self.figsize,
+            path_name=path_name,
+            labels=labels,
+            fontsize=fontsize,
+            weight=weight,
+            color=color,
+        )
+        if self._image_manager.has_image_series:
+            self._image_manager.recalculate_image_series(
+                self.margins,
+                self.figsize,
+                self._path_manager.path_data,
+                self._number_manager.mpl_objects,
+                self._style_manager.mpl_objects.x_labels,
+                self._path_manager.mpl_objects,
+            )
+        if self._number_manager.numberings_added:
+            self._number_manager._recalculate_numbers(
+                path_data=self._path_manager.path_data,
+                margins=self.margins,
+                figsize=self.figsize,
+                path_mpl_objects=self._path_manager.mpl_objects,
+            )
+        return self
+
+    def _recalculate_path_labels(self):
+        self._path_manager._recalculate_path_labels(
+            margins=self.margins,
+            figsize=self.figsize,
+        )
 
     def merge_plateaus(
         self,
@@ -503,6 +577,7 @@ class EnergyDiagram:
                 self._path_manager.path_data,
                 self._number_manager.mpl_objects,
                 self._style_manager.mpl_objects.x_labels,
+                self._path_manager.mpl_objects,
             )
         return self
 
@@ -672,6 +747,7 @@ class EnergyDiagram:
                 self._path_manager.path_data,
                 self._number_manager.mpl_objects,
                 self._style_manager.mpl_objects.x_labels,
+                self._path_manager.mpl_objects,
             )
         return self
 
@@ -723,6 +799,7 @@ class EnergyDiagram:
             self._path_manager.path_data,
             self.margins,
             self.figsize,
+            self._path_manager.mpl_objects,
             x_min_max,
             fontsize=fontsize,
             sort_by_energy=sort_by_energy,
@@ -736,6 +813,7 @@ class EnergyDiagram:
                 self._path_manager.path_data,
                 self._number_manager.mpl_objects,
                 self._style_manager.mpl_objects.x_labels,
+                self._path_manager.mpl_objects,
             )
         return self
 
@@ -776,6 +854,7 @@ class EnergyDiagram:
             self._path_manager.path_data,
             self.margins,
             self.figsize,
+            path_mpl_objects=self._path_manager.mpl_objects,
             x_min_max=x_min_max,
             fontsize=fontsize,
             n_decimals=n_decimals,
@@ -787,6 +866,7 @@ class EnergyDiagram:
                 self._path_manager.path_data,
                 self._number_manager.mpl_objects,
                 self._style_manager.mpl_objects.x_labels,
+                self._path_manager.mpl_objects,
             )
         return self
 
@@ -840,6 +920,7 @@ class EnergyDiagram:
                 self._path_manager.path_data,
                 self._number_manager.mpl_objects,
                 self._style_manager.mpl_objects.x_labels,
+                self._path_manager.mpl_objects,
             )
         return self
 
@@ -957,6 +1038,7 @@ class EnergyDiagram:
             path_data=self._path_manager.path_data,
             number_mpl_objects=self._number_manager.mpl_objects,
             xlabel_mpl_objects=self._style_manager.mpl_objects.x_labels,
+            path_mpl_objects=self._path_manager.mpl_objects,
             img_x_places=img_x_places,
             y_placement=y_placement,
             y_offsets=y_offsets,

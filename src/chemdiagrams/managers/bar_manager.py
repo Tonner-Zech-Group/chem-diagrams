@@ -37,6 +37,7 @@ class BarManager:
         y_start_end: tuple[float, float] | list[float],
         description: str,
         margins: dict,
+        figsize: tuple[float, float],
         diff: float | None = None,
         left_side: bool = False,
         add_difference: bool = True,
@@ -68,7 +69,7 @@ class BarManager:
         if diff is None:
             diff = constants.DISTANCE_TEXT_DIFFBAR
             diff *= margins["x"][1] - margins["x"][0]
-            diff /= self.figure_manager.fig.get_figwidth()
+            diff /= figsize[0]
 
         # Adjust diff and ha to side
         if left_side:
