@@ -41,11 +41,13 @@ class NumberManager:
         figsize: tuple[float, float],
         x_min_max: tuple[float, float] | list[float] | float | None = None,
         fontsize: int | None = None,
+        n_decimals: int = 0,
     ) -> None:
         # Regularize x_min_max, fontsize and get all the numbers to plot
         x_min_max = NumberManager._regularize_x_min_max(x_min_max)
         values_to_print = NumberManager._get_all_visible_numbers(path_data, x_min_max)
         Validators.validate_number(fontsize, "fontsize", min_value=0, allow_none=True)
+        Validators.validate_number(n_decimals, "n_decimals", min_value=0, only_integer=True)
         if fontsize is None:
             fontsize = self.figure_manager.fontsize
 
@@ -66,6 +68,7 @@ class NumberManager:
                     margins,
                     figsize,
                     fontsize,
+                    n_decimals,
                 )
         self.numberings_added.append(
             {
@@ -85,11 +88,13 @@ class NumberManager:
         fontsize: int | None = None,
         sort_by_energy: bool = True,
         no_overlap_with_nonnumbered: bool = True,
+        n_decimals: int = 0,
     ) -> None:
         # Regularize x_min_max, fontsize and get all the numbers to plot
         x_min_max = NumberManager._regularize_x_min_max(x_min_max)
         values_to_print = NumberManager._get_all_visible_numbers(path_data, x_min_max)
         Validators.validate_number(fontsize, "fontsize", min_value=0, allow_none=True)
+        Validators.validate_number(n_decimals, "n_decimals", min_value=0, only_integer=True)
         if fontsize is None:
             fontsize = self.figure_manager.fontsize
 
@@ -139,6 +144,7 @@ class NumberManager:
                 margins,
                 figsize,
                 fontsize,
+                n_decimals,
             )
         self.numberings_added.append(
             {
@@ -158,9 +164,11 @@ class NumberManager:
         path_mpl_objects: dict,
         x_min_max: tuple[float, float] | list[float] | float | None = None,
         fontsize: int | None = None,
+        n_decimals: int = 0,
     ) -> None:
         # Regularize x_min_max, fontsize and get all the numbers to plot
         Validators.validate_number(fontsize, "fontsize", min_value=0, allow_none=True)
+        Validators.validate_number(n_decimals, "n_decimals", min_value=0, only_integer=True)
         if fontsize is None:
             fontsize = self.figure_manager.fontsize
         x_min_max = NumberManager._regularize_x_min_max(x_min_max)
@@ -223,6 +231,7 @@ class NumberManager:
                             margins,
                             figsize,
                             fontsize,
+                            n_decimals,
                         )
                         y_last_printed = (
                             y_print_start + (len(numbers_to_stack_current) - 1) * diff_per_step
@@ -258,11 +267,13 @@ class NumberManager:
         x_min_max: tuple[float, float] | list[float] | float | None = None,
         fontsize: int | None = None,
         color: str = "black",
+        n_decimals: int = 0,
     ) -> None:
         # Regularize x_min_max, fontsize and get all the numbers to plot
         x_min_max = NumberManager._regularize_x_min_max(x_min_max)
         values_to_print = NumberManager._get_all_visible_numbers(path_data, x_min_max)
         Validators.validate_number(fontsize, "fontsize", min_value=0, allow_none=True)
+        Validators.validate_number(n_decimals, "n_decimals", min_value=0, only_integer=True)
         if fontsize is None:
             fontsize = self.figure_manager.fontsize
 
@@ -293,6 +304,7 @@ class NumberManager:
                 margins,
                 figsize,
                 fontsize,
+                n_decimals,
             )
         self.numberings_added.append(
             {
@@ -419,6 +431,7 @@ class NumberManager:
         margins: dict[str, tuple],
         figsize: tuple[float, float],
         fontsize: int,
+        n_decimals: int = 0,
     ) -> None:
         """
         Render a vertical stack of energy labels at a given x-position.
@@ -436,7 +449,7 @@ class NumberManager:
             number_obj = self.figure_manager.ax.text(
                 x,
                 (y_print_start + diff_bias + n_printed * diff_per_step),
-                round(number["y"]),
+                f"{number['y']:.{n_decimals}f}",
                 ha="center",
                 va="center",
                 fontsize=fontsize,

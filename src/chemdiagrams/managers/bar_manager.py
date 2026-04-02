@@ -41,6 +41,7 @@ class BarManager:
         diff: float | None = None,
         left_side: bool = False,
         add_difference: bool = True,
+        n_decimals: int = 0,
         fontsize: int | None = None,
         color: str = "black",
         arrowstyle: str = "|-|",
@@ -52,6 +53,7 @@ class BarManager:
         Validators.validate_numeric_sequence(y_start_end, "y_start_end", required_length=2)
         Validators.validate_number(fontsize, "fontsize", allow_none=True, min_value=0)
         Validators.validate_number(diff, "diff", allow_none=True)
+        Validators.validate_number(n_decimals, "n_decimals", min_value=0, only_integer=True)
         if not isinstance(x_whiskers, Sequence):
             raise TypeError("x_whiskers must be a list or tuple of length 2.")
         if len(x_whiskers) != 2:
@@ -93,7 +95,7 @@ class BarManager:
 
         # Draw text next to bar
         if add_difference:
-            difference_str = str(round(y_end - y_start))
+            difference_str = str(f"{(y_end - y_start):.{n_decimals}f}")
         else:
             difference_str = ""
         text = self.figure_manager.ax.text(

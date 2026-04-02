@@ -6,6 +6,8 @@ from typing import TYPE_CHECKING
 
 import matplotlib.patches as mpatches
 from matplotlib import font_manager
+import numpy as np
+from scipy.interpolate import CubicSpline
 
 if TYPE_CHECKING:
     from matplotlib.collections import LineCollection
@@ -47,6 +49,8 @@ class PathManager:
         linetypes: Sequence[int] | int | None = None,
         path_name: str | None = None,
         show_numbers: bool = True,
+        width_plateau: float | None = None,
+        lw_plateau: float | str = "plateau",
     ) -> None:
         # Sanity checks and linetype normalization
         Validators.validate_numeric_sequence(x_data, "x_data")
@@ -57,8 +61,12 @@ class PathManager:
             raise ValueError("path_name must not already exist")
         if len(x_data) != len(y_data):
             raise ValueError("x_data and y_data must have the same length")
+        if width_plateau is not None:
+            Validators.validate_number(width_plateau, "width_plateau", min_value=0)
+        else:
+            width_plateau = constants.WIDTH_PLATEAU
 
-        ALLOWED_LINETYPES = [-2, -1, 0, 1, 2]
+        ALLOWED_LINETYPES = [-2, -1, 0, 1, 2, 3, 4]
         if linetypes is None:
             linetypes = [1] * (len(y_data) - 1)
         elif isinstance(linetypes, int):
@@ -75,6 +83,20 @@ class PathManager:
                 )
         else:
             raise TypeError("linetypes must be an tuple, list or integer.")
+
+        if isinstance(lw_plateau, str):
+            if lw_plateau == "plateau":
+                lw_plateau = constants.LW_PLATEAU
+            elif lw_plateau == "connector":
+                lw_plateau = constants.LW_CONNECTOR
+            else:
+                raise ValueError(
+                    "Invalid string value for lw_plateau. "
+                    "Use 'plateau', 'connector', or a number."
+                )
+        else:
+            Validators.validate_number(lw_plateau, "lw_plateau", min_value=0)
+        assert isinstance(lw_plateau, (float, int))
 
         # Save data for numbering or legend
         has_name = True
@@ -100,19 +122,22 @@ class PathManager:
 
         # Draw the lines
         for i, v in enumerate(y_data):
-            x_corners.append(x_data[i] - 0.5 * constants.WIDTH_PLATEAU)
-            x_corners.append(x_data[i] + 0.5 * constants.WIDTH_PLATEAU)
+            x_corners.append(x_data[i] - 0.5 * width_plateau)
+            x_corners.append(x_data[i] + 0.5 * width_plateau)
             y_corners.append(y_data[i])
             y_corners.append(y_data[i])
-            plateau = self.figure_manager.ax.hlines(
-                v,
-                x_corners[-2],
-                x_corners[-1],
-                zorder=constants.ZORDER_PLATEAU,
-                lw=constants.LW_PLATEAU,
-                color=color,
-                capstyle="round",
-            )
+            if width_plateau > 0:
+                plateau = self.figure_manager.ax.hlines(
+                    v,
+                    x_corners[-2],
+                    x_corners[-1],
+                    zorder=constants.ZORDER_PLATEAU,
+                    lw=lw_plateau,
+                    color=color,
+                    capstyle="round",
+                )
+            else:
+                plateau = None
             plateaus[f"{x_data[i]:.1f}"] = plateau
             if i > 0:
                 connector = self._draw_connector(
@@ -223,6 +248,10 @@ class PathManager:
             raise ValueError(
                 f'Path "{path_name_right}" must exist and have a value at x = {x}.'
             )
+        if full_plateau_left is None:
+            raise ValueError(f"Plateau for {path_name_left} at x = {x} is non-existent.")
+        if full_plateau_right is None:
+            raise ValueError(f"Plateau for {path_name_right} at x = {x} is non-existent.")
         y_left = full_plateau_left.get_segments()[0][0][1]
         y_right = full_plateau_right.get_segments()[0][0][1]
         if y_left != y_right:
@@ -344,8 +373,8 @@ class PathManager:
         y_coords: Sequence[float],
         linetype: int,
         color: str,
-    ) -> Line2D | BrokenLine | None:
-        connector: Line2D | BrokenLine | None = None
+    ) -> Line2D | list[Line2D] | BrokenLine | None:
+        connector: Line2D | list[Line2D] | BrokenLine | None = None
         if linetype == 0:
             connector = None
         elif linetype == 1:
@@ -356,6 +385,10 @@ class PathManager:
             connector = self._draw_line(x_coords, y_coords, color)
         elif linetype == -2:
             connector = self._draw_broken_line(x_coords, y_coords, color, dotted=False)
+        elif linetype == 3:
+            connector = self._draw_dotted_spline(x_coords, y_coords, color)
+        elif linetype == 4:
+            connector = self._draw_spline(x_coords, y_coords, color)
         else:
             raise ValueError(f"Invalid linetype argument: {linetype}")
         return connector
@@ -448,6 +481,74 @@ class PathManager:
         )
         return BrokenLine(line_1, line_2, stopper_1, stopper_2)
 
+    def _draw_dotted_spline(
+        self, x_coords: Sequence[float], y_coords: Sequence[float], color: str
+    ) -> list[Line2D]:
+        # Create a cubic spline interpolation of the points
+        cs = CubicSpline(x_coords, y_coords, bc_type="clamped")
+        x_spline = np.linspace(x_coords[0], x_coords[-1], 100)
+        y_spline = cs(x_spline)
+
+        # Draw the spline as a dotted line
+        return self.figure_manager.ax.plot(
+            x_spline,
+            y_spline,
+            zorder=constants.ZORDER_CONNECTOR,
+            ls=":",
+            lw=constants.LW_CONNECTOR,
+            color=color,
+        )
+
+    def _draw_spline(
+        self, x_coords: Sequence[float], y_coords: Sequence[float], color: str
+    ) -> list[Line2D]:
+        # Create a cubic spline interpolation of the points
+        cs = CubicSpline(x_coords, y_coords, bc_type="clamped")
+        x_spline = np.linspace(x_coords[0], x_coords[-1], 100)
+        y_spline = cs(x_spline)
+
+        # Draw the spline as a solid line
+        return self.figure_manager.ax.plot(
+            x_spline,
+            y_spline,
+            zorder=constants.ZORDER_CONNECTOR,
+            ls="-",
+            lw=constants.LW_CONNECTOR,
+            color=color,
+        )
+
+    @staticmethod
+    def _get_stopper_differences(
+        margins: dict[str, tuple],
+        figsize: tuple[float, float],
+        angle: float,
+    ) -> tuple[float, float]:
+        delta_x = (
+            np.cos(angle * np.pi / 180)
+            * 0.001
+            * (margins["x"][1] - margins["x"][0])
+            / figsize[0]
+        )
+        delta_y = (
+            np.sin(angle * np.pi / 180)
+            * 0.001
+            * (margins["y"][1] - margins["y"][0])
+            / figsize[1]
+        )
+        return delta_x, delta_y
+
+    @staticmethod
+    def _get_whitespace_cover_width(
+        margins: dict[str, tuple],
+        figsize: tuple[float, float],
+    ) -> float:
+        cover_width = (
+            constants.MERGED_PLATEAU_COVER_WIDTH
+            * (margins["y"][1] - margins["y"][0])
+            / figsize[1]
+        )
+        return cover_width
+
 
 @dataclass
 class PathObject:
@@ -472,7 +573,10 @@ class PathObject:
         for _, connection in self.connections.items():
             connection.remove()
         for _, plateau in self.plateaus.items():
-            plateau.remove()
+            try:
+                plateau.remove()
+            except AttributeError:
+                pass
         for _, label in self.labels.items():
             label.remove()
 
@@ -480,6 +584,7 @@ class PathObject:
         for _, label in self.labels.items():
             label.remove()
         self.labels = {}
+            
 
 
 @dataclass

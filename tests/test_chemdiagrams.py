@@ -131,6 +131,68 @@ class TestDrawPath:
         )
         assert result is dia
 
+    def test_custom_width_plateau(self):
+        dia = EnergyDiagram()
+        dia.draw_path(
+            [0, 1, 2],
+            [0, 10, -5],
+            color="blue",
+            width_plateau=0.8,
+            path_name="wp_test",
+        )
+
+    def test_zero_width_plateau_is_none(self):
+        dia = EnergyDiagram()
+        dia.draw_path(
+            [0, 1, 2],
+            [0, 10, -5],
+            color="blue",
+            width_plateau=0,
+            path_name="wp_test",
+        )
+        plateau = dia._path_manager.mpl_objects["wp_test"].plateaus["0.0"]
+        assert plateau is None
+
+    def test_lw_plateau_numeric(self):
+        dia = EnergyDiagram()
+        dia.draw_path(
+            [0, 1, 2],
+            [0, 10, -5],
+            color="blue",
+            lw_plateau=2.5,
+            path_name="lw_num",
+        )
+
+    def test_lw_plateau_string_plateau(self):
+        dia = EnergyDiagram()
+        dia.draw_path(
+            [0, 1, 2],
+            [0, 10, -5],
+            color="blue",
+            lw_plateau="plateau",
+            path_name="lw_plateau",
+        )
+
+    def test_lw_plateau_string_connector(self):
+        dia = EnergyDiagram()
+        dia.draw_path(
+            [0, 1, 2],
+            [0, 10, -5],
+            color="blue",
+            lw_plateau="connector",
+            path_name="lw_conn",
+        )
+
+    def test_lw_plateau_invalid_string(self):
+        dia = EnergyDiagram()
+        with pytest.raises(ValueError):
+            dia.draw_path(
+                [0, 1, 2],
+                [0, 10, -5],
+                color="blue",
+                lw_plateau="invalid",
+            )
+
 
 # ---------------------------------------------------------------------------
 # set_xlabels
@@ -897,7 +959,7 @@ class TestPathManagerArtists:
         assert len(dia.lines) == 1
 
     def test_scalar_linetype_all_values(self):
-        for lt in [0, 1, -1, 2, -2]:
+        for lt in [0, 1, -1, 2, -2, 3, 4]:
             dia = EnergyDiagram()
             dia.draw_path([0, 1], [0, 10], color="blue", linetypes=lt)
 
@@ -1231,6 +1293,40 @@ class TestNumberManagerExtra:
         # The nonnumbered path is higher — forces the overlap branch
         dia.draw_path([0, 1], [0, 20], color="red", show_numbers=False)
         dia.add_numbers_stacked(no_overlap_with_nonnumbered=True)
+
+
+class TestNumberingDecimals:
+    def test_naive_decimal_places(self):
+        dia = EnergyDiagram()
+        dia.draw_path([0, 1], [0.1234, 1.5678], color="blue")
+        dia.add_numbers_naive(n_decimals=2)
+
+        texts = dia._number_manager.mpl_objects
+        assert len(texts) > 0
+
+    def test_stacked_decimal_places(self):
+        dia = EnergyDiagram()
+        dia.draw_path([0, 1], [0.1234, 1.5678], color="blue")
+        dia.add_numbers_stacked(n_decimals=3)
+
+        texts = dia._number_manager.mpl_objects
+        assert len(texts) > 0
+
+    def test_auto_decimal_places(self):
+        dia = EnergyDiagram()
+        dia.draw_path([0, 1], [0.1234, 1.5678], color="blue")
+        dia.add_numbers_auto(n_decimals=1)
+
+        texts = dia._number_manager.mpl_objects
+        assert len(texts) > 0
+
+    def test_average_decimal_places(self):
+        dia = EnergyDiagram()
+        dia.draw_path([0, 1], [0.1234, 1.5678], color="blue")
+        dia.draw_path([0, 1], [0.5, 1.2], color="red")
+        dia.add_numbers_average(n_decimals=2)
+
+        assert len(dia.numbers) > 0
 
 
 # ---------------------------------------------------------------------------

@@ -149,13 +149,37 @@ dia.show()
 
 | Value | Style |
 |-------|-------|
+| `0` | no connector |
 | `1` | dotted line (default) |
 | `-1` | dotted line with gap |
 | `2` | solid line |
 | `-2` | solid line with gap |
-| `0` | no connector |
+| `3` | dotted cubic spline |
+| `4` | solid cubic spline |
 
 A single integer applies the same style to all segments. A list applies styles individually.
+
+The width of a plateau can be adjusted with the keyword `width_plateau`. It can be a float in data units (Default is 0.5). Furthermore, the linewidth of the plateaus can be set to one of the strings `"plateau"` or `"connector"` to refer to predefined values or a number.
+
+```python
+dia.draw_path(
+    x_data=[0, 1, 2, 3, 4, 5],
+    y_data=[0, -13, 22, 75, 39, 20],
+    color="blue",
+    path_name="Pathway A",
+    width_plateau=0.3,
+    lw_plateau="connector",
+)
+
+dia.draw_path(
+    x_data=[0, 1, 2, 3, 5],
+    y_data=[0, -25, 20, 50, 6],
+    color="red",
+    path_name="Pathway B",
+    width_plateau=0,
+    lw_plateau=1.5,
+)
+```
 
 ### Path labels
 
@@ -168,8 +192,8 @@ dia.add_path_labels(
     fontsize=6,                         # Font size for the labels (uses diagram default if None)
     color="black",                      # Color for the labels (uses diagram default if None)
     weight="bold"                       # Font weight for the labels (uses "normal" if None)
-)
 ```
+
 
 ### Diagram styles
 
@@ -200,7 +224,7 @@ dia.set_xlabels(["A", "TS", "B"], labelplaces=[0, 2, 3])
 
 ### Energy labels
 
-Four numbering strategies are available. Call them after all paths have been drawn. All numbers are automatically rounded to integers.
+Four numbering strategies are available. Call them after all paths have been drawn. 
 
 ```python
 dia.add_numbers_auto()                   # distributes labels to avoid overlaps (recommended)
@@ -227,6 +251,12 @@ It is possible to adjust the fontsize of the numbers via the `fontsize` paramete
 dia.add_numbers_auto(..., fontsize=6)
 ```
 
+All numbers are automatically rounded to integers by default. The number of decimal places can be manually set with the `n_decimals` parameter of the numbering methods.
+
+```python
+dia.add_numbers_auto(..., n_decimals=2)
+```
+
 For `add_numbers_average`, the color of the labels can be set with the `color` parameter.
 
 ```python
@@ -251,6 +281,7 @@ dia.draw_difference_bar(
     whiskercolor="blue",            # whisker color (defaults to bar color if omitted)
     left_side=True,                 # place bar and text on the left of x
     add_difference=True,            # automatically append the difference value rounded to an integer to description
+    n_decimals=0,                   # number of decimal places to show for the difference value (default: 0)
     fontsize=8,                     # font size for the label (uses diagram default if None)
     diff=None,                      # horizontal offset of text (auto-computed if None)
 )
@@ -380,7 +411,7 @@ dia.ax.set_ylabel("Energy / kJ mol$^{-1}$", fontsize=10)
 dia.fig.savefig("diagram.png", dpi=300, bbox_inches="tight")
 ```
 
-All objects of a path (plateaus and connectors and path labels) are stored in dia.lines and can be accessed by the path name and x-position.
+All objects of a path (plateaus and connectors) are stored in dia.lines and can be accessed by the path name and x-position. If a path was drawn with `width_plateau=0`, it has no plateau objects.
 
 ```python
 # Plateau and connector lines
