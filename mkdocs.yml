@@ -12,6 +12,7 @@ theme:
 
 nav:
   - Home: index.md
+  - Methods: methods.md
   - Usage: usage.md
   - Examples: examples.md
   - API Reference: api/  # populated by the gen script
@@ -29,6 +30,7 @@ plugins:
         python:
           options:
             show_source: true
+            docstring_style: numpy
 
 markdown_extensions:
   - pymdownx.highlight

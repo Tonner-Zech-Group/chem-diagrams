@@ -37,7 +37,7 @@ dia.draw_path(
     y_data=[0, -13, 22, 75, 39, 20],
     color="blue",
     path_name="Pathway A",      # name appears in the legend
-    linetypes=[1, 1, 2, -1, 0], # connector style per segment, a single value applies to all segments
+    linetypes=[2, 3, 4, -1, 0], # connector style per segment
 )
 
 dia.draw_path(
@@ -52,6 +52,7 @@ dia.add_numbers_auto()
 dia.set_xlabels(["A", "B", "C", "D", "E", "F"])
 dia.ax.set_ylabel("Energy / kJ mol$^{-1}$", fontsize=8)
 
+dia.fig.savefig(os.path.join("..","docs","img","example_multipaths.png"),format="png", bbox_inches="tight")
 dia.show()
 ```
 
@@ -104,6 +105,7 @@ dia.add_path_labels(
     fontsize=6,                         # Font size for the labels (uses diagram default if None)
     color="black",                      # Color for the labels (uses diagram default if None)
     weight="bold"                       # Font weight for the labels (uses "normal" if None)
+)
 ```
 
 Example:
@@ -144,9 +146,10 @@ dia.legend(fontsize=7)
 dia.add_numbers_auto()
 dia.ax.set_ylabel("Energy / kJ mol$^{-1}$", fontsize=8)
 
+dia.fig.savefig(os.path.join("..","docs","img","example_path_labels.png"),format="png", bbox_inches="tight")
 dia.show()
 ```
-![Multiple paths](https://raw.githubusercontent.com/Tonner-Zech-Group/chem-diagrams/main/docs/img/example_path_labels.png)
+![Path labels](https://raw.githubusercontent.com/Tonner-Zech-Group/chem-diagrams/main/docs/img/example_path_labels.png)
 
 
 ### Diagram styles
@@ -220,7 +223,7 @@ dia.add_numbers_average(color="red")
 Example:
 
 ```python
-dia = EnergyDiagram(style="borderless")
+dia = EnergyDiagram(style="borderless", figsize=(3,2))
 
 dia.draw_path(
     x_data=[0, 1, 2, 3],
@@ -258,6 +261,7 @@ dia.set_xlabels([
     weight="normal"
 )
 
+dia.fig.savefig(os.path.join("..","docs","img","example_numbering.png"),format="png", bbox_inches="tight")
 dia.show()
 ```
 
@@ -281,13 +285,16 @@ dia.draw_difference_bar(
     whiskercolor="blue",            # whisker color (defaults to bar color if omitted)
     left_side=True,                 # place bar and text on the left of x
     add_difference=True,            # automatically append the difference value rounded to an integer to description
-    n_decimals=0,                   # number of decimal places to show for the difference value (default: 0)
     fontsize=8,                     # font size for the label (uses diagram default if None)
     diff=None,                      # horizontal offset of text (auto-computed if None)
 )
+dia.bars[0].whisker_1.set_color("black") # Set the color of the first whisker of the firstly drawn bar to black
+
 dia.set_xlabels(["A", "B", "C", "D", "E", "F"])
-dia.ax.set_ylabel("Energy / kJ mol$^{-1}$", fontsize=8)
 dia.add_numbers_auto()
+dia.ax.set_ylabel("Energy / kJ mol$^{-1}$", fontsize=8)
+
+dia.fig.savefig(os.path.join("..","docs","img","example_diffbar.png"),format="png", bbox_inches="tight")
 dia.show()
 ```
 
@@ -311,6 +318,8 @@ dia.add_xaxis_break(
 dia.set_xlabels(["A", "B", "C", "D", "E", "F"])
 dia.add_numbers_auto()
 dia.ax.set_ylabel("Energy / kJ mol$^{-1}$", fontsize=8)
+
+dia.fig.savefig(os.path.join("..","docs","img","example_breaks.png"),format="png", bbox_inches="tight")
 dia.show()
 ```
 
@@ -342,6 +351,8 @@ dia.merge_plateaus(
 dia.add_numbers_auto()
 dia.set_xlabels(["P1", "TS1", "E", "TS2", "P2"])
 dia.ax.set_ylabel("Energy / kJ mol$^{-1}$", fontsize=8)
+
+dia.fig.savefig(os.path.join("..","docs","img","example_merge_plateaus.png"),format="png", bbox_inches="tight")
 dia.show()
 ```
 ![Merge plateaus](https://raw.githubusercontent.com/Tonner-Zech-Group/chem-diagrams/main/docs/img/example_merge_plateaus.png)
@@ -518,11 +529,10 @@ label.set_fontsize(12)
 Components of difference bars are stored in dia.bars and can be accessed by the order of bar placement (e.g., `dia.bars[0]` for the first one, `dia.bars[1]` for the second one...). A difference bar consists of the vertical bar (`bar`), an optional text label (`text`), and optional horizontal whiskers (`whisker_1`, `whisker_2`).
 
 ```python
-# Difference bar components
 first_bar = dia.bars[0]                                 # First difference bar added to the diagram
-first_bar.text.set_color("red")
-first_bar.bar.arrow_patch.set_color("green")
-first_bar.whisker_2.set_linestyle("--")
+first_bar.text.set_color("red")                         # Set the color of the text label of the first bar to red   
+first_bar.bar.arrow_patch.set_color("green")            # Set the color of the vertical bar of the first bar to green
+first_bar.whisker_2.set_color("blue")                   # Set the color of the second whisker of the first bar to blue
 ```
 
 #### Artists for axes, arrows and x-labels
@@ -574,4 +584,4 @@ img_at_x1.borders["bottom"].set_linestyle("--")
 
 ## Examples
 
-A set of even more examples is available in [`examples/example_use.ipynb`](https://github.com/Tonner-Zech-Group/chem-diagrams/blob/main/examples/example_use.ipynb).
+Examples can be found in the ([documentation](https://tonner-zech-group.github.io/chem-diagrams/)). A set of even more examples is available in [`examples/example_use.ipynb`](https://github.com/Tonner-Zech-Group/chem-diagrams/blob/main/examples/example_use.ipynb). The latter, however, is not actively maintained anymore and may be outdated with respect to the latest version of the package.

@@ -2,6 +2,8 @@
 
 This page provides 9 examples of how to use the features of chemdiagrams.
 
+## Example 1: Merging plateaus, x-axis breaks and images in plot
+
 ```python
 from chemdiagrams import EnergyDiagram
 import os.path
@@ -55,6 +57,8 @@ dia.show()
 
 ![Diagram 1](https://raw.githubusercontent.com/Tonner-Zech-Group/chem-diagrams/main/docs/img/title/image_1.png)
 
+## Example 2: Multiple paths
+
 ```python
 from chemdiagrams import EnergyDiagram
 import os.path
@@ -96,6 +100,8 @@ dia.fig.savefig(os.path.join("..", "docs", "img", "title", "image_2.png"), dpi=3
 dia.show()
 ```
 ![Diagram 2](https://raw.githubusercontent.com/Tonner-Zech-Group/chem-diagrams/main/docs/img/title/image_2.png)
+
+## Example 3: Customization of one state
 
 ```python
 from chemdiagrams import EnergyDiagram
@@ -145,6 +151,8 @@ dia.show()
 ```
 ![Diagram 3](https://raw.githubusercontent.com/Tonner-Zech-Group/chem-diagrams/main/docs/img/title/image_3.png)
 
+## Example 4: Images in plot
+
 ```python
 from chemdiagrams import EnergyDiagram
 import os.path
@@ -185,6 +193,8 @@ dia.show()
 ```
 ![Diagram 4](https://raw.githubusercontent.com/Tonner-Zech-Group/chem-diagrams/main/docs/img/title/image_4.png)
 
+## Example 5: Path labels
+
 ```python
 from chemdiagrams import EnergyDiagram
 import os.path
@@ -218,6 +228,8 @@ dia.fig.savefig(os.path.join("..", "docs", "img", "title", "image_5.png"), dpi=3
 dia.show()
 ```
 ![Diagram 5](https://raw.githubusercontent.com/Tonner-Zech-Group/chem-diagrams/main/docs/img/title/image_5.png)
+
+## Example 6: Difference bar customization
 
 ```python
 from chemdiagrams import EnergyDiagram
@@ -283,6 +295,8 @@ dia.show()
 ```
 ![Diagram 6](https://raw.githubusercontent.com/Tonner-Zech-Group/chem-diagrams/main/docs/img/title/image_6.png)
 
+## Example 7: Smooth paths
+
 ```python
 dia = EnergyDiagram(style="halfboxed")
 
@@ -308,6 +322,8 @@ dia.fig.savefig(os.path.join("..", "docs", "img", "title", "image_7.png"), dpi=3
 dia.show()
 ```
 ![Diagram 7](https://raw.githubusercontent.com/Tonner-Zech-Group/chem-diagrams/main/docs/img/title/image_7.png)
+
+## Example 8: Float energy values and image in plot
 
 ```python
 import os.path
@@ -338,6 +354,8 @@ dia.fig.savefig(os.path.join("..","docs","img","example_single_image.png"),forma
 dia.show()
 ```
 ![Diagram 8](https://raw.githubusercontent.com/Tonner-Zech-Group/chem-diagrams/main/docs/img/title/image_8.png)
+
+## Example 9: Path label customization
 
 ```python
 dia = EnergyDiagram()
