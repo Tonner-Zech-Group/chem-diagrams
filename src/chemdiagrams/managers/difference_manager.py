@@ -1,9 +1,10 @@
 from __future__ import annotations
 
-from .. import constants
+from re import findall
+
 import numpy as np
 
-from re import findall
+from .. import constants
 
 
 class DifferenceManager:
@@ -57,7 +58,7 @@ class DifferenceManager:
             )
         )
         return diff_to_label
-    
+
     @staticmethod
     def _get_diff_plateau_label(
         margins: dict[str, tuple],
@@ -71,10 +72,7 @@ class DifferenceManager:
             (fontsize / constants.STD_FONTSIZE)
             * (margins["y"][1] - margins["y"][0])
             / figsize[1]
-            * (
-                constants.DISTANCE_LABEL_LINE 
-                + n_linebreaks * constants.DISTANCE_LABEL_NEWLINE
-            )
+            * (constants.DISTANCE_LABEL_LINE + n_linebreaks * constants.DISTANCE_LABEL_NEWLINE)
         )
         return diff_to_label
 
@@ -111,14 +109,16 @@ class DifferenceManager:
             * constants.DISTANCE_NUMBER_NUMBER
         )
         return diff_bias, diff_per_step
-    
+
     @staticmethod
     def _get_axis_break_stopper_differences(
         margins: dict[str, tuple],
         figsize: tuple[float, float],
         angle: float,
     ) -> tuple[float, float]:
-        """Compute data coordinate differences for axis break stoppers in x and y directions."""
+        """
+        Compute data coordinate differences for axis break stoppers in x and y directions.
+        """
         delta_x = (
             np.cos(angle * np.pi / 180)
             * 0.001

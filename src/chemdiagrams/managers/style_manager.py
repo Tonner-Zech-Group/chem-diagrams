@@ -2,7 +2,6 @@ from __future__ import annotations
 
 from collections.abc import Sequence
 from dataclasses import dataclass
-from re import findall
 from typing import TYPE_CHECKING
 
 import matplotlib.patches as mpatches
@@ -14,7 +13,7 @@ from .. import constants
 from ..validation import Validators
 from .difference_manager import DifferenceManager
 from .figure_manager import FigureManager
-from .number_manager import NumberManager 
+from .number_manager import NumberManager
 
 if TYPE_CHECKING:
     from matplotlib.lines import Line2D
@@ -203,8 +202,6 @@ class StyleManager:
             self.figure_manager.ax.set_xticklabels(labels)
             for label in self.figure_manager.ax.get_xticklabels():
                 label.set_fontproperties(labelfont)
-
-
 
     def add_xaxis_break(
         self,
@@ -464,19 +461,17 @@ class StyleManager:
                 **y_break,
             )
 
-
-    
     @staticmethod
     def _add_label_in_plot(
-            figure_manager: FigureManager,
-            margins: dict[str, tuple],
-            figsize: tuple[float, float],
-            labeltext: str,
-            fontsize: int,
-            labelfont: font_manager.FontProperties,
-            x: float,
-            y: float,
-            color: str = "black",
+        figure_manager: FigureManager,
+        margins: dict[str, tuple],
+        figsize: tuple[float, float],
+        labeltext: str,
+        fontsize: int,
+        labelfont: font_manager.FontProperties,
+        x: float,
+        y: float,
+        color: str = "black",
     ) -> Text:
         y_diff = -DifferenceManager._get_diff_plateau_label(
             margins, figsize, fontsize, labeltext

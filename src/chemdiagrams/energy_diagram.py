@@ -370,7 +370,7 @@ class EnergyDiagram:
         labels: Sequence[str],
         fontsize: int | None = None,
         weight: str = "normal",
-        color: str = None
+        color: str | None = None,
     ) -> EnergyDiagram:
         """Add text labels below the energy levels of a specific path.
 

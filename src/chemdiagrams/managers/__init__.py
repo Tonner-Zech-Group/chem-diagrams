@@ -1,7 +1,7 @@
 """Manager classes for EnergyDiagram"""
 
-from .difference_manager import DifferenceManager
 from .bar_manager import BarManager, DifferenceBar
+from .difference_manager import DifferenceManager
 from .figure_manager import FigureManager
 from .image_manager import ImageManager
 from .layout_manager import LayoutManager

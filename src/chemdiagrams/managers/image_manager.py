@@ -2,7 +2,6 @@ from __future__ import annotations
 
 from collections.abc import Sequence
 from dataclasses import dataclass
-from re import findall
 from typing import TYPE_CHECKING
 
 import matplotlib.image as mpimg
@@ -491,8 +490,6 @@ class ImageManager:
                 (img_extent[1], img_extent[1]), (img_extent[2], img_extent[3])
             )
         return ImageObject(img_artist, border_objects)
-
-
 
 
 @dataclass

@@ -6,7 +6,6 @@ from typing import TYPE_CHECKING
 
 import matplotlib.patches as mpatches
 from matplotlib import font_manager
-import numpy as np
 
 if TYPE_CHECKING:
     from matplotlib.collections import LineCollection
@@ -91,9 +90,9 @@ class PathManager:
         }
 
         # Initialize nested dics
-        connections = {}
-        plateaus = {}
-        labels = {}
+        connections: dict = {}
+        plateaus: dict = {}
+        labels: dict = {}
 
         # Create lists in order to draw the lines
         x_corners = []
@@ -131,16 +130,16 @@ class PathManager:
         labels: Sequence[str],
         fontsize: int | None = None,
         weight: str = "normal",
-        color: str = None,
+        color: str | None = None,
     ) -> None:
         # Sanity checks
         if path_name not in self.path_data.keys():
             raise ValueError(f'Path "{path_name}" does not exist.')
         Validators.validate_string_sequence(
-            labels, 
-            "labels", 
-            can_contain_none=True, 
-            required_length=len(self.path_data[path_name]["x"])
+            labels,
+            "labels",
+            can_contain_none=True,
+            required_length=len(self.path_data[path_name]["x"]),
         )
         if fontsize is not None:
             Validators.validate_number(fontsize, "fontsize", min_value=0, allow_none=True)
@@ -148,7 +147,7 @@ class PathManager:
             fontsize = self.figure_manager.fontsize
         if color is None:
             color = self.path_data[path_name]["color"]
-        
+
         labelfont = font_manager.FontProperties(weight=weight, size=fontsize)
 
         for i, labeltext in enumerate(labels):
@@ -168,13 +167,15 @@ class PathManager:
                 )
                 self.mpl_objects[path_name].labels[f"{x:.1f}"] = label_artist
 
-        self.path_label_data.append({
-            "path_name": path_name,
-            "labels": labels,
-            "fontsize": fontsize,
-            "weight": weight,
-            "color": color,
-        })
+        self.path_label_data.append(
+            {
+                "path_name": path_name,
+                "labels": labels,
+                "fontsize": fontsize,
+                "weight": weight,
+                "color": color,
+            }
+        )
 
     def _recalculate_path_labels(
         self,
@@ -259,8 +260,7 @@ class PathManager:
 
         # Draw white rectangle to
         cover_width = DifferenceManager._get_axis_break_whitespace_cover_width(
-            margins, 
-            figsize
+            margins, figsize
         )
 
         # Add white covering reactange
@@ -447,7 +447,7 @@ class PathManager:
             ),
         )
         return BrokenLine(line_1, line_2, stopper_1, stopper_2)
-    
+
 
 @dataclass
 class PathObject:
@@ -475,7 +475,7 @@ class PathObject:
             plateau.remove()
         for _, label in self.labels.items():
             label.remove()
-    
+
     def remove_labels(self):
         for _, label in self.labels.items():
             label.remove()
@@ -583,8 +583,7 @@ class MergedPlateau:
         self.stopper_left.set_position((x_left + delta_x, y_left + delta_y))
         self.stopper_right.set_position((x_right - delta_x, y_right - delta_y))
         cover_width = DifferenceManager._get_axis_break_whitespace_cover_width(
-            margins,
-            figsize
+            margins, figsize
         )
         self.whitespace.set_height(cover_width)
         y_whitespace = self.whitespace.get_y()

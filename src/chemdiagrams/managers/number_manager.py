@@ -28,7 +28,7 @@ class NumberManager:
     ) -> None:
         self.figure_manager = figure_manager
         self.mpl_objects: dict[str, dict] = {}
-        self.numberings_added = []
+        self.numberings_added: list[dict] = []
 
     ############################################################
     # Main numbering methods
@@ -67,11 +67,13 @@ class NumberManager:
                     figsize,
                     fontsize,
                 )
-        self.numberings_added.append({
-            "type": self.add_numbers_naive,
-            "x_min_max": x_min_max,
-            "fontsize": fontsize,
-        })
+        self.numberings_added.append(
+            {
+                "type": self.add_numbers_naive,
+                "x_min_max": x_min_max,
+                "fontsize": fontsize,
+            }
+        )
 
     def add_numbers_stacked(
         self,
@@ -138,13 +140,15 @@ class NumberManager:
                 figsize,
                 fontsize,
             )
-        self.numberings_added.append({
-            "type": self.add_numbers_stacked,
-            "x_min_max": x_min_max,
-            "fontsize": fontsize,
-            "sort_by_energy": sort_by_energy,
-            "no_overlap_with_nonnumbered": no_overlap_with_nonnumbered,
-        })
+        self.numberings_added.append(
+            {
+                "type": self.add_numbers_stacked,
+                "x_min_max": x_min_max,
+                "fontsize": fontsize,
+                "sort_by_energy": sort_by_energy,
+                "no_overlap_with_nonnumbered": no_overlap_with_nonnumbered,
+            }
+        )
 
     def add_numbers_auto(
         self,
@@ -161,7 +165,7 @@ class NumberManager:
             fontsize = self.figure_manager.fontsize
         x_min_max = NumberManager._regularize_x_min_max(x_min_max)
         values_to_print = NumberManager._get_all_visible_numbers(path_data, x_min_max)
-        _, diff_per_step =  DifferenceManager._get_number_diffs(margins, figsize, fontsize)
+        _, diff_per_step = DifferenceManager._get_number_diffs(margins, figsize, fontsize)
 
         # Get a list of all x values where to print
         x_places: list | np.ndarray = []
@@ -210,8 +214,7 @@ class NumberManager:
                     if no_overlap or not higher_numbers_at_x:
                         if not no_overlap:
                             print(
-                                f"Warning: Could not accurately "
-                                f"place numbers at x={x_current}"
+                                f"Warning: Could not accurately place numbers at x={x_current}"
                             )
                         self._print_stacked(
                             x_current,
@@ -239,11 +242,13 @@ class NumberManager:
                         higher_numbers_at_x = [
                             val for val in all_numbers_at_x if val > y_print_start
                         ]
-        self.numberings_added.append({
-            "type": self.add_numbers_auto,
-            "x_min_max": x_min_max,
-            "fontsize": fontsize,
-        })
+        self.numberings_added.append(
+            {
+                "type": self.add_numbers_auto,
+                "x_min_max": x_min_max,
+                "fontsize": fontsize,
+            }
+        )
 
     def add_numbers_average(
         self,
@@ -289,34 +294,37 @@ class NumberManager:
                 figsize,
                 fontsize,
             )
-        self.numberings_added.append({
-            "type": self.add_numbers_average,
-            "x_min_max": x_min_max,
-            "fontsize": fontsize,
-            "color": color,
-        })
+        self.numberings_added.append(
+            {
+                "type": self.add_numbers_average,
+                "x_min_max": x_min_max,
+                "fontsize": fontsize,
+                "color": color,
+            }
+        )
 
     def _recalculate_numbers(
-            self,
-            path_data: dict,
-            margins: dict[str, tuple],
-            figsize: tuple[float, float],
-            path_mpl_objects: dict,
+        self,
+        path_data: dict,
+        margins: dict[str, tuple],
+        figsize: tuple[float, float],
+        path_mpl_objects: dict,
     ) -> None:
         # Remove all numbers from the plot
         for path_numbers in self.mpl_objects.values():
             for number in path_numbers.values():
                 number.remove()
-        self.mpl_objects = {} 
+        self.mpl_objects = {}
         # Recalculate all numbers that have been added
         old_numberings = self.numberings_added.copy()
         self.numberings_added = []
         for numbering in old_numberings:
-            settings = numbering.copy() 
+            settings = numbering.copy()
             del settings["type"]
-            need_path_mpl_objects = (
-                numbering["type"] in [self.add_numbers_stacked, self.add_numbers_auto]
-            )
+            need_path_mpl_objects = numbering["type"] in [
+                self.add_numbers_stacked,
+                self.add_numbers_auto,
+            ]
             if need_path_mpl_objects:
                 settings["path_mpl_objects"] = path_mpl_objects
             numbering["type"](
@@ -325,7 +333,6 @@ class NumberManager:
                 figsize=figsize,
                 **settings,
             )
-
 
     ############################################################
     # Internal helper methods
@@ -421,7 +428,9 @@ class NumberManager:
         resulting Text artists are saved into ``mpl_objects`` under their
         path name and x-coordinate key.
         """
-        diff_bias, diff_per_step = DifferenceManager._get_number_diffs(margins, figsize, fontsize)
+        diff_bias, diff_per_step = DifferenceManager._get_number_diffs(
+            margins, figsize, fontsize
+        )
         n_printed = 0
         for number in numbers_to_stack:
             number_obj = self.figure_manager.ax.text(
@@ -439,7 +448,6 @@ class NumberManager:
                 self.mpl_objects[number["name"]] = {}
             self.mpl_objects[number["name"]][f"{x:.1f}"] = number_obj
 
-
     @staticmethod
     def _check_no_overlap(
         y_print_start: float,
@@ -452,7 +460,7 @@ class NumberManager:
         x: float,
     ) -> bool:
         """
-        Return True if a proposed label stack would not collide with 
+        Return True if a proposed label stack would not collide with
         any higher plateaus or path labels.
         """
         no_number_overlap = NumberManager._check_no_plateau_overlap(
@@ -491,7 +499,9 @@ class NumberManager:
         and compares it to the proposed stack position. Returns True if there is no
         overlap, False otherwise.
         """
-        diff_bias, diff_per_step = DifferenceManager._get_number_diffs(margins, figsize, fontsize)
+        diff_bias, diff_per_step = DifferenceManager._get_number_diffs(
+            margins, figsize, fontsize
+        )
         stacked_offset = (len(numbers_to_stack) - 1) * diff_per_step
         base_offset = 2 * diff_bias
         y_stacked_max = y_print_start + base_offset + stacked_offset
@@ -506,15 +516,14 @@ class NumberManager:
                     margins, figsize, label_fontsize, labeltext
                 )
                 has_collision = (
-                    label_y - diff_to_label < y_stacked_max and
-                    label_y + diff_to_label > y_print_start
+                    label_y - diff_to_label < y_stacked_max
+                    and label_y + diff_to_label > y_print_start
                 )
                 if has_collision:
                     no_overlap_with_path_labels = False
             except KeyError:
                 pass
         return no_overlap_with_path_labels
-
 
     @staticmethod
     def _check_no_plateau_overlap(
@@ -533,7 +542,9 @@ class NumberManager:
         bar above ``y_print_start``. Returns True unconditionally if there
         are no higher bars.
         """
-        diff_bias, diff_per_step = DifferenceManager._get_number_diffs(margins, figsize, fontsize)
+        diff_bias, diff_per_step = DifferenceManager._get_number_diffs(
+            margins, figsize, fontsize
+        )
         stacked_offset = (len(numbers_to_stack) - 1) * diff_per_step
         base_offset = 2 * diff_bias
         y_stacked_max = y_print_start + base_offset + stacked_offset
