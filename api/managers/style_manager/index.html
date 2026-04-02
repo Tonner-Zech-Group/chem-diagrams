@@ -206,6 +206,25 @@
   
   
     <li class="md-tabs__item">
+      <a href="../../../methods/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Methods
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
       <a href="../../../usage/" class="md-tabs__link">
         
   
@@ -358,6 +377,33 @@
   
   
     <li class="md-nav__item">
+      <a href="../../../methods/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Methods
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../../usage/" class="md-nav__link">
         
   
@@ -430,10 +476,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
         
           
-          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
             
   
   
@@ -451,8 +497,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_4">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -571,10 +617,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_4" checked>
         
           
-          <label class="md-nav__link" for="__nav_4_4" id="__nav_4_4_label" tabindex="">
+          <label class="md-nav__link" for="__nav_5_4" id="__nav_5_4_label" tabindex="">
             
   
   
@@ -592,8 +638,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_4_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_4_4">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5_4">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -924,23 +970,6 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="StyleObjects">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#chemdiagrams.managers.style_manager.StyleObjects--attributes" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Attributes
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
 </li>
       
     </ul>
@@ -983,10 +1012,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_5" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_5" >
         
           
-          <label class="md-nav__link" for="__nav_4_5" id="__nav_4_5_label" tabindex="">
+          <label class="md-nav__link" for="__nav_5_5" id="__nav_5_5_label" tabindex="">
             
   
   
@@ -1004,8 +1033,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_5_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_4_5">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_5">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -1169,23 +1198,6 @@
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="StyleObjects">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#chemdiagrams.managers.style_manager.StyleObjects--attributes" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Attributes
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -2240,23 +2252,81 @@ placement, either below the axis or inside the plot area.</p>
 
 
         <p>Container for the Matplotlib artists controlled by the style manager.</p>
-<h4 id="chemdiagrams.managers.style_manager.StyleObjects--attributes">Attributes</h4>
-<p>arrows : dict of str to Annotation
-    Axis arrow artists, keyed by name (e.g. <code>"x_arrow"</code>, <code>"y_arrow"</code>).
-axes : dict of str to Line2D
-    Supplementary axis line artists, such as the horizontal zero line
-    in the <code>"open"</code> style, keyed by name (e.g. <code>"x_axis"</code>).
-x_labels : dict of str to Text
-    In-plot x label artists, keyed by x-coordinate as a formatted
-    string. Only populated when <code>in_plot=True</code> is used in
-    <code>set_xlabels</code>; otherwise labels are handled by Matplotlib's
-    own tick system and not stored here.
-xaxis_breaks : dict of str to AxisBreak
-    X-axis break artists, keyed by position as a formatted string
-    (e.g. <code>"2.0"</code>).
-yaxis_breaks : dict of str to AxisBreak
-    Y-axis break artists, keyed by position as a formatted string
-    (e.g. <code>"5.0"</code>).</p>
+
+
+<p><span class="doc-section-title">Attributes:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td><code><span title="chemdiagrams.managers.style_manager.StyleObjects.arrows">arrows</span></code></td>
+            <td>
+                  <code>dict of str to Annotation</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Axis arrow artists, keyed by name (e.g. <code>"x_arrow"</code>, <code>"y_arrow"</code>).</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><span title="chemdiagrams.managers.style_manager.StyleObjects.axes">axes</span></code></td>
+            <td>
+                  <code>dict of str to Line2D</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Supplementary axis line artists, such as the horizontal zero line
+in the <code>"open"</code> style, keyed by name (e.g. <code>"x_axis"</code>).</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><span title="chemdiagrams.managers.style_manager.StyleObjects.x_labels">x_labels</span></code></td>
+            <td>
+                  <code>dict of str to Text</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>In-plot x label artists, keyed by x-coordinate as a formatted
+string. Only populated when <code>in_plot=True</code> is used in
+<code>set_xlabels</code>; otherwise labels are handled by Matplotlib's
+own tick system and not stored here.</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><span title="chemdiagrams.managers.style_manager.StyleObjects.xaxis_breaks">xaxis_breaks</span></code></td>
+            <td>
+                  <code>dict of str to AxisBreak</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>X-axis break artists, keyed by position as a formatted string
+(e.g. <code>"2.0"</code>).</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><span title="chemdiagrams.managers.style_manager.StyleObjects.yaxis_breaks">yaxis_breaks</span></code></td>
+            <td>
+                  <code>dict of str to AxisBreak</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Y-axis break artists, keyed by position as a formatted string
+(e.g. <code>"5.0"</code>).</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
 
 
 

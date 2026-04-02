@@ -206,6 +206,25 @@
   
   
     <li class="md-tabs__item">
+      <a href="../../../methods/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Methods
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
       <a href="../../../usage/" class="md-tabs__link">
         
   
@@ -358,6 +377,33 @@
   
   
     <li class="md-nav__item">
+      <a href="../../../methods/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Methods
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../../usage/" class="md-nav__link">
         
   
@@ -430,10 +476,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
         
           
-          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
             
   
   
@@ -451,8 +497,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_4">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -571,10 +617,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_4" checked>
         
           
-          <label class="md-nav__link" for="__nav_4_4" id="__nav_4_4_label" tabindex="">
+          <label class="md-nav__link" for="__nav_5_4" id="__nav_5_4_label" tabindex="">
             
   
   
@@ -592,8 +638,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_4_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_4_4">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5_4">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -812,23 +858,6 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="ImageObject">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#chemdiagrams.managers.image_manager.ImageObject--attributes" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Attributes
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
 </li>
       
     </ul>
@@ -983,10 +1012,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_5" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_5" >
         
           
-          <label class="md-nav__link" for="__nav_4_5" id="__nav_4_5_label" tabindex="">
+          <label class="md-nav__link" for="__nav_5_5" id="__nav_5_5_label" tabindex="">
             
   
   
@@ -1004,8 +1033,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_5_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_4_5">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_5">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -1169,23 +1198,6 @@
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="ImageObject">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#chemdiagrams.managers.image_manager.ImageObject--attributes" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Attributes
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -2253,12 +2265,43 @@ All rendered artists are stored in <code>mpl_objects</code> for later access.</p
 
 
         <p>Container for the Matplotlib artists that make up a single diagram image.</p>
-<h4 id="chemdiagrams.managers.image_manager.ImageObject--attributes">Attributes</h4>
-<p>image : AxesImage
-    The rendered image artist.
-borders : dict of str to Line2D
-    Frame border lines keyed by side (<code>"top"</code>, <code>"bottom"</code>, <code>"left"</code>,
-    <code>"right"</code>). Empty when <code>framed=False</code>.</p>
+
+
+<p><span class="doc-section-title">Attributes:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td><code><span title="chemdiagrams.managers.image_manager.ImageObject.image">image</span></code></td>
+            <td>
+                  <code><span title="matplotlib.image.AxesImage">AxesImage</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The rendered image artist.</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><span title="chemdiagrams.managers.image_manager.ImageObject.borders">borders</span></code></td>
+            <td>
+                  <code>dict of str to Line2D</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Frame border lines keyed by side (<code>"top"</code>, <code>"bottom"</code>, <code>"left"</code>,
+<code>"right"</code>). Empty when <code>framed=False</code>.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
 
 
 
