@@ -5,8 +5,8 @@ from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
 import matplotlib.patches as mpatches
-from matplotlib import font_manager
 import numpy as np
+from matplotlib import font_manager
 from scipy.interpolate import CubicSpline
 
 if TYPE_CHECKING:
@@ -584,7 +584,6 @@ class PathObject:
         for _, label in self.labels.items():
             label.remove()
         self.labels = {}
-            
 
 
 @dataclass

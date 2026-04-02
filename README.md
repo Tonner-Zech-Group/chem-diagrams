@@ -7,51 +7,7 @@
 
 A Python package for creating publication-quality reaction energy diagrams with Matplotlib.
 
-```python
-from chemdiagrams import EnergyDiagram
-
-dia = EnergyDiagram(
-    style="twosided",
-    dpi=250,
-    extra_y_margin=(0,0.25),
-)
-
-dia.draw_path(
-    [0,1,2], [-32, 18, 0], "blue",
-    path_name="Blue path",   
-)
-
-dia.draw_path(
-    [2,3,4], [0, 25, -42], "red",
-    path_name="Red path",
-)
-
-dia.draw_difference_bar(
-    2, (-32, -42),
-    r"$\Delta E_\mathrm{R}$: ",
-    left_side=True,
-    x_whiskers=(0,4),
-    whiskercolor="red"
-)
-dia.bars[0].whisker_1.set_color("blue")
-
-dia.add_image_series_in_plot(
-    [penguin_II, penguin_TS, penguin, penguin_TS, penguin_II],
-    y_placement="top",
-    y_offsets=2
-)
-
-dia.add_numbers_average(color="black")
-dia.merge_plateaus(2, "Blue path", "Red path")
-dia.add_xaxis_break(2)
-dia.set_xlabels(["P1", "TS1", "E", "TS2", "P2"])
-dia.ax.set_ylabel(r"$\Delta E$ in kJ mol$^{-1}$", fontsize=8)
-dia.legend(fontsize=5)
-
-dia.show()
-```
-
-![Complex diagram](https://raw.githubusercontent.com/Tonner-Zech-Group/chem-diagrams/main/docs/img/example_complex.png)
+![Title Image](https://raw.githubusercontent.com/Tonner-Zech-Group/chem-diagrams/main/docs/img/title/merged_image.png)
 
 ## Installation
 
@@ -66,9 +22,9 @@ pip install chemdiagrams
 ## Features
 
 - Multiple reaction paths on a single diagram
-- Five connector styles: dotted, solid, broken dotted, broken solid, or none
+- Seven connector styles: dotted, solid, broken dotted, broken solid, spline dotted, spline solid or none
 - Five diagram styles: `open`, `halfboxed`, `boxed`, `twosided`, `borderless`
-- Automatic, stacked, naïve, and averaged energy label placement
+- Automatic, stacked, naïve, and averaged energy label placement (numbering)
 - Energy difference bars with optional whiskers
 - Axis break markers for both x and y axes
 - Image placement along the diagram, with automatic collision avoidance
@@ -111,6 +67,15 @@ dia = EnergyDiagram(
     style="halfboxed",         # diagram style (see later sections for details)
     dpi=150,                   # resolution in dots per inch for raster formats (ignored for vector formats like PDF, svg and eps)
 )
+```
+
+### Saving figures
+
+Figures can be saved in any format supported by Matplotlib. The `bbox_inches="tight"` option is recommended to adjust whitespace around the figure.
+
+```python
+dia.fig.savefig("diagram.png", dpi=300, bbox_inches="tight")
+dia.fig.savefig("diagram.pdf", bbox_inches="tight")
 ```
 
 ### Drawing paths
@@ -194,6 +159,48 @@ dia.add_path_labels(
     weight="bold"                       # Font weight for the labels (uses "normal" if None)
 ```
 
+Example:
+
+```python
+dia = EnergyDiagram()
+
+dia.draw_path(
+    x_data=[0, 1, 2, 3, 4, 5],
+    y_data=[0, -13, 25, 75, 39, 20],
+    color="blue",
+    path_name="Pathway A",     
+    linetypes=3,                # connector style for all segments as an int
+)
+
+dia.draw_path(
+    x_data=[0, 1, 2, 3, 5],
+    y_data=[0, -25, 15, 50, -8],
+    color="red",
+    path_name="Pathway B",
+    linetypes=3
+)
+
+dia.add_path_labels(
+    "Pathway A", 
+    [None, "I1", "I2", "I3", "I4", "P"], # None for no label
+    fontsize=7,
+)
+
+dia.add_path_labels(
+    "Pathway B", 
+    ["E", "I1", "I2", "I3", "P"],
+    weight="bold"
+)
+dia.lines["Pathway B"].labels["0.0"].set_color("black") # Set the color of the first label of Pathway B to black
+
+dia.legend(fontsize=7)
+dia.add_numbers_auto()
+dia.ax.set_ylabel("Energy / kJ mol$^{-1}$", fontsize=8)
+
+dia.show()
+```
+![Multiple paths](https://raw.githubusercontent.com/Tonner-Zech-Group/chem-diagrams/main/docs/img/example_path_labels.png)
+
 
 ### Diagram styles
 
@@ -222,7 +229,7 @@ Use `labelplaces` to set explicit x-coordinates instead of the default sequentia
 dia.set_xlabels(["A", "TS", "B"], labelplaces=[0, 2, 3])
 ```
 
-### Energy labels
+### Energy labels (numbering)
 
 Four numbering strategies are available. Call them after all paths have been drawn. 
 
@@ -262,6 +269,52 @@ For `add_numbers_average`, the color of the labels can be set with the `color` p
 ```python
 dia.add_numbers_average(color="red")
 ```
+
+Example:
+
+```python
+dia = EnergyDiagram(style="borderless")
+
+dia.draw_path(
+    x_data=[0, 1, 2, 3],
+    y_data=[1, 1, 1, 1],
+    color="red",
+)
+dia.draw_path(
+    x_data=[0, 1, 2, 3],
+    y_data=[-25, -25, -25, -25],
+    color="blue",
+)
+dia.draw_path(
+    x_data=[0, 1, 2, 3],
+    y_data=[15, 15, 15, 15],
+    color="green",
+)
+dia.draw_path(
+    x_data=[0, 1, 2, 3],
+    y_data=[3, 3, 3, 3],
+    color="orange",
+)
+
+dia.add_numbers_auto(x_min_max=0)
+dia.add_numbers_stacked(x_min_max=1)
+dia.add_numbers_naive(x_min_max=2)
+dia.add_numbers_average(x_min_max=3, color="black")
+
+dia.set_xlabels([
+    "Auto\nNumbering",
+    "Stacked\nNumbering",
+    "Naive\nNumbering",
+    "Average\nNumbering"
+],
+    fontsize=6,
+    weight="normal"
+)
+
+dia.show()
+```
+
+![Numbering styles](https://raw.githubusercontent.com/Tonner-Zech-Group/chem-diagrams/main/docs/img/example_numbering.png)
 
 ### Energy difference bars
 
@@ -350,7 +403,9 @@ Both paths must already be drawn and must have exactly the same y-value at `x`.
 
 ### Placing images
 
-`add_image_in_plot` places a single image at an explicit position in data coordinates.
+#### Single images
+
+`add_image_in_plot` places a single image at an explicit position in data coordinates. SVG and EPS formats are not supported; PNG and JPEG work best.
 
 ```python
 # Single image at a fixed position
@@ -368,7 +423,43 @@ dia.add_image_in_plot(
 )
 ```
 
-`add_image_series_in_plot` places one image per reaction state, with automatic collision avoidance against energy numbers and x-axis labels.
+Example:
+
+```python
+import os.path
+
+dia = EnergyDiagram(style="open")
+
+penguin = os.path.join("figures", "penguin.png")
+
+dia.draw_path(
+    [0, 1, 2, 3, 4], [0, 0.154, -0.382, -0.287, -0.748], "black",
+)
+
+dia.add_numbers_auto(
+    n_decimals=2
+)
+
+dia.ax.set_ylabel(r"$\Delta E$ in eV", fontsize=8)
+dia.set_xlabels(["E", "TS1", "I", "TS2", "P"], in_plot=True)
+
+dia.add_image_in_plot(
+    penguin,
+    position=(0.6, -0.4),
+    height=0.4
+)
+
+dia.fig.savefig(os.path.join("..", "docs", "img", "title", "image_8.png"), dpi=300, bbox_inches="tight")
+dia.fig.savefig(os.path.join("..","docs","img","example_single_image.png"),format="png", bbox_inches="tight")
+dia.show()
+```
+
+![Single image](https://raw.githubusercontent.com/Tonner-Zech-Group/chem-diagrams/main/docs/img/example_single_image.png)
+
+
+#### Image series
+
+`add_image_series_in_plot` places one image per reaction state, with automatic collision avoidance against energy numbers and x-axis labels. SVG and EPS formats are not supported; PNG and JPEG work best.
 
 ```python
 # Series of images distributed automatically along the diagram
@@ -389,14 +480,46 @@ dia.add_image_series_in_plot(
 )
 ```
 
-SVG and EPS formats are not supported; PNG and JPEG work best.
-
-### Saving figures
+Example:
 
 ```python
-dia.fig.savefig("diagram.png", dpi=300, bbox_inches="tight")
-dia.fig.savefig("diagram.pdf", bbox_inches="tight")
+import os.path
+
+ester_1 = os.path.join("figures", "ester_1.png")
+ester_2 = os.path.join("figures", "ester_2.png")
+ester_3 = os.path.join("figures", "ester_3.png")
+ester_4 = os.path.join("figures", "ester_4.png")
+ester_5 = os.path.join("figures", "ester_5.png")
+
+dia = EnergyDiagram(
+    style="borderless",
+    extra_y_margin=(0, 0.25),
+)
+
+dia.draw_path(
+    [0,1,2,3,4], [0, 32, 5, 25, -15], "blue",
+    path_name="Blue path",
+    linetypes=3   
+)
+
+dia.add_numbers_average(color="black")
+dia.set_xlabels(["Ester", "TS1", "Hemiacetal", "TS2", "Carboxylic\nAcid"], in_plot=True, fontsize=6, weight="normal")
+
+dia.add_image_series_in_plot(
+    [ester_1, ester_2, ester_3, ester_4, ester_5],
+    y_placement="top",
+    width=[0.6, 0.7, 0.6, 0.7, 0.6],
+    y_offsets=1.5,
+    framed=[True, False, False, False, True],
+    frame_colors="blue"
+)
+
+dia.ax.set_title("Ester hydrolysis", fontsize=10)
+dia.show()
 ```
+
+![Image series](https://raw.githubusercontent.com/Tonner-Zech-Group/chem-diagrams/main/docs/img/example_image_series.png)
+
 
 ### Accessing Matplotlib objects
 
@@ -409,7 +532,10 @@ figure = dia.fig  # Matplotlib Figure object
 axes = dia.ax     # Matplotlib Axes object
 dia.ax.set_ylabel("Energy / kJ mol$^{-1}$", fontsize=10)
 dia.fig.savefig("diagram.png", dpi=300, bbox_inches="tight")
+dia.ax.set_title("My Energy Diagram", fontsize=12)
 ```
+
+#### Artists for paths
 
 All objects of a path (plateaus and connectors) are stored in dia.lines and can be accessed by the path name and x-position. If a path was drawn with `width_plateau=0`, it has no plateau objects.
 
@@ -420,9 +546,16 @@ plateau   = dia.lines["My Path"].plateaus["2.0"]     # Plateau of "My Path" at x
 connector = dia.lines["My Path"].connections["1.5"]  # Connector of "My Path" between x=1 and x=2 (x=1.5)
 plateau.set_color("green")
 connector.set_linestyle("--")
+```
+
+Via dia.lines it is also possible to access the path labels added with `add_path_labels` by their x-position. 
+
+```python
 path_labels = dia.lines["My Path"].labels["2.0"]       # Label of "My Path" at x=2
 path_labels.set_color("blue")
 ```
+
+#### Artists for numbers
 
 All energy labels are stored in dia.numbers and can be accessed by path name and x-position.
 
@@ -433,6 +566,8 @@ label.set_color("red")
 label.set_fontsize(12)
 ```
 
+#### Artists for difference bars
+
 Components of difference bars are stored in dia.bars and can be accessed by the order of bar placement (e.g., `dia.bars[0]` for the first one, `dia.bars[1]` for the second one...). A difference bar consists of the vertical bar (`bar`), an optional text label (`text`), and optional horizontal whiskers (`whisker_1`, `whisker_2`).
 
 ```python
@@ -442,6 +577,8 @@ first_bar.text.set_color("red")
 first_bar.bar.arrow_patch.set_color("green")
 first_bar.whisker_2.set_linestyle("--")
 ```
+
+#### Artists for axes, arrows and x-labels
 
 Style objects for axes, arrows, and x-labels are stored in `dia.ax_objects` and can be accessed by their type and x-position (for x-labels). x-labels (`x_labels`) are only stored if they were created with `set_xlabels(..., in_plot=True)`. 
 
@@ -469,6 +606,8 @@ dia.ax_objects.xaxis_breaks["2.0"]["top"].stopper_1.set_color("red")
 dia.ax_objects.yaxis_breaks["5.0"]["left"].stopper_1.set_color("blue")
 ```
 
+#### Artists for images
+
 Images are stored in `dia.images` by their name, which is either the `img_name` passed to `add_image_in_plot` or the `img_series_name` passed to `add_image_series_in_plot`. The former is stored as an `ImageObject`, which has an `image` attribute for the Matplotlib AxesImage and a `borders` dictionary for the frame lines keyed by "top", "bottom", "left", and "right". The latter is stored as a dictionary keyed by x-position as a string formatted to one decimal place, with each entry being an `ImageObject`.
 
 ```python
@@ -488,7 +627,7 @@ img_at_x1.borders["bottom"].set_linestyle("--")
 
 ## Examples
 
-A full set of examples covering all features is available in [`examples/example_use.ipynb`](https://github.com/Tonner-Zech-Group/chem-diagrams/blob/main/examples/example_use.ipynb).
+A set of even more examples is available in [`examples/example_use.ipynb`](https://github.com/Tonner-Zech-Group/chem-diagrams/blob/main/examples/example_use.ipynb).
 
 ## Citation
 

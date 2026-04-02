@@ -166,6 +166,7 @@ class EnergyDiagram:
         self.verbose = verbose
         self.margins = self._layout_manager.adjust_xy_limits(self._path_manager.path_data)
         self.figsize = self._layout_manager.scale_figure(self._path_manager.path_data)
+        self.set_xlabels([])
 
     def draw_difference_bar(
         self,
