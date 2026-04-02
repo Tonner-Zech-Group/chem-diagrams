@@ -6,13 +6,16 @@ theme:
   name: material
   features:
     - navigation.tabs
+    - navigation.sections
     - navigation.top
     - content.code.copy
 
 nav:
   - Home: index.md
+  - Usage: usage.md
   - Examples: examples.md
   - API Reference: api/  # populated by the gen script
+  - About: about.md
 
 plugins:
   - search
