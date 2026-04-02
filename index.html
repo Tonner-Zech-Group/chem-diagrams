@@ -429,17 +429,6 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#methods" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Methods
-      
-    </span>
-  </a>
-  
-</li>
-      
     </ul>
   
 </nav>
@@ -1175,17 +1164,6 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#methods" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Methods
-      
-    </span>
-  </a>
-  
-</li>
-      
     </ul>
   
 </nav>
@@ -1210,6 +1188,7 @@
 <p><a href="https://pypi.org/project/chemdiagrams/"><img alt="PyPI version" src="https://img.shields.io/pypi/v/chemdiagrams.svg" /></a>
 <a href="https://pypi.org/project/chemdiagrams/"><img alt="Python versions" src="https://img.shields.io/pypi/pyversions/chemdiagrams.svg" /></a>
 <a href="https://github.com/Tonner-Zech-Group/chem-diagrams/blob/main/LICENSE"><img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg" /></a>
+<a href="https://tonner-zech-group.github.io/chem-diagrams/"><img alt="Documentation" src="https://img.shields.io/badge/docs-GitHub%20Pages-blue" /></a>
 <a href="https://doi.org/10.5281/zenodo.18957965"><img alt="DOI" src="https://zenodo.org/badge/DOI/10.5281/zenodo.18957965.svg" /></a></p>
 <p>A Python package for creating publication-quality reaction energy diagrams with Matplotlib.</p>
 <p><img alt="Title Image" src="https://raw.githubusercontent.com/Tonner-Zech-Group/chem-diagrams/main/docs/img/title/merged_image.png" /></p>
@@ -1217,7 +1196,7 @@
 <p>You can use the latest release by installing it from PyPi:</p>
 <div class="highlight"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>chemdiagrams
 </code></pre></div>
-<p><strong>Requirements:</strong> Python ≥ 3.10, Matplotlib ≥ 3.7, NumPy ≥ 1.23</p>
+<p><strong>Requirements:</strong> Python ≥ 3.10, Matplotlib ≥ 3.7, NumPy ≥ 1.23, SciPy ≥ 1.10</p>
 <h2 id="features">Features</h2>
 <ul>
 <li>Multiple reaction paths on a single diagram</li>
@@ -1229,81 +1208,6 @@
 <li>Image placement along the diagram, with automatic collision avoidance</li>
 <li>Full access to the underlying Matplotlib objects for fine-grained customisation</li>
 </ul>
-<h2 id="methods">Methods</h2>
-<table>
-<thead>
-<tr>
-<th>Method</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>draw_path()</code></td>
-<td>Add a reaction pathway to the diagram</td>
-</tr>
-<tr>
-<td><code>add_path_labels()</code></td>
-<td>Add text labels for a specific path at the respective x-positions</td>
-</tr>
-<tr>
-<td><code>draw_difference_bar()</code></td>
-<td>Draw a vertical energy difference arrow between two levels</td>
-</tr>
-<tr>
-<td><code>merge_plateaus()</code></td>
-<td>Visually merge two coincident energy levels at a shared x-position</td>
-</tr>
-<tr>
-<td><code>set_xlabels()</code></td>
-<td>Set text labels for the reaction states along the x-axis</td>
-</tr>
-<tr>
-<td><code>set_diagram_style()</code></td>
-<td>Change the overall visual style (<code>open</code>, <code>boxed</code>, <code>halfboxed</code>, <code>twosided</code>, <code>borderless</code>)</td>
-</tr>
-<tr>
-<td><code>add_numbers_naive()</code></td>
-<td>Annotate each energy level directly above its bar</td>
-</tr>
-<tr>
-<td><code>add_numbers_stacked()</code></td>
-<td>Stack labels above the highest state to avoid overlap</td>
-</tr>
-<tr>
-<td><code>add_numbers_auto()</code></td>
-<td>Automatically distribute labels to minimise clutter (recommended)</td>
-</tr>
-<tr>
-<td><code>add_numbers_average()</code></td>
-<td>Annotate with the mean energy across all paths at each x-position</td>
-</tr>
-<tr>
-<td><code>add_xaxis_break()</code></td>
-<td>Add a break marker on the x-axis</td>
-</tr>
-<tr>
-<td><code>add_yaxis_break()</code></td>
-<td>Add a break marker on the y-axis</td>
-</tr>
-<tr>
-<td><code>add_image_in_plot()</code></td>
-<td>Place a single image at an explicit data-coordinate position</td>
-</tr>
-<tr>
-<td><code>add_image_series_in_plot()</code></td>
-<td>Place a series of images along the diagram with automatic collision avoidance</td>
-</tr>
-<tr>
-<td><code>legend()</code></td>
-<td>Add a legend for all named paths</td>
-</tr>
-<tr>
-<td><code>show()</code></td>
-<td>Display the figure</td>
-</tr>
-</tbody>
-</table>
 
 
 
