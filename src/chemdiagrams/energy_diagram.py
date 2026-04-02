@@ -82,8 +82,7 @@ class EnergyDiagram:
 
     Methods
     -------
-    draw_path(x_data, y_data, color, linetypes=None, path_name=None,
-            show_numbers=True)
+    draw_path(x_data, y_data, color, linetypes=None, ...)
         Add a reaction path to the diagram.
 
     merge_plateaus(x, path_name_left, path_name_right, ...)
