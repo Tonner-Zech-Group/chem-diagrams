@@ -346,8 +346,94 @@ class NumberManager:
                 **settings,
             )
 
+    def modify_number_values(
+        self,
+        path_data: dict,
+        x: float,
+        base_value: float = 0.0,
+        x_add: float | list[float] | None = None,
+        x_subtract: float | list[float] | None = None,
+        include_paths: list[str] | None = None,
+        exclude_paths: list[str] | None = None,
+        brackets: tuple[str, str] | list[str] | None = ("(", ")"),
+        n_decimals: int = 0,
+    ) -> None:
+        # Sanity checks
+        Validators.validate_number(x, "x")
+        Validators.validate_number(base_value, "base_value")
+        if x_add is not None:
+            if isinstance(x_add, (int, float)):
+                x_add = [x_add]
+        Validators.validate_numeric_sequence(x_add, "x_add", allow_none=True)
+        if x_subtract is not None:
+            if isinstance(x_subtract, (int, float)):
+                x_subtract = [x_subtract]
+        Validators.validate_numeric_sequence(x_subtract, "x_subtract", allow_none=True)
+        Validators.validate_string_sequence(include_paths, "include_paths", allow_none=True)
+        Validators.validate_string_sequence(exclude_paths, "exclude_paths", allow_none=True)
+        if brackets is None:
+            brackets = ("", "")
+        Validators.validate_string_sequence(brackets, "brackets", required_length=2)
+        Validators.validate_number(n_decimals, "n_decimals", min_value=0, only_integer=True)
+        if include_paths is not None and exclude_paths is not None:
+            raise ValueError("Cannot specify both include_paths and exclude_paths.")
+
+        # Get all paths that should be modified
+        if include_paths is not None:
+            path_names_to_modify = set(include_paths)
+        elif exclude_paths is not None:
+            path_names_to_modify = set(path_data.keys()) - set(exclude_paths)
+        else:
+            path_names_to_modify = set(path_data.keys())
+
+        # For each path modify the number at x and update the label
+        for path_name in path_names_to_modify:
+            try:
+                path = path_data[path_name]
+            except KeyError:
+                raise ValueError(f"Path '{path_name}' not found in path_data.")
+            try:
+                label = self.mpl_objects[path_name][f"{x:.1f}"]
+                is_label_found = True
+            except KeyError:
+                print(
+                    f"Warning (modify_number_values): No label found for path"
+                    f" '{path_name}' at x={x}. Skipping modification."
+                )
+                is_label_found = False
+
+            if is_label_found:
+                number_new = base_value
+
+                # Add all the values at x position specified in x_subtract and x_add
+                if x_add is not None:
+                    for x_val in x_add:
+                        try:
+                            index = path["x"].index(x_val)
+                            number_new += path_data[path_name]["y"][index]
+                        except ValueError:
+                            print(
+                                f"Warning (modify_number_values): Value at x={x_val} not"
+                                f" found for path. '{path_name}'. Skipping addition."
+                            )
+
+                if x_subtract is not None:
+                    for x_val in x_subtract:
+                        try:
+                            index = path["x"].index(x_val)
+                            number_new -= path_data[path_name]["y"][index]
+                        except ValueError:
+                            print(
+                                f"Warning (modify_number_values): Value at x={x_val} not"
+                                f" found for path. '{path_name}'. Skipping subtraction."
+                            )
+
+                # Update the label text
+                new_text = f"{brackets[0]}{number_new:.{n_decimals}f}{brackets[1]}"
+                label.set_text(new_text)
+
     ############################################################
-    # Internal helper methods
+    # Helper methods for number placement and overlap checking
     ############################################################
 
     @staticmethod

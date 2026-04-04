@@ -121,6 +121,9 @@ class EnergyDiagram:
     add_numbers_average(...)
         Add averaged energy annotations.
 
+    modify_number_values(x, x_add=None, x_subtract=None, ...)
+        Modify existing energy annotations by adding or subtracting values.
+
     add_image_in_plot(img_path, position, ...)
         Place a single image at an explicit position within the diagram.
 
@@ -925,6 +928,108 @@ class EnergyDiagram:
                 self._style_manager.mpl_objects.x_labels,
                 self._path_manager.mpl_objects,
             )
+        return self
+
+    def modify_number_values(
+        self,
+        x: float,
+        base_value: float = 0.0,
+        x_add: float | list[float] | None = None,
+        x_subtract: float | list[float] | None = None,
+        include_paths: list[str] | None = None,
+        exclude_paths: list[str] | None = None,
+        brackets: tuple[str, str] | list[str] | None = ("(", ")"),
+        n_decimals: int = 0,
+    ) -> EnergyDiagram:
+        """
+        Modify energy labels at a specific x-position by combining energy values.
+
+        This method recalculates and updates the numeric label displayed above an
+        energy level at a given x-coordinate. The new value is computed from a
+        ``base_value``, plus energy levels from specified x-positions that are
+        added or subtracted. This is useful for annotating energy differences,
+        especially for transition states.
+
+        Parameters
+        ----------
+        x : float
+            The x-coordinate (reaction state position) where the label is located
+            and will be modified.
+        base_value : float, optional
+            Initial value for the calculation. The final label value is computed as:
+            ``base_value + sum(energies at x_add) - sum(energies at x_subtract)``
+            for each path. Default is 0.0.
+        x_add : float or list of float or None, optional
+            X-coordinate(s) whose energy values are added to the calculated result.
+            Can be a single float or a list of floats. Useful for summing multiple
+            energy contributions. Default is None (no values added).
+        x_subtract : float or list of float or None, optional
+            X-coordinate(s) whose energy values are subtracted from the calculated
+            result. Can be a single float or a list of floats. Useful for computing
+            differences like reaction barriers or enthalpies. Default is None
+            (no values subtracted).
+        include_paths : list of str or None, optional
+            Path names for which the label should be modified. If specified,
+            only these paths are updated. Cannot be used with ``exclude_paths``.
+            Default is None (all paths are modified).
+        exclude_paths : list of str or None, optional
+            Path names to exclude from modification. If specified, all paths
+            except these are updated. Cannot be used with ``include_paths``.
+            Default is None (all paths are modified).
+        brackets : tuple of str and str or list of str or None, optional
+            Characters to wrap around the numeric value as (left_bracket,
+            right_bracket). Common choices are ``("(", ")")``, ``("[", "]")``,
+            or ``("", "")`` for no brackets. Default is ``("(", ")")``.
+        n_decimals : int, optional
+            Number of decimal places in the formatted label. Default is 0
+            (integer values).
+
+        Returns
+        -------
+        EnergyDiagram
+            Returns ``self`` for method chaining.
+
+        Raises
+        ------
+        ValueError
+            If both ``include_paths`` and ``exclude_paths`` are specified.
+        ValueError
+            If a path name in ``include_paths`` does not exist in the diagram.
+        UserWarning
+            If a requested x-value to add or subtract is not found in a path,
+            or if a label at the specified x-position does not exist.
+
+        Examples
+        --------
+        Label a transition state barrier at x=1.0 by subtracting the reactant
+        energy (x=0.0) from the transition state energy (x=1.0):
+
+        >>> diagram.modify_number_values(
+        ...     x=1.0, x_add=[1.0], x_subtract=[0.0], brackets=["Δ‡", ""]
+        ... )
+
+        Compute a complex energy term at x=3.0 for only specific paths:
+
+        >>> diagram.modify_number_values(
+        ...     x=3.0,
+        ...     base_value=10.0,
+        ...     x_add=[1.0, 2.0],
+        ...     x_subtract=[0.0],
+        ...     include_paths=["pathway_A"],
+        ...     n_decimals=2
+        ... )
+        """
+        self._number_manager.modify_number_values(
+            path_data=self._path_manager.path_data,
+            x=x,
+            base_value=base_value,
+            x_add=x_add,
+            x_subtract=x_subtract,
+            include_paths=include_paths,
+            exclude_paths=exclude_paths,
+            brackets=brackets,
+            n_decimals=n_decimals,
+        )
         return self
 
     ############################################################

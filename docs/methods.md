@@ -12,6 +12,7 @@
 | `add_numbers_stacked()` | Stack labels above the highest state to avoid overlap |
 | `add_numbers_auto()` | Automatically distribute labels to minimise clutter (recommended) |
 | `add_numbers_average()` | Annotate with the mean energy across all paths at each x-position |
+| `modify_number_values()` | Modify existing energy annotations by adding or subtracting values |
 | `add_xaxis_break()` | Add a break marker on the x-axis |
 | `add_yaxis_break()` | Add a break marker on the y-axis |
 | `add_image_in_plot()` | Place a single image at an explicit data-coordinate position |

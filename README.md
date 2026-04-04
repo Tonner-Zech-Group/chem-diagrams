@@ -26,6 +26,7 @@ pip install chemdiagrams
 - Seven connector styles: dotted, solid, broken dotted, broken solid, spline dotted, spline solid or none
 - Five diagram styles: `open`, `halfboxed`, `boxed`, `twosided`, `borderless`
 - Automatic, stacked, naïve, and averaged energy label placement (numbering)
+- Custom text labels for each path at each position
 - Energy difference bars with optional whiskers
 - Axis break markers for both x and y axes
 - Image placement along the diagram, with automatic collision avoidance
@@ -49,6 +50,7 @@ Full documentation with usage instructions, examples, and API reference is avail
 | `add_numbers_stacked()` | Stack labels above the highest state to avoid overlap |
 | `add_numbers_auto()` | Automatically distribute labels to minimise clutter (recommended) |
 | `add_numbers_average()` | Annotate with the mean energy across all paths at each x-position |
+| `modify_number_values()` | Modify existing energy annotations by adding or subtracting values |
 | `add_xaxis_break()` | Add a break marker on the x-axis |
 | `add_yaxis_break()` | Add a break marker on the y-axis |
 | `add_image_in_plot()` | Place a single image at an explicit data-coordinate position |
@@ -239,6 +241,8 @@ dia.set_xlabels(["A", "TS", "B"], labelplaces=[0, 2, 3])
 
 ### Energy labels (numbering)
 
+#### Numbering styles
+
 Four numbering strategies are available. Call them after all paths have been drawn. 
 
 ```python
@@ -324,6 +328,70 @@ dia.show()
 ```
 
 ![Numbering styles](https://raw.githubusercontent.com/Tonner-Zech-Group/chem-diagrams/main/docs/img/example_numbering.png)
+
+#### Modifying existing numbers
+
+Existing energy annotations can be modified by adding or subtracting values with `modify_number_values()`. This is useful to annotate energy differences (e.g., activation energies or reaction energies) by subtracting the relevant reference energy from the target energy. The resulting number is caclulated for each path as follows:
+
+```
+base_value + sum(energies at x_add) - sum(energies at x_subtract)
+```
+
+```python
+dia.modify_number_values(
+    x=2,                        # x-position of the number to modify in data coordinates
+    x_add=[2],                  # list of x-positions (or single x-position) to add to the number; None for no addition
+    x_subtract=[1],             # list of x-positions (or single x-position) to subtract from the number; None for no subtraction
+    base_value=0,               # value to add or subtract directly (e.g., to convert units); default is 0
+    brackets=["(", ")"],        # pair of strings to add as brackets around the modified number (e.g., ["[", "]); None for no brackets")
+    n_decimals=0,               # number of decimals to round the modified number to (default is 0)
+    include_paths=None,         # list of path names to include in the modification; None to include all paths
+    exclude_paths=None,         # list of path names to exclude from the modification; None includes all paths
+    n_decimals=0,               # number of decimals to round the modified number to (default is 0)
+)
+```
+
+Example:
+
+```python
+dia = EnergyDiagram()
+
+dia.draw_path(
+    x_data=[0, 1, 2, 3, 4],
+    y_data=[0, 28, -14, 15.3, -22],
+    color="blue",
+    path_name="Blue path",
+)
+
+dia.draw_path(
+    x_data=[0, 1, 2, 3, 4],
+    y_data=[0, 25, 6, 15.2, -18],
+    color="red",
+    path_name="Red path",
+)
+
+dia.add_numbers_auto()
+
+dia.modify_number_values(
+    x=1,
+    x_add=1,
+    x_subtract=0,
+    include_paths=["Blue path"],
+    brackets=("[", "]"), 
+)
+
+dia.modify_number_values(
+    x=3,
+    x_add=[3],
+    x_subtract=[2],
+    n_decimals=1,
+)
+
+dia.fig.savefig(os.path.join("..","docs","img","example_number_modification.png"),format="png", bbox_inches="tight")
+dia.show()
+```
+
+![Modify numbers](https://raw.githubusercontent.com/Tonner-Zech-Group/chem-diagrams/main/docs/img/example_number_modification.png)
 
 ### Energy difference bars
 

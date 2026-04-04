@@ -26,6 +26,7 @@ pip install chemdiagrams
 - Seven connector styles: dotted, solid, broken dotted, broken solid, spline dotted, spline solid or none
 - Five diagram styles: `open`, `halfboxed`, `boxed`, `twosided`, `borderless`
 - Automatic, stacked, naïve, and averaged energy label placement (numbering)
+- Custom text labels for each path at each position
 - Energy difference bars with optional whiskers
 - Axis break markers for both x and y axes
 - Image placement along the diagram, with automatic collision avoidance

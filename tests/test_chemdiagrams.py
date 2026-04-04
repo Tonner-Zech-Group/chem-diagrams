@@ -275,6 +275,169 @@ class TestNumbering:
         dia.add_numbers_naive()
         assert len(dia.numbers) > 0
 
+    def test_modify_number_values_basic(self):
+        """Test basic number modification at a single x-position."""
+        dia = make_diagram()
+        dia.add_numbers_naive()
+        result = dia.modify_number_values(x=1)
+        assert result is dia  # method chaining
+
+    def test_modify_number_values_with_base_value(self):
+        """Test modifying numbers with a custom base_value."""
+        dia = make_diagram()
+        dia.add_numbers_naive()
+        dia.modify_number_values(x=1, base_value=10.0)
+
+    def test_modify_number_values_with_x_add(self):
+        """Test modifying numbers by adding energy values from x positions."""
+        dia = make_diagram()
+        dia.add_numbers_naive()
+        # Add energy values from x=0 and x=2
+        dia.modify_number_values(x=1, x_add=[0, 2])
+
+    def test_modify_number_values_with_x_add_single_value(self):
+        """Test x_add with a single float instead of list."""
+        dia = make_diagram()
+        dia.add_numbers_naive()
+        dia.modify_number_values(x=1, x_add=0)
+
+    def test_modify_number_values_with_x_subtract(self):
+        """Test modifying numbers by subtracting energy values from x positions."""
+        dia = make_diagram()
+        dia.add_numbers_naive()
+        # Subtract energy value from x=0
+        dia.modify_number_values(x=2, x_subtract=[0])
+
+    def test_modify_number_values_with_x_subtract_single_value(self):
+        """Test x_subtract with a single float instead of list."""
+        dia = make_diagram()
+        dia.add_numbers_naive()
+        dia.modify_number_values(x=2, x_subtract=0)
+
+    def test_modify_number_values_with_both_add_and_subtract(self):
+        """Test modifying numbers with both x_add and x_subtract."""
+        dia = make_diagram()
+        dia.add_numbers_naive()
+        dia.modify_number_values(x=2, base_value=5.0, x_add=[1], x_subtract=[0])
+
+    def test_modify_number_values_with_brackets(self):
+        """Test modifying numbers with custom brackets."""
+        dia = make_diagram()
+        dia.add_numbers_naive()
+        dia.modify_number_values(x=1, brackets=("[", "]"))
+
+    def test_modify_number_values_with_empty_brackets(self):
+        """Test modifying numbers without brackets."""
+        dia = make_diagram()
+        dia.add_numbers_naive()
+        dia.modify_number_values(x=1, brackets=("", ""))
+
+    def test_modify_number_values_with_none_brackets(self):
+        """Test modifying numbers with None for brackets."""
+        dia = make_diagram()
+        dia.add_numbers_naive()
+        dia.modify_number_values(x=1, brackets=None)
+
+    def test_modify_number_values_with_n_decimals(self):
+        """Test modifying numbers with custom decimal places."""
+        dia = make_diagram()
+        dia.add_numbers_naive()
+        dia.modify_number_values(x=1, n_decimals=2)
+
+    def test_modify_number_values_with_include_paths(self):
+        """Test modifying numbers for specific paths using include_paths."""
+        dia = EnergyDiagram()
+        dia.draw_path([0, 1, 2], [0, 10, -5], color="blue", path_name="path_A")
+        dia.draw_path([0, 1, 2], [0, 6, -3], color="red", path_name="path_B")
+        dia.add_numbers_naive()
+        dia.modify_number_values(x=1, include_paths=["path_A"])
+
+    def test_modify_number_values_with_multiple_include_paths(self):
+        """Test modifying numbers for multiple specific paths."""
+        dia = EnergyDiagram()
+        dia.draw_path([0, 1, 2], [0, 10, -5], color="blue", path_name="path_A")
+        dia.draw_path([0, 1, 2], [0, 6, -3], color="red", path_name="path_B")
+        dia.draw_path([0, 1, 2], [0, 8, -2], color="green", path_name="path_C")
+        dia.add_numbers_naive()
+        dia.modify_number_values(x=1, include_paths=["path_A", "path_B"])
+
+    def test_modify_number_values_with_exclude_paths(self):
+        """Test modifying numbers for all paths except specified ones."""
+        dia = EnergyDiagram()
+        dia.draw_path([0, 1, 2], [0, 10, -5], color="blue", path_name="path_A")
+        dia.draw_path([0, 1, 2], [0, 6, -3], color="red", path_name="path_B")
+        dia.draw_path([0, 1, 2], [0, 8, -2], color="green", path_name="path_C")
+        dia.add_numbers_naive()
+        dia.modify_number_values(x=1, exclude_paths=["path_A"])
+
+    def test_modify_number_values_with_multiple_exclude_paths(self):
+        """Test excluding multiple paths from modification."""
+        dia = EnergyDiagram()
+        dia.draw_path([0, 1, 2], [0, 10, -5], color="blue", path_name="path_A")
+        dia.draw_path([0, 1, 2], [0, 6, -3], color="red", path_name="path_B")
+        dia.draw_path([0, 1, 2], [0, 8, -2], color="green", path_name="path_C")
+        dia.add_numbers_naive()
+        dia.modify_number_values(x=1, exclude_paths=["path_A", "path_B"])
+
+    def test_modify_number_values_include_and_exclude_raises(self):
+        """Test that specifying both include_paths and exclude_paths raises ValueError."""
+        dia = make_diagram()
+        dia.add_numbers_naive()
+        with pytest.raises(ValueError):
+            dia.modify_number_values(x=1, include_paths=["A"], exclude_paths=["A"])
+
+    def test_modify_number_values_nonexistent_path_in_include_raises(self):
+        """Test that including a nonexistent path raises ValueError."""
+        dia = make_diagram()
+        dia.add_numbers_naive()
+        with pytest.raises(ValueError):
+            dia.modify_number_values(x=1, include_paths=["nonexistent"])
+
+    def test_modify_number_values_after_stacked_numbering(self):
+        """Test modifying numbers that were added with add_numbers_stacked."""
+        dia = make_diagram()
+        dia.add_numbers_stacked()
+        dia.modify_number_values(x=1, base_value=100.0, n_decimals=1)
+
+    def test_modify_number_values_after_auto_numbering(self):
+        """Test modifying numbers that were added with add_numbers_auto."""
+        dia = make_diagram()
+        dia.add_numbers_auto()
+        dia.modify_number_values(x=2, x_subtract=[0], brackets=["Δ", ""])
+
+    def test_modify_number_values_after_average_numbering(self):
+        """Test modifying numbers that were added with add_numbers_average."""
+        dia = EnergyDiagram()
+        dia.draw_path([0, 1, 2], [0, 10, -5], color="blue", path_name="A")
+        dia.draw_path([0, 1, 2], [0, 6, -3], color="red", path_name="B")
+        dia.add_numbers_average()
+        dia.modify_number_values(x=1, base_value=50.0)
+
+    def test_modify_number_values_complex_calculation(self):
+        """Test a complex energy calculation with multiple additions and subtractions."""
+        dia = EnergyDiagram()
+        dia.draw_path([0, 1, 2, 3], [0, 20, 10, 15], color="blue", path_name="path_1")
+        dia.add_numbers_naive()
+        # Calculate: base_value + values[1] + values[2] - values[0]
+        dia.modify_number_values(
+            x=3, base_value=5.0, x_add=[1, 2], x_subtract=[0], n_decimals=1
+        )
+
+    def test_modify_number_values_with_special_characters_in_brackets(self):
+        """Test modifying numbers with special unicode characters in brackets."""
+        dia = make_diagram()
+        dia.add_numbers_naive()
+        dia.modify_number_values(x=1, brackets=["‡", "‡"])
+
+    def test_modify_number_values_integration_full_workflow(self):
+        """Integration test: complete workflow with multiple numbering and modifications."""
+        dia = EnergyDiagram(fontsize=8)
+        dia.draw_path([0, 1, 2, 3], [0, 20, -10, 5], color="blue", path_name="pathway")
+        dia.add_numbers_naive()
+        dia.modify_number_values(x=1, x_subtract=[0], brackets=["Ea", ""])
+        dia.modify_number_values(x=3, x_subtract=[0], brackets=["ΔH", ""], n_decimals=1)
+        assert len(dia.numbers) > 0
+
 
 # ---------------------------------------------------------------------------
 # Difference bars
