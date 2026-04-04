@@ -563,6 +563,13 @@ dia.ax_objects.xaxis_breaks["2.0"]["top"].stopper_1.set_color("red")
 dia.ax_objects.yaxis_breaks["5.0"]["left"].stopper_1.set_color("blue")
 ```
 
+The horizontal line when using diagram style `"open"` is stored as `x_axis`.
+
+```python
+# Hide the horizontal line in hopen style
+dia.ax_objects.axes["x_axis"].set_visible(False)
+```
+
 #### Artists for images
 
 Images are stored in `dia.images` by their name, which is either the `img_name` passed to `add_image_in_plot` or the `img_series_name` passed to `add_image_series_in_plot`. The former is stored as an `ImageObject`, which has an `image` attribute for the Matplotlib AxesImage and a `borders` dictionary for the frame lines keyed by "top", "bottom", "left", and "right". The latter is stored as a dictionary keyed by x-position as a string formatted to one decimal place, with each entry being an `ImageObject`.

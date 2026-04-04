@@ -4,8 +4,8 @@
 |--------|-------------|
 | `draw_path()` | Add a reaction pathway to the diagram |
 | `add_path_labels()` | Add text labels for a specific path at the respective x-positions |
-| `draw_difference_bar()` | Draw a vertical energy difference arrow between two levels |
 | `merge_plateaus()` | Visually merge two coincident energy levels at a shared x-position |
+| `draw_difference_bar()` | Draw a vertical energy difference arrow between two levels |
 | `set_xlabels()` | Set text labels for the reaction states along the x-axis |
 | `set_diagram_style()` | Change the overall visual style (`open`, `boxed`, `halfboxed`, `twosided`, `borderless`) |
 | `add_numbers_naive()` | Annotate each energy level directly above its bar |
