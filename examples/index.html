@@ -557,10 +557,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#example-7-smooth-paths" class="md-nav__link">
+  <a href="#example-7-smooth-paths-number-modification" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Example 7: Smooth paths
+        Example 7: Smooth paths, number modification
       
     </span>
   </a>
@@ -579,10 +579,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#example-9-path-label-customization" class="md-nav__link">
+  <a href="#example-9-connector-line-customization-and-number-modification" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Example 9: Path label customization
+        Example 9: Connector line customization and number modification
       
     </span>
   </a>
@@ -1288,10 +1288,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#example-7-smooth-paths" class="md-nav__link">
+  <a href="#example-7-smooth-paths-number-modification" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Example 7: Smooth paths
+        Example 7: Smooth paths, number modification
       
     </span>
   </a>
@@ -1310,10 +1310,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#example-9-path-label-customization" class="md-nav__link">
+  <a href="#example-9-connector-line-customization-and-number-modification" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Example 9: Path label customization
+        Example 9: Connector line customization and number modification
       
     </span>
   </a>
@@ -1406,7 +1406,7 @@
 <span class="p">)</span>
 
 <span class="n">dia</span><span class="o">.</span><span class="n">draw_path</span><span class="p">(</span>
-    <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="o">-</span><span class="mi">18</span><span class="p">],</span> <span class="s2">&quot;red&quot;</span><span class="p">,</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">26</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="o">-</span><span class="mi">18</span><span class="p">],</span> <span class="s2">&quot;red&quot;</span><span class="p">,</span>
     <span class="n">path_name</span><span class="o">=</span><span class="s2">&quot;Red path&quot;</span><span class="p">,</span>
     <span class="n">linetypes</span><span class="o">=</span><span class="mi">2</span>
 <span class="p">)</span>
@@ -1616,8 +1616,10 @@
 <span class="n">dia</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </code></pre></div>
 <img alt="Diagram 6" src="https://raw.githubusercontent.com/Tonner-Zech-Group/chem-diagrams/main/docs/img/title/image_6.png" /></p>
-<h2 id="example-7-smooth-paths">Example 7: Smooth paths</h2>
-<p><div class="highlight"><pre><span></span><code><span class="n">dia</span> <span class="o">=</span> <span class="n">EnergyDiagram</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s2">&quot;halfboxed&quot;</span><span class="p">)</span>
+<h2 id="example-7-smooth-paths-number-modification">Example 7: Smooth paths, number modification</h2>
+<p><div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">chemdiagrams</span><span class="w"> </span><span class="kn">import</span> <span class="n">EnergyDiagram</span>
+
+<span class="n">dia</span> <span class="o">=</span> <span class="n">EnergyDiagram</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s2">&quot;halfboxed&quot;</span><span class="p">)</span>
 
 <span class="n">dia</span><span class="o">.</span><span class="n">draw_path</span><span class="p">(</span>
     <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">78</span><span class="p">,</span> <span class="o">-</span><span class="mi">20</span><span class="p">],</span> <span class="s2">&quot;blue&quot;</span><span class="p">,</span>
@@ -1633,16 +1635,43 @@
     <span class="n">width_plateau</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
 <span class="p">)</span>
 
+<span class="n">dia</span><span class="o">.</span><span class="n">add_numbers_auto</span><span class="p">()</span>
+
+<span class="n">dia</span><span class="o">.</span><span class="n">modify_number_values</span><span class="p">(</span>
+    <span class="mi">2</span><span class="p">,</span> 
+    <span class="n">x_add</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> 
+    <span class="n">x_subtract</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+    <span class="n">include_paths</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;No catalyst&quot;</span><span class="p">],</span>
+    <span class="n">brackets</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;[&quot;</span><span class="p">,</span> <span class="s2">&quot;]&quot;</span><span class="p">),</span> 
+<span class="p">)</span>
+
+<span class="n">dia</span><span class="o">.</span><span class="n">modify_number_values</span><span class="p">(</span>
+    <span class="mf">1.2</span><span class="p">,</span> 
+    <span class="n">x_add</span><span class="o">=</span><span class="mf">1.2</span><span class="p">,</span> 
+    <span class="n">x_subtract</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+    <span class="n">include_paths</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;With catalyst&quot;</span><span class="p">],</span>
+    <span class="n">brackets</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;[&quot;</span><span class="p">,</span> <span class="s2">&quot;]&quot;</span><span class="p">),</span> 
+<span class="p">)</span>
+
+<span class="n">dia</span><span class="o">.</span><span class="n">modify_number_values</span><span class="p">(</span>
+    <span class="mf">2.5</span><span class="p">,</span> 
+    <span class="n">x_add</span><span class="o">=</span><span class="mf">2.5</span><span class="p">,</span> 
+    <span class="n">x_subtract</span><span class="o">=</span><span class="mf">1.8</span><span class="p">,</span>
+    <span class="n">include_paths</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;With catalyst&quot;</span><span class="p">],</span>
+    <span class="n">brackets</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;[&quot;</span><span class="p">,</span> <span class="s2">&quot;]&quot;</span><span class="p">),</span> 
+<span class="p">)</span>
+
 <span class="n">dia</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Reaction Coordinate&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
 <span class="n">dia</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\Delta E$ in kJ mol$^{-1}$&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
-<span class="n">dia</span><span class="o">.</span><span class="n">add_numbers_auto</span><span class="p">()</span>
+
 <span class="n">dia</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
 <span class="n">dia</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;..&quot;</span><span class="p">,</span> <span class="s2">&quot;docs&quot;</span><span class="p">,</span> <span class="s2">&quot;img&quot;</span><span class="p">,</span> <span class="s2">&quot;title&quot;</span><span class="p">,</span> <span class="s2">&quot;image_7.png&quot;</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s2">&quot;tight&quot;</span><span class="p">)</span>
 <span class="n">dia</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </code></pre></div>
 <img alt="Diagram 7" src="https://raw.githubusercontent.com/Tonner-Zech-Group/chem-diagrams/main/docs/img/title/image_7.png" /></p>
 <h2 id="example-8-float-energy-values-and-image-in-plot">Example 8: Float energy values and image in plot</h2>
-<p><div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">os.path</span>
+<p><div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">chemdiagrams</span><span class="w"> </span><span class="kn">import</span> <span class="n">EnergyDiagram</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os.path</span>
 
 <span class="n">dia</span> <span class="o">=</span> <span class="n">EnergyDiagram</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s2">&quot;open&quot;</span><span class="p">)</span>
 
@@ -1670,8 +1699,11 @@
 <span class="n">dia</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </code></pre></div>
 <img alt="Diagram 8" src="https://raw.githubusercontent.com/Tonner-Zech-Group/chem-diagrams/main/docs/img/title/image_8.png" /></p>
-<h2 id="example-9-path-label-customization">Example 9: Path label customization</h2>
-<p><div class="highlight"><pre><span></span><code><span class="n">dia</span> <span class="o">=</span> <span class="n">EnergyDiagram</span><span class="p">()</span>
+<h2 id="example-9-connector-line-customization-and-number-modification">Example 9: Connector line customization and number modification</h2>
+<p><div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">chemdiagrams</span><span class="w"> </span><span class="kn">import</span> <span class="n">EnergyDiagram</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os.path</span>
+
+<span class="n">dia</span> <span class="o">=</span> <span class="n">EnergyDiagram</span><span class="p">()</span>
 <span class="n">dia</span><span class="o">.</span><span class="n">set_diagram_style</span><span class="p">(</span><span class="s2">&quot;borderless&quot;</span><span class="p">)</span>
 
 <span class="n">dia</span><span class="o">.</span><span class="n">draw_path</span><span class="p">(</span>
@@ -1689,6 +1721,24 @@
 <span class="n">dia</span><span class="o">.</span><span class="n">add_numbers_auto</span><span class="p">()</span>
 <span class="n">dia</span><span class="o">.</span><span class="n">add_path_labels</span><span class="p">(</span><span class="s2">&quot;Blue path&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;E&quot;</span><span class="p">,</span> <span class="s2">&quot;TS1&quot;</span><span class="p">,</span> <span class="s2">&quot;I&quot;</span><span class="p">,</span> <span class="s2">&quot;TS2&quot;</span><span class="p">,</span> <span class="s2">&quot;I2&quot;</span><span class="p">,</span> <span class="s2">&quot;TS3&quot;</span><span class="p">,</span> <span class="s2">&quot;P&quot;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
 <span class="n">dia</span><span class="o">.</span><span class="n">add_path_labels</span><span class="p">(</span><span class="s2">&quot;Red path&quot;</span><span class="p">,</span> <span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;TS1&quot;</span><span class="p">,</span> <span class="s2">&quot;I&quot;</span><span class="p">,</span> <span class="s2">&quot;TS2&quot;</span><span class="p">,</span> <span class="s2">&quot;I2&quot;</span><span class="p">,</span> <span class="s2">&quot;TS3&quot;</span><span class="p">,</span> <span class="s2">&quot;P&quot;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
+
+<span class="n">dia</span><span class="o">.</span><span class="n">modify_number_values</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">x_add</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">x_subtract</span><span class="o">=</span><span class="mi">0</span>
+<span class="p">)</span>
+
+<span class="n">dia</span><span class="o">.</span><span class="n">modify_number_values</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+    <span class="n">x_add</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+    <span class="n">x_subtract</span><span class="o">=</span><span class="mi">2</span>
+<span class="p">)</span>
+
+<span class="n">dia</span><span class="o">.</span><span class="n">modify_number_values</span><span class="p">(</span>
+    <span class="n">x</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+    <span class="n">x_add</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+    <span class="n">x_subtract</span><span class="o">=</span><span class="mi">4</span>
+<span class="p">)</span>
 
 <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">dia</span><span class="o">.</span><span class="n">lines</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
     <span class="k">for</span> <span class="n">connector</span> <span class="ow">in</span> <span class="n">path</span><span class="o">.</span><span class="n">connections</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>

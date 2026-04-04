@@ -5571,7 +5571,93 @@ path name and x-coordinate.</p>
 <span class="normal">565</span>
 <span class="normal">566</span>
 <span class="normal">567</span>
-<span class="normal">568</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">NumberManager</span><span class="p">:</span>
+<span class="normal">568</span>
+<span class="normal">569</span>
+<span class="normal">570</span>
+<span class="normal">571</span>
+<span class="normal">572</span>
+<span class="normal">573</span>
+<span class="normal">574</span>
+<span class="normal">575</span>
+<span class="normal">576</span>
+<span class="normal">577</span>
+<span class="normal">578</span>
+<span class="normal">579</span>
+<span class="normal">580</span>
+<span class="normal">581</span>
+<span class="normal">582</span>
+<span class="normal">583</span>
+<span class="normal">584</span>
+<span class="normal">585</span>
+<span class="normal">586</span>
+<span class="normal">587</span>
+<span class="normal">588</span>
+<span class="normal">589</span>
+<span class="normal">590</span>
+<span class="normal">591</span>
+<span class="normal">592</span>
+<span class="normal">593</span>
+<span class="normal">594</span>
+<span class="normal">595</span>
+<span class="normal">596</span>
+<span class="normal">597</span>
+<span class="normal">598</span>
+<span class="normal">599</span>
+<span class="normal">600</span>
+<span class="normal">601</span>
+<span class="normal">602</span>
+<span class="normal">603</span>
+<span class="normal">604</span>
+<span class="normal">605</span>
+<span class="normal">606</span>
+<span class="normal">607</span>
+<span class="normal">608</span>
+<span class="normal">609</span>
+<span class="normal">610</span>
+<span class="normal">611</span>
+<span class="normal">612</span>
+<span class="normal">613</span>
+<span class="normal">614</span>
+<span class="normal">615</span>
+<span class="normal">616</span>
+<span class="normal">617</span>
+<span class="normal">618</span>
+<span class="normal">619</span>
+<span class="normal">620</span>
+<span class="normal">621</span>
+<span class="normal">622</span>
+<span class="normal">623</span>
+<span class="normal">624</span>
+<span class="normal">625</span>
+<span class="normal">626</span>
+<span class="normal">627</span>
+<span class="normal">628</span>
+<span class="normal">629</span>
+<span class="normal">630</span>
+<span class="normal">631</span>
+<span class="normal">632</span>
+<span class="normal">633</span>
+<span class="normal">634</span>
+<span class="normal">635</span>
+<span class="normal">636</span>
+<span class="normal">637</span>
+<span class="normal">638</span>
+<span class="normal">639</span>
+<span class="normal">640</span>
+<span class="normal">641</span>
+<span class="normal">642</span>
+<span class="normal">643</span>
+<span class="normal">644</span>
+<span class="normal">645</span>
+<span class="normal">646</span>
+<span class="normal">647</span>
+<span class="normal">648</span>
+<span class="normal">649</span>
+<span class="normal">650</span>
+<span class="normal">651</span>
+<span class="normal">652</span>
+<span class="normal">653</span>
+<span class="normal">654</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">NumberManager</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Manages energy value annotations on the diagram.</span>
 
@@ -5907,8 +5993,94 @@ path name and x-coordinate.</p>
                 <span class="o">**</span><span class="n">settings</span><span class="p">,</span>
             <span class="p">)</span>
 
+    <span class="k">def</span><span class="w"> </span><span class="nf">modify_number_values</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">path_data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
+        <span class="n">x</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">base_value</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">x_add</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">x_subtract</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">include_paths</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">exclude_paths</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">brackets</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;(&quot;</span><span class="p">,</span> <span class="s2">&quot;)&quot;</span><span class="p">),</span>
+        <span class="n">n_decimals</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># Sanity checks</span>
+        <span class="n">Validators</span><span class="o">.</span><span class="n">validate_number</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="s2">&quot;x&quot;</span><span class="p">)</span>
+        <span class="n">Validators</span><span class="o">.</span><span class="n">validate_number</span><span class="p">(</span><span class="n">base_value</span><span class="p">,</span> <span class="s2">&quot;base_value&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">x_add</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x_add</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+                <span class="n">x_add</span> <span class="o">=</span> <span class="p">[</span><span class="n">x_add</span><span class="p">]</span>
+        <span class="n">Validators</span><span class="o">.</span><span class="n">validate_numeric_sequence</span><span class="p">(</span><span class="n">x_add</span><span class="p">,</span> <span class="s2">&quot;x_add&quot;</span><span class="p">,</span> <span class="n">allow_none</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">x_subtract</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x_subtract</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+                <span class="n">x_subtract</span> <span class="o">=</span> <span class="p">[</span><span class="n">x_subtract</span><span class="p">]</span>
+        <span class="n">Validators</span><span class="o">.</span><span class="n">validate_numeric_sequence</span><span class="p">(</span><span class="n">x_subtract</span><span class="p">,</span> <span class="s2">&quot;x_subtract&quot;</span><span class="p">,</span> <span class="n">allow_none</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">Validators</span><span class="o">.</span><span class="n">validate_string_sequence</span><span class="p">(</span><span class="n">include_paths</span><span class="p">,</span> <span class="s2">&quot;include_paths&quot;</span><span class="p">,</span> <span class="n">allow_none</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">Validators</span><span class="o">.</span><span class="n">validate_string_sequence</span><span class="p">(</span><span class="n">exclude_paths</span><span class="p">,</span> <span class="s2">&quot;exclude_paths&quot;</span><span class="p">,</span> <span class="n">allow_none</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">brackets</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">brackets</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="n">Validators</span><span class="o">.</span><span class="n">validate_string_sequence</span><span class="p">(</span><span class="n">brackets</span><span class="p">,</span> <span class="s2">&quot;brackets&quot;</span><span class="p">,</span> <span class="n">required_length</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">Validators</span><span class="o">.</span><span class="n">validate_number</span><span class="p">(</span><span class="n">n_decimals</span><span class="p">,</span> <span class="s2">&quot;n_decimals&quot;</span><span class="p">,</span> <span class="n">min_value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">only_integer</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">include_paths</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">exclude_paths</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Cannot specify both include_paths and exclude_paths.&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Get all paths that should be modified</span>
+        <span class="k">if</span> <span class="n">include_paths</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">path_names_to_modify</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">include_paths</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">exclude_paths</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">path_names_to_modify</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">path_data</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">exclude_paths</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">path_names_to_modify</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">path_data</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+
+        <span class="c1"># For each path modify the number at x and update the label</span>
+        <span class="k">for</span> <span class="n">path_name</span> <span class="ow">in</span> <span class="n">path_names_to_modify</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">path</span> <span class="o">=</span> <span class="n">path_data</span><span class="p">[</span><span class="n">path_name</span><span class="p">]</span>
+            <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Path &#39;</span><span class="si">{</span><span class="n">path_name</span><span class="si">}</span><span class="s2">&#39; not found in path_data.&quot;</span><span class="p">)</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">label</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mpl_objects</span><span class="p">[</span><span class="n">path_name</span><span class="p">][</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">x</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span>
+                <span class="n">is_label_found</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Warning (modify_number_values): No label found for path&quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot; &#39;</span><span class="si">{</span><span class="n">path_name</span><span class="si">}</span><span class="s2">&#39; at x=</span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s2">. Skipping modification.&quot;</span>
+                <span class="p">)</span>
+                <span class="n">is_label_found</span> <span class="o">=</span> <span class="kc">False</span>
+
+            <span class="k">if</span> <span class="n">is_label_found</span><span class="p">:</span>
+                <span class="n">number_new</span> <span class="o">=</span> <span class="n">base_value</span>
+
+                <span class="c1"># Add all the values at x position specified in x_subtract and x_add</span>
+                <span class="k">if</span> <span class="n">x_add</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">x_val</span> <span class="ow">in</span> <span class="n">x_add</span><span class="p">:</span>
+                        <span class="k">try</span><span class="p">:</span>
+                            <span class="n">index</span> <span class="o">=</span> <span class="n">path</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">x_val</span><span class="p">)</span>
+                            <span class="n">number_new</span> <span class="o">+=</span> <span class="n">path_data</span><span class="p">[</span><span class="n">path_name</span><span class="p">][</span><span class="s2">&quot;y&quot;</span><span class="p">][</span><span class="n">index</span><span class="p">]</span>
+                        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                            <span class="nb">print</span><span class="p">(</span>
+                                <span class="sa">f</span><span class="s2">&quot;Warning (modify_number_values): Value at x=</span><span class="si">{</span><span class="n">x_val</span><span class="si">}</span><span class="s2"> not&quot;</span>
+                                <span class="sa">f</span><span class="s2">&quot; found for path. &#39;</span><span class="si">{</span><span class="n">path_name</span><span class="si">}</span><span class="s2">&#39;. Skipping addition.&quot;</span>
+                            <span class="p">)</span>
+
+                <span class="k">if</span> <span class="n">x_subtract</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">x_val</span> <span class="ow">in</span> <span class="n">x_subtract</span><span class="p">:</span>
+                        <span class="k">try</span><span class="p">:</span>
+                            <span class="n">index</span> <span class="o">=</span> <span class="n">path</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">x_val</span><span class="p">)</span>
+                            <span class="n">number_new</span> <span class="o">-=</span> <span class="n">path_data</span><span class="p">[</span><span class="n">path_name</span><span class="p">][</span><span class="s2">&quot;y&quot;</span><span class="p">][</span><span class="n">index</span><span class="p">]</span>
+                        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                            <span class="nb">print</span><span class="p">(</span>
+                                <span class="sa">f</span><span class="s2">&quot;Warning (modify_number_values): Value at x=</span><span class="si">{</span><span class="n">x_val</span><span class="si">}</span><span class="s2"> not&quot;</span>
+                                <span class="sa">f</span><span class="s2">&quot; found for path. &#39;</span><span class="si">{</span><span class="n">path_name</span><span class="si">}</span><span class="s2">&#39;. Skipping subtraction.&quot;</span>
+                            <span class="p">)</span>
+
+                <span class="c1"># Update the label text</span>
+                <span class="n">new_text</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">brackets</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}{</span><span class="n">number_new</span><span class="si">:</span><span class="s2">.</span><span class="si">{</span><span class="n">n_decimals</span><span class="si">}</span><span class="s2">f</span><span class="si">}{</span><span class="n">brackets</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="n">label</span><span class="o">.</span><span class="n">set_text</span><span class="p">(</span><span class="n">new_text</span><span class="p">)</span>
+
     <span class="c1">############################################################</span>
-    <span class="c1"># Internal helper methods</span>
+    <span class="c1"># Helper methods for number placement and overlap checking</span>
     <span class="c1">############################################################</span>
 
     <span class="nd">@staticmethod</span>
