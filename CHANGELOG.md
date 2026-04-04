@@ -3,8 +3,25 @@
 All notable changes to this project will be documented in this file.
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
-This project does not yet follow semantic versioning; a versioning policy
-will be adopted before the 1.0.0 release.
+
+## [0.3.0] — 2026-04-02
+
+### Added
+
+- Method for selectively modifying existing energy annotations by adding or subtracting values via `modify_number_values()`.
+
+### Changed
+
+- Increased constants for spacing of numbers slighly.
+
+## [0.2.0] — 2026-04-02
+
+### Added
+
+- Documentation on GitHub Pages with detailed usage instructions and examples for all methods.
+- Custom text labels for each path at each position.
+- Spline connector styles (`spline dotted`, `spline solid`) for smoother curves between energy levels.
+- Decimal placees control for energy level annotations via `n_decimals` parameter in all `add_numbers_*()` methods.
 
 ## [0.1.2] — 2026-03-28
 

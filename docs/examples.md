@@ -72,7 +72,7 @@ dia.draw_path(
 )
 
 dia.draw_path(
-    [0,1,2,3,4], [0, 25, 6, 15, -18], "red",
+    [0,1,2,3,4], [0, 26, 6, 15, -18], "red",
     path_name="Red path",
     linetypes=2
 )
@@ -295,9 +295,11 @@ dia.show()
 ```
 ![Diagram 6](https://raw.githubusercontent.com/Tonner-Zech-Group/chem-diagrams/main/docs/img/title/image_6.png)
 
-## Example 7: Smooth paths
+## Example 7: Smooth paths, number modification
 
 ```python
+from chemdiagrams import EnergyDiagram
+
 dia = EnergyDiagram(style="halfboxed")
 
 dia.draw_path(
@@ -314,9 +316,35 @@ dia.draw_path(
     width_plateau=0,
 )
 
+dia.add_numbers_auto()
+
+dia.modify_number_values(
+    2, 
+    x_add=2, 
+    x_subtract=0,
+    include_paths=["No catalyst"],
+    brackets=("[", "]"), 
+)
+
+dia.modify_number_values(
+    1.2, 
+    x_add=1.2, 
+    x_subtract=0,
+    include_paths=["With catalyst"],
+    brackets=("[", "]"), 
+)
+
+dia.modify_number_values(
+    2.5, 
+    x_add=2.5, 
+    x_subtract=1.8,
+    include_paths=["With catalyst"],
+    brackets=("[", "]"), 
+)
+
 dia.ax.set_xlabel("Reaction Coordinate", fontsize=8)
 dia.ax.set_ylabel(r"$\Delta E$ in kJ mol$^{-1}$", fontsize=8)
-dia.add_numbers_auto()
+
 dia.legend(fontsize=5)
 dia.fig.savefig(os.path.join("..", "docs", "img", "title", "image_7.png"), dpi=300, bbox_inches="tight")
 dia.show()
@@ -326,6 +354,7 @@ dia.show()
 ## Example 8: Float energy values and image in plot
 
 ```python
+from chemdiagrams import EnergyDiagram
 import os.path
 
 dia = EnergyDiagram(style="open")
@@ -355,9 +384,12 @@ dia.show()
 ```
 ![Diagram 8](https://raw.githubusercontent.com/Tonner-Zech-Group/chem-diagrams/main/docs/img/title/image_8.png)
 
-## Example 9: Path label customization
+## Example 9: Connector line customization and number modification
 
 ```python
+from chemdiagrams import EnergyDiagram
+import os.path
+
 dia = EnergyDiagram()
 dia.set_diagram_style("borderless")
 
@@ -376,6 +408,24 @@ dia.draw_path(
 dia.add_numbers_auto()
 dia.add_path_labels("Blue path", ["E", "TS1", "I", "TS2", "I2", "TS3", "P"], color="black", fontsize=6)
 dia.add_path_labels("Red path", [None, "TS1", "I", "TS2", "I2", "TS3", "P"], color="black", fontsize=6)
+
+dia.modify_number_values(
+    x=1,
+    x_add=1,
+    x_subtract=0
+)
+
+dia.modify_number_values(
+    x=3,
+    x_add=3,
+    x_subtract=2
+)
+
+dia.modify_number_values(
+    x=5,
+    x_add=5,
+    x_subtract=4
+)
 
 for path in dia.lines.values():
     for connector in path.connections.values():

@@ -29,7 +29,7 @@ IMAGE_WIDTH = 0.6
 # Default distances of images (inches at sdt fontsize)
 DISTANCE_IMAGE_LINE = 0.09
 DISTANCE_IMAGE_LABEL = 0.12
-DISTANCE_IMAGE_NUMBER = 0.135
+DISTANCE_IMAGE_NUMBER = 0.15  # 0.135 pre v0.3.0
 
 # Frame parameters
 LW_IMAGE_FRAME = 0.5
@@ -55,10 +55,10 @@ X_SCALE = 0.8
 #################################
 
 # Default distance numbers above plateau (inches at sdt fontsize)
-DISTANCE_NUMBER_LINE = 0.09
+DISTANCE_NUMBER_LINE = 0.10  # 0.09 pre v0.3.0
 
 # Default distance between numbers (inches at sdt fontsize)
-DISTANCE_NUMBER_NUMBER = 0.135
+DISTANCE_NUMBER_NUMBER = 0.15  # 0.135 pre v0.3.0
 
 ZORDER_NUMBERS = 2
 
