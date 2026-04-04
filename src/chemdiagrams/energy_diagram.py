@@ -86,7 +86,7 @@ class EnergyDiagram:
         Add a reaction path to the diagram.
 
     add_path_labels(path_name, labels, ...)
-        Add text labels below the energy levels of a specific path.    
+        Add text labels below the energy levels of a specific path.
 
     merge_plateaus(x, path_name_left, path_name_right, ...)
         Visually merge two coincident plateaus at a shared x-position.
