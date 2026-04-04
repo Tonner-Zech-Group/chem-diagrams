@@ -2,8 +2,8 @@
 
 [![PyPI version](https://img.shields.io/pypi/v/chemdiagrams.svg)](https://pypi.org/project/chemdiagrams/)
 [![Python versions](https://img.shields.io/pypi/pyversions/chemdiagrams.svg)](https://pypi.org/project/chemdiagrams/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/Tonner-Zech-Group/chem-diagrams/blob/main/LICENSE)
 [![Documentation](https://img.shields.io/badge/docs-GitHub%20Pages-blue)](https://tonner-zech-group.github.io/chem-diagrams/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/Tonner-Zech-Group/chem-diagrams/blob/main/LICENSE)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18957965.svg)](https://doi.org/10.5281/zenodo.18957965)
 
 A Python package for creating publication-quality reaction energy diagrams with Matplotlib.
@@ -31,14 +31,18 @@ pip install chemdiagrams
 - Image placement along the diagram, with automatic collision avoidance
 - Full access to the underlying Matplotlib objects for fine-grained customisation
 
+## Documentation
+
+Full documentation with usage instructions, examples, and API reference is available at https://tonner-zech-group.github.io/chem-diagrams/.
+
 ## Methods
 
 | Method | Description |
 |--------|-------------|
 | `draw_path()` | Add a reaction pathway to the diagram |
 | `add_path_labels()` | Add text labels for a specific path at the respective x-positions |
-| `draw_difference_bar()` | Draw a vertical energy difference arrow between two levels |
 | `merge_plateaus()` | Visually merge two coincident energy levels at a shared x-position |
+| `draw_difference_bar()` | Draw a vertical energy difference arrow between two levels |
 | `set_xlabels()` | Set text labels for the reaction states along the x-axis |
 | `set_diagram_style()` | Change the overall visual style (`open`, `boxed`, `halfboxed`, `twosided`, `borderless`) |
 | `add_numbers_naive()` | Annotate each energy level directly above its bar |
@@ -51,10 +55,6 @@ pip install chemdiagrams
 | `add_image_series_in_plot()` | Place a series of images along the diagram with automatic collision avoidance |
 | `legend()` | Add a legend for all named paths |
 | `show()` | Display the figure |
-
-## Documentation
-
-Full documentation with usage instructions, examples, and API reference is available at https://tonner-zech-group.github.io/chem-diagrams/.
 
 ## Usage
 
@@ -619,6 +619,13 @@ dia.ax_objects.yaxis_breaks["5.0"].whitespace.set_facecolor("lightyellow")
 # Axis break artists if style is "boxed"
 dia.ax_objects.xaxis_breaks["2.0"]["top"].stopper_1.set_color("red")
 dia.ax_objects.yaxis_breaks["5.0"]["left"].stopper_1.set_color("blue")
+```
+
+The horizontal line when using diagram style `"open"` is stored as `x_axis`.
+
+```python
+# Hide the horizontal line in hopen style
+dia.ax_objects.axes["x_axis"].set_visible(False)
 ```
 
 #### Artists for images
