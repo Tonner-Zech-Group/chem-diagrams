@@ -1742,31 +1742,52 @@
 <td>dotted cubic spline</td>
 </tr>
 <tr>
+<td><code>-3</code></td>
+<td>dotted cubic spline with gap</td>
+</tr>
+<tr>
 <td><code>4</code></td>
 <td>solid cubic spline</td>
+</tr>
+<tr>
+<td><code>-4</code></td>
+<td>solid cubic spline with gap</td>
 </tr>
 </tbody>
 </table>
 <p>A single integer applies the same style to all segments. A list applies styles individually.</p>
-<p>The width of a plateau can be adjusted with the keyword <code>width_plateau</code>. It can be a float in data units (Default is 0.5). Furthermore, the linewidth of the plateaus can be set to one of the strings <code>"plateau"</code> or <code>"connector"</code> to refer to predefined values or a number.</p>
-<div class="highlight"><pre><span></span><code><span class="n">dia</span><span class="o">.</span><span class="n">draw_path</span><span class="p">(</span>
+<p>The width of a plateau can be adjusted with the keyword <code>width_plateau</code>. It can be a float in data units (Default is 0.5). Furthermore, the linewidth of the plateaus can be set via <code>lw_plateau</code> to one of the strings <code>"plateau"</code> or <code>"connector"</code> to refer to predefined values or a number. Also the linewidth of the connectors can be set via <code>lw_connector</code>. The gap of broken line styles can be adjusted with <code>gap_scale</code>, which is a scaling factor for the gap size (default is 1). It can be a single number applied to all segments, or a sequence with one value per segment. Example:</p>
+<div class="highlight"><pre><span></span><code><span class="n">dia</span> <span class="o">=</span> <span class="n">EnergyDiagram</span><span class="p">()</span>
+
+<span class="n">dia</span><span class="o">.</span><span class="n">draw_path</span><span class="p">(</span>
     <span class="n">x_data</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span>
     <span class="n">y_data</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">13</span><span class="p">,</span> <span class="mi">22</span><span class="p">,</span> <span class="mi">75</span><span class="p">,</span> <span class="mi">39</span><span class="p">,</span> <span class="mi">20</span><span class="p">],</span>
     <span class="n">color</span><span class="o">=</span><span class="s2">&quot;blue&quot;</span><span class="p">,</span>
     <span class="n">path_name</span><span class="o">=</span><span class="s2">&quot;Pathway A&quot;</span><span class="p">,</span>
     <span class="n">width_plateau</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span>
     <span class="n">lw_plateau</span><span class="o">=</span><span class="s2">&quot;connector&quot;</span><span class="p">,</span>
+    <span class="n">lw_connector</span><span class="o">=</span><span class="mf">0.4</span><span class="p">,</span>
 <span class="p">)</span>
 
 <span class="n">dia</span><span class="o">.</span><span class="n">draw_path</span><span class="p">(</span>
-    <span class="n">x_data</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span>
-    <span class="n">y_data</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">25</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">6</span><span class="p">],</span>
+    <span class="n">x_data</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mf">3.5</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span>
+    <span class="n">y_data</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">25</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">6</span><span class="p">],</span>
     <span class="n">color</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">,</span>
     <span class="n">path_name</span><span class="o">=</span><span class="s2">&quot;Pathway B&quot;</span><span class="p">,</span>
+    <span class="n">linetypes</span><span class="o">=</span><span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="o">-</span><span class="mi">3</span><span class="p">],</span>
     <span class="n">width_plateau</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-    <span class="n">lw_plateau</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span>
+    <span class="n">lw_connector</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span>
+    <span class="n">gap_scale</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">],</span>
 <span class="p">)</span>
+
+<span class="n">dia</span><span class="o">.</span><span class="n">add_numbers_auto</span><span class="p">()</span>
+<span class="n">dia</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
+<span class="n">dia</span><span class="o">.</span><span class="n">set_xlabels</span><span class="p">([</span><span class="s2">&quot;A&quot;</span><span class="p">,</span> <span class="s2">&quot;B&quot;</span><span class="p">,</span> <span class="s2">&quot;C&quot;</span><span class="p">,</span> <span class="s2">&quot;D&quot;</span><span class="p">,</span> <span class="s2">&quot;E&quot;</span><span class="p">,</span> <span class="s2">&quot;F&quot;</span><span class="p">])</span>
+<span class="n">dia</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Energy / kJ mol$^{-1}$&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+
+<span class="n">dia</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </code></pre></div>
+<p><img alt="Path Styling" src="https://raw.githubusercontent.com/Tonner-Zech-Group/chem-diagrams/main/docs/img/example_path_styling.png" /></p>
 <h3 id="path-labels">Path labels</h3>
 <p>Text labels can be added for each path at each position with <code>add_path_labels</code>. This is useful to label specific states along a pathway.</p>
 <div class="highlight"><pre><span></span><code><span class="n">dia</span><span class="o">.</span><span class="n">add_path_labels</span><span class="p">(</span>

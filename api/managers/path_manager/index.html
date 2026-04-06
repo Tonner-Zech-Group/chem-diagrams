@@ -1385,7 +1385,7 @@ reaction coordinate.</p>
           <tr class="doc-section-item">
             <td><code><span title="chemdiagrams.managers.path_manager.BrokenLine.line_part_1">line_part_1</span></code></td>
             <td>
-                  <code><span title="matplotlib.lines.Line2D">Line2D</span></code>
+                  <code>Line2D or list of Line2D</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -1396,7 +1396,7 @@ reaction coordinate.</p>
           <tr class="doc-section-item">
             <td><code><span title="chemdiagrams.managers.path_manager.BrokenLine.line_part_2">line_part_2</span></code></td>
             <td>
-                  <code><span title="matplotlib.lines.Line2D">Line2D</span></code>
+                  <code>Line2D or list of Line2D</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -1438,37 +1438,37 @@ reaction coordinate.</p>
 
               <details class="mkdocstrings-source">
                 <summary>Source code in <code>src/chemdiagrams/managers/path_manager.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">589</span>
-<span class="normal">590</span>
-<span class="normal">591</span>
-<span class="normal">592</span>
-<span class="normal">593</span>
-<span class="normal">594</span>
-<span class="normal">595</span>
-<span class="normal">596</span>
-<span class="normal">597</span>
-<span class="normal">598</span>
-<span class="normal">599</span>
-<span class="normal">600</span>
-<span class="normal">601</span>
-<span class="normal">602</span>
-<span class="normal">603</span>
-<span class="normal">604</span>
-<span class="normal">605</span>
-<span class="normal">606</span>
-<span class="normal">607</span>
-<span class="normal">608</span>
-<span class="normal">609</span>
-<span class="normal">610</span>
-<span class="normal">611</span>
-<span class="normal">612</span>
-<span class="normal">613</span>
-<span class="normal">614</span>
-<span class="normal">615</span>
-<span class="normal">616</span>
-<span class="normal">617</span>
-<span class="normal">618</span>
-<span class="normal">619</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">740</span>
+<span class="normal">741</span>
+<span class="normal">742</span>
+<span class="normal">743</span>
+<span class="normal">744</span>
+<span class="normal">745</span>
+<span class="normal">746</span>
+<span class="normal">747</span>
+<span class="normal">748</span>
+<span class="normal">749</span>
+<span class="normal">750</span>
+<span class="normal">751</span>
+<span class="normal">752</span>
+<span class="normal">753</span>
+<span class="normal">754</span>
+<span class="normal">755</span>
+<span class="normal">756</span>
+<span class="normal">757</span>
+<span class="normal">758</span>
+<span class="normal">759</span>
+<span class="normal">760</span>
+<span class="normal">761</span>
+<span class="normal">762</span>
+<span class="normal">763</span>
+<span class="normal">764</span>
+<span class="normal">765</span>
+<span class="normal">766</span>
+<span class="normal">767</span>
+<span class="normal">768</span>
+<span class="normal">769</span>
+<span class="normal">770</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">BrokenLine</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Container for the four artists that make up a broken connector line.</span>
@@ -1479,9 +1479,9 @@ reaction coordinate.</p>
 
 <span class="sd">    Attributes</span>
 <span class="sd">    ----------</span>
-<span class="sd">    line_part_1 : Line2D</span>
+<span class="sd">    line_part_1 : Line2D or list of Line2D</span>
 <span class="sd">        The first half of the connector, from the start to the break.</span>
-<span class="sd">    line_part_2 : Line2D</span>
+<span class="sd">    line_part_2 : Line2D or list of Line2D</span>
 <span class="sd">        The second half of the connector, from the break to the end.</span>
 <span class="sd">    stopper_1 : Annotation</span>
 <span class="sd">        Orthogonal tick mark at the end of ``line_part_1``.</span>
@@ -1489,8 +1489,8 @@ reaction coordinate.</p>
 <span class="sd">        Orthogonal tick mark at the start of ``line_part_2``.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">line_part_1</span><span class="p">:</span> <span class="n">Line2D</span>
-    <span class="n">line_part_2</span><span class="p">:</span> <span class="n">Line2D</span>
+    <span class="n">line_part_1</span><span class="p">:</span> <span class="n">Line2D</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="n">Line2D</span><span class="p">]</span>
+    <span class="n">line_part_2</span><span class="p">:</span> <span class="n">Line2D</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="n">Line2D</span><span class="p">]</span>
     <span class="n">stopper_1</span><span class="p">:</span> <span class="n">Annotation</span>
     <span class="n">stopper_2</span><span class="p">:</span> <span class="n">Annotation</span>
 
@@ -1551,79 +1551,79 @@ reaction coordinate.</p>
 
               <details class="mkdocstrings-source">
                 <summary>Source code in <code>src/chemdiagrams/managers/path_manager.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">622</span>
-<span class="normal">623</span>
-<span class="normal">624</span>
-<span class="normal">625</span>
-<span class="normal">626</span>
-<span class="normal">627</span>
-<span class="normal">628</span>
-<span class="normal">629</span>
-<span class="normal">630</span>
-<span class="normal">631</span>
-<span class="normal">632</span>
-<span class="normal">633</span>
-<span class="normal">634</span>
-<span class="normal">635</span>
-<span class="normal">636</span>
-<span class="normal">637</span>
-<span class="normal">638</span>
-<span class="normal">639</span>
-<span class="normal">640</span>
-<span class="normal">641</span>
-<span class="normal">642</span>
-<span class="normal">643</span>
-<span class="normal">644</span>
-<span class="normal">645</span>
-<span class="normal">646</span>
-<span class="normal">647</span>
-<span class="normal">648</span>
-<span class="normal">649</span>
-<span class="normal">650</span>
-<span class="normal">651</span>
-<span class="normal">652</span>
-<span class="normal">653</span>
-<span class="normal">654</span>
-<span class="normal">655</span>
-<span class="normal">656</span>
-<span class="normal">657</span>
-<span class="normal">658</span>
-<span class="normal">659</span>
-<span class="normal">660</span>
-<span class="normal">661</span>
-<span class="normal">662</span>
-<span class="normal">663</span>
-<span class="normal">664</span>
-<span class="normal">665</span>
-<span class="normal">666</span>
-<span class="normal">667</span>
-<span class="normal">668</span>
-<span class="normal">669</span>
-<span class="normal">670</span>
-<span class="normal">671</span>
-<span class="normal">672</span>
-<span class="normal">673</span>
-<span class="normal">674</span>
-<span class="normal">675</span>
-<span class="normal">676</span>
-<span class="normal">677</span>
-<span class="normal">678</span>
-<span class="normal">679</span>
-<span class="normal">680</span>
-<span class="normal">681</span>
-<span class="normal">682</span>
-<span class="normal">683</span>
-<span class="normal">684</span>
-<span class="normal">685</span>
-<span class="normal">686</span>
-<span class="normal">687</span>
-<span class="normal">688</span>
-<span class="normal">689</span>
-<span class="normal">690</span>
-<span class="normal">691</span>
-<span class="normal">692</span>
-<span class="normal">693</span>
-<span class="normal">694</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">773</span>
+<span class="normal">774</span>
+<span class="normal">775</span>
+<span class="normal">776</span>
+<span class="normal">777</span>
+<span class="normal">778</span>
+<span class="normal">779</span>
+<span class="normal">780</span>
+<span class="normal">781</span>
+<span class="normal">782</span>
+<span class="normal">783</span>
+<span class="normal">784</span>
+<span class="normal">785</span>
+<span class="normal">786</span>
+<span class="normal">787</span>
+<span class="normal">788</span>
+<span class="normal">789</span>
+<span class="normal">790</span>
+<span class="normal">791</span>
+<span class="normal">792</span>
+<span class="normal">793</span>
+<span class="normal">794</span>
+<span class="normal">795</span>
+<span class="normal">796</span>
+<span class="normal">797</span>
+<span class="normal">798</span>
+<span class="normal">799</span>
+<span class="normal">800</span>
+<span class="normal">801</span>
+<span class="normal">802</span>
+<span class="normal">803</span>
+<span class="normal">804</span>
+<span class="normal">805</span>
+<span class="normal">806</span>
+<span class="normal">807</span>
+<span class="normal">808</span>
+<span class="normal">809</span>
+<span class="normal">810</span>
+<span class="normal">811</span>
+<span class="normal">812</span>
+<span class="normal">813</span>
+<span class="normal">814</span>
+<span class="normal">815</span>
+<span class="normal">816</span>
+<span class="normal">817</span>
+<span class="normal">818</span>
+<span class="normal">819</span>
+<span class="normal">820</span>
+<span class="normal">821</span>
+<span class="normal">822</span>
+<span class="normal">823</span>
+<span class="normal">824</span>
+<span class="normal">825</span>
+<span class="normal">826</span>
+<span class="normal">827</span>
+<span class="normal">828</span>
+<span class="normal">829</span>
+<span class="normal">830</span>
+<span class="normal">831</span>
+<span class="normal">832</span>
+<span class="normal">833</span>
+<span class="normal">834</span>
+<span class="normal">835</span>
+<span class="normal">836</span>
+<span class="normal">837</span>
+<span class="normal">838</span>
+<span class="normal">839</span>
+<span class="normal">840</span>
+<span class="normal">841</span>
+<span class="normal">842</span>
+<span class="normal">843</span>
+<span class="normal">844</span>
+<span class="normal">845</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">MergedPlateau</span><span class="p">:</span>
     <span class="n">plateau_left</span><span class="p">:</span> <span class="n">LineCollection</span>
     <span class="n">plateau_right</span><span class="p">:</span> <span class="n">LineCollection</span>
@@ -1890,43 +1890,43 @@ as originally passed to <code>merge_plateaus</code>.</p>
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>src/chemdiagrams/managers/path_manager.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">658</span>
-<span class="normal">659</span>
-<span class="normal">660</span>
-<span class="normal">661</span>
-<span class="normal">662</span>
-<span class="normal">663</span>
-<span class="normal">664</span>
-<span class="normal">665</span>
-<span class="normal">666</span>
-<span class="normal">667</span>
-<span class="normal">668</span>
-<span class="normal">669</span>
-<span class="normal">670</span>
-<span class="normal">671</span>
-<span class="normal">672</span>
-<span class="normal">673</span>
-<span class="normal">674</span>
-<span class="normal">675</span>
-<span class="normal">676</span>
-<span class="normal">677</span>
-<span class="normal">678</span>
-<span class="normal">679</span>
-<span class="normal">680</span>
-<span class="normal">681</span>
-<span class="normal">682</span>
-<span class="normal">683</span>
-<span class="normal">684</span>
-<span class="normal">685</span>
-<span class="normal">686</span>
-<span class="normal">687</span>
-<span class="normal">688</span>
-<span class="normal">689</span>
-<span class="normal">690</span>
-<span class="normal">691</span>
-<span class="normal">692</span>
-<span class="normal">693</span>
-<span class="normal">694</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">recalculate_gap</span><span class="p">(</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">809</span>
+<span class="normal">810</span>
+<span class="normal">811</span>
+<span class="normal">812</span>
+<span class="normal">813</span>
+<span class="normal">814</span>
+<span class="normal">815</span>
+<span class="normal">816</span>
+<span class="normal">817</span>
+<span class="normal">818</span>
+<span class="normal">819</span>
+<span class="normal">820</span>
+<span class="normal">821</span>
+<span class="normal">822</span>
+<span class="normal">823</span>
+<span class="normal">824</span>
+<span class="normal">825</span>
+<span class="normal">826</span>
+<span class="normal">827</span>
+<span class="normal">828</span>
+<span class="normal">829</span>
+<span class="normal">830</span>
+<span class="normal">831</span>
+<span class="normal">832</span>
+<span class="normal">833</span>
+<span class="normal">834</span>
+<span class="normal">835</span>
+<span class="normal">836</span>
+<span class="normal">837</span>
+<span class="normal">838</span>
+<span class="normal">839</span>
+<span class="normal">840</span>
+<span class="normal">841</span>
+<span class="normal">842</span>
+<span class="normal">843</span>
+<span class="normal">844</span>
+<span class="normal">845</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">recalculate_gap</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">margins</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">],</span>
     <span class="n">figsize</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
@@ -2531,7 +2531,158 @@ the underlying data in <code>path_data</code> for use by other managers.</p>
 <span class="normal">547</span>
 <span class="normal">548</span>
 <span class="normal">549</span>
-<span class="normal">550</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">PathManager</span><span class="p">:</span>
+<span class="normal">550</span>
+<span class="normal">551</span>
+<span class="normal">552</span>
+<span class="normal">553</span>
+<span class="normal">554</span>
+<span class="normal">555</span>
+<span class="normal">556</span>
+<span class="normal">557</span>
+<span class="normal">558</span>
+<span class="normal">559</span>
+<span class="normal">560</span>
+<span class="normal">561</span>
+<span class="normal">562</span>
+<span class="normal">563</span>
+<span class="normal">564</span>
+<span class="normal">565</span>
+<span class="normal">566</span>
+<span class="normal">567</span>
+<span class="normal">568</span>
+<span class="normal">569</span>
+<span class="normal">570</span>
+<span class="normal">571</span>
+<span class="normal">572</span>
+<span class="normal">573</span>
+<span class="normal">574</span>
+<span class="normal">575</span>
+<span class="normal">576</span>
+<span class="normal">577</span>
+<span class="normal">578</span>
+<span class="normal">579</span>
+<span class="normal">580</span>
+<span class="normal">581</span>
+<span class="normal">582</span>
+<span class="normal">583</span>
+<span class="normal">584</span>
+<span class="normal">585</span>
+<span class="normal">586</span>
+<span class="normal">587</span>
+<span class="normal">588</span>
+<span class="normal">589</span>
+<span class="normal">590</span>
+<span class="normal">591</span>
+<span class="normal">592</span>
+<span class="normal">593</span>
+<span class="normal">594</span>
+<span class="normal">595</span>
+<span class="normal">596</span>
+<span class="normal">597</span>
+<span class="normal">598</span>
+<span class="normal">599</span>
+<span class="normal">600</span>
+<span class="normal">601</span>
+<span class="normal">602</span>
+<span class="normal">603</span>
+<span class="normal">604</span>
+<span class="normal">605</span>
+<span class="normal">606</span>
+<span class="normal">607</span>
+<span class="normal">608</span>
+<span class="normal">609</span>
+<span class="normal">610</span>
+<span class="normal">611</span>
+<span class="normal">612</span>
+<span class="normal">613</span>
+<span class="normal">614</span>
+<span class="normal">615</span>
+<span class="normal">616</span>
+<span class="normal">617</span>
+<span class="normal">618</span>
+<span class="normal">619</span>
+<span class="normal">620</span>
+<span class="normal">621</span>
+<span class="normal">622</span>
+<span class="normal">623</span>
+<span class="normal">624</span>
+<span class="normal">625</span>
+<span class="normal">626</span>
+<span class="normal">627</span>
+<span class="normal">628</span>
+<span class="normal">629</span>
+<span class="normal">630</span>
+<span class="normal">631</span>
+<span class="normal">632</span>
+<span class="normal">633</span>
+<span class="normal">634</span>
+<span class="normal">635</span>
+<span class="normal">636</span>
+<span class="normal">637</span>
+<span class="normal">638</span>
+<span class="normal">639</span>
+<span class="normal">640</span>
+<span class="normal">641</span>
+<span class="normal">642</span>
+<span class="normal">643</span>
+<span class="normal">644</span>
+<span class="normal">645</span>
+<span class="normal">646</span>
+<span class="normal">647</span>
+<span class="normal">648</span>
+<span class="normal">649</span>
+<span class="normal">650</span>
+<span class="normal">651</span>
+<span class="normal">652</span>
+<span class="normal">653</span>
+<span class="normal">654</span>
+<span class="normal">655</span>
+<span class="normal">656</span>
+<span class="normal">657</span>
+<span class="normal">658</span>
+<span class="normal">659</span>
+<span class="normal">660</span>
+<span class="normal">661</span>
+<span class="normal">662</span>
+<span class="normal">663</span>
+<span class="normal">664</span>
+<span class="normal">665</span>
+<span class="normal">666</span>
+<span class="normal">667</span>
+<span class="normal">668</span>
+<span class="normal">669</span>
+<span class="normal">670</span>
+<span class="normal">671</span>
+<span class="normal">672</span>
+<span class="normal">673</span>
+<span class="normal">674</span>
+<span class="normal">675</span>
+<span class="normal">676</span>
+<span class="normal">677</span>
+<span class="normal">678</span>
+<span class="normal">679</span>
+<span class="normal">680</span>
+<span class="normal">681</span>
+<span class="normal">682</span>
+<span class="normal">683</span>
+<span class="normal">684</span>
+<span class="normal">685</span>
+<span class="normal">686</span>
+<span class="normal">687</span>
+<span class="normal">688</span>
+<span class="normal">689</span>
+<span class="normal">690</span>
+<span class="normal">691</span>
+<span class="normal">692</span>
+<span class="normal">693</span>
+<span class="normal">694</span>
+<span class="normal">695</span>
+<span class="normal">696</span>
+<span class="normal">697</span>
+<span class="normal">698</span>
+<span class="normal">699</span>
+<span class="normal">700</span>
+<span class="normal">701</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">PathManager</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Manages the creation and storage of reaction path artists.</span>
 
@@ -2560,6 +2711,8 @@ the underlying data in <code>path_data</code> for use by other managers.</p>
         <span class="n">show_numbers</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
         <span class="n">width_plateau</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">lw_plateau</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;plateau&quot;</span><span class="p">,</span>
+        <span class="n">lw_connector</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;connector&quot;</span><span class="p">,</span>
+        <span class="n">gap_scale</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">|</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span> <span class="o">|</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="c1"># Sanity checks and linetype normalization</span>
         <span class="n">Validators</span><span class="o">.</span><span class="n">validate_numeric_sequence</span><span class="p">(</span><span class="n">x_data</span><span class="p">,</span> <span class="s2">&quot;x_data&quot;</span><span class="p">)</span>
@@ -2575,7 +2728,7 @@ the underlying data in <code>path_data</code> for use by other managers.</p>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">width_plateau</span> <span class="o">=</span> <span class="n">constants</span><span class="o">.</span><span class="n">WIDTH_PLATEAU</span>
 
-        <span class="n">ALLOWED_LINETYPES</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
+        <span class="n">ALLOWED_LINETYPES</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">linetypes</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">linetypes</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">y_data</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">linetypes</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
@@ -2607,6 +2760,43 @@ the underlying data in <code>path_data</code> for use by other managers.</p>
             <span class="n">Validators</span><span class="o">.</span><span class="n">validate_number</span><span class="p">(</span><span class="n">lw_plateau</span><span class="p">,</span> <span class="s2">&quot;lw_plateau&quot;</span><span class="p">,</span> <span class="n">min_value</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
         <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">lw_plateau</span><span class="p">,</span> <span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">))</span>
 
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">lw_connector</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">lw_connector</span> <span class="o">==</span> <span class="s2">&quot;plateau&quot;</span><span class="p">:</span>
+                <span class="n">lw_connector</span> <span class="o">=</span> <span class="n">constants</span><span class="o">.</span><span class="n">LW_PLATEAU</span>
+            <span class="k">elif</span> <span class="n">lw_connector</span> <span class="o">==</span> <span class="s2">&quot;connector&quot;</span><span class="p">:</span>
+                <span class="n">lw_connector</span> <span class="o">=</span> <span class="n">constants</span><span class="o">.</span><span class="n">LW_CONNECTOR</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;Invalid string value for lw_connector. &quot;</span>
+                    <span class="s2">&quot;Use &#39;plateau&#39;, &#39;connector&#39;, or a number.&quot;</span>
+                <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">Validators</span><span class="o">.</span><span class="n">validate_number</span><span class="p">(</span><span class="n">lw_connector</span><span class="p">,</span> <span class="s2">&quot;lw_connector&quot;</span><span class="p">,</span> <span class="n">min_value</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">lw_connector</span><span class="p">,</span> <span class="p">(</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">gap_scale</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">gap_scale</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;gap_scale cannot be a string.&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">gap_scale</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">x_data</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Length of gap_scale + 1 (now </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">gap_scale</span><span class="p">)</span><span class="si">}</span><span class="s2"> + 1) &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;must equal the number of data points (right now </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">x_data</span><span class="p">)</span><span class="si">}</span><span class="s2">).&quot;</span>
+                <span class="p">)</span>
+            <span class="n">Validators</span><span class="o">.</span><span class="n">validate_numeric_sequence</span><span class="p">(</span>
+                <span class="n">gap_scale</span><span class="p">,</span> <span class="s2">&quot;gap_scale&quot;</span><span class="p">,</span> <span class="n">required_length</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">x_data</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">min_value</span><span class="o">=</span><span class="mi">0</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">Validators</span><span class="o">.</span><span class="n">validate_number</span><span class="p">(</span><span class="n">gap_scale</span><span class="p">,</span> <span class="s2">&quot;gap_scale&quot;</span><span class="p">,</span> <span class="n">min_value</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">gap_scale</span> <span class="o">=</span> <span class="p">[</span><span class="n">gap_scale</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x_data</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">gap_scale</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">val</span> <span class="o">*</span> <span class="n">constants</span><span class="o">.</span><span class="n">BROKEN_LINE_GAP</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;gap_scale values must be small enough that the &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;gap in broken line styles is less than 100% of the line length. &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;Currently, gap_scale * BROKEN_LINE_GAP &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;= </span><span class="si">{</span><span class="n">val</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">constants</span><span class="o">.</span><span class="n">BROKEN_LINE_GAP</span><span class="si">}</span><span class="s2">.&quot;</span>
+                <span class="p">)</span>
+
         <span class="c1"># Save data for numbering or legend</span>
         <span class="n">has_name</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="k">if</span> <span class="n">path_name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -2620,7 +2810,7 @@ the underlying data in <code>path_data</code> for use by other managers.</p>
             <span class="s2">&quot;show_numbers&quot;</span><span class="p">:</span> <span class="n">show_numbers</span><span class="p">,</span>
         <span class="p">}</span>
 
-        <span class="c1"># Initialize nested dics</span>
+        <span class="c1"># Initialize nested dicts</span>
         <span class="n">connections</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">plateaus</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">labels</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{}</span>
@@ -2650,7 +2840,12 @@ the underlying data in <code>path_data</code> for use by other managers.</p>
             <span class="n">plateaus</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">x_data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">plateau</span>
             <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="n">connector</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_draw_connector</span><span class="p">(</span>
-                    <span class="n">x_corners</span><span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">y_corners</span><span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">linetypes</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">],</span> <span class="n">color</span>
+                    <span class="n">x_corners</span><span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+                    <span class="n">y_corners</span><span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+                    <span class="n">linetypes</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">],</span>
+                    <span class="n">color</span><span class="p">,</span>
+                    <span class="n">lw_connector</span><span class="p">,</span>
+                    <span class="n">gap_scale</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">],</span>
                 <span class="p">)</span>
                 <span class="n">connections</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">sum</span><span class="p">(</span><span class="n">x_corners</span><span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">2</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">connector</span>
         <span class="c1"># Save Path</span>
@@ -2882,47 +3077,66 @@ the underlying data in <code>path_data</code> for use by other managers.</p>
         <span class="n">y_coords</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
         <span class="n">linetype</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
         <span class="n">color</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">lw_connector</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">gap_scale</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">int</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Line2D</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="n">Line2D</span><span class="p">]</span> <span class="o">|</span> <span class="n">BrokenLine</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">connector</span><span class="p">:</span> <span class="n">Line2D</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="n">Line2D</span><span class="p">]</span> <span class="o">|</span> <span class="n">BrokenLine</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">if</span> <span class="n">linetype</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">connector</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">elif</span> <span class="n">linetype</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="n">connector</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_draw_dotted_line</span><span class="p">(</span><span class="n">x_coords</span><span class="p">,</span> <span class="n">y_coords</span><span class="p">,</span> <span class="n">color</span><span class="p">)</span>
+            <span class="n">connector</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_draw_line</span><span class="p">(</span>
+                <span class="n">x_coords</span><span class="p">,</span> <span class="n">y_coords</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="n">lw_connector</span><span class="p">,</span> <span class="n">dotted</span><span class="o">=</span><span class="kc">True</span>
+            <span class="p">)</span>
         <span class="k">elif</span> <span class="n">linetype</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
-            <span class="n">connector</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_draw_broken_line</span><span class="p">(</span><span class="n">x_coords</span><span class="p">,</span> <span class="n">y_coords</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="n">dotted</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">connector</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_draw_broken_line</span><span class="p">(</span>
+                <span class="n">x_coords</span><span class="p">,</span> <span class="n">y_coords</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="n">lw_connector</span><span class="p">,</span> <span class="n">gap_scale</span><span class="o">=</span><span class="n">gap_scale</span><span class="p">,</span> <span class="n">dotted</span><span class="o">=</span><span class="kc">True</span>
+            <span class="p">)</span>
         <span class="k">elif</span> <span class="n">linetype</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
-            <span class="n">connector</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_draw_line</span><span class="p">(</span><span class="n">x_coords</span><span class="p">,</span> <span class="n">y_coords</span><span class="p">,</span> <span class="n">color</span><span class="p">)</span>
+            <span class="n">connector</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_draw_line</span><span class="p">(</span>
+                <span class="n">x_coords</span><span class="p">,</span> <span class="n">y_coords</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="n">lw_connector</span><span class="p">,</span> <span class="n">dotted</span><span class="o">=</span><span class="kc">False</span>
+            <span class="p">)</span>
         <span class="k">elif</span> <span class="n">linetype</span> <span class="o">==</span> <span class="o">-</span><span class="mi">2</span><span class="p">:</span>
-            <span class="n">connector</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_draw_broken_line</span><span class="p">(</span><span class="n">x_coords</span><span class="p">,</span> <span class="n">y_coords</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="n">dotted</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="n">connector</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_draw_broken_line</span><span class="p">(</span>
+                <span class="n">x_coords</span><span class="p">,</span> <span class="n">y_coords</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="n">lw_connector</span><span class="p">,</span> <span class="n">gap_scale</span><span class="o">=</span><span class="n">gap_scale</span><span class="p">,</span> <span class="n">dotted</span><span class="o">=</span><span class="kc">False</span>
+            <span class="p">)</span>
         <span class="k">elif</span> <span class="n">linetype</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
-            <span class="n">connector</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_draw_dotted_spline</span><span class="p">(</span><span class="n">x_coords</span><span class="p">,</span> <span class="n">y_coords</span><span class="p">,</span> <span class="n">color</span><span class="p">)</span>
+            <span class="n">connector</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_draw_spline</span><span class="p">(</span>
+                <span class="n">x_coords</span><span class="p">,</span> <span class="n">y_coords</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="n">lw_connector</span><span class="p">,</span> <span class="n">dotted</span><span class="o">=</span><span class="kc">True</span>
+            <span class="p">)</span>
+        <span class="k">elif</span> <span class="n">linetype</span> <span class="o">==</span> <span class="o">-</span><span class="mi">3</span><span class="p">:</span>
+            <span class="n">connector</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_draw_broken_spline</span><span class="p">(</span>
+                <span class="n">x_coords</span><span class="p">,</span> <span class="n">y_coords</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="n">lw_connector</span><span class="p">,</span> <span class="n">gap_scale</span><span class="o">=</span><span class="n">gap_scale</span><span class="p">,</span> <span class="n">dotted</span><span class="o">=</span><span class="kc">True</span>
+            <span class="p">)</span>
         <span class="k">elif</span> <span class="n">linetype</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span>
-            <span class="n">connector</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_draw_spline</span><span class="p">(</span><span class="n">x_coords</span><span class="p">,</span> <span class="n">y_coords</span><span class="p">,</span> <span class="n">color</span><span class="p">)</span>
+            <span class="n">connector</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_draw_spline</span><span class="p">(</span>
+                <span class="n">x_coords</span><span class="p">,</span> <span class="n">y_coords</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="n">lw_connector</span><span class="p">,</span> <span class="n">dotted</span><span class="o">=</span><span class="kc">False</span>
+            <span class="p">)</span>
+        <span class="k">elif</span> <span class="n">linetype</span> <span class="o">==</span> <span class="o">-</span><span class="mi">4</span><span class="p">:</span>
+            <span class="n">connector</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_draw_broken_spline</span><span class="p">(</span>
+                <span class="n">x_coords</span><span class="p">,</span> <span class="n">y_coords</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="n">lw_connector</span><span class="p">,</span> <span class="n">gap_scale</span><span class="o">=</span><span class="n">gap_scale</span><span class="p">,</span> <span class="n">dotted</span><span class="o">=</span><span class="kc">False</span>
+            <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid linetype argument: </span><span class="si">{</span><span class="n">linetype</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">connector</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">_draw_dotted_line</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">x_coords</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">y_coords</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">color</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Line2D</span><span class="p">:</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">figure_manager</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
-            <span class="n">x_coords</span><span class="p">,</span>
-            <span class="n">y_coords</span><span class="p">,</span>
-            <span class="n">zorder</span><span class="o">=</span><span class="n">constants</span><span class="o">.</span><span class="n">ZORDER_CONNECTOR</span><span class="p">,</span>
-            <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;:&quot;</span><span class="p">,</span>
-            <span class="n">lw</span><span class="o">=</span><span class="n">constants</span><span class="o">.</span><span class="n">LW_CONNECTOR</span><span class="p">,</span>
-            <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span>
-        <span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-
     <span class="k">def</span><span class="w"> </span><span class="nf">_draw_line</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">x_coords</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">y_coords</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">color</span><span class="p">:</span> <span class="nb">str</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">x_coords</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
+        <span class="n">y_coords</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
+        <span class="n">color</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">lw</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">dotted</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Line2D</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">dotted</span><span class="p">:</span>
+            <span class="n">ls</span> <span class="o">=</span> <span class="s2">&quot;:&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">ls</span> <span class="o">=</span> <span class="s2">&quot;-&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">figure_manager</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
             <span class="n">x_coords</span><span class="p">,</span>
             <span class="n">y_coords</span><span class="p">,</span>
             <span class="n">zorder</span><span class="o">=</span><span class="n">constants</span><span class="o">.</span><span class="n">ZORDER_CONNECTOR</span><span class="p">,</span>
-            <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="p">,</span>
-            <span class="n">lw</span><span class="o">=</span><span class="n">constants</span><span class="o">.</span><span class="n">LW_CONNECTOR</span><span class="p">,</span>
+            <span class="n">ls</span><span class="o">=</span><span class="n">ls</span><span class="p">,</span>
+            <span class="n">lw</span><span class="o">=</span><span class="n">lw</span><span class="p">,</span>
             <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span>
         <span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
 
@@ -2931,10 +3145,12 @@ the underlying data in <code>path_data</code> for use by other managers.</p>
         <span class="n">x_coords</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
         <span class="n">y_coords</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
         <span class="n">color</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">lw</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">gap_scale</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">int</span><span class="p">,</span>
         <span class="n">dotted</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BrokenLine</span><span class="p">:</span>
         <span class="c1"># Portion of the line that has a gap</span>
-        <span class="n">linegap</span> <span class="o">=</span> <span class="n">constants</span><span class="o">.</span><span class="n">BROKEN_LINE_GAP</span>
+        <span class="n">linegap</span> <span class="o">=</span> <span class="n">constants</span><span class="o">.</span><span class="n">BROKEN_LINE_GAP</span> <span class="o">*</span> <span class="n">gap_scale</span>
         <span class="c1"># Ensure tuples are converted to list</span>
         <span class="n">x_coords</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">x_coords</span><span class="p">)</span>
         <span class="n">y_coords</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">y_coords</span><span class="p">)</span>
@@ -2945,9 +3161,9 @@ the underlying data in <code>path_data</code> for use by other managers.</p>
         <span class="n">x1</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">x1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="n">x1</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">x1</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">*</span> <span class="p">(</span><span class="mf">0.5</span> <span class="o">-</span> <span class="n">linegap</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
         <span class="n">y1</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">y1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="n">y1</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">y1</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">*</span> <span class="p">(</span><span class="mf">0.5</span> <span class="o">-</span> <span class="n">linegap</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">dotted</span><span class="p">:</span>
-            <span class="n">line_1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_draw_dotted_line</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">)</span>
+            <span class="n">line_1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_draw_line</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="n">lw</span><span class="p">,</span> <span class="n">dotted</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">line_1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_draw_line</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">)</span>
+            <span class="n">line_1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_draw_line</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="n">lw</span><span class="p">,</span> <span class="n">dotted</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
         <span class="c1"># Draw second part of line</span>
         <span class="n">x2</span> <span class="o">=</span> <span class="n">x_coords</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
@@ -2955,9 +3171,9 @@ the underlying data in <code>path_data</code> for use by other managers.</p>
         <span class="n">x2</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">x2</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="n">x2</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">x2</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">*</span> <span class="p">(</span><span class="mf">0.5</span> <span class="o">+</span> <span class="n">linegap</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
         <span class="n">y2</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">y2</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="n">y2</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">y2</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">*</span> <span class="p">(</span><span class="mf">0.5</span> <span class="o">+</span> <span class="n">linegap</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">dotted</span><span class="p">:</span>
-            <span class="n">line_2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_draw_dotted_line</span><span class="p">(</span><span class="n">x2</span><span class="p">,</span> <span class="n">y2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">)</span>
+            <span class="n">line_2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_draw_line</span><span class="p">(</span><span class="n">x2</span><span class="p">,</span> <span class="n">y2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="n">lw</span><span class="p">,</span> <span class="n">dotted</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">line_2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_draw_line</span><span class="p">(</span><span class="n">x2</span><span class="p">,</span> <span class="n">y2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">)</span>
+            <span class="n">line_2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_draw_line</span><span class="p">(</span><span class="n">x2</span><span class="p">,</span> <span class="n">y2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="n">lw</span><span class="p">,</span> <span class="n">dotted</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
         <span class="c1"># Draw small orthogonal lines</span>
         <span class="n">stopper_1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">figure_manager</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span>
@@ -2990,27 +3206,18 @@ the underlying data in <code>path_data</code> for use by other managers.</p>
         <span class="p">)</span>
         <span class="k">return</span> <span class="n">BrokenLine</span><span class="p">(</span><span class="n">line_1</span><span class="p">,</span> <span class="n">line_2</span><span class="p">,</span> <span class="n">stopper_1</span><span class="p">,</span> <span class="n">stopper_2</span><span class="p">)</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">_draw_dotted_spline</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">x_coords</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">y_coords</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">color</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Line2D</span><span class="p">]:</span>
-        <span class="c1"># Create a cubic spline interpolation of the points</span>
-        <span class="n">cs</span> <span class="o">=</span> <span class="n">CubicSpline</span><span class="p">(</span><span class="n">x_coords</span><span class="p">,</span> <span class="n">y_coords</span><span class="p">,</span> <span class="n">bc_type</span><span class="o">=</span><span class="s2">&quot;clamped&quot;</span><span class="p">)</span>
-        <span class="n">x_spline</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">x_coords</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">x_coords</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="mi">100</span><span class="p">)</span>
-        <span class="n">y_spline</span> <span class="o">=</span> <span class="n">cs</span><span class="p">(</span><span class="n">x_spline</span><span class="p">)</span>
-
-        <span class="c1"># Draw the spline as a dotted line</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">figure_manager</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
-            <span class="n">x_spline</span><span class="p">,</span>
-            <span class="n">y_spline</span><span class="p">,</span>
-            <span class="n">zorder</span><span class="o">=</span><span class="n">constants</span><span class="o">.</span><span class="n">ZORDER_CONNECTOR</span><span class="p">,</span>
-            <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;:&quot;</span><span class="p">,</span>
-            <span class="n">lw</span><span class="o">=</span><span class="n">constants</span><span class="o">.</span><span class="n">LW_CONNECTOR</span><span class="p">,</span>
-            <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span>
-        <span class="p">)</span>
-
     <span class="k">def</span><span class="w"> </span><span class="nf">_draw_spline</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">x_coords</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">y_coords</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">color</span><span class="p">:</span> <span class="nb">str</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">x_coords</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
+        <span class="n">y_coords</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
+        <span class="n">color</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">lw</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">dotted</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Line2D</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">dotted</span><span class="p">:</span>
+            <span class="n">ls</span> <span class="o">=</span> <span class="s2">&quot;:&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">ls</span> <span class="o">=</span> <span class="s2">&quot;-&quot;</span>
         <span class="c1"># Create a cubic spline interpolation of the points</span>
         <span class="n">cs</span> <span class="o">=</span> <span class="n">CubicSpline</span><span class="p">(</span><span class="n">x_coords</span><span class="p">,</span> <span class="n">y_coords</span><span class="p">,</span> <span class="n">bc_type</span><span class="o">=</span><span class="s2">&quot;clamped&quot;</span><span class="p">)</span>
         <span class="n">x_spline</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">x_coords</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">x_coords</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="mi">100</span><span class="p">)</span>
@@ -3021,10 +3228,105 @@ the underlying data in <code>path_data</code> for use by other managers.</p>
             <span class="n">x_spline</span><span class="p">,</span>
             <span class="n">y_spline</span><span class="p">,</span>
             <span class="n">zorder</span><span class="o">=</span><span class="n">constants</span><span class="o">.</span><span class="n">ZORDER_CONNECTOR</span><span class="p">,</span>
-            <span class="n">ls</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="p">,</span>
-            <span class="n">lw</span><span class="o">=</span><span class="n">constants</span><span class="o">.</span><span class="n">LW_CONNECTOR</span><span class="p">,</span>
+            <span class="n">ls</span><span class="o">=</span><span class="n">ls</span><span class="p">,</span>
+            <span class="n">lw</span><span class="o">=</span><span class="n">lw</span><span class="p">,</span>
             <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span>
         <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_draw_broken_spline</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">x_coords</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
+        <span class="n">y_coords</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
+        <span class="n">color</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">lw</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">gap_scale</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">dotted</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Line2D</span><span class="p">]</span> <span class="o">|</span> <span class="n">BrokenLine</span><span class="p">:</span>
+        <span class="c1"># Portion of the line that has a gap</span>
+        <span class="n">linegap</span> <span class="o">=</span> <span class="n">constants</span><span class="o">.</span><span class="n">BROKEN_LINE_GAP</span> <span class="o">*</span> <span class="n">gap_scale</span>
+        <span class="n">cs</span> <span class="o">=</span> <span class="n">CubicSpline</span><span class="p">(</span><span class="n">x_coords</span><span class="p">,</span> <span class="n">y_coords</span><span class="p">,</span> <span class="n">bc_type</span><span class="o">=</span><span class="s2">&quot;clamped&quot;</span><span class="p">)</span>
+        <span class="n">x_spline</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">x_coords</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">x_coords</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="mi">100</span><span class="p">)</span>
+        <span class="n">y_spline</span> <span class="o">=</span> <span class="n">cs</span><span class="p">(</span><span class="n">x_spline</span><span class="p">)</span>
+
+        <span class="c1"># Draw first part of spline</span>
+        <span class="n">interval_start_gap</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x_spline</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mf">0.5</span> <span class="o">-</span> <span class="n">linegap</span> <span class="o">/</span> <span class="mi">2</span><span class="p">))</span>
+        <span class="n">x1</span> <span class="o">=</span> <span class="n">x_spline</span><span class="p">[:</span><span class="n">interval_start_gap</span><span class="p">]</span>
+        <span class="n">y1</span> <span class="o">=</span> <span class="n">y_spline</span><span class="p">[:</span><span class="n">interval_start_gap</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">dotted</span><span class="p">:</span>
+            <span class="n">line_1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_draw_spline_part</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="n">lw</span><span class="p">,</span> <span class="n">dotted</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">line_1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_draw_spline_part</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="n">lw</span><span class="p">,</span> <span class="n">dotted</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="c1"># Draw second part of spline</span>
+        <span class="n">interval_end_gap</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x_spline</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mf">0.5</span> <span class="o">+</span> <span class="n">linegap</span> <span class="o">/</span> <span class="mi">2</span><span class="p">))</span>
+        <span class="n">x2</span> <span class="o">=</span> <span class="n">x_spline</span><span class="p">[</span><span class="n">interval_end_gap</span><span class="p">:]</span>
+        <span class="n">y2</span> <span class="o">=</span> <span class="n">y_spline</span><span class="p">[</span><span class="n">interval_end_gap</span><span class="p">:]</span>
+        <span class="k">if</span> <span class="n">dotted</span><span class="p">:</span>
+            <span class="n">line_2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_draw_spline_part</span><span class="p">(</span><span class="n">x2</span><span class="p">,</span> <span class="n">y2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="n">lw</span><span class="p">,</span> <span class="n">dotted</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">line_2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_draw_spline_part</span><span class="p">(</span><span class="n">x2</span><span class="p">,</span> <span class="n">y2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="n">lw</span><span class="p">,</span> <span class="n">dotted</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="c1"># Draw small orthogonal lines at the break point</span>
+        <span class="n">stopper_1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">figure_manager</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span>
+            <span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="n">x_spline</span><span class="p">[</span><span class="n">interval_start_gap</span><span class="p">],</span> <span class="n">y_spline</span><span class="p">[</span><span class="n">interval_start_gap</span><span class="p">]),</span>
+            <span class="n">xytext</span><span class="o">=</span><span class="p">(</span>
+                <span class="n">x_spline</span><span class="p">[</span><span class="n">interval_start_gap</span><span class="p">]</span>
+                <span class="o">+</span> <span class="mf">0.01</span> <span class="o">*</span> <span class="p">(</span><span class="n">x_spline</span><span class="p">[</span><span class="n">interval_start_gap</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">x_spline</span><span class="p">[</span><span class="n">interval_start_gap</span><span class="p">]),</span>
+                <span class="n">y_spline</span><span class="p">[</span><span class="n">interval_start_gap</span><span class="p">]</span>
+                <span class="o">+</span> <span class="mf">0.01</span> <span class="o">*</span> <span class="p">(</span><span class="n">y_spline</span><span class="p">[</span><span class="n">interval_start_gap</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">y_spline</span><span class="p">[</span><span class="n">interval_start_gap</span><span class="p">]),</span>
+            <span class="p">),</span>
+            <span class="n">arrowprops</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
+                <span class="n">arrowstyle</span><span class="o">=</span><span class="s2">&quot;|-|&quot;</span><span class="p">,</span>
+                <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span>
+                <span class="n">lw</span><span class="o">=</span><span class="n">constants</span><span class="o">.</span><span class="n">LW_BROKEN_LINE_STOPPER</span><span class="p">,</span>
+                <span class="n">shrinkA</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span>
+                <span class="n">shrinkB</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span>
+                <span class="n">mutation_scale</span><span class="o">=</span><span class="n">constants</span><span class="o">.</span><span class="n">SIZE_BROKEN_LINE_STOPPER</span><span class="p">,</span>
+                <span class="n">zorder</span><span class="o">=</span><span class="n">constants</span><span class="o">.</span><span class="n">ZORDER_BROKEN_LINE_STOPPER</span><span class="p">,</span>
+            <span class="p">),</span>
+        <span class="p">)</span>
+        <span class="n">stopper_2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">figure_manager</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span>
+            <span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="n">x_spline</span><span class="p">[</span><span class="n">interval_end_gap</span><span class="p">],</span> <span class="n">y_spline</span><span class="p">[</span><span class="n">interval_end_gap</span><span class="p">]),</span>
+            <span class="n">xytext</span><span class="o">=</span><span class="p">(</span>
+                <span class="n">x_spline</span><span class="p">[</span><span class="n">interval_end_gap</span><span class="p">]</span>
+                <span class="o">-</span> <span class="mf">0.01</span> <span class="o">*</span> <span class="p">(</span><span class="n">x_spline</span><span class="p">[</span><span class="n">interval_end_gap</span><span class="p">]</span> <span class="o">-</span> <span class="n">x_spline</span><span class="p">[</span><span class="n">interval_end_gap</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]),</span>
+                <span class="n">y_spline</span><span class="p">[</span><span class="n">interval_end_gap</span><span class="p">]</span>
+                <span class="o">-</span> <span class="mf">0.01</span> <span class="o">*</span> <span class="p">(</span><span class="n">y_spline</span><span class="p">[</span><span class="n">interval_end_gap</span><span class="p">]</span> <span class="o">-</span> <span class="n">y_spline</span><span class="p">[</span><span class="n">interval_end_gap</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]),</span>
+            <span class="p">),</span>
+            <span class="n">arrowprops</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
+                <span class="n">arrowstyle</span><span class="o">=</span><span class="s2">&quot;|-|&quot;</span><span class="p">,</span>
+                <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span>
+                <span class="n">lw</span><span class="o">=</span><span class="n">constants</span><span class="o">.</span><span class="n">LW_BROKEN_LINE_STOPPER</span><span class="p">,</span>
+                <span class="n">shrinkA</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span>
+                <span class="n">shrinkB</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span>
+                <span class="n">mutation_scale</span><span class="o">=</span><span class="n">constants</span><span class="o">.</span><span class="n">SIZE_BROKEN_LINE_STOPPER</span><span class="p">,</span>
+                <span class="n">zorder</span><span class="o">=</span><span class="n">constants</span><span class="o">.</span><span class="n">ZORDER_BROKEN_LINE_STOPPER</span><span class="p">,</span>
+            <span class="p">),</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">BrokenLine</span><span class="p">(</span><span class="n">line_1</span><span class="p">,</span> <span class="n">line_2</span><span class="p">,</span> <span class="n">stopper_1</span><span class="p">,</span> <span class="n">stopper_2</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_draw_spline_part</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">x_coords</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+        <span class="n">y_coords</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+        <span class="n">color</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">lw</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">dotted</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Line2D</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">dotted</span><span class="p">:</span>
+            <span class="n">ls</span> <span class="o">=</span> <span class="s2">&quot;:&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">ls</span> <span class="o">=</span> <span class="s2">&quot;-&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">figure_manager</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+            <span class="n">x_coords</span><span class="p">,</span>
+            <span class="n">y_coords</span><span class="p">,</span>
+            <span class="n">zorder</span><span class="o">=</span><span class="n">constants</span><span class="o">.</span><span class="n">ZORDER_CONNECTOR</span><span class="p">,</span>
+            <span class="n">ls</span><span class="o">=</span><span class="n">ls</span><span class="p">,</span>
+            <span class="n">lw</span><span class="o">=</span><span class="n">lw</span><span class="p">,</span>
+            <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span>
+        <span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_get_stopper_differences</span><span class="p">(</span>
@@ -3149,40 +3451,40 @@ as a formatted string (e.g. <code>"1.0"</code>).</p>
 
               <details class="mkdocstrings-source">
                 <summary>Source code in <code>src/chemdiagrams/managers/path_manager.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">553</span>
-<span class="normal">554</span>
-<span class="normal">555</span>
-<span class="normal">556</span>
-<span class="normal">557</span>
-<span class="normal">558</span>
-<span class="normal">559</span>
-<span class="normal">560</span>
-<span class="normal">561</span>
-<span class="normal">562</span>
-<span class="normal">563</span>
-<span class="normal">564</span>
-<span class="normal">565</span>
-<span class="normal">566</span>
-<span class="normal">567</span>
-<span class="normal">568</span>
-<span class="normal">569</span>
-<span class="normal">570</span>
-<span class="normal">571</span>
-<span class="normal">572</span>
-<span class="normal">573</span>
-<span class="normal">574</span>
-<span class="normal">575</span>
-<span class="normal">576</span>
-<span class="normal">577</span>
-<span class="normal">578</span>
-<span class="normal">579</span>
-<span class="normal">580</span>
-<span class="normal">581</span>
-<span class="normal">582</span>
-<span class="normal">583</span>
-<span class="normal">584</span>
-<span class="normal">585</span>
-<span class="normal">586</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">704</span>
+<span class="normal">705</span>
+<span class="normal">706</span>
+<span class="normal">707</span>
+<span class="normal">708</span>
+<span class="normal">709</span>
+<span class="normal">710</span>
+<span class="normal">711</span>
+<span class="normal">712</span>
+<span class="normal">713</span>
+<span class="normal">714</span>
+<span class="normal">715</span>
+<span class="normal">716</span>
+<span class="normal">717</span>
+<span class="normal">718</span>
+<span class="normal">719</span>
+<span class="normal">720</span>
+<span class="normal">721</span>
+<span class="normal">722</span>
+<span class="normal">723</span>
+<span class="normal">724</span>
+<span class="normal">725</span>
+<span class="normal">726</span>
+<span class="normal">727</span>
+<span class="normal">728</span>
+<span class="normal">729</span>
+<span class="normal">730</span>
+<span class="normal">731</span>
+<span class="normal">732</span>
+<span class="normal">733</span>
+<span class="normal">734</span>
+<span class="normal">735</span>
+<span class="normal">736</span>
+<span class="normal">737</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">PathObject</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Container for the Matplotlib artists that make up a single reaction path.</span>
