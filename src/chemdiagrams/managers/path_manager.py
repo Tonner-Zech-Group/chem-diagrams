@@ -51,6 +51,8 @@ class PathManager:
         show_numbers: bool = True,
         width_plateau: float | None = None,
         lw_plateau: float | str = "plateau",
+        lw_connector: float | str = "connector",
+        gap_scale: float | int | Sequence[float | int] = 1,
     ) -> None:
         # Sanity checks and linetype normalization
         Validators.validate_numeric_sequence(x_data, "x_data")
@@ -66,7 +68,7 @@ class PathManager:
         else:
             width_plateau = constants.WIDTH_PLATEAU
 
-        ALLOWED_LINETYPES = [-2, -1, 0, 1, 2, 3, 4]
+        ALLOWED_LINETYPES = [-4, -3, -2, -1, 0, 1, 2, 3, 4]
         if linetypes is None:
             linetypes = [1] * (len(y_data) - 1)
         elif isinstance(linetypes, int):
@@ -98,6 +100,43 @@ class PathManager:
             Validators.validate_number(lw_plateau, "lw_plateau", min_value=0)
         assert isinstance(lw_plateau, (float, int))
 
+        if isinstance(lw_connector, str):
+            if lw_connector == "plateau":
+                lw_connector = constants.LW_PLATEAU
+            elif lw_connector == "connector":
+                lw_connector = constants.LW_CONNECTOR
+            else:
+                raise ValueError(
+                    "Invalid string value for lw_connector. "
+                    "Use 'plateau', 'connector', or a number."
+                )
+        else:
+            Validators.validate_number(lw_connector, "lw_connector", min_value=0)
+        assert isinstance(lw_connector, (float, int))
+
+        if isinstance(gap_scale, Sequence):
+            if isinstance(gap_scale, str):
+                raise TypeError("gap_scale cannot be a string.")
+            if len(gap_scale) != len(x_data) - 1:
+                raise ValueError(
+                    f"Length of gap_scale + 1 (now {len(gap_scale)} + 1) "
+                    f"must equal the number of data points (right now {len(x_data)})."
+                )
+            Validators.validate_numeric_sequence(
+                gap_scale, "gap_scale", required_length=len(x_data) - 1, min_value=0
+            )
+        else:
+            Validators.validate_number(gap_scale, "gap_scale", min_value=0)
+            gap_scale = [gap_scale] * (len(x_data) - 1)
+        for val in gap_scale:
+            if val * constants.BROKEN_LINE_GAP >= 1:
+                raise ValueError(
+                    f"gap_scale values must be small enough that the "
+                    f"gap in broken line styles is less than 100% of the line length. "
+                    f"Currently, gap_scale * BROKEN_LINE_GAP "
+                    f"= {val * constants.BROKEN_LINE_GAP}."
+                )
+
         # Save data for numbering or legend
         has_name = True
         if path_name is None:
@@ -111,7 +150,7 @@ class PathManager:
             "show_numbers": show_numbers,
         }
 
-        # Initialize nested dics
+        # Initialize nested dicts
         connections: dict = {}
         plateaus: dict = {}
         labels: dict = {}
@@ -141,7 +180,12 @@ class PathManager:
             plateaus[f"{x_data[i]:.1f}"] = plateau
             if i > 0:
                 connector = self._draw_connector(
-                    x_corners[-3:-1], y_corners[-3:-1], linetypes[i - 1], color
+                    x_corners[-3:-1],
+                    y_corners[-3:-1],
+                    linetypes[i - 1],
+                    color,
+                    lw_connector,
+                    gap_scale[i - 1],
                 )
                 connections[f"{sum(x_corners[-3:-1]) / 2:.1f}"] = connector
         # Save Path
@@ -373,47 +417,66 @@ class PathManager:
         y_coords: Sequence[float],
         linetype: int,
         color: str,
+        lw_connector: float | int,
+        gap_scale: float | int,
     ) -> Line2D | list[Line2D] | BrokenLine | None:
         connector: Line2D | list[Line2D] | BrokenLine | None = None
         if linetype == 0:
             connector = None
         elif linetype == 1:
-            connector = self._draw_dotted_line(x_coords, y_coords, color)
+            connector = self._draw_line(
+                x_coords, y_coords, color, lw=lw_connector, dotted=True
+            )
         elif linetype == -1:
-            connector = self._draw_broken_line(x_coords, y_coords, color, dotted=True)
+            connector = self._draw_broken_line(
+                x_coords, y_coords, color, lw=lw_connector, gap_scale=gap_scale, dotted=True
+            )
         elif linetype == 2:
-            connector = self._draw_line(x_coords, y_coords, color)
+            connector = self._draw_line(
+                x_coords, y_coords, color, lw=lw_connector, dotted=False
+            )
         elif linetype == -2:
-            connector = self._draw_broken_line(x_coords, y_coords, color, dotted=False)
+            connector = self._draw_broken_line(
+                x_coords, y_coords, color, lw=lw_connector, gap_scale=gap_scale, dotted=False
+            )
         elif linetype == 3:
-            connector = self._draw_dotted_spline(x_coords, y_coords, color)
+            connector = self._draw_spline(
+                x_coords, y_coords, color, lw=lw_connector, dotted=True
+            )
+        elif linetype == -3:
+            connector = self._draw_broken_spline(
+                x_coords, y_coords, color, lw=lw_connector, gap_scale=gap_scale, dotted=True
+            )
         elif linetype == 4:
-            connector = self._draw_spline(x_coords, y_coords, color)
+            connector = self._draw_spline(
+                x_coords, y_coords, color, lw=lw_connector, dotted=False
+            )
+        elif linetype == -4:
+            connector = self._draw_broken_spline(
+                x_coords, y_coords, color, lw=lw_connector, gap_scale=gap_scale, dotted=False
+            )
         else:
             raise ValueError(f"Invalid linetype argument: {linetype}")
         return connector
 
-    def _draw_dotted_line(
-        self, x_coords: Sequence[float], y_coords: Sequence[float], color: str
-    ) -> Line2D:
-        return self.figure_manager.ax.plot(
-            x_coords,
-            y_coords,
-            zorder=constants.ZORDER_CONNECTOR,
-            ls=":",
-            lw=constants.LW_CONNECTOR,
-            color=color,
-        )[0]
-
     def _draw_line(
-        self, x_coords: Sequence[float], y_coords: Sequence[float], color: str
+        self,
+        x_coords: Sequence[float],
+        y_coords: Sequence[float],
+        color: str,
+        lw: float | int,
+        dotted: bool = False,
     ) -> Line2D:
+        if dotted:
+            ls = ":"
+        else:
+            ls = "-"
         return self.figure_manager.ax.plot(
             x_coords,
             y_coords,
             zorder=constants.ZORDER_CONNECTOR,
-            ls="-",
-            lw=constants.LW_CONNECTOR,
+            ls=ls,
+            lw=lw,
             color=color,
         )[0]
 
@@ -422,10 +485,12 @@ class PathManager:
         x_coords: Sequence[float],
         y_coords: Sequence[float],
         color: str,
+        lw: float | int,
+        gap_scale: float | int,
         dotted: bool = True,
     ) -> BrokenLine:
         # Portion of the line that has a gap
-        linegap = constants.BROKEN_LINE_GAP
+        linegap = constants.BROKEN_LINE_GAP * gap_scale
         # Ensure tuples are converted to list
         x_coords = list(x_coords)
         y_coords = list(y_coords)
@@ -436,9 +501,9 @@ class PathManager:
         x1[1] = x1[0] + (x1[1] - x1[0]) * (0.5 - linegap / 2)
         y1[1] = y1[0] + (y1[1] - y1[0]) * (0.5 - linegap / 2)
         if dotted:
-            line_1 = self._draw_dotted_line(x1, y1, color=color)
+            line_1 = self._draw_line(x1, y1, color=color, lw=lw, dotted=True)
         else:
-            line_1 = self._draw_line(x1, y1, color=color)
+            line_1 = self._draw_line(x1, y1, color=color, lw=lw, dotted=False)
 
         # Draw second part of line
         x2 = x_coords.copy()
@@ -446,9 +511,9 @@ class PathManager:
         x2[0] = x2[0] + (x2[1] - x2[0]) * (0.5 + linegap / 2)
         y2[0] = y2[0] + (y2[1] - y2[0]) * (0.5 + linegap / 2)
         if dotted:
-            line_2 = self._draw_dotted_line(x2, y2, color=color)
+            line_2 = self._draw_line(x2, y2, color=color, lw=lw, dotted=True)
         else:
-            line_2 = self._draw_line(x2, y2, color=color)
+            line_2 = self._draw_line(x2, y2, color=color, lw=lw, dotted=False)
 
         # Draw small orthogonal lines
         stopper_1 = self.figure_manager.ax.annotate(
@@ -481,27 +546,18 @@ class PathManager:
         )
         return BrokenLine(line_1, line_2, stopper_1, stopper_2)
 
-    def _draw_dotted_spline(
-        self, x_coords: Sequence[float], y_coords: Sequence[float], color: str
-    ) -> list[Line2D]:
-        # Create a cubic spline interpolation of the points
-        cs = CubicSpline(x_coords, y_coords, bc_type="clamped")
-        x_spline = np.linspace(x_coords[0], x_coords[-1], 100)
-        y_spline = cs(x_spline)
-
-        # Draw the spline as a dotted line
-        return self.figure_manager.ax.plot(
-            x_spline,
-            y_spline,
-            zorder=constants.ZORDER_CONNECTOR,
-            ls=":",
-            lw=constants.LW_CONNECTOR,
-            color=color,
-        )
-
     def _draw_spline(
-        self, x_coords: Sequence[float], y_coords: Sequence[float], color: str
+        self,
+        x_coords: Sequence[float],
+        y_coords: Sequence[float],
+        color: str,
+        lw: float | int,
+        dotted: bool = False,
     ) -> list[Line2D]:
+        if dotted:
+            ls = ":"
+        else:
+            ls = "-"
         # Create a cubic spline interpolation of the points
         cs = CubicSpline(x_coords, y_coords, bc_type="clamped")
         x_spline = np.linspace(x_coords[0], x_coords[-1], 100)
@@ -512,10 +568,105 @@ class PathManager:
             x_spline,
             y_spline,
             zorder=constants.ZORDER_CONNECTOR,
-            ls="-",
-            lw=constants.LW_CONNECTOR,
+            ls=ls,
+            lw=lw,
             color=color,
         )
+
+    def _draw_broken_spline(
+        self,
+        x_coords: Sequence[float],
+        y_coords: Sequence[float],
+        color: str,
+        lw: float | int,
+        gap_scale: float | int,
+        dotted: bool = True,
+    ) -> list[Line2D] | BrokenLine:
+        # Portion of the line that has a gap
+        linegap = constants.BROKEN_LINE_GAP * gap_scale
+        cs = CubicSpline(x_coords, y_coords, bc_type="clamped")
+        x_spline = np.linspace(x_coords[0], x_coords[-1], 100)
+        y_spline = cs(x_spline)
+
+        # Draw first part of spline
+        interval_start_gap = int(len(x_spline) * (0.5 - linegap / 2))
+        x1 = x_spline[:interval_start_gap]
+        y1 = y_spline[:interval_start_gap]
+        if dotted:
+            line_1 = self._draw_spline_part(x1, y1, color=color, lw=lw, dotted=True)
+        else:
+            line_1 = self._draw_spline_part(x1, y1, color=color, lw=lw, dotted=False)
+
+        # Draw second part of spline
+        interval_end_gap = int(len(x_spline) * (0.5 + linegap / 2))
+        x2 = x_spline[interval_end_gap:]
+        y2 = y_spline[interval_end_gap:]
+        if dotted:
+            line_2 = self._draw_spline_part(x2, y2, color=color, lw=lw, dotted=True)
+        else:
+            line_2 = self._draw_spline_part(x2, y2, color=color, lw=lw, dotted=False)
+
+        # Draw small orthogonal lines at the break point
+        stopper_1 = self.figure_manager.ax.annotate(
+            "",
+            xy=(x_spline[interval_start_gap], y_spline[interval_start_gap]),
+            xytext=(
+                x_spline[interval_start_gap]
+                + 0.01 * (x_spline[interval_start_gap + 1] - x_spline[interval_start_gap]),
+                y_spline[interval_start_gap]
+                + 0.01 * (y_spline[interval_start_gap + 1] - y_spline[interval_start_gap]),
+            ),
+            arrowprops=dict(
+                arrowstyle="|-|",
+                color=color,
+                lw=constants.LW_BROKEN_LINE_STOPPER,
+                shrinkA=15,
+                shrinkB=15,
+                mutation_scale=constants.SIZE_BROKEN_LINE_STOPPER,
+                zorder=constants.ZORDER_BROKEN_LINE_STOPPER,
+            ),
+        )
+        stopper_2 = self.figure_manager.ax.annotate(
+            "",
+            xy=(x_spline[interval_end_gap], y_spline[interval_end_gap]),
+            xytext=(
+                x_spline[interval_end_gap]
+                - 0.01 * (x_spline[interval_end_gap] - x_spline[interval_end_gap - 1]),
+                y_spline[interval_end_gap]
+                - 0.01 * (y_spline[interval_end_gap] - y_spline[interval_end_gap - 1]),
+            ),
+            arrowprops=dict(
+                arrowstyle="|-|",
+                color=color,
+                lw=constants.LW_BROKEN_LINE_STOPPER,
+                shrinkA=15,
+                shrinkB=15,
+                mutation_scale=constants.SIZE_BROKEN_LINE_STOPPER,
+                zorder=constants.ZORDER_BROKEN_LINE_STOPPER,
+            ),
+        )
+        return BrokenLine(line_1, line_2, stopper_1, stopper_2)
+
+    def _draw_spline_part(
+        self,
+        x_coords: Sequence[float] | np.ndarray,
+        y_coords: Sequence[float] | np.ndarray,
+        color: str,
+        lw: float | int,
+        dotted: bool = False,
+    ) -> Line2D:
+        if dotted:
+            ls = ":"
+        else:
+            ls = "-"
+        return self.figure_manager.ax.plot(
+            x_coords,
+            y_coords,
+            zorder=constants.ZORDER_CONNECTOR,
+            ls=ls,
+            lw=lw,
+            color=color,
+        )[0]
 
     @staticmethod
     def _get_stopper_differences(
@@ -597,9 +748,9 @@ class BrokenLine:
 
     Attributes
     ----------
-    line_part_1 : Line2D
+    line_part_1 : Line2D or list of Line2D
         The first half of the connector, from the start to the break.
-    line_part_2 : Line2D
+    line_part_2 : Line2D or list of Line2D
         The second half of the connector, from the break to the end.
     stopper_1 : Annotation
         Orthogonal tick mark at the end of ``line_part_1``.
@@ -607,8 +758,8 @@ class BrokenLine:
         Orthogonal tick mark at the start of ``line_part_2``.
     """
 
-    line_part_1: Line2D
-    line_part_2: Line2D
+    line_part_1: Line2D | list[Line2D]
+    line_part_2: Line2D | list[Line2D]
     stopper_1: Annotation
     stopper_2: Annotation
 

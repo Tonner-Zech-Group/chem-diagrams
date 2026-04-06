@@ -317,6 +317,8 @@ class EnergyDiagram:
         show_numbers: bool = True,
         width_plateau: float | None = None,
         lw_plateau: float | str = "plateau",
+        lw_connector: float | str = "connector",
+        gap_scale: float | int | Sequence[float | int] = 1,
     ) -> EnergyDiagram:
         """Add a reaction path to the energy diagram.
 
@@ -348,7 +350,9 @@ class EnergyDiagram:
             *  ``2``  : solid line
             *  ``-2`` : broken solid line
             *  ``3``  : dotted cubic spline
+            *  ``-3`` : broken dotted cubic spline
             *  ``4``  : solid cubic spline
+            *  ``-4`` : broken solid cubic spline
 
             When None, all segments use a dotted line (``1``).
         path_name : str or None, optional
@@ -360,10 +364,18 @@ class EnergyDiagram:
         width_plateau : float or None, optional
             Width of the horizontal energy level bars in data coordinate
             units. When None, a default width is applied. Default is None.
-        lw_plateau : float, str, or None, optional
+        lw_plateau : float, str, optional
             Line width for the horizontal energy level bars. Can be a
             float in points, or a string referring to a predefined
             value (``"plateau"`` or ``"connector"``). Default is ``"plateau"``.
+        lw_connector : float, str, optional
+            Line width for the connectors between energy levels. Can be a
+            float in points, or a string referring to a predefined
+            value (``"plateau"`` or ``"connector"``). Default is ``"connector"``.
+        gap_scale : float, int, or sequence of float or int, optional
+            Scaling factor for the gap in broken line styles (``-4`` to ``-1``).
+            Can be a single number applied to all segments, or a
+            sequence with one value per segment. Default is 1.
 
         Returns
         -------
@@ -379,6 +391,8 @@ class EnergyDiagram:
             show_numbers=show_numbers,
             width_plateau=width_plateau,
             lw_plateau=lw_plateau,
+            lw_connector=lw_connector,
+            gap_scale=gap_scale,
         )
         self.margins = self._layout_manager.adjust_xy_limits(self._path_manager.path_data)
         self.figsize = self._layout_manager.scale_figure(self._path_manager.path_data)

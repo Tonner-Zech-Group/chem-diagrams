@@ -9,6 +9,9 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ### Added
 
 - Method for selectively modifying existing energy annotations by adding or subtracting values via `modify_number_values()`.
+- Added `lw_connector` parameter to `add_path()` for custom line widths of connectors between energy levels.
+- Added `gap_scale` parameter to `add_path()` for controlling the size of gaps in broken line styles.
+- New line styles for paths: `-4` and `-3` for broken splines.
 
 ### Changed
 

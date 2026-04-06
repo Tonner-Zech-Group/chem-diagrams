@@ -23,7 +23,7 @@ pip install chemdiagrams
 ## Features
 
 - Multiple reaction paths on a single diagram
-- Seven connector styles: dotted, solid, broken dotted, broken solid, spline dotted, spline solid or none
+- Nine connector styles: dotted, solid, broken dotted, broken solid, spline dotted, spline solid, broken spline dotted, broken spline solid or none
 - Five diagram styles: `open`, `halfboxed`, `boxed`, `twosided`, `borderless`
 - Automatic, stacked, naïve, and averaged energy label placement (numbering)
 - Custom text labels for each path at each position
@@ -128,13 +128,17 @@ dia.show()
 | `2` | solid line |
 | `-2` | solid line with gap |
 | `3` | dotted cubic spline |
+| `-3` | dotted cubic spline with gap |
 | `4` | solid cubic spline |
+| `-4` | solid cubic spline with gap |
 
 A single integer applies the same style to all segments. A list applies styles individually.
 
-The width of a plateau can be adjusted with the keyword `width_plateau`. It can be a float in data units (Default is 0.5). Furthermore, the linewidth of the plateaus can be set to one of the strings `"plateau"` or `"connector"` to refer to predefined values or a number.
+The width of a plateau can be adjusted with the keyword `width_plateau`. It can be a float in data units (Default is 0.5). Furthermore, the linewidth of the plateaus can be set via `lw_plateau` to one of the strings `"plateau"` or `"connector"` to refer to predefined values or a number. Also the linewidth of the connectors can be set via `lw_connector`. The gap of broken line styles can be adjusted with `gap_scale`, which is a scaling factor for the gap size (default is 1). It can be a single number applied to all segments, or a sequence with one value per segment. Example:
 
 ```python
+dia = EnergyDiagram()
+
 dia.draw_path(
     x_data=[0, 1, 2, 3, 4, 5],
     y_data=[0, -13, 22, 75, 39, 20],
@@ -142,17 +146,29 @@ dia.draw_path(
     path_name="Pathway A",
     width_plateau=0.3,
     lw_plateau="connector",
+    lw_connector=0.4,
 )
 
 dia.draw_path(
-    x_data=[0, 1, 2, 3, 5],
-    y_data=[0, -25, 20, 50, 6],
+    x_data=[0, 1, 2, 3.5, 5],
+    y_data=[0, -25, 5, 30, 6],
     color="red",
     path_name="Pathway B",
+    linetypes=[4, 4, -4, -3],
     width_plateau=0,
-    lw_plateau=1.5,
+    lw_connector=0.7,
+    gap_scale=[0,0, 0.5, 1.5],
 )
+
+dia.add_numbers_auto()
+dia.legend(fontsize=7)
+dia.set_xlabels(["A", "B", "C", "D", "E", "F"])
+dia.ax.set_ylabel("Energy / kJ mol$^{-1}$", fontsize=8)
+
+dia.show()
 ```
+
+![Path Styling](https://raw.githubusercontent.com/Tonner-Zech-Group/chem-diagrams/main/docs/img/example_path_styling.png)
 
 ### Path labels
 

@@ -23,7 +23,7 @@ pip install chemdiagrams
 ## Features
 
 - Multiple reaction paths on a single diagram
-- Seven connector styles: dotted, solid, broken dotted, broken solid, spline dotted, spline solid or none
+- Nine connector styles: dotted, solid, broken dotted, broken solid, spline dotted, spline solid, broken spline dotted, broken spline solid or none
 - Five diagram styles: `open`, `halfboxed`, `boxed`, `twosided`, `borderless`
 - Automatic, stacked, naïve, and averaged energy label placement (numbering)
 - Custom text labels for each path at each position

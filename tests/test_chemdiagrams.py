@@ -193,6 +193,207 @@ class TestDrawPath:
                 lw_plateau="invalid",
             )
 
+    def test_lw_connector_numeric(self):
+        dia = EnergyDiagram()
+        dia.draw_path(
+            [0, 1, 2],
+            [0, 10, -5],
+            color="blue",
+            lw_connector=2.5,
+            path_name="lw_conn_num",
+        )
+
+    def test_lw_connector_string_plateau(self):
+        dia = EnergyDiagram()
+        dia.draw_path(
+            [0, 1, 2],
+            [0, 10, -5],
+            color="blue",
+            lw_connector="plateau",
+            path_name="lw_conn_plateau",
+        )
+
+    def test_lw_connector_string_connector(self):
+        dia = EnergyDiagram()
+        dia.draw_path(
+            [0, 1, 2],
+            [0, 10, -5],
+            color="blue",
+            lw_connector="connector",
+            path_name="lw_conn_connector",
+        )
+
+    def test_lw_connector_invalid_string(self):
+        dia = EnergyDiagram()
+        with pytest.raises(ValueError):
+            dia.draw_path(
+                [0, 1, 2],
+                [0, 10, -5],
+                color="blue",
+                lw_connector="invalid",
+            )
+
+    def test_lw_connector_with_linetype(self):
+        """Test lw_connector with different linetypes."""
+        for linetype in [-2, -1, 1, 2]:
+            dia = EnergyDiagram()
+            dia.draw_path(
+                [0, 1, 2],
+                [0, 10, -5],
+                color="blue",
+                linetypes=[linetype, 1],
+                lw_connector=1.5,
+                path_name=f"lw_conn_lt{linetype}",
+            )
+
+    def test_gap_scale_numeric(self):
+        dia = EnergyDiagram()
+        dia.draw_path(
+            [0, 1, 2],
+            [0, 10, -5],
+            color="blue",
+            linetypes=[-1, 1],
+            gap_scale=0.5,
+            path_name="gap_scale_num",
+        )
+
+    def test_gap_scale_sequence(self):
+        dia = EnergyDiagram()
+        dia.draw_path(
+            [0, 1, 2, 3],
+            [0, 10, -5, 15],
+            color="blue",
+            linetypes=[-1, -2, 1],
+            gap_scale=[0.5, 0.75, 1.0],
+            path_name="gap_scale_seq",
+        )
+
+    def test_gap_scale_sequence_length_mismatch(self):
+        dia = EnergyDiagram()
+        with pytest.raises(ValueError):
+            dia.draw_path(
+                [0, 1, 2, 3],
+                [0, 10, -5, 15],
+                color="blue",
+                linetypes=[-1, -2, 1],
+                gap_scale=[0.5, 0.75],  # Only 2 elements instead of 3
+                path_name="gap_scale_mismatch",
+            )
+
+    def test_gap_scale_string_raises_error(self):
+        dia = EnergyDiagram()
+        with pytest.raises(TypeError):
+            dia.draw_path(
+                [0, 1, 2],
+                [0, 10, -5],
+                color="blue",
+                linetypes=[-1, 1],
+                gap_scale="invalid",
+            )
+
+    def test_gap_scale_too_large_raises_error(self):
+        """Test that gap_scale values too large (gap >= 100%) raise an error."""
+        dia = EnergyDiagram()
+        with pytest.raises(ValueError):
+            dia.draw_path(
+                [0, 1, 2],
+                [0, 10, -5],
+                color="blue",
+                linetypes=[-1, 1],
+                gap_scale=100,  # Effectively 100% or more
+                path_name="gap_scale_too_large",
+            )
+
+    def test_linetype_broken_spline_dotted(self):
+        """Test linetype -3 for broken splines with dotted style."""
+        dia = EnergyDiagram()
+        dia.draw_path(
+            [0, 1, 2],
+            [0, 10, -5],
+            color="blue",
+            linetypes=[-3, 1],
+            path_name="broken_spline_dotted",
+        )
+
+    def test_linetype_broken_spline_solid(self):
+        """Test linetype -4 for broken splines with solid style."""
+        dia = EnergyDiagram()
+        dia.draw_path(
+            [0, 1, 2],
+            [0, 10, -5],
+            color="blue",
+            linetypes=[-4, 1],
+            path_name="broken_spline_solid",
+        )
+
+    def test_linetype_broken_spline_with_gap_scale(self):
+        """Test broken splines with custom gap_scale."""
+        dia = EnergyDiagram()
+        dia.draw_path(
+            [0, 1, 2],
+            [0, 10, -5],
+            color="blue",
+            linetypes=[-3, 1],
+            gap_scale=0.6,
+            path_name="broken_spline_gap",
+        )
+
+    def test_all_new_linetypes(self):
+        """All new linetype codes (-3, -4) should not raise."""
+        for lt in [-3, -4]:
+            dia = EnergyDiagram()
+            dia.draw_path([0, 1], [0, 10], color="blue", linetypes=[lt])
+            plt.close("all")
+
+    def test_multiple_linetypes_with_mixed_broken(self):
+        """Test path with mix of regular and broken line styles."""
+        dia = EnergyDiagram()
+        dia.draw_path(
+            [0, 1, 2, 3, 4],
+            [0, 10, -5, 15, 8],
+            color="blue",
+            linetypes=[1, -3, 2, -4],
+            path_name="mixed_linetypes",
+        )
+
+    def test_lw_connector_and_gap_scale_together(self):
+        """Test using both lw_connector and gap_scale parameters together."""
+        dia = EnergyDiagram()
+        dia.draw_path(
+            [0, 1, 2],
+            [0, 10, -5],
+            color="blue",
+            linetypes=[-2, 1],
+            lw_connector=2.0,
+            gap_scale=0.5,
+            path_name="lw_and_gap",
+        )
+
+    def test_lw_connector_zero_raises_error(self):
+        """Test that lw_connector=0 doesn't raise (matplotlib allows it)."""
+        dia = EnergyDiagram()
+        # This should work as matplotlib doesn't restrict zero linewidth
+        dia.draw_path(
+            [0, 1, 2],
+            [0, 10, -5],
+            color="blue",
+            linetypes=[1, 1],
+            lw_connector=0,
+            path_name="lw_zero",
+        )
+
+    def test_gap_scale_zero(self):
+        """Test that gap_scale=0 creates no gap (solid broken line appearance)."""
+        dia = EnergyDiagram()
+        dia.draw_path(
+            [0, 1, 2],
+            [0, 10, -5],
+            color="blue",
+            linetypes=[-1, 1],
+            gap_scale=0,
+            path_name="gap_scale_zero",
+        )
+
 
 # ---------------------------------------------------------------------------
 # set_xlabels
