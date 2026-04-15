@@ -31,6 +31,7 @@ pip install chemdiagrams
 - Axis break markers for both x and y axes
 - Image placement along the diagram, with automatic collision avoidance
 - Full access to the underlying Matplotlib objects for fine-grained customisation
+- Custom templates for consistent styling across multiple diagrams
 
 ## Documentation
 
@@ -734,6 +735,88 @@ img_at_x1.borders["bottom"].set_linestyle("--")
 ## Examples
 
 Examples can be found in the ([documentation](https://tonner-zech-group.github.io/chem-diagrams/)). A set of even more examples is available in [`examples/example_use.ipynb`](https://github.com/Tonner-Zech-Group/chem-diagrams/blob/main/examples/example_use.ipynb). The latter, however, is not actively maintained anymore and may be outdated with respect to the latest version of the package.
+
+## Templates
+
+Templates allow you to customize default settings and diagram behavior for consistent styling across multiple diagrams. They provide a way to override constants, add startup modifications, and define custom methods for diagram creation.
+
+### Using a Built-in Template
+
+chemdiagrams provides pre-configured templates. The default template automatically used if not specified otherwise is `BaseTemplate`. To use a template, pass it as a parameter when creating an `EnergyDiagram`:
+
+```python
+from chemdiagrams import EnergyDiagram
+from chemdiagrams.templates.example_template import ExampleTemplate
+
+# Create a diagram with ExampleTemplate
+dia = EnergyDiagram(template=ExampleTemplate)
+dia.draw_path([0, 1, 2], [0, 10, -5], color="blue")
+```
+
+**Available templates:**
+- `BaseTemplate` — The default template with no modifications
+- `TonnerZechTemplate` — Template style for Tonner & Zech group diagrams
+- `ExampleTemplate` — Example template for demonstration purposes
+
+### Creating a Custom Template
+
+To create your own template, subclass `BaseTemplate` and override the `__init__` and/or `startup` methods. How this can be realized is shown with an [example template](https://github.com/Tonner-Zech-Group/chem-diagrams/blob/main/src/chemdiagrams/templates/example_template.py).
+
+```python
+from chemdiagrams.templates.base_template import BaseTemplate
+
+class ExampleTemplate(BaseTemplate):
+    def __init__(self):
+        """
+        Modyfy constants for Example style diagrams here.
+        e.g. self.constants.DISTANCE_TEXT_DIFFBAR = 0.05
+        """
+        super().__init__()
+        # Change constants here
+        self.constants.WIDTH_PLATEAU = 0.4
+        self.constants.LW_CONNECTOR = 0.6
+
+    def startup(self, diagram):
+        """
+        Startup function to be called at the beginning of the plotting process
+        Here you can modify the diagram object before any plotting is done.
+        """
+        diagram = super().startup(diagram)
+        # Change diagram here
+        diagram.set_diagram_style("open")
+        diagram.ax_objects.axes["x_axis"].remove()
+        diagram.ax.grid(True, which="both", axis="y", ls="--", lw=0.5, zorder=-1)
+        return diagram
+
+    # Example of a custom function to modify the diagram after plotting
+    @staticmethod
+    def color_all_numbers(diagram, color):
+        """Set the colors of all numbers to the specified color"""
+        for path_numbers in diagram.numbers.values():
+            for number in path_numbers.values():
+                number.set_color(color)
+        return diagram
+```
+
+Then place your custom template in the `src/chemdiagrams/templates` directory for reuse across projects. When using the first option, it can be imported with `from chemdiagrams.templates.my_custom_template import MyCustomTemplate`. You can use the custom template by passing it to `EnergyDiagram`:
+
+```python
+from chemdiagrams import EnergyDiagram
+from chemdiagrams.templates.my_custom_template import MyCustomTemplate
+
+dia = EnergyDiagram(template=MyCustomTemplate)
+dia.draw_path([0, 1, 2], [0, 15, -8], color="blue", path_name="reaction")
+```
+
+You can also create the template directly in your script or notebook without saving it as a separate file, and pass the class to `EnergyDiagram` in the same way.
+
+### Template Methods
+
+**`__init__()`** — Override to customize default constants ([link to constants](https://github.com/Tonner-Zech-Group/chem-diagrams/blob/main/src/chemdiagrams/constants.py)).
+
+**`startup(diagram)`** — Called at the beginning of diagram creation. Use to modify the diagram object before any plotting occurs. Must return the modified diagram.
+
+**Custom static methods** — Define any custom post-processing methods you need for diagram modifications.
 
 ## Citation
 

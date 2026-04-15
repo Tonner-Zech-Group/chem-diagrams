@@ -15,7 +15,7 @@ if TYPE_CHECKING:
     from matplotlib.patches import Rectangle
     from matplotlib.text import Annotation
 
-from .. import constants
+from ..constants import Constants
 from ..validation import Validators
 from .difference_manager import DifferenceManager
 from .figure_manager import FigureManager
@@ -34,8 +34,10 @@ class PathManager:
     def __init__(
         self,
         figure_manager: FigureManager,
+        constants: Constants,
     ) -> None:
         self.figure_manager = figure_manager
+        self.constants = constants
         self.path_data: dict[str, dict] = {}
         self.path_label_data: list[dict] = []
         self.mpl_objects: dict[str, PathObject] = {}
@@ -66,7 +68,7 @@ class PathManager:
         if width_plateau is not None:
             Validators.validate_number(width_plateau, "width_plateau", min_value=0)
         else:
-            width_plateau = constants.WIDTH_PLATEAU
+            width_plateau = self.constants.WIDTH_PLATEAU
 
         ALLOWED_LINETYPES = [-4, -3, -2, -1, 0, 1, 2, 3, 4]
         if linetypes is None:
@@ -88,9 +90,9 @@ class PathManager:
 
         if isinstance(lw_plateau, str):
             if lw_plateau == "plateau":
-                lw_plateau = constants.LW_PLATEAU
+                lw_plateau = self.constants.LW_PLATEAU
             elif lw_plateau == "connector":
-                lw_plateau = constants.LW_CONNECTOR
+                lw_plateau = self.constants.LW_CONNECTOR
             else:
                 raise ValueError(
                     "Invalid string value for lw_plateau. "
@@ -102,9 +104,9 @@ class PathManager:
 
         if isinstance(lw_connector, str):
             if lw_connector == "plateau":
-                lw_connector = constants.LW_PLATEAU
+                lw_connector = self.constants.LW_PLATEAU
             elif lw_connector == "connector":
-                lw_connector = constants.LW_CONNECTOR
+                lw_connector = self.constants.LW_CONNECTOR
             else:
                 raise ValueError(
                     "Invalid string value for lw_connector. "
@@ -129,12 +131,12 @@ class PathManager:
             Validators.validate_number(gap_scale, "gap_scale", min_value=0)
             gap_scale = [gap_scale] * (len(x_data) - 1)
         for val in gap_scale:
-            if val * constants.BROKEN_LINE_GAP >= 1:
+            if val * self.constants.BROKEN_LINE_GAP >= 1:
                 raise ValueError(
                     f"gap_scale values must be small enough that the "
                     f"gap in broken line styles is less than 100% of the line length. "
                     f"Currently, gap_scale * BROKEN_LINE_GAP "
-                    f"= {val * constants.BROKEN_LINE_GAP}."
+                    f"= {val * self.constants.BROKEN_LINE_GAP}."
                 )
 
         # Save data for numbering or legend
@@ -170,7 +172,7 @@ class PathManager:
                     v,
                     x_corners[-2],
                     x_corners[-1],
-                    zorder=constants.ZORDER_PLATEAU,
+                    zorder=self.constants.ZORDER_PLATEAU,
                     lw=lw_plateau,
                     color=color,
                     capstyle="round",
@@ -224,6 +226,7 @@ class PathManager:
                 x = self.path_data[path_name]["x"][i]
                 y = self.path_data[path_name]["y"][i]
                 label_artist = StyleManager._add_label_in_plot(
+                    constants=self.constants,
                     figure_manager=self.figure_manager,
                     margins=margins,
                     figsize=figsize,
@@ -311,29 +314,29 @@ class PathManager:
         full_plateau_right.remove()
 
         # Print plateaus
-        gap = constants.MERGED_PLATEAU_GAP * gap_scale
+        gap = self.constants.MERGED_PLATEAU_GAP * gap_scale
         plateau_left = self.figure_manager.ax.hlines(
             y,
-            x - constants.WIDTH_PLATEAU / 2,
+            x - self.constants.WIDTH_PLATEAU / 2,
             x - gap / 2,
-            zorder=constants.ZORDER_PLATEAU,
-            lw=constants.LW_PLATEAU,
+            zorder=self.constants.ZORDER_PLATEAU,
+            lw=self.constants.LW_PLATEAU,
             color=color_left,
             capstyle="round",
         )
         plateau_right = self.figure_manager.ax.hlines(
             y,
-            x + constants.WIDTH_PLATEAU / 2,
+            x + self.constants.WIDTH_PLATEAU / 2,
             x + gap / 2,
-            zorder=constants.ZORDER_PLATEAU,
-            lw=constants.LW_PLATEAU,
+            zorder=self.constants.ZORDER_PLATEAU,
+            lw=self.constants.LW_PLATEAU,
             color=color_right,
             capstyle="round",
         )
 
         # Draw white rectangle to
         cover_width = DifferenceManager._get_axis_break_whitespace_cover_width(
-            margins, figsize
+            self.constants, margins, figsize
         )
 
         # Add white covering reactange
@@ -344,11 +347,12 @@ class PathManager:
             cover_width,
             facecolor="white",
             edgecolor="white",
-            zorder=constants.ZORDER_MERGED_PLATEAU_COVER,
+            zorder=self.constants.ZORDER_MERGED_PLATEAU_COVER,
         )
 
         # Calculate stopper direction in data coordinates
         delta_x, delta_y = DifferenceManager._get_axis_break_stopper_differences(
+            self.constants,
             margins,
             figsize,
             angle,
@@ -361,11 +365,11 @@ class PathManager:
             arrowprops=dict(
                 arrowstyle="|-|",
                 color=color_left,
-                lw=constants.LW_MERGED_PLATEAU_STOPPER,
+                lw=self.constants.LW_MERGED_PLATEAU_STOPPER,
                 shrinkA=15,
                 shrinkB=15,
-                mutation_scale=constants.SIZE_MERGED_PLATEAU_STOPPER * stopper_scale,
-                zorder=constants.ZORDER_MERGED_PLATEAU_STOPPER,
+                mutation_scale=self.constants.SIZE_MERGED_PLATEAU_STOPPER * stopper_scale,
+                zorder=self.constants.ZORDER_MERGED_PLATEAU_STOPPER,
             ),
         )
         stopper_right = self.figure_manager.ax.annotate(
@@ -375,16 +379,17 @@ class PathManager:
             arrowprops=dict(
                 arrowstyle="|-|",
                 color=color_right,
-                lw=constants.LW_MERGED_PLATEAU_STOPPER,
+                lw=self.constants.LW_MERGED_PLATEAU_STOPPER,
                 shrinkA=15,
                 shrinkB=15,
-                mutation_scale=constants.SIZE_MERGED_PLATEAU_STOPPER * stopper_scale,
-                zorder=constants.ZORDER_MERGED_PLATEAU_STOPPER,
+                mutation_scale=self.constants.SIZE_MERGED_PLATEAU_STOPPER * stopper_scale,
+                zorder=self.constants.ZORDER_MERGED_PLATEAU_STOPPER,
             ),
         )
 
         # Save mpl objects get a pointer for angle correction
         merged_plateau = MergedPlateau(
+            self.constants,
             plateau_left,
             plateau_right,
             stopper_left,
@@ -474,7 +479,7 @@ class PathManager:
         return self.figure_manager.ax.plot(
             x_coords,
             y_coords,
-            zorder=constants.ZORDER_CONNECTOR,
+            zorder=self.constants.ZORDER_CONNECTOR,
             ls=ls,
             lw=lw,
             color=color,
@@ -490,7 +495,7 @@ class PathManager:
         dotted: bool = True,
     ) -> BrokenLine:
         # Portion of the line that has a gap
-        linegap = constants.BROKEN_LINE_GAP * gap_scale
+        linegap = self.constants.BROKEN_LINE_GAP * gap_scale
         # Ensure tuples are converted to list
         x_coords = list(x_coords)
         y_coords = list(y_coords)
@@ -523,11 +528,11 @@ class PathManager:
             arrowprops=dict(
                 arrowstyle="|-|",
                 color=color,
-                lw=constants.LW_BROKEN_LINE_STOPPER,
+                lw=self.constants.LW_BROKEN_LINE_STOPPER,
                 shrinkA=15,
                 shrinkB=15,
-                mutation_scale=constants.SIZE_BROKEN_LINE_STOPPER,
-                zorder=constants.ZORDER_BROKEN_LINE_STOPPER,
+                mutation_scale=self.constants.SIZE_BROKEN_LINE_STOPPER,
+                zorder=self.constants.ZORDER_BROKEN_LINE_STOPPER,
             ),
         )
         stopper_2 = self.figure_manager.ax.annotate(
@@ -537,11 +542,11 @@ class PathManager:
             arrowprops=dict(
                 arrowstyle="|-|",
                 color=color,
-                lw=constants.LW_BROKEN_LINE_STOPPER,
+                lw=self.constants.LW_BROKEN_LINE_STOPPER,
                 shrinkA=15,
                 shrinkB=15,
-                mutation_scale=constants.SIZE_BROKEN_LINE_STOPPER,
-                zorder=constants.ZORDER_BROKEN_LINE_STOPPER,
+                mutation_scale=self.constants.SIZE_BROKEN_LINE_STOPPER,
+                zorder=self.constants.ZORDER_BROKEN_LINE_STOPPER,
             ),
         )
         return BrokenLine(line_1, line_2, stopper_1, stopper_2)
@@ -567,7 +572,7 @@ class PathManager:
         return self.figure_manager.ax.plot(
             x_spline,
             y_spline,
-            zorder=constants.ZORDER_CONNECTOR,
+            zorder=self.constants.ZORDER_CONNECTOR,
             ls=ls,
             lw=lw,
             color=color,
@@ -583,7 +588,7 @@ class PathManager:
         dotted: bool = True,
     ) -> list[Line2D] | BrokenLine:
         # Portion of the line that has a gap
-        linegap = constants.BROKEN_LINE_GAP * gap_scale
+        linegap = self.constants.BROKEN_LINE_GAP * gap_scale
         cs = CubicSpline(x_coords, y_coords, bc_type="clamped")
         x_spline = np.linspace(x_coords[0], x_coords[-1], 100)
         y_spline = cs(x_spline)
@@ -619,11 +624,11 @@ class PathManager:
             arrowprops=dict(
                 arrowstyle="|-|",
                 color=color,
-                lw=constants.LW_BROKEN_LINE_STOPPER,
+                lw=self.constants.LW_BROKEN_LINE_STOPPER,
                 shrinkA=15,
                 shrinkB=15,
-                mutation_scale=constants.SIZE_BROKEN_LINE_STOPPER,
-                zorder=constants.ZORDER_BROKEN_LINE_STOPPER,
+                mutation_scale=self.constants.SIZE_BROKEN_LINE_STOPPER,
+                zorder=self.constants.ZORDER_BROKEN_LINE_STOPPER,
             ),
         )
         stopper_2 = self.figure_manager.ax.annotate(
@@ -638,11 +643,11 @@ class PathManager:
             arrowprops=dict(
                 arrowstyle="|-|",
                 color=color,
-                lw=constants.LW_BROKEN_LINE_STOPPER,
+                lw=self.constants.LW_BROKEN_LINE_STOPPER,
                 shrinkA=15,
                 shrinkB=15,
-                mutation_scale=constants.SIZE_BROKEN_LINE_STOPPER,
-                zorder=constants.ZORDER_BROKEN_LINE_STOPPER,
+                mutation_scale=self.constants.SIZE_BROKEN_LINE_STOPPER,
+                zorder=self.constants.ZORDER_BROKEN_LINE_STOPPER,
             ),
         )
         return BrokenLine(line_1, line_2, stopper_1, stopper_2)
@@ -662,7 +667,7 @@ class PathManager:
         return self.figure_manager.ax.plot(
             x_coords,
             y_coords,
-            zorder=constants.ZORDER_CONNECTOR,
+            zorder=self.constants.ZORDER_CONNECTOR,
             ls=ls,
             lw=lw,
             color=color,
@@ -687,18 +692,6 @@ class PathManager:
             / figsize[1]
         )
         return delta_x, delta_y
-
-    @staticmethod
-    def _get_whitespace_cover_width(
-        margins: dict[str, tuple],
-        figsize: tuple[float, float],
-    ) -> float:
-        cover_width = (
-            constants.MERGED_PLATEAU_COVER_WIDTH
-            * (margins["y"][1] - margins["y"][0])
-            / figsize[1]
-        )
-        return cover_width
 
 
 @dataclass
@@ -772,11 +765,6 @@ class BrokenLine:
 
 @dataclass
 class MergedPlateau:
-    plateau_left: LineCollection
-    plateau_right: LineCollection
-    stopper_left: Annotation
-    stopper_right: Annotation
-    whitespace: Rectangle
     """
     Container for the Matplotlib artists that make up a merged plateau pair.
 
@@ -798,6 +786,13 @@ class MergedPlateau:
         White rectangle covering the gap between the two half-plateaus,
         used to hide any underlying plateau or connector artifacts.
     """
+
+    constants: Constants
+    plateau_left: LineCollection
+    plateau_right: LineCollection
+    stopper_left: Annotation
+    stopper_right: Annotation
+    whitespace: Rectangle
 
     def remove(self):
         self.plateau_left.remove()
@@ -829,6 +824,7 @@ class MergedPlateau:
             as originally passed to ``merge_plateaus``.
         """
         delta_x, delta_y = DifferenceManager._get_axis_break_stopper_differences(
+            self.constants,
             margins,
             figsize,
             angle,
@@ -838,7 +834,7 @@ class MergedPlateau:
         self.stopper_left.set_position((x_left + delta_x, y_left + delta_y))
         self.stopper_right.set_position((x_right - delta_x, y_right - delta_y))
         cover_width = DifferenceManager._get_axis_break_whitespace_cover_width(
-            margins, figsize
+            self.constants, margins, figsize
         )
         self.whitespace.set_height(cover_width)
         y_whitespace = self.whitespace.get_y()
