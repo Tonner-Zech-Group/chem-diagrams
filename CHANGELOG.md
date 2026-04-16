@@ -8,7 +8,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Added
 
-- Option to use custom templates for diagram styling and layout. Users can create their own templates by subclassing `BaseTemplate` and overriding default constants and the `startup()` method for custom diagram initialization.
+- Option to use custom templates for diagram styling and layout. Users can create their own templates by subclassing `BaseTemplate` and overriding default constants and the `startup()` method for custom diagram initialization. Furthermore, static methods can be defined for automating common tasks. See the [documentation](https://tonner-zech-group.github.io/chem-diagrams/templates/) for details and an example template.
 
 ## [0.3.0] — 2026-04-02
 
