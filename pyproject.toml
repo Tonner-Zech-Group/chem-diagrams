@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "chemdiagrams"
-version = "0.3.0"
+version = "0.4.0"
 description = "Publication-quality reaction energy diagrams for computational chemistry"
 keywords = ["chemistry", "energy diagram", "reaction profile", "potential energy surface", "matplotlib", "computational chemistry", "theoretical chemistry", "visualization"]
 readme = "README.md"

@@ -15,6 +15,7 @@ nav:
   - Methods: methods.md
   - Usage: usage.md
   - Examples: examples.md
+  - Templates: templates.md
   - API Reference: api/  # populated by the gen script
   - About: about.md
 

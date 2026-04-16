@@ -12,7 +12,6 @@ if TYPE_CHECKING:
     from matplotlib.figure import Figure
     from matplotlib.text import Text
 
-from . import constants
 from .managers import (
     BarManager,
     DifferenceBar,
@@ -25,6 +24,7 @@ from .managers import (
     StyleManager,
     StyleObjects,
 )
+from .templates.base_template import BaseTemplate
 from .validation import Validators
 
 
@@ -36,7 +36,9 @@ class EnergyDiagram:
     reaction energy profiles, including reaction paths, images,
     energy difference bars, labels, legends, and numerical
     annotations. Layout, scaling, and styling are handled
-    automatically based on the plotted data.
+    automatically based on the plotted data. It is also possible to
+    customize the appearance and behavior of the diagram through
+    predefined styles and user-defined templates.
 
     Parameters
     ----------
@@ -61,6 +63,9 @@ class EnergyDiagram:
         Diagram style preset.
     dpi : int, optional
         Figure resolution in dots per inch. Default is 150.
+    template : instance of BaseTemplate, optional
+        Template class for customizing default settings and startup behavior.
+        Default is an instance of BaseTemplate with no modifications.
 
     Attributes
     ----------
@@ -150,28 +155,54 @@ class EnergyDiagram:
         extra_y_margin: tuple[float, float] | list[float] = (0, 0),
         width_limit: float | None = None,
         figsize: tuple[float, float] | list[float] | None = None,
-        fontsize: int = constants.STD_FONTSIZE,
+        fontsize: int | None = None,
         verbose: bool = False,
-        style: str = "open",
-        dpi: int = 150,
+        style: str | None = None,
+        dpi: int | None = None,
+        template: BaseTemplate = BaseTemplate(),
     ):
+        # Check that template is a BaseTemplate or subclass thereof
+        if isinstance(template, type):
+            raise TypeError(
+                "template must be an instance not a class. "
+                "Instantiate the template before passing it to EnergyDiagram. "
+                "E.g. use template=ExampleTemplate() instead of template=ExampleTemplate."
+            )
+        if not isinstance(template, BaseTemplate):
+            raise TypeError("template must be a subclass of BaseTemplate.")
+        constants = template.constants
+        if width_limit is None:
+            width_limit = constants.DEFAULT_WIDTH_LIMIT
+        if fontsize is None:
+            fontsize = constants.STD_FONTSIZE
+        if style is None:
+            style = constants.DEFAULT_STYLE
+        if dpi is None:
+            dpi = constants.DEFAULT_DPI
+
+        # Initialize managers
         self._figure_manager = FigureManager(fontsize=fontsize, dpi=dpi)
-        self._path_manager = PathManager(self._figure_manager)
-        self._number_manager = NumberManager(self._figure_manager)
-        self._style_manager = StyleManager(self._figure_manager, style=style)
+        self._path_manager = PathManager(self._figure_manager, constants=constants)
+        self._number_manager = NumberManager(self._figure_manager, constants=constants)
+        self._style_manager = StyleManager(
+            self._figure_manager, constants=constants, style=style
+        )
         self._layout_manager = LayoutManager(
             self._figure_manager,
+            constants=constants,
             extra_x_margin=extra_x_margin,
             extra_y_margin=extra_y_margin,
             width_limit=width_limit,
             figsize=figsize,
         )
-        self._bar_manager = BarManager(self._figure_manager)
-        self._image_manager = ImageManager(self._figure_manager)
+        self._bar_manager = BarManager(self._figure_manager, constants=constants)
+        self._image_manager = ImageManager(self._figure_manager, constants=constants)
         self.verbose = verbose
         self.margins = self._layout_manager.adjust_xy_limits(self._path_manager.path_data)
         self.figsize = self._layout_manager.scale_figure(self._path_manager.path_data)
         self.set_xlabels([])
+        # Run the startup function of the template
+        self = template.startup(self)
 
     def draw_difference_bar(
         self,

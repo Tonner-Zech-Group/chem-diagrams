@@ -4,7 +4,7 @@ from re import findall
 
 import numpy as np
 
-from .. import constants
+from ..constants import Constants
 
 
 class DifferenceManager:
@@ -17,6 +17,7 @@ class DifferenceManager:
 
     @staticmethod
     def _get_diff_img_plateau(
+        constants: Constants,
         margins: dict[str, tuple],
         figsize: tuple[float, float],
     ) -> float:
@@ -28,7 +29,10 @@ class DifferenceManager:
 
     @staticmethod
     def _get_diff_img_number(
-        margins: dict[str, tuple], figsize: tuple[float, float], fontsize
+        constants: Constants,
+        margins: dict[str, tuple],
+        figsize: tuple[float, float],
+        fontsize: int,
     ) -> float:
         """Compute vertical spacing value for image number distance in data coordinates."""
         diff_to_number = (
@@ -41,6 +45,7 @@ class DifferenceManager:
 
     @staticmethod
     def _get_diff_img_label(
+        constants: Constants,
         margins: dict[str, tuple],
         figsize: tuple[float, float],
         fontsize: int,
@@ -61,6 +66,7 @@ class DifferenceManager:
 
     @staticmethod
     def _get_diff_plateau_label(
+        constants: Constants,
         margins: dict[str, tuple],
         figsize: tuple[float, float],
         fontsize: int,
@@ -78,6 +84,7 @@ class DifferenceManager:
 
     @staticmethod
     def _get_number_diffs(
+        constants: Constants,
         margins: dict[str, tuple],
         figsize: tuple[float, float],
         fontsize: int,
@@ -112,6 +119,7 @@ class DifferenceManager:
 
     @staticmethod
     def _get_axis_break_stopper_differences(
+        constants: Constants,
         margins: dict[str, tuple],
         figsize: tuple[float, float],
         angle: float,
@@ -135,6 +143,7 @@ class DifferenceManager:
 
     @staticmethod
     def _get_axis_break_whitespace_cover_width(
+        constants: Constants,
         margins: dict[str, tuple],
         figsize: tuple[float, float],
     ) -> float:

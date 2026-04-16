@@ -11,7 +11,7 @@ if TYPE_CHECKING:
     from matplotlib.lines import Line2D
 
 
-from .. import constants
+from ..constants import Constants
 from ..validation import Validators
 from .difference_manager import DifferenceManager
 from .figure_manager import FigureManager
@@ -32,8 +32,10 @@ class ImageManager:
     def __init__(
         self,
         figure_manager: FigureManager,
+        constants: Constants,
     ) -> None:
         self.figure_manager = figure_manager
+        self.constants = constants
         self.image_series_data: dict = {}
         self.has_image_series = False
         self.solo_image_data: dict = {}
@@ -189,7 +191,7 @@ class ImageManager:
             width = [width] * len(img_paths)
         elif width is None:
             # Only set width to default if no height value for same image
-            width = [constants.IMAGE_WIDTH if value is None else None for value in height]
+            width = [self.constants.IMAGE_WIDTH if value is None else None for value in height]
         else:
             raise TypeError("width must be a Sequence, numeric value or None.")
 
@@ -220,7 +222,11 @@ class ImageManager:
             x = img_x_places[index]
 
             # Avoid collision with plateaus
-            diff_to_plateau = DifferenceManager._get_diff_img_plateau(margins, figsize)
+            diff_to_plateau = DifferenceManager._get_diff_img_plateau(
+                self.constants,
+                margins,
+                figsize,
+            )
             all_values_at_x = NumberManager._get_all_values_at_x(path_data, x)
             if all_values_at_x:
                 y_min_top = max(all_values_at_x) + diff_to_plateau
@@ -236,7 +242,7 @@ class ImageManager:
                     number_fontsize = numbers[f"{x:.1f}"].get_fontsize()
                     number_y = numbers[f"{x:.1f}"].get_position()[1]
                     diff_to_number = DifferenceManager._get_diff_img_number(
-                        margins, figsize, number_fontsize
+                        self.constants, margins, figsize, number_fontsize
                     )
                     if number_y + diff_to_number > y_min_top:
                         y_min_top = number_y + diff_to_number
@@ -251,7 +257,7 @@ class ImageManager:
                 label_y = xlabel_mpl_objects[f"{x:.1f}"].get_position()[1]
                 labeltext = xlabel_mpl_objects[f"{x:.1f}"].get_text()
                 diff_to_label = DifferenceManager._get_diff_img_label(
-                    margins, figsize, label_fontsize, labeltext
+                    self.constants, margins, figsize, label_fontsize, labeltext
                 )
                 if label_y + diff_to_label > y_min_top:
                     y_min_top = label_y + diff_to_label
@@ -267,7 +273,7 @@ class ImageManager:
                     label_y = paths_obj.labels[f"{x:.1f}"].get_position()[1]
                     labeltext = paths_obj.labels[f"{x:.1f}"].get_text()
                     diff_to_label = DifferenceManager._get_diff_img_label(
-                        margins, figsize, label_fontsize, labeltext
+                        self.constants, margins, figsize, label_fontsize, labeltext
                     )
                     if label_y + diff_to_label > y_min_top:
                         y_min_top = label_y + diff_to_label
@@ -375,9 +381,9 @@ class ImageManager:
             return self.figure_manager.ax.plot(
                 x_coords,
                 y_coords,
-                zorder=constants.ZORDER_IMAGE_FRAME,
+                zorder=self.constants.ZORDER_IMAGE_FRAME,
                 ls="-",
-                lw=constants.LW_IMAGE_FRAME,
+                lw=self.constants.LW_IMAGE_FRAME,
                 color=frame_color,
             )[0]
 
@@ -398,7 +404,7 @@ class ImageManager:
         positimg_height_px = img_file.shape[0]
         img_width_px = img_file.shape[1]
         if width is None and height is None:
-            width = constants.IMAGE_WIDTH
+            width = self.constants.IMAGE_WIDTH
             height = (
                 width
                 * positimg_height_px

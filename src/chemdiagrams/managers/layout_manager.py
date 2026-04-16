@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from .. import constants
+from ..constants import Constants
 from ..validation import Validators
 from .figure_manager import FigureManager
 
@@ -17,6 +17,7 @@ class LayoutManager:
     def __init__(
         self,
         figure_manager: FigureManager,
+        constants: Constants,
         extra_x_margin: tuple[float, float] | list[float],
         extra_y_margin: tuple[float, float] | list[float],
         width_limit: float | None = None,
@@ -34,6 +35,7 @@ class LayoutManager:
         Validators.validate_number(width_limit, "width_limit", min_value=0, allow_none=True)
 
         self.figure_manager = figure_manager
+        self.constants = constants
         self.figsize = figsize
         self.extra_x_margin = extra_x_margin
         self.extra_y_margin = extra_y_margin
@@ -81,16 +83,16 @@ class LayoutManager:
         # Adjust the axis limits
         margins = {
             "x": (
-                min(x_all) + constants.DEFAULT_X_MARGINS[0] + self.extra_x_margin[0],
-                max(x_all) + constants.DEFAULT_X_MARGINS[1] + self.extra_x_margin[1],
+                min(x_all) + self.constants.DEFAULT_X_MARGINS[0] + self.extra_x_margin[0],
+                max(x_all) + self.constants.DEFAULT_X_MARGINS[1] + self.extra_x_margin[1],
             ),
             "y": (
                 min(y_all)
                 + (max(y_all) - min(y_all))
-                * (constants.DEFAULT_Y_MARGINS[0] + self.extra_y_margin[0]),
+                * (self.constants.DEFAULT_Y_MARGINS[0] + self.extra_y_margin[0]),
                 max(y_all)
                 + (max(y_all) - min(y_all))
-                * (constants.DEFAULT_Y_MARGINS[1] + self.extra_y_margin[1]),
+                * (self.constants.DEFAULT_Y_MARGINS[1] + self.extra_y_margin[1]),
             ),
         }
         self.figure_manager.ax.set_xlim(margins["x"])
@@ -105,7 +107,7 @@ class LayoutManager:
         If a fixed ``figsize`` was provided at construction, that size is
         applied directly. Otherwise, width is derived from the x data range
         and capped at ``width_limit`` (unless ``width_limit`` is
-        None), and height is set to ``constants.HEIGHT`` or the width,
+        None), and height is set to ``self.constants.HEIGHT`` or the width,
         whichever is smaller, to avoid disproportionate figures.
 
         Parameters
@@ -124,7 +126,7 @@ class LayoutManager:
             margins = self.adjust_xy_limits(path_data)
 
             # Determine and set width
-            x_size = constants.X_SCALE * (margins["x"][1] - margins["x"][0])
+            x_size = self.constants.X_SCALE * (margins["x"][1] - margins["x"][0])
             if self.width_limit is not None and x_size > self.width_limit:
                 x_size = self.width_limit
             if x_size <= 0:  # Avoid a figure without size
@@ -132,7 +134,7 @@ class LayoutManager:
             self.figure_manager.fig.set_figwidth(x_size)
 
             # Determine and set height
-            y_size = constants.FIG_HEIGHT
+            y_size = self.constants.FIG_HEIGHT
             if y_size > x_size:
                 y_size = x_size  # Avoid ugly diagrams
             self.figure_manager.fig.set_figheight(y_size)

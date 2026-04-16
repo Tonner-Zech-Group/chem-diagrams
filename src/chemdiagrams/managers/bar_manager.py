@@ -8,8 +8,7 @@ if TYPE_CHECKING:
     from matplotlib.lines import Line2D
     from matplotlib.text import Annotation, Text
 
-
-from .. import constants
+from ..constants import Constants
 from ..validation import Validators
 from .figure_manager import FigureManager
 
@@ -27,8 +26,10 @@ class BarManager:
     def __init__(
         self,
         figure_manager: FigureManager,
+        constants: Constants,
     ) -> None:
         self.figure_manager = figure_manager
+        self.constants = constants
         self.mpl_objects: list = []
 
     def draw_difference_bar(
@@ -67,7 +68,7 @@ class BarManager:
 
         # Automatic scaling of diff
         if diff is None:
-            diff = constants.DISTANCE_TEXT_DIFFBAR
+            diff = self.constants.DISTANCE_TEXT_DIFFBAR
             diff *= margins["x"][1] - margins["x"][0]
             diff /= figsize[0]
 
@@ -118,9 +119,9 @@ class BarManager:
                 whisker = self.figure_manager.ax.plot(
                     (x_whisker, x),
                     (y_start_end[i], y_start_end[i]),
-                    zorder=constants.ZORDER_WHISKER,
+                    zorder=self.constants.ZORDER_WHISKER,
                     ls=":",
-                    lw=constants.LW_WHISKER,
+                    lw=self.constants.LW_WHISKER,
                     color=whiskercolor,
                 )[0]
                 if i == 0:

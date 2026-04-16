@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [0.4.0] — 2026-04-16
+
+### Added
+
+- Option to use custom templates for diagram styling and layout. Users can create their own templates by subclassing `BaseTemplate` and overriding default constants and the `startup()` method for custom diagram initialization.
+
 ## [0.3.0] — 2026-04-02
 
 ### Added

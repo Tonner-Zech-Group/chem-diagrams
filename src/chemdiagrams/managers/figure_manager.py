@@ -7,7 +7,6 @@ import matplotlib.pyplot as plt
 if TYPE_CHECKING:
     pass
 
-from .. import constants
 from ..validation import Validators
 
 
@@ -22,7 +21,7 @@ class FigureManager:
 
     def __init__(
         self,
-        fontsize: int = constants.STD_FONTSIZE,
+        fontsize: int,
         dpi: int = 150,
     ) -> None:
         """
