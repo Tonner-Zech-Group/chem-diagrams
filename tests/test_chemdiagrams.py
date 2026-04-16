@@ -1728,7 +1728,7 @@ class TestTemplates:
         """EnergyDiagram should accept a custom template class."""
         from chemdiagrams.templates.example_template import ExampleTemplate
 
-        dia = EnergyDiagram(template=ExampleTemplate)
+        dia = EnergyDiagram(template=ExampleTemplate())
         assert isinstance(dia, EnergyDiagram)
 
     def test_invalid_template_raises_type_error(self):
@@ -1738,7 +1738,7 @@ class TestTemplates:
             pass
 
         with pytest.raises(TypeError):
-            EnergyDiagram(template=NotATemplate)
+            EnergyDiagram(template=NotATemplate())
 
     def test_template_constants_override(self):
         """Template should override default constants."""
@@ -1746,10 +1746,10 @@ class TestTemplates:
         from chemdiagrams.templates.example_template import ExampleTemplate
 
         # Create diagram with ExampleTemplate
-        dia_example = EnergyDiagram(template=ExampleTemplate)
+        dia_example = EnergyDiagram(template=ExampleTemplate())
         dia_example.draw_path([0, 1, 2], [0, 10, -5], color="blue")
         # Create diagram with BaseTemplate
-        dia_base = EnergyDiagram(template=BaseTemplate)
+        dia_base = EnergyDiagram(template=BaseTemplate())
         dia_base.draw_path([0, 1, 2], [0, 10, -5], color="blue")
 
         # ExampleTemplate modifies WIDTH_PLATEAU and LW_CONNECTOR in __init__
@@ -1775,7 +1775,7 @@ class TestTemplates:
         """The template's startup method should be called during initialization."""
         from chemdiagrams.templates.example_template import ExampleTemplate
 
-        dia = EnergyDiagram(template=ExampleTemplate)
+        dia = EnergyDiagram(template=ExampleTemplate())
         # ExampleTemplate.startup adds a grid
         # Check that the grid is enabled
         assert dia.ax.get_xgridlines() or dia.ax.get_ygridlines()
@@ -1784,7 +1784,7 @@ class TestTemplates:
         """ExampleTemplate should add a grid to the diagram's axes."""
         from chemdiagrams.templates.example_template import ExampleTemplate
 
-        dia = EnergyDiagram(template=ExampleTemplate)
+        dia = EnergyDiagram(template=ExampleTemplate())
         dia.draw_path([0, 1, 2], [0, 10, -5], color="blue")
 
         # The startup method in ExampleTemplate adds grid
@@ -1796,14 +1796,14 @@ class TestTemplates:
         """TonnerZechTemplate should initialize without errors."""
         from chemdiagrams.templates.tonner_zech_template import TonnerZechTemplate
 
-        dia = EnergyDiagram(template=TonnerZechTemplate)
+        dia = EnergyDiagram(template=TonnerZechTemplate())
         assert isinstance(dia, EnergyDiagram)
 
     def test_template_with_multiple_paths(self):
         """Templates should work correctly with multiple paths."""
         from chemdiagrams.templates.example_template import ExampleTemplate
 
-        dia = EnergyDiagram(template=ExampleTemplate)
+        dia = EnergyDiagram(template=ExampleTemplate())
         dia.draw_path([0, 1, 2], [0, 10, -5], color="blue", path_name="path_A")
         dia.draw_path([0, 1, 2], [0, 5, -10], color="red", path_name="path_B")
 
@@ -1814,7 +1814,7 @@ class TestTemplates:
         from chemdiagrams.templates.example_template import ExampleTemplate
 
         dia = (
-            EnergyDiagram(template=ExampleTemplate)
+            EnergyDiagram(template=ExampleTemplate())
             .draw_path([0, 1, 2], [0, 10, -5], color="blue")
             .draw_path([0, 1, 2], [0, 5, -10], color="red")
         )
@@ -1825,7 +1825,7 @@ class TestTemplates:
         """ExampleTemplate custom methods should be callable."""
         from chemdiagrams.templates.example_template import ExampleTemplate
 
-        dia = EnergyDiagram(template=ExampleTemplate)
+        dia = EnergyDiagram(template=ExampleTemplate())
         dia.draw_path([0, 1, 2], [0, 10, -5], color="blue", path_name="path_A")
         dia.add_numbers_naive()
 
@@ -1840,7 +1840,7 @@ class TestTemplates:
         """Using a template should not break normal diagram functionality."""
         from chemdiagrams.templates.example_template import ExampleTemplate
 
-        dia = EnergyDiagram(template=ExampleTemplate)
+        dia = EnergyDiagram(template=ExampleTemplate())
         dia.draw_path([0, 1, 2, 3], [0, 15, -8, 10], color="blue", path_name="reaction")
         dia.add_path_labels("reaction", ["A", "TS1", "IM", "P"])
         dia.add_numbers_naive()
@@ -1854,7 +1854,7 @@ class TestTemplates:
         """Template should work with custom figure size parameters."""
         from chemdiagrams.templates.example_template import ExampleTemplate
 
-        dia = EnergyDiagram(template=ExampleTemplate, figsize=(10, 6))
+        dia = EnergyDiagram(template=ExampleTemplate(), figsize=(10, 6))
         w, h = dia.fig.get_size_inches()
         assert w == pytest.approx(10)
         assert h == pytest.approx(6)
@@ -1863,14 +1863,14 @@ class TestTemplates:
         """Template should work with custom font size."""
         from chemdiagrams.templates.example_template import ExampleTemplate
 
-        dia = EnergyDiagram(template=ExampleTemplate, fontsize=14)
+        dia = EnergyDiagram(template=ExampleTemplate(), fontsize=14)
         assert dia._figure_manager.fontsize == 14
 
     def test_template_with_custom_style(self):
         """Template should work with custom diagram styles."""
         from chemdiagrams.templates.example_template import ExampleTemplate
 
-        dia = EnergyDiagram(template=ExampleTemplate, style="boxed")
+        dia = EnergyDiagram(template=ExampleTemplate(), style="boxed")
         assert isinstance(dia, EnergyDiagram)
 
     def test_template_with_custom_margins(self):
@@ -1878,7 +1878,7 @@ class TestTemplates:
         from chemdiagrams.templates.example_template import ExampleTemplate
 
         dia = EnergyDiagram(
-            template=ExampleTemplate, extra_x_margin=(0.5, 0.5), extra_y_margin=(0.1, 0.1)
+            template=ExampleTemplate(), extra_x_margin=(0.5, 0.5), extra_y_margin=(0.1, 0.1)
         )
         assert isinstance(dia, EnergyDiagram)
 
@@ -1887,8 +1887,8 @@ class TestTemplates:
         from chemdiagrams.templates.base_template import BaseTemplate
         from chemdiagrams.templates.example_template import ExampleTemplate
 
-        dia1 = EnergyDiagram(template=ExampleTemplate)
-        dia2 = EnergyDiagram(template=BaseTemplate)
+        dia1 = EnergyDiagram(template=ExampleTemplate())
+        dia2 = EnergyDiagram(template=BaseTemplate())
         dia1.draw_path([0, 1, 2], [0, 10, -5], color="blue")
         dia2.draw_path([0, 1, 2], [0, 10, -5], color="red")
 

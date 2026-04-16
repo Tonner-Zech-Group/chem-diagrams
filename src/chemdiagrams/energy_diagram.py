@@ -63,8 +63,9 @@ class EnergyDiagram:
         Diagram style preset.
     dpi : int, optional
         Figure resolution in dots per inch. Default is 150.
-    template : type of BaseTemplate, optional
+    template : instance of BaseTemplate, optional
         Template class for customizing default settings and startup behavior.
+        Default is an instance of BaseTemplate with no modifications.
 
     Attributes
     ----------
@@ -158,14 +159,18 @@ class EnergyDiagram:
         verbose: bool = False,
         style: str | None = None,
         dpi: int | None = None,
-        template: type[BaseTemplate] = BaseTemplate,
+        template: BaseTemplate = BaseTemplate(),
     ):
-        # Check that template is BaseTemplate or subclass thereof
-        if not issubclass(template, BaseTemplate):
+        # Check that template is a BaseTemplate or subclass thereof
+        if isinstance(template, type):
+            raise TypeError(
+                "template must be an instance not a class. "
+                "Instantiate the template before passing it to EnergyDiagram. "
+                "E.g. use template=ExampleTemplate() instead of template=ExampleTemplate."
+            )
+        if not isinstance(template, BaseTemplate):
             raise TypeError("template must be a subclass of BaseTemplate.")
-        # Initialize the template and extract constants
-        template_instance = template()
-        constants = template_instance.constants
+        constants = template.constants
         if width_limit is None:
             width_limit = constants.DEFAULT_WIDTH_LIMIT
         if fontsize is None:
@@ -197,7 +202,7 @@ class EnergyDiagram:
         self.figsize = self._layout_manager.scale_figure(self._path_manager.path_data)
         self.set_xlabels([])
         # Run the startup function of the template
-        self = template_instance.startup(self)
+        self = template.startup(self)
 
     def draw_difference_bar(
         self,

@@ -3,6 +3,7 @@
 [![PyPI version](https://img.shields.io/pypi/v/chemdiagrams.svg)](https://pypi.org/project/chemdiagrams/)
 [![Python versions](https://img.shields.io/pypi/pyversions/chemdiagrams.svg)](https://pypi.org/project/chemdiagrams/)
 [![Documentation](https://img.shields.io/badge/docs-GitHub%20Pages-blue)](https://tonner-zech-group.github.io/chem-diagrams/)
+[![Changelog](https://img.shields.io/badge/changelog-CHANGELOG.md-blue)](https://github.com/Tonner-Zech-Group/chem-diagrams/blob/main/CHANGELOG.md)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/Tonner-Zech-Group/chem-diagrams/blob/main/LICENSE)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.18957965.svg)](https://doi.org/10.5281/zenodo.18957965)
 
@@ -31,7 +32,7 @@ pip install chemdiagrams
 - Axis break markers for both x and y axes
 - Image placement along the diagram, with automatic collision avoidance
 - Full access to the underlying Matplotlib objects for fine-grained customisation
-- Custom templates for consistent styling across multiple diagrams
+- Customizable templates for consistent styling across multiple diagrams
 
 ## Documentation
 
@@ -749,7 +750,7 @@ from chemdiagrams import EnergyDiagram
 from chemdiagrams.templates.example_template import ExampleTemplate
 
 # Create a diagram with ExampleTemplate
-dia = EnergyDiagram(template=ExampleTemplate)
+dia = EnergyDiagram(template=ExampleTemplate())
 dia.draw_path([0, 1, 2], [0, 10, -5], color="blue")
 ```
 
@@ -758,9 +759,17 @@ dia.draw_path([0, 1, 2], [0, 10, -5], color="blue")
 - `TonnerZechTemplate` — Template style for Tonner & Zech group diagrams
 - `ExampleTemplate` — Example template for demonstration purposes
 
+### Template Methods
+
+**`__init__()`** — Override to customize default constants ([link to constants](https://github.com/Tonner-Zech-Group/chem-diagrams/blob/main/src/chemdiagrams/constants.py)).
+
+**`startup(diagram)`** — Called at the beginning of diagram creation. Use to modify the diagram object before any plotting occurs. Must return the modified diagram.
+
+**Custom static methods** — Define any custom post-processing methods you need for diagram modifications.
+
 ### Creating a Custom Template
 
-To create your own template, subclass `BaseTemplate` and override the `__init__` and/or `startup` methods. How this can be realized is shown with an [example template](https://github.com/Tonner-Zech-Group/chem-diagrams/blob/main/src/chemdiagrams/templates/example_template.py).
+To create your own template, subclass `BaseTemplate` and override the `__init__` and/or `startup` methods. Furthermore, static methods can be defined for automating common tasks. How this can be realized is shown with an [example template](https://github.com/Tonner-Zech-Group/chem-diagrams/blob/main/src/chemdiagrams/templates/example_template.py).
 
 ```python
 from chemdiagrams.templates.base_template import BaseTemplate
@@ -804,19 +813,44 @@ Then place your custom template in the `src/chemdiagrams/templates` directory fo
 from chemdiagrams import EnergyDiagram
 from chemdiagrams.templates.my_custom_template import MyCustomTemplate
 
-dia = EnergyDiagram(template=MyCustomTemplate)
-dia.draw_path([0, 1, 2], [0, 15, -8], color="blue", path_name="reaction")
+dia = EnergyDiagram(template=MyCustomTemplate())
+...
 ```
 
-You can also create the template directly in your script or notebook without saving it as a separate file, and pass the class to `EnergyDiagram` in the same way.
+You can also create the template directly in your script or notebook without saving it as a separate file, and pass an instance of the class to `EnergyDiagram` in the same way.
 
-### Template Methods
+Example of using the custom static method defined in the template:
 
-**`__init__()`** — Override to customize default constants ([link to constants](https://github.com/Tonner-Zech-Group/chem-diagrams/blob/main/src/chemdiagrams/constants.py)).
+```python
+from chemdiagrams import EnergyDiagram
+from chemdiagrams.templates.example_template import ExampleTemplate
+import os.path
 
-**`startup(diagram)`** — Called at the beginning of diagram creation. Use to modify the diagram object before any plotting occurs. Must return the modified diagram.
+dia = EnergyDiagram(template=ExampleTemplate())
 
-**Custom static methods** — Define any custom post-processing methods you need for diagram modifications.
+dia.draw_path(
+    x_data=[0, 1, 2, 3, 4],
+    y_data=[0, 28, -14, 15.3, -22],
+    color="blue",
+    path_name="Blue path",
+)
+dia.draw_path(
+    x_data=[0, 1, 2, 3, 4],
+    y_data=[0, 25, 6, 15.2, -18],
+    color="red",
+    path_name="Red path",
+
+)
+dia.add_numbers_auto()
+dia.set_xlabels(["E", "TS1", "I", "TS2", "P"])
+dia.ax.set_ylabel("Energy / kJ mol$^{-1}$", fontsize=8)
+
+dia = ExampleTemplate.color_all_numbers(dia, color="purple")
+
+dia.fig.savefig(os.path.join("..","docs","img","example_template.png"),format="png", bbox_inches="tight")
+dia.show()
+```
+![Custom template](https://raw.githubusercontent.com/Tonner-Zech-Group/chem-diagrams/main/docs/img/example_template.png)
 
 ## Citation
 

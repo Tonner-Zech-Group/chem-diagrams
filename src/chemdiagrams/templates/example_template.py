@@ -2,6 +2,8 @@ from chemdiagrams.templates.base_template import BaseTemplate
 
 
 class ExampleTemplate(BaseTemplate):
+    """Simple template showcasing basic style customizations for diagrams."""
+
     def __init__(self):
         """
         Modyfy constants for Example style diagrams here.
