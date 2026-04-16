@@ -807,7 +807,7 @@ class ExampleTemplate(BaseTemplate):
         return diagram
 ```
 
-Then place your custom template in the `src/chemdiagrams/templates` directory for reuse across projects. When using the first option, it can be imported with `from chemdiagrams.templates.my_custom_template import MyCustomTemplate`. You can use the custom template by passing it to `EnergyDiagram`:
+Then place your custom template in the `src/chemdiagrams/templates` directory for reuse across projects. It can be imported with `from chemdiagrams.templates.my_custom_template import MyCustomTemplate`. You can use the custom template by passing it to `EnergyDiagram`:
 
 ```python
 from chemdiagrams import EnergyDiagram
