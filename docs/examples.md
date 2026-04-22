@@ -180,7 +180,8 @@ dia.set_xlabels(["Ester", "TS1", "Hemiacetal", "TS2", "Carboxylic\nAcid"], in_pl
 dia.add_image_series_in_plot(
     [ester_1, ester_2, ester_3, ester_4, ester_5],
     y_placement="top",
-    width=[0.6, 0.7, 0.6, 0.7, 0.6],
+    width=0.8,
+    proportional_scaling=True,
     y_offsets=1.5,
     framed=[True, False, False, False, True],
     frame_colors="blue"
@@ -351,13 +352,14 @@ dia.show()
 ```
 ![Diagram 7](https://raw.githubusercontent.com/Tonner-Zech-Group/chem-diagrams/main/docs/img/title/image_7.png)
 
-## Example 8: Float energy values and image in plot
+## Example 8: Template usage, float energy values and image in plot
 
 ```python
 from chemdiagrams import EnergyDiagram
+from chemdiagrams.templates.example_template import ExampleTemplate
 import os.path
 
-dia = EnergyDiagram(style="open")
+dia = EnergyDiagram(template=ExampleTemplate())
 
 penguin = os.path.join("figures", "penguin.png")
 

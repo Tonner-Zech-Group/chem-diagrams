@@ -5,6 +5,7 @@ from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
 import matplotlib.image as mpimg
+import numpy as np
 
 if TYPE_CHECKING:
     from matplotlib.image import AxesImage
@@ -112,6 +113,7 @@ class ImageManager:
         img_series_name: str | None = None,
         width: Sequence[float | None] | float | None = None,
         height: Sequence[float | None] | float | None = None,
+        proportional_scaling: bool = False,
         framed: Sequence[bool] | bool = False,
         frame_colors: Sequence[str] | str = "black",
     ) -> None:
@@ -162,38 +164,74 @@ class ImageManager:
         else:
             img_x_places = list(range(len(img_paths)))
 
-        # Sanity checks height
-        if isinstance(height, Sequence):
-            Validators.validate_numeric_sequence(
-                height,
-                "height",
-                allow_none_elements=True,
-            )
-            if len(img_paths) != len(height):
-                raise ValueError("height must have the same length as img_paths.")
-        elif isinstance(height, (int, float)):
-            height = [height] * len(img_paths)
-        elif height is None:
-            height = [None] * len(img_paths)
+        # Sanity checks width and height
+        if proportional_scaling:
+            if width is not None and height is not None:
+                raise ValueError(
+                    "Cannot specify both width and height when proportional_scaling is True."
+                )
+            if width is not None:
+                if isinstance(width, Sequence):
+                    raise TypeError(
+                        "width must be a single numeric value "
+                        "when proportional_scaling is True."
+                    )
+                else:
+                    Validators.validate_number(width, "width", min_value=0)
+                    width, height = self._get_proportionaized_widths_or_heights(
+                        img_paths=img_paths,
+                        max_target_width=width,
+                    )
+            elif height is not None:
+                if isinstance(height, Sequence):
+                    raise TypeError(
+                        "height must be a single numeric value "
+                        "when proportional_scaling is True."
+                    )
+                else:
+                    Validators.validate_number(height, "height", min_value=0)
+                    width, height = self._get_proportionaized_widths_or_heights(
+                        img_paths=img_paths,
+                        max_target_height=height,
+                    )
+            else:
+                width, height = self._get_proportionaized_widths_or_heights(
+                    img_paths=img_paths,
+                    max_target_width=self.constants.IMAGE_WIDTH,
+                )
         else:
-            raise TypeError("height must be a Sequence, numeric value or None.")
+            if isinstance(height, Sequence):
+                Validators.validate_numeric_sequence(
+                    height,
+                    "height",
+                    allow_none_elements=True,
+                )
+                if len(img_paths) != len(height):
+                    raise ValueError("height must have the same length as img_paths.")
+            elif isinstance(height, (int, float)):
+                height = [height] * len(img_paths)
+            elif height is None:
+                height = [None] * len(img_paths)
+            else:
+                raise TypeError("height must be a Sequence, numeric value or None.")
 
-        # Sanity checks width
-        if isinstance(width, Sequence):
-            Validators.validate_numeric_sequence(
-                width,
-                "width",
-                allow_none_elements=True,
-            )
-            if len(img_paths) != len(width):
-                raise ValueError("width must have the same length as img_paths.")
-        elif isinstance(width, (int, float)):
-            width = [width] * len(img_paths)
-        elif width is None:
-            # Only set width to default if no height value for same image
-            width = [self.constants.IMAGE_WIDTH if value is None else None for value in height]
-        else:
-            raise TypeError("width must be a Sequence, numeric value or None.")
+            if isinstance(width, Sequence):
+                Validators.validate_numeric_sequence(
+                    width,
+                    "width",
+                    allow_none_elements=True,
+                )
+                if len(img_paths) != len(width):
+                    raise ValueError("width must have the same length as img_paths.")
+            elif isinstance(width, (int, float)):
+                width = [width] * len(img_paths)
+            elif width is None:
+                # Only set width to default if no height value for same image
+                width = [
+                    self.constants.IMAGE_WIDTH if value is None else None for value in height
+                ]
+            else:
+                raise TypeError("width must be a Sequence, numeric value or None.")
 
         # Sanity checks framed
         if isinstance(framed, (list, tuple)):
@@ -496,6 +534,34 @@ class ImageManager:
                 (img_extent[1], img_extent[1]), (img_extent[2], img_extent[3])
             )
         return ImageObject(img_artist, border_objects)
+
+    def _get_proportionaized_widths_or_heights(
+        self,
+        img_paths: Sequence[str],
+        max_target_width: float | None = None,
+        max_target_height: float | None = None,
+    ) -> tuple[Sequence, Sequence]:
+        assert not (max_target_width is not None and max_target_height is not None), "Cannot "
+        "specify both max_target_width and max_target_height for proportional scaling."
+        img_files = [mpimg.imread(path) for path in img_paths]
+
+        if max_target_width is not None:
+            widths_px = np.array([img.shape[1] for img in img_files])
+            max_width_px = np.max(widths_px)
+            widths = widths_px / max_width_px * max_target_width
+            heights = [None] * len(widths)
+            return widths, heights
+        elif max_target_height is not None:
+            heights_px = np.array([img.shape[0] for img in img_files])
+            max_height_px = np.max(heights_px)
+            heights = heights_px / max_height_px * max_target_height
+            widths = [None] * len(heights)
+            return widths, heights
+        else:
+            raise ValueError(
+                "Must specify either max_target_width or "
+                "max_target_height for proportional scaling."
+            )
 
 
 @dataclass
