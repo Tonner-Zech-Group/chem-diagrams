@@ -1437,10 +1437,12 @@
 <span class="n">dia</span> <span class="o">=</span> <span class="n">EnergyDiagram</span><span class="p">(</span><span class="n">template</span><span class="o">=</span><span class="n">ExampleTemplate</span><span class="p">())</span>
 <span class="n">dia</span><span class="o">.</span><span class="n">draw_path</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="o">-</span><span class="mi">5</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;blue&quot;</span><span class="p">)</span>
 </code></pre></div>
-<p><strong>Available templates:</strong>
-- <code>BaseTemplate</code> — The default template with no modifications
-- <code>TonnerZechTemplate</code> — Template style for Tonner &amp; Zech group diagrams
-- <code>ExampleTemplate</code> — Example template for demonstration purposes</p>
+<p><strong>Available templates:</strong></p>
+<ul>
+<li><code>BaseTemplate</code> — The default template with no modifications</li>
+<li><code>TonnerZechTemplate</code> — Template style of the Tonner-Zech group</li>
+<li><code>ExampleTemplate</code> — Example template for demonstration purposes</li>
+</ul>
 <h3 id="template-methods">Template Methods</h3>
 <p><strong><code>__init__()</code></strong> — Override to customize default constants (<a href="https://github.com/Tonner-Zech-Group/chem-diagrams/blob/main/src/chemdiagrams/constants.py">link to constants</a>).</p>
 <p><strong><code>startup(diagram)</code></strong> — Called at the beginning of diagram creation. Use to modify the diagram object before any plotting occurs. Must return the modified diagram.</p>

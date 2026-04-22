@@ -2328,10 +2328,12 @@ diagonal tick marks to indicate degeneracy.</p>
     <span class="n">width</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span>                           <span class="c1"># scalar applies to all; pass a list for per-image widths</span>
                                          <span class="c1"># if omitted, height is used to scale or width is set automatically</span>
     <span class="n">height</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>                         <span class="c1"># scalar applies to all; pass a list for per-image heights</span>
+    <span class="n">proportional_scaling</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>          <span class="c1"># whether to scale width and height proportionally to the pixel dimensions of the images; also preserves size relations between images; default is False</span>
     <span class="n">framed</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>                        <span class="c1"># scalar or per-image list of bools</span>
     <span class="n">frame_colors</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span>                <span class="c1"># scalar or per-image list of color strings</span>
 <span class="p">)</span>
 </code></pre></div>
+<p>One very useful setting is <code>proportional_scaling</code>. If turned True (default is False), the width and height of all images is scaled proportionally to the respective pixel dimensions of the images, so that the relative aspect ratios and also the size ratios between images are preserved. With that option, it is sufficient to specify a single width or height for the whole series, and the largest image is scaled to that size while the others are scaled proportionally.</p>
 <p>Example:</p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">os.path</span>
 
@@ -2358,7 +2360,8 @@ diagonal tick marks to indicate degeneracy.</p>
 <span class="n">dia</span><span class="o">.</span><span class="n">add_image_series_in_plot</span><span class="p">(</span>
     <span class="p">[</span><span class="n">ester_1</span><span class="p">,</span> <span class="n">ester_2</span><span class="p">,</span> <span class="n">ester_3</span><span class="p">,</span> <span class="n">ester_4</span><span class="p">,</span> <span class="n">ester_5</span><span class="p">],</span>
     <span class="n">y_placement</span><span class="o">=</span><span class="s2">&quot;top&quot;</span><span class="p">,</span>
-    <span class="n">width</span><span class="o">=</span><span class="p">[</span><span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">],</span>
+    <span class="n">width</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span>
+    <span class="n">proportional_scaling</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="n">y_offsets</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span>
     <span class="n">framed</span><span class="o">=</span><span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">],</span>
     <span class="n">frame_colors</span><span class="o">=</span><span class="s2">&quot;blue&quot;</span>
