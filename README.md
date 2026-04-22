@@ -30,7 +30,7 @@ pip install chemdiagrams
 - Custom text labels for each path at each position
 - Energy difference bars with optional whiskers
 - Axis break markers for both x and y axes
-- Image placement along the diagram, with automatic collision avoidance
+- Image placement along the diagram, with automatic collision avoidance and pixel-accurate scaling options
 - Full access to the underlying Matplotlib objects for fine-grained customisation
 - Customizable templates for consistent styling across multiple diagrams
 
@@ -577,10 +577,13 @@ dia.add_image_series_in_plot(
     width=0.6,                           # scalar applies to all; pass a list for per-image widths
                                          # if omitted, height is used to scale or width is set automatically
     height=None,                         # scalar applies to all; pass a list for per-image heights
+    proportional_scaling=False,          # whether to scale width and height proportionally to the pixel dimensions of the images; also preserves size relations between images; default is False
     framed=False,                        # scalar or per-image list of bools
     frame_colors="black",                # scalar or per-image list of color strings
 )
 ```
+
+One very useful setting is `proportional_scaling`. If turned True (default is False), the width and height of all images is scaled proportionally to the respective pixel dimensions of the images, so that the relative aspect ratios and also the size ratios between images are preserved. With that option, it is sufficient to specify a single width or height for the whole series, and the largest image is scaled to that size while the others are scaled proportionally.
 
 Example:
 
@@ -610,7 +613,8 @@ dia.set_xlabels(["Ester", "TS1", "Hemiacetal", "TS2", "Carboxylic\nAcid"], in_pl
 dia.add_image_series_in_plot(
     [ester_1, ester_2, ester_3, ester_4, ester_5],
     y_placement="top",
-    width=[0.6, 0.7, 0.6, 0.7, 0.6],
+    width=0.8,
+    proportional_scaling=True,
     y_offsets=1.5,
     framed=[True, False, False, False, True],
     frame_colors="blue"
@@ -755,8 +759,9 @@ dia.draw_path([0, 1, 2], [0, 10, -5], color="blue")
 ```
 
 **Available templates:**
+
 - `BaseTemplate` — The default template with no modifications
-- `TonnerZechTemplate` — Template style for Tonner & Zech group diagrams
+- `TonnerZechTemplate` — Template style of the Tonner-Zech group
 - `ExampleTemplate` — Example template for demonstration purposes
 
 ### Template Methods

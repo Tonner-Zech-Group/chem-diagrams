@@ -1178,6 +1178,73 @@ class TestImagePlacement:
         with pytest.raises(TypeError):
             dia.add_image_series_in_plot([png_path], width="big")
 
+    def test_add_image_series_proportional_scaling_width_and_height_raises(self, png_path):
+        dia = EnergyDiagram()
+        dia.draw_path([0, 1], [0, 10], color="blue")
+        with pytest.raises(ValueError):
+            dia.add_image_series_in_plot(
+                [png_path, png_path],
+                proportional_scaling=True,
+                width=0.6,
+                height=1.2,
+            )
+
+    def test_add_image_series_proportional_scaling_width_sequence_raises(self, png_path):
+        dia = EnergyDiagram()
+        dia.draw_path([0, 1], [0, 10], color="blue")
+        with pytest.raises(TypeError):
+            dia.add_image_series_in_plot(
+                [png_path, png_path],
+                proportional_scaling=True,
+                width=[0.3, 0.6],
+            )
+
+    def test_add_image_series_proportional_scaling_applies_width_ratio(self, tmp_path):
+        img_small = tmp_path / "small_w.png"
+        img_large = tmp_path / "large_w.png"
+        plt.imsave(str(img_small), np.ones((10, 20, 4), dtype=np.uint8) * 255)
+        plt.imsave(str(img_large), np.ones((10, 40, 4), dtype=np.uint8) * 255)
+
+        dia = EnergyDiagram()
+        dia.draw_path([0, 1], [0, 10], color="blue")
+        dia.add_image_series_in_plot(
+            [str(img_small), str(img_large)],
+            proportional_scaling=True,
+            width=0.8,
+            img_series_name="prop_w",
+        )
+
+        series = dia.images["prop_w"]
+        width_small = series["0.0"].image.get_extent()[1] - series["0.0"].image.get_extent()[0]
+        width_large = series["1.0"].image.get_extent()[1] - series["1.0"].image.get_extent()[0]
+
+        assert width_large == pytest.approx(0.8)
+        assert width_small == pytest.approx(0.4)
+
+    def test_add_image_series_proportional_scaling_applies_height_ratio(self, tmp_path):
+        img_short = tmp_path / "short_h.png"
+        img_tall = tmp_path / "tall_h.png"
+        plt.imsave(str(img_short), np.ones((20, 10, 4), dtype=np.uint8) * 255)
+        plt.imsave(str(img_tall), np.ones((40, 10, 4), dtype=np.uint8) * 255)
+
+        dia = EnergyDiagram()
+        dia.draw_path([0, 1], [0, 10], color="blue")
+        dia.add_image_series_in_plot(
+            [str(img_short), str(img_tall)],
+            proportional_scaling=True,
+            height=2.0,
+            img_series_name="prop_h",
+        )
+
+        series = dia.images["prop_h"]
+        height_short = (
+            series["0.0"].image.get_extent()[3] - series["0.0"].image.get_extent()[2]
+        )
+        height_tall = series["1.0"].image.get_extent()[3] - series["1.0"].image.get_extent()[2]
+
+        assert height_tall == pytest.approx(2.0)
+        assert height_short == pytest.approx(1.0)
+
     def test_add_image_series_framed_list_with_non_bool_raises(self, png_path):
         dia = EnergyDiagram()
         dia.draw_path([0, 1], [0, 10], color="blue")

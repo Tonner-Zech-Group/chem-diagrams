@@ -1149,6 +1149,7 @@ class EnergyDiagram:
         img_series_name: str | None = None,
         width: Sequence[float | None] | float | None = None,
         height: Sequence[float | None] | float | None = None,
+        proportional_scaling: bool = False,
         framed: Sequence[bool] | bool = False,
         frame_colors: Sequence[str] | str = "black",
     ) -> EnergyDiagram:
@@ -1176,9 +1177,19 @@ class EnergyDiagram:
         img_series_name : str or None, optional
             Key under which artists are stored. Auto-assigned when None.
         width : sequence or float or None, optional
-            Image widths in data coordinate units.
+            Image widths in data coordinate units. If proportional_scaling is True,
+            only a single float is accepted and and used as the maximum width for
+            the largest image.
         height : sequence or float or None, optional
-            Image heights in data coordinate units.
+            Image heights in data coordinate units. If proportional_scaling is True,
+            only a single float is accepted and and used as the maximum height for
+            the largest image.
+        proportional_scaling : bool, optional
+            If True, images are scaled proportionally based on their pixel dimensions.
+            If True, only one of ``width`` or ``height`` can be specified, and it is
+            applied as the maximum size for the largest image, with smaller images
+            scaled down accordingly.
+            Default is False.
         framed : sequence of bool or bool, optional
             Whether to draw a border around each image. Default False.
         frame_colors : sequence of str or str, optional
@@ -1198,6 +1209,7 @@ class EnergyDiagram:
             img_series_name=img_series_name,
             width=width,
             height=height,
+            proportional_scaling=proportional_scaling,
             framed=framed,
             frame_colors=frame_colors,
         )

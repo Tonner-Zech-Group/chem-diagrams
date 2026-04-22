@@ -16,8 +16,9 @@ dia.draw_path([0, 1, 2], [0, 10, -5], color="blue")
 ```
 
 **Available templates:**
+
 - `BaseTemplate` — The default template with no modifications
-- `TonnerZechTemplate` — Template style for Tonner & Zech group diagrams
+- `TonnerZechTemplate` — Template style of the Tonner-Zech group
 - `ExampleTemplate` — Example template for demonstration purposes
 
 ### Template Methods
