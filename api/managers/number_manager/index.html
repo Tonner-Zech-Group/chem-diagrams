@@ -2130,7 +2130,8 @@ path name and x-coordinate.</p>
 <span class="normal">662</span>
 <span class="normal">663</span>
 <span class="normal">664</span>
-<span class="normal">665</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">NumberManager</span><span class="p">:</span>
+<span class="normal">665</span>
+<span class="normal">666</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">NumberManager</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Manages energy value annotations on the diagram.</span>
 
@@ -2556,6 +2557,7 @@ path name and x-coordinate.</p>
 
                 <span class="c1"># Update the label text</span>
                 <span class="n">new_text</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">brackets</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}{</span><span class="n">number_new</span><span class="si">:</span><span class="s2">.</span><span class="si">{</span><span class="n">n_decimals</span><span class="si">}</span><span class="s2">f</span><span class="si">}{</span><span class="n">brackets</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="n">new_text</span> <span class="o">=</span> <span class="n">new_text</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\u2212</span><span class="s2">&quot;</span><span class="p">)</span>
                 <span class="n">label</span><span class="o">.</span><span class="n">set_text</span><span class="p">(</span><span class="n">new_text</span><span class="p">)</span>
 
     <span class="c1">############################################################</span>
@@ -2661,7 +2663,7 @@ path name and x-coordinate.</p>
             <span class="n">number_obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">figure_manager</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
                 <span class="n">x</span><span class="p">,</span>
                 <span class="p">(</span><span class="n">y_print_start</span> <span class="o">+</span> <span class="n">diff_bias</span> <span class="o">+</span> <span class="n">n_printed</span> <span class="o">*</span> <span class="n">diff_per_step</span><span class="p">),</span>
-                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">number</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.</span><span class="si">{</span><span class="n">n_decimals</span><span class="si">}</span><span class="s2">f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">number</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.</span><span class="si">{</span><span class="n">n_decimals</span><span class="si">}</span><span class="s2">f</span><span class="si">}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\u2212</span><span class="s2">&quot;</span><span class="p">),</span>
                 <span class="n">ha</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span>
                 <span class="n">va</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span>
                 <span class="n">fontsize</span><span class="o">=</span><span class="n">fontsize</span><span class="p">,</span>
