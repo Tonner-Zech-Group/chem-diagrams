@@ -435,7 +435,7 @@ class NumberManager:
                             )
 
                 # Update the label text
-                new_text = f"{brackets[0]}{number_new:.{n_decimals}f}{brackets[1]}"
+                new_text = f"{brackets[0]}{number_new:.{n_decimals}f}{brackets[1]}".replace("-", "\u2212")
                 label.set_text(new_text)
 
     ############################################################
@@ -541,7 +541,7 @@ class NumberManager:
             number_obj = self.figure_manager.ax.text(
                 x,
                 (y_print_start + diff_bias + n_printed * diff_per_step),
-                f"{number['y']:.{n_decimals}f}",
+                f"{number['y']:.{n_decimals}f}".replace("-", "\u2212"),
                 ha="center",
                 va="center",
                 fontsize=fontsize,
