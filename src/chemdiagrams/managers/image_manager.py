@@ -117,6 +117,21 @@ class ImageManager:
         framed: Sequence[bool] | bool = False,
         frame_colors: Sequence[str] | str = "black",
     ) -> None:
+        # Save underlying data if redrawing is neccesary
+        # Before sanity checks, since some checks alter the data
+        self.image_series_data[img_series_name] = {
+            "img_series_name": img_series_name,
+            "img_paths": img_paths,
+            "img_x_places": img_x_places,
+            "y_placement": y_placement,
+            "y_offsets": y_offsets,
+            "width": width,
+            "height": height,
+            "proportional_scaling": proportional_scaling,
+            "framed": framed,
+            "frame_colors": frame_colors,
+        }
+
         # Sanity checks
         Validators.validate_string_sequence(img_paths, "img_paths")
         Validators.validate_numeric_sequence(img_x_places, "img_places", allow_none=True)
@@ -356,19 +371,6 @@ class ImageManager:
         if img_series_name is None:
             img_series_name = f"__Series_{len(self.mpl_objects)}"
         self.mpl_objects[img_series_name] = series_mpl_objects
-
-        # Save underlying data if redrawing is neccesary
-        self.image_series_data[img_series_name] = {
-            "img_series_name": img_series_name,
-            "img_paths": img_paths,
-            "img_x_places": img_x_places,
-            "y_placement": y_placement,
-            "y_offsets": y_offsets,
-            "width": width,
-            "height": height,
-            "framed": framed,
-            "frame_colors": frame_colors,
-        }
 
     def recalculate_image_series(
         self,
