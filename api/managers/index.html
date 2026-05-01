@@ -3632,7 +3632,9 @@ All rendered artists are stored in <code>mpl_objects</code> for later access.</p
 <span class="normal">561</span>
 <span class="normal">562</span>
 <span class="normal">563</span>
-<span class="normal">564</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">ImageManager</span><span class="p">:</span>
+<span class="normal">564</span>
+<span class="normal">565</span>
+<span class="normal">566</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">ImageManager</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Manages the placement and storage of image overlays within the energy diagram.</span>
 
@@ -3730,6 +3732,21 @@ All rendered artists are stored in <code>mpl_objects</code> for later access.</p
         <span class="n">framed</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">|</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">frame_colors</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;black&quot;</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># Save underlying data if redrawing is neccesary</span>
+        <span class="c1"># Before sanity checks, since some checks alter the data</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">image_series_data</span><span class="p">[</span><span class="n">img_series_name</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;img_series_name&quot;</span><span class="p">:</span> <span class="n">img_series_name</span><span class="p">,</span>
+            <span class="s2">&quot;img_paths&quot;</span><span class="p">:</span> <span class="n">img_paths</span><span class="p">,</span>
+            <span class="s2">&quot;img_x_places&quot;</span><span class="p">:</span> <span class="n">img_x_places</span><span class="p">,</span>
+            <span class="s2">&quot;y_placement&quot;</span><span class="p">:</span> <span class="n">y_placement</span><span class="p">,</span>
+            <span class="s2">&quot;y_offsets&quot;</span><span class="p">:</span> <span class="n">y_offsets</span><span class="p">,</span>
+            <span class="s2">&quot;width&quot;</span><span class="p">:</span> <span class="n">width</span><span class="p">,</span>
+            <span class="s2">&quot;height&quot;</span><span class="p">:</span> <span class="n">height</span><span class="p">,</span>
+            <span class="s2">&quot;proportional_scaling&quot;</span><span class="p">:</span> <span class="n">proportional_scaling</span><span class="p">,</span>
+            <span class="s2">&quot;framed&quot;</span><span class="p">:</span> <span class="n">framed</span><span class="p">,</span>
+            <span class="s2">&quot;frame_colors&quot;</span><span class="p">:</span> <span class="n">frame_colors</span><span class="p">,</span>
+        <span class="p">}</span>
+
         <span class="c1"># Sanity checks</span>
         <span class="n">Validators</span><span class="o">.</span><span class="n">validate_string_sequence</span><span class="p">(</span><span class="n">img_paths</span><span class="p">,</span> <span class="s2">&quot;img_paths&quot;</span><span class="p">)</span>
         <span class="n">Validators</span><span class="o">.</span><span class="n">validate_numeric_sequence</span><span class="p">(</span><span class="n">img_x_places</span><span class="p">,</span> <span class="s2">&quot;img_places&quot;</span><span class="p">,</span> <span class="n">allow_none</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -3969,19 +3986,6 @@ All rendered artists are stored in <code>mpl_objects</code> for later access.</p
         <span class="k">if</span> <span class="n">img_series_name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">img_series_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;__Series_</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mpl_objects</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mpl_objects</span><span class="p">[</span><span class="n">img_series_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">series_mpl_objects</span>
-
-        <span class="c1"># Save underlying data if redrawing is neccesary</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">image_series_data</span><span class="p">[</span><span class="n">img_series_name</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s2">&quot;img_series_name&quot;</span><span class="p">:</span> <span class="n">img_series_name</span><span class="p">,</span>
-            <span class="s2">&quot;img_paths&quot;</span><span class="p">:</span> <span class="n">img_paths</span><span class="p">,</span>
-            <span class="s2">&quot;img_x_places&quot;</span><span class="p">:</span> <span class="n">img_x_places</span><span class="p">,</span>
-            <span class="s2">&quot;y_placement&quot;</span><span class="p">:</span> <span class="n">y_placement</span><span class="p">,</span>
-            <span class="s2">&quot;y_offsets&quot;</span><span class="p">:</span> <span class="n">y_offsets</span><span class="p">,</span>
-            <span class="s2">&quot;width&quot;</span><span class="p">:</span> <span class="n">width</span><span class="p">,</span>
-            <span class="s2">&quot;height&quot;</span><span class="p">:</span> <span class="n">height</span><span class="p">,</span>
-            <span class="s2">&quot;framed&quot;</span><span class="p">:</span> <span class="n">framed</span><span class="p">,</span>
-            <span class="s2">&quot;frame_colors&quot;</span><span class="p">:</span> <span class="n">frame_colors</span><span class="p">,</span>
-        <span class="p">}</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">recalculate_image_series</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
