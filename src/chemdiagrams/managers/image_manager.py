@@ -119,6 +119,12 @@ class ImageManager:
     ) -> None:
         # Save underlying data if redrawing is neccesary
         # Before sanity checks, since some checks alter the data
+        # Only name has to be checked since else "ghost images" after redrawing
+        if img_series_name is None:
+            img_series_name = f"__Series_{len(self.mpl_objects)}"
+        else:
+            if not isinstance(img_series_name, str):
+                raise TypeError("img_series_name must be a string or None.")
         self.image_series_data[img_series_name] = {
             "img_series_name": img_series_name,
             "img_paths": img_paths,
@@ -166,11 +172,6 @@ class ImageManager:
             if not isinstance(y_offsets, (int, float)):
                 raise ValueError("y_offsets must be a float.")
             y_offsets = [y_offsets] * len(img_paths)
-
-        # Sanity checks img_series_name
-        if img_series_name is not None:
-            if not isinstance(img_series_name, str):
-                raise TypeError("img_series_name must be a string or None.")
 
         # Sanity checks img_x_places
         if img_x_places is not None:
@@ -368,8 +369,6 @@ class ImageManager:
             series_mpl_objects[f"{x:.1f}"] = img_object
 
         # Save mpl objects
-        if img_series_name is None:
-            img_series_name = f"__Series_{len(self.mpl_objects)}"
         self.mpl_objects[img_series_name] = series_mpl_objects
 
     def recalculate_image_series(
@@ -516,8 +515,9 @@ class ImageManager:
         img_artist = self.figure_manager.ax.imshow(
             img_file,
             extent=img_extent,
-            interpolation="bilinear",  # nearest/bilinear/bicubic (nearest ugly)
+            interpolation=self.constants.IMAGE_INTERPOLATION_METHOD,
             aspect="auto",
+            zorder=self.constants.ZORDER_IMAGE,
         )
 
         # Draw borders

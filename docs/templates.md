@@ -46,6 +46,7 @@ class ExampleTemplate(BaseTemplate):
         # Change constants here
         self.constants.WIDTH_PLATEAU = 0.4
         self.constants.LW_CONNECTOR = 0.6
+        self.constants.MINUS_SIGN = "-" # minus sign for negative numbers used in numbering methods (default: "\u2212")
 
     def startup(self, diagram):
         """

@@ -96,7 +96,8 @@ class BarManager:
 
         # Draw text next to bar
         if add_difference:
-            difference_str = str(f"{(y_end - y_start):.{n_decimals}f}".replace("-", "\u2212"))
+            difference_str = str(f"{(y_end - y_start):.{n_decimals}f}")
+            difference_str = difference_str.replace("-", self.constants.MINUS_SIGN)
         else:
             difference_str = ""
         text = self.figure_manager.ax.text(

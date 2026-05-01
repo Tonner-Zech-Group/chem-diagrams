@@ -13,6 +13,7 @@ class ExampleTemplate(BaseTemplate):
         # Change constants here
         self.constants.WIDTH_PLATEAU = 0.4
         self.constants.LW_CONNECTOR = 0.6
+        self.constants.MINUS_SIGN = "-"
 
     def startup(self, diagram):
         """

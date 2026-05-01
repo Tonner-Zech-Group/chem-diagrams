@@ -48,4 +48,5 @@ class FigureManager:
         )
         self.ax.tick_params(which="both", labelsize=fontsize)
         self.ax.set_xticks([])
+        self.ax.set_axisbelow(True)
         self.fontsize = fontsize

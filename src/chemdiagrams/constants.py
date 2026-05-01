@@ -38,6 +38,8 @@ class Constants:
         self.DISTANCE_IMAGE_LINE = 0.09
         self.DISTANCE_IMAGE_LABEL = 0.12
         self.DISTANCE_IMAGE_NUMBER = 0.15  # 0.135 pre v0.3.0
+        self.ZORDER_IMAGE = 0.6
+        self.IMAGE_INTERPOLATION_METHOD = "bilinear"
 
         # Frame parameters
         self.LW_IMAGE_FRAME = 0.5
@@ -68,6 +70,7 @@ class Constants:
         self.DISTANCE_NUMBER_NUMBER = 0.15  # 0.135 pre v0.3.0
 
         self.ZORDER_NUMBERS = 2
+        self.MINUS_SIGN = "\u2212"
 
         #################################
         # Path Manager

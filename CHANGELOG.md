@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [0.4.2] - 2026-05-01
+
+### Changed
+
+- Replaced the default minus sign in energy level annotations with the Unicode minus sign (U+2212). The minus sign can however be customized via templates by modifying the `MINUS_SIGN` constant.
+
+### Fixed
+
+- Fixed a bug which caused settings of labels and numbers to fail after image series were added with the option `proportional_scaling=True` in `add_image_series_in_plot()`.
+
 ## [0.4.1] - 2026-04-22
 
 ### Added

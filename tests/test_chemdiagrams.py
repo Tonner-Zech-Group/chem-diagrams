@@ -1126,6 +1126,15 @@ class TestImagePlacement:
         dia.set_xlabels(["A", "B", "C"])
         assert "s" in dia.images
 
+    def test_add_image_series_does_not_raise_with_redrawing(self, png_path):
+        dia = EnergyDiagram()
+        dia.draw_path([0, 1, 2], [0, 10, -5], path_name="path1", color="blue")
+        dia.add_image_series_in_plot([png_path, png_path, png_path], img_series_name="s")
+        dia.set_xlabels(["A", "B", "C"])
+        dia.add_numbers_auto()
+        dia.add_path_labels("path1", ["Start", "Middle", "End"])
+        assert "s" in dia.images
+
     # --- validation ---
 
     def test_add_image_series_mismatched_x_places_raises(self, png_path):
