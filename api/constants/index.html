@@ -1594,7 +1594,10 @@
 <span class="normal">122</span>
 <span class="normal">123</span>
 <span class="normal">124</span>
-<span class="normal">125</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">Constants</span><span class="p">:</span>
+<span class="normal">125</span>
+<span class="normal">126</span>
+<span class="normal">127</span>
+<span class="normal">128</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">Constants</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Default constants for plotting the energy diagram&quot;&quot;&quot;</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -1634,6 +1637,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">DISTANCE_IMAGE_LINE</span> <span class="o">=</span> <span class="mf">0.09</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">DISTANCE_IMAGE_LABEL</span> <span class="o">=</span> <span class="mf">0.12</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">DISTANCE_IMAGE_NUMBER</span> <span class="o">=</span> <span class="mf">0.15</span>  <span class="c1"># 0.135 pre v0.3.0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ZORDER_IMAGE</span> <span class="o">=</span> <span class="mf">0.6</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">IMAGE_INTERPOLATION_METHOD</span> <span class="o">=</span> <span class="s2">&quot;bilinear&quot;</span>
 
         <span class="c1"># Frame parameters</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">LW_IMAGE_FRAME</span> <span class="o">=</span> <span class="mf">0.5</span>
@@ -1664,6 +1669,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">DISTANCE_NUMBER_NUMBER</span> <span class="o">=</span> <span class="mf">0.15</span>  <span class="c1"># 0.135 pre v0.3.0</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">ZORDER_NUMBERS</span> <span class="o">=</span> <span class="mi">2</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">MINUS_SIGN</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\u2212</span><span class="s2">&quot;</span>
 
         <span class="c1">#################################</span>
         <span class="c1"># Path Manager</span>

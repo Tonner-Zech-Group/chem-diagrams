@@ -2143,6 +2143,12 @@ All rendered artists are stored in <code>mpl_objects</code> for later access.</p
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="c1"># Save underlying data if redrawing is neccesary</span>
         <span class="c1"># Before sanity checks, since some checks alter the data</span>
+        <span class="c1"># Only name has to be checked since else &quot;ghost images&quot; after redrawing</span>
+        <span class="k">if</span> <span class="n">img_series_name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">img_series_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;__Series_</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mpl_objects</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">img_series_name</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;img_series_name must be a string or None.&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">image_series_data</span><span class="p">[</span><span class="n">img_series_name</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s2">&quot;img_series_name&quot;</span><span class="p">:</span> <span class="n">img_series_name</span><span class="p">,</span>
             <span class="s2">&quot;img_paths&quot;</span><span class="p">:</span> <span class="n">img_paths</span><span class="p">,</span>
@@ -2190,11 +2196,6 @@ All rendered artists are stored in <code>mpl_objects</code> for later access.</p
             <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">y_offsets</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;y_offsets must be a float.&quot;</span><span class="p">)</span>
             <span class="n">y_offsets</span> <span class="o">=</span> <span class="p">[</span><span class="n">y_offsets</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">img_paths</span><span class="p">)</span>
-
-        <span class="c1"># Sanity checks img_series_name</span>
-        <span class="k">if</span> <span class="n">img_series_name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">img_series_name</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;img_series_name must be a string or None.&quot;</span><span class="p">)</span>
 
         <span class="c1"># Sanity checks img_x_places</span>
         <span class="k">if</span> <span class="n">img_x_places</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -2392,8 +2393,6 @@ All rendered artists are stored in <code>mpl_objects</code> for later access.</p
             <span class="n">series_mpl_objects</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">x</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">img_object</span>
 
         <span class="c1"># Save mpl objects</span>
-        <span class="k">if</span> <span class="n">img_series_name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">img_series_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;__Series_</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mpl_objects</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mpl_objects</span><span class="p">[</span><span class="n">img_series_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">series_mpl_objects</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">recalculate_image_series</span><span class="p">(</span>
@@ -2540,8 +2539,9 @@ All rendered artists are stored in <code>mpl_objects</code> for later access.</p
         <span class="n">img_artist</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">figure_manager</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span>
             <span class="n">img_file</span><span class="p">,</span>
             <span class="n">extent</span><span class="o">=</span><span class="n">img_extent</span><span class="p">,</span>
-            <span class="n">interpolation</span><span class="o">=</span><span class="s2">&quot;bilinear&quot;</span><span class="p">,</span>  <span class="c1"># nearest/bilinear/bicubic (nearest ugly)</span>
+            <span class="n">interpolation</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">IMAGE_INTERPOLATION_METHOD</span><span class="p">,</span>
             <span class="n">aspect</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">,</span>
+            <span class="n">zorder</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">ZORDER_IMAGE</span><span class="p">,</span>
         <span class="p">)</span>
 
         <span class="c1"># Draw borders</span>

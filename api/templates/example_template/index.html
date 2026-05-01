@@ -1584,7 +1584,8 @@
 <span class="normal">33</span>
 <span class="normal">34</span>
 <span class="normal">35</span>
-<span class="normal">36</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">ExampleTemplate</span><span class="p">(</span><span class="n">BaseTemplate</span><span class="p">):</span>
+<span class="normal">36</span>
+<span class="normal">37</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">ExampleTemplate</span><span class="p">(</span><span class="n">BaseTemplate</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Simple template showcasing basic style customizations for diagrams.&quot;&quot;&quot;</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -1596,6 +1597,7 @@
         <span class="c1"># Change constants here</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">WIDTH_PLATEAU</span> <span class="o">=</span> <span class="mf">0.4</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">LW_CONNECTOR</span> <span class="o">=</span> <span class="mf">0.6</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">MINUS_SIGN</span> <span class="o">=</span> <span class="s2">&quot;-&quot;</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">startup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">diagram</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -1658,7 +1660,8 @@ e.g. self.constants.DISTANCE_TEXT_DIFFBAR = 0.05</p>
 <span class="normal">12</span>
 <span class="normal">13</span>
 <span class="normal">14</span>
-<span class="normal">15</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="normal">15</span>
+<span class="normal">16</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Modyfy constants for Example style diagrams here.</span>
 <span class="sd">    e.g. self.constants.DISTANCE_TEXT_DIFFBAR = 0.05</span>
@@ -1667,6 +1670,7 @@ e.g. self.constants.DISTANCE_TEXT_DIFFBAR = 0.05</p>
     <span class="c1"># Change constants here</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">WIDTH_PLATEAU</span> <span class="o">=</span> <span class="mf">0.4</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">LW_CONNECTOR</span> <span class="o">=</span> <span class="mf">0.6</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">MINUS_SIGN</span> <span class="o">=</span> <span class="s2">&quot;-&quot;</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
@@ -1693,13 +1697,13 @@ e.g. self.constants.DISTANCE_TEXT_DIFFBAR = 0.05</p>
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>src/chemdiagrams/templates/example_template.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">30</span>
-<span class="normal">31</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">31</span>
 <span class="normal">32</span>
 <span class="normal">33</span>
 <span class="normal">34</span>
 <span class="normal">35</span>
-<span class="normal">36</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@staticmethod</span>
+<span class="normal">36</span>
+<span class="normal">37</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@staticmethod</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">color_all_numbers</span><span class="p">(</span><span class="n">diagram</span><span class="p">,</span> <span class="n">color</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Set the colors of all numbers to the specified color&quot;&quot;&quot;</span>
     <span class="k">for</span> <span class="n">path_numbers</span> <span class="ow">in</span> <span class="n">diagram</span><span class="o">.</span><span class="n">numbers</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
@@ -1729,8 +1733,7 @@ Here you can modify the diagram object before any plotting is done.</p>
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>src/chemdiagrams/templates/example_template.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">17</span>
-<span class="normal">18</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">18</span>
 <span class="normal">19</span>
 <span class="normal">20</span>
 <span class="normal">21</span>
@@ -1739,7 +1742,8 @@ Here you can modify the diagram object before any plotting is done.</p>
 <span class="normal">24</span>
 <span class="normal">25</span>
 <span class="normal">26</span>
-<span class="normal">27</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">startup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">diagram</span><span class="p">):</span>
+<span class="normal">27</span>
+<span class="normal">28</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">startup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">diagram</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Startup function to be called at the beginning of the plotting process</span>
 <span class="sd">    Here you can modify the diagram object before any plotting is done.</span>
