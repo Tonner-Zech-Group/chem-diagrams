@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [0.4.3] - 2026-05-02
+
+### Changed
+
+- Spline connectors are now stored as a `Line2D` object instead of `list[Line2D]`.
+
+### Fixed
+
+- Fixed a bug which occured when plateaus were merged with `merge_plateaus()` and their linewidths or widths were modified before.
+
 ## [0.4.2] - 2026-05-01
 
 ### Changed

@@ -284,57 +284,39 @@ class PathManager:
         Validators.validate_number(stopper_scale, "stopper_scale", min_value=0)
         Validators.validate_number(angle, "angle")
         try:
-            full_plateau_left = self.mpl_objects[path_name_left].plateaus[f"{x:.1f}"]
+            plateau_left = self.mpl_objects[path_name_left].plateaus[f"{x:.1f}"]
         except KeyError:
             raise ValueError(
                 f'Path "{path_name_left}" must exist and have a value at x = {x}.'
             )
         try:
-            full_plateau_right = self.mpl_objects[path_name_right].plateaus[f"{x:.1f}"]
+            plateau_right = self.mpl_objects[path_name_right].plateaus[f"{x:.1f}"]
         except KeyError:
             raise ValueError(
                 f'Path "{path_name_right}" must exist and have a value at x = {x}.'
             )
-        if full_plateau_left is None:
+        if plateau_left is None:
             raise ValueError(f"Plateau for {path_name_left} at x = {x} is non-existent.")
-        if full_plateau_right is None:
+        if plateau_right is None:
             raise ValueError(f"Plateau for {path_name_right} at x = {x} is non-existent.")
-        y_left = full_plateau_left.get_segments()[0][0][1]
-        y_right = full_plateau_right.get_segments()[0][0][1]
+        y_left = plateau_left.get_segments()[0][0][1]
+        y_right = plateau_right.get_segments()[0][0][1]
         if y_left != y_right:
             raise ValueError(
                 f"{path_name_left} and {path_name_right} must have the same y at x = {x}."
             )
         y = y_left
 
-        # Get color information
-        color_left = full_plateau_left.get_color()
-        color_right = full_plateau_right.get_color()
-        full_plateau_left.remove()
-        full_plateau_right.remove()
-
-        # Print plateaus
+        # Modify plateaus and get colors
         gap = self.constants.MERGED_PLATEAU_GAP * gap_scale
-        plateau_left = self.figure_manager.ax.hlines(
-            y,
-            x - self.constants.WIDTH_PLATEAU / 2,
-            x - gap / 2,
-            zorder=self.constants.ZORDER_PLATEAU,
-            lw=self.constants.LW_PLATEAU,
-            color=color_left,
-            capstyle="round",
-        )
-        plateau_right = self.figure_manager.ax.hlines(
-            y,
-            x + self.constants.WIDTH_PLATEAU / 2,
-            x + gap / 2,
-            zorder=self.constants.ZORDER_PLATEAU,
-            lw=self.constants.LW_PLATEAU,
-            color=color_right,
-            capstyle="round",
-        )
+        coordinates_left = plateau_left.get_segments()
+        coordinates_right = plateau_right.get_segments()
+        coordinates_left[0][1][0] = x - gap / 2  # first segment, second point, x
+        coordinates_right[0][0][0] = x + gap / 2  # first segment, first point, x
+        plateau_left.set_segments(coordinates_left)
+        plateau_right.set_segments(coordinates_right)
 
-        # Draw white rectangle to
+        # Draw white rectangle to cover the gap
         cover_width = DifferenceManager._get_axis_break_whitespace_cover_width(
             self.constants, margins, figsize
         )
@@ -358,6 +340,9 @@ class PathManager:
             angle,
         )
 
+        # Add stoppers
+        color_left = plateau_left.get_color()
+        color_right = plateau_right.get_color()
         stopper_left = self.figure_manager.ax.annotate(
             "",
             xy=(x - gap / 2, y),
@@ -558,7 +543,7 @@ class PathManager:
         color: str,
         lw: float | int,
         dotted: bool = False,
-    ) -> list[Line2D]:
+    ) -> Line2D:
         if dotted:
             ls = ":"
         else:
@@ -576,7 +561,7 @@ class PathManager:
             ls=ls,
             lw=lw,
             color=color,
-        )
+        )[0]
 
     def _draw_broken_spline(
         self,
@@ -586,7 +571,7 @@ class PathManager:
         lw: float | int,
         gap_scale: float | int,
         dotted: bool = True,
-    ) -> list[Line2D] | BrokenLine:
+    ) -> Line2D | BrokenLine:
         # Portion of the line that has a gap
         linegap = self.constants.BROKEN_LINE_GAP * gap_scale
         cs = CubicSpline(x_coords, y_coords, bc_type="clamped")
