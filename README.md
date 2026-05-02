@@ -528,9 +528,10 @@ dia.add_image_in_plot(
 Example:
 
 ```python
+from chemdiagrams.templates.example_template import ExampleTemplate
 import os.path
 
-dia = EnergyDiagram(style="open")
+dia = EnergyDiagram(template=ExampleTemplate())
 
 penguin = os.path.join("figures", "penguin.png")
 
