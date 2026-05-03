@@ -2,102 +2,106 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://Tonner-Zech-Group.github.io/chem-diagrams/</loc>
-         <lastmod>2026-05-02</lastmod>
+         <lastmod>2026-05-03</lastmod>
     </url>
     <url>
          <loc>https://Tonner-Zech-Group.github.io/chem-diagrams/about/</loc>
-         <lastmod>2026-05-02</lastmod>
+         <lastmod>2026-05-03</lastmod>
     </url>
     <url>
          <loc>https://Tonner-Zech-Group.github.io/chem-diagrams/examples/</loc>
-         <lastmod>2026-05-02</lastmod>
+         <lastmod>2026-05-03</lastmod>
     </url>
     <url>
          <loc>https://Tonner-Zech-Group.github.io/chem-diagrams/methods/</loc>
-         <lastmod>2026-05-02</lastmod>
+         <lastmod>2026-05-03</lastmod>
+    </url>
+    <url>
+         <loc>https://Tonner-Zech-Group.github.io/chem-diagrams/quickstart/</loc>
+         <lastmod>2026-05-03</lastmod>
     </url>
     <url>
          <loc>https://Tonner-Zech-Group.github.io/chem-diagrams/templates/</loc>
-         <lastmod>2026-05-02</lastmod>
+         <lastmod>2026-05-03</lastmod>
     </url>
     <url>
          <loc>https://Tonner-Zech-Group.github.io/chem-diagrams/usage/</loc>
-         <lastmod>2026-05-02</lastmod>
+         <lastmod>2026-05-03</lastmod>
     </url>
     <url>
          <loc>https://Tonner-Zech-Group.github.io/chem-diagrams/api/</loc>
-         <lastmod>2026-05-02</lastmod>
+         <lastmod>2026-05-03</lastmod>
     </url>
     <url>
          <loc>https://Tonner-Zech-Group.github.io/chem-diagrams/api/SUMMARY/</loc>
-         <lastmod>2026-05-02</lastmod>
+         <lastmod>2026-05-03</lastmod>
     </url>
     <url>
          <loc>https://Tonner-Zech-Group.github.io/chem-diagrams/api/constants/</loc>
-         <lastmod>2026-05-02</lastmod>
+         <lastmod>2026-05-03</lastmod>
     </url>
     <url>
          <loc>https://Tonner-Zech-Group.github.io/chem-diagrams/api/energy_diagram/</loc>
-         <lastmod>2026-05-02</lastmod>
+         <lastmod>2026-05-03</lastmod>
     </url>
     <url>
          <loc>https://Tonner-Zech-Group.github.io/chem-diagrams/api/managers/</loc>
-         <lastmod>2026-05-02</lastmod>
+         <lastmod>2026-05-03</lastmod>
     </url>
     <url>
          <loc>https://Tonner-Zech-Group.github.io/chem-diagrams/api/managers/bar_manager/</loc>
-         <lastmod>2026-05-02</lastmod>
+         <lastmod>2026-05-03</lastmod>
     </url>
     <url>
          <loc>https://Tonner-Zech-Group.github.io/chem-diagrams/api/managers/difference_manager/</loc>
-         <lastmod>2026-05-02</lastmod>
+         <lastmod>2026-05-03</lastmod>
     </url>
     <url>
          <loc>https://Tonner-Zech-Group.github.io/chem-diagrams/api/managers/figure_manager/</loc>
-         <lastmod>2026-05-02</lastmod>
+         <lastmod>2026-05-03</lastmod>
     </url>
     <url>
          <loc>https://Tonner-Zech-Group.github.io/chem-diagrams/api/managers/image_manager/</loc>
-         <lastmod>2026-05-02</lastmod>
+         <lastmod>2026-05-03</lastmod>
     </url>
     <url>
          <loc>https://Tonner-Zech-Group.github.io/chem-diagrams/api/managers/layout_manager/</loc>
-         <lastmod>2026-05-02</lastmod>
+         <lastmod>2026-05-03</lastmod>
     </url>
     <url>
          <loc>https://Tonner-Zech-Group.github.io/chem-diagrams/api/managers/number_manager/</loc>
-         <lastmod>2026-05-02</lastmod>
+         <lastmod>2026-05-03</lastmod>
     </url>
     <url>
          <loc>https://Tonner-Zech-Group.github.io/chem-diagrams/api/managers/path_manager/</loc>
-         <lastmod>2026-05-02</lastmod>
+         <lastmod>2026-05-03</lastmod>
     </url>
     <url>
          <loc>https://Tonner-Zech-Group.github.io/chem-diagrams/api/managers/style_manager/</loc>
-         <lastmod>2026-05-02</lastmod>
+         <lastmod>2026-05-03</lastmod>
     </url>
     <url>
          <loc>https://Tonner-Zech-Group.github.io/chem-diagrams/api/templates/</loc>
-         <lastmod>2026-05-02</lastmod>
+         <lastmod>2026-05-03</lastmod>
     </url>
     <url>
          <loc>https://Tonner-Zech-Group.github.io/chem-diagrams/api/templates/base_template/</loc>
-         <lastmod>2026-05-02</lastmod>
+         <lastmod>2026-05-03</lastmod>
     </url>
     <url>
          <loc>https://Tonner-Zech-Group.github.io/chem-diagrams/api/templates/example_template/</loc>
-         <lastmod>2026-05-02</lastmod>
+         <lastmod>2026-05-03</lastmod>
     </url>
     <url>
          <loc>https://Tonner-Zech-Group.github.io/chem-diagrams/api/templates/tonner_zech_template/</loc>
-         <lastmod>2026-05-02</lastmod>
+         <lastmod>2026-05-03</lastmod>
     </url>
     <url>
          <loc>https://Tonner-Zech-Group.github.io/chem-diagrams/api/validation/</loc>
-         <lastmod>2026-05-02</lastmod>
+         <lastmod>2026-05-03</lastmod>
     </url>
     <url>
          <loc>https://Tonner-Zech-Group.github.io/chem-diagrams/api/validation/validators/</loc>
-         <lastmod>2026-05-02</lastmod>
+         <lastmod>2026-05-03</lastmod>
     </url>
 </urlset>
