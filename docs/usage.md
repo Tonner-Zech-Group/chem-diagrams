@@ -1,6 +1,8 @@
 # Usage
 
-### General figure settings
+## General
+
+### Figure construction
 
 General settings like figure size, margins and font size are usually handled automatically by `EnergyDiagram`, but can be customised at construction.
 
@@ -24,6 +26,59 @@ Figures can be saved in any format supported by Matplotlib. The `bbox_inches="ti
 dia.fig.savefig("diagram.png", dpi=300, bbox_inches="tight")
 dia.fig.savefig("diagram.pdf", bbox_inches="tight")
 ```
+
+### Inserting EnergyDiagram into subplots
+
+`EnergyDiagram` can be inserted into an existing Matplotlib figure and axes, which allows to combine it with other plot elements or to create multi-panel figures. To do so, pass the target axes to the `ax` parameter at construction. In this case, however, the automatic figure size scaling of `EnergyDiagram` is disabled and must be set via the externally created figure.
+
+```python
+from chemdiagrams import EnergyDiagram
+import matplotlib.pyplot as plt
+import os.path
+
+fig, ax = plt.subplots(
+    nrows=2,
+    ncols=2, 
+    width_ratios=[1.5, 1],
+    figsize=(10,6),
+)
+
+dia11 = EnergyDiagram(ax=ax[0][0], style="halfboxed") # Pass target axes to constructor
+dia11.draw_path(x_data=[0,1,2,3,4,5,6], y_data=[0,28,-14,15,-22, 12, -13], color="blue")
+dia11.draw_path(x_data=[0,1,2,3,4,5,6], y_data=[0,25,6,15,-18, 10, -15], color="red")
+dia11.set_xlabels(["E", "TS1", "I1", "TS2", "I2", "TS3", "P"])
+dia11.add_numbers_auto()
+dia11.ax.set_ylabel("Energy / kJ mol$^{-1}$", fontsize=8)
+
+dia12 = EnergyDiagram(ax=ax[0][1], style="open") # Pass target axes to constructor
+dia12.draw_path(x_data=[0,1,2,3,4], y_data=[0,28,-14,15,-22], color="blue")
+dia12.draw_path(x_data=[0,1,2,3,4], y_data=[0,25,6,15,-18], color="red")
+dia12.set_xlabels(["E", "TS1", "I", "TS2", "P"])
+dia12.add_numbers_auto()
+dia12.ax.set_ylabel("Energy / kJ mol$^{-1}$", fontsize=8)
+
+dia21 = EnergyDiagram(ax=ax[1][0], style="boxed") # Pass target axes to constructor
+dia21.draw_path(x_data=[0,1,2,3,4,5,6], y_data=[0,28,-14,15,-22, 12, -13], color="green", linetypes=3)
+dia21.draw_path(x_data=[0,1,2,3,4,5,6], y_data=[0,25,6,15,-18, 10, -15], color="purple", linetypes=3)
+dia21.set_xlabels(["E", "TS1", "I", "TS2", "I2", "TS3", "P"])
+dia21.add_numbers_auto()
+dia21.ax.set_ylabel("Energy / kJ mol$^{-1}$", fontsize=8)
+
+dia22 = EnergyDiagram(ax=ax[1][1], style="borderless") # Pass target axes to constructor
+dia22.draw_path(x_data=[0,1,2,3,4], y_data=[0,28,-14,15,-22], color="green", linetypes=3)
+dia22.draw_path(x_data=[0,1,2,3,4], y_data=[0,25,6,15,-18], color="purple", linetypes=3)
+dia22.set_xlabels(["E", "TS1", "I", "TS2", "P"])
+dia22.add_numbers_auto()
+dia22.ax.set_ylabel("Energy / kJ mol$^{-1}$", fontsize=8)
+
+fig.savefig(os.path.join("..","docs","img","example_subplots.png"),format="png", bbox_inches="tight", dpi=300)
+plt.show()
+```
+
+![Subplots](https://raw.githubusercontent.com/Tonner-Zech-Group/chem-diagrams/main/docs/img/example_subplots.png)
+
+
+## Pathrelated methods
 
 ### Drawing paths
 
@@ -110,6 +165,38 @@ dia.show()
 
 ![Path Styling](https://raw.githubusercontent.com/Tonner-Zech-Group/chem-diagrams/main/docs/img/example_path_styling.png)
 
+### Merging degenerate plateaus
+
+When two paths share the same energy level at the same x-position, `merge_plateaus`
+replaces both full-width bars with two shorter half-bars separated by a gap, with
+diagonal tick marks to indicate degeneracy.
+
+```python
+dia = EnergyDiagram(style="twosided")
+dia.draw_path(x_data=[0, 1, 2], y_data=[10, 55, 0], color="blue", path_name="Path A")
+dia.draw_path(x_data=[2, 3, 4], y_data=[0, 50, -5], color="red",  path_name="Path B")
+
+# Both paths share y=0 at x=2
+dia.merge_plateaus(
+    x=2,                        # x-position of the shared plateau in data coordinates
+    path_name_left="Path A",    # name of the left path to merge (must match the path_name used in draw_path)
+    path_name_right="Path B",   # name of the right path to merge (must match the path_name used in draw_path)
+    gap_scale=1.0,              # width of the gap between the two half-bars
+    stopper_scale=1.0,          # size of the diagonal tick marks
+    angle=30,                   # angle of the tick marks in degrees
+)
+
+dia.add_numbers_auto()
+dia.set_xlabels(["P1", "TS1", "E", "TS2", "P2"])
+dia.ax.set_ylabel("Energy / kJ mol$^{-1}$", fontsize=8)
+
+dia.fig.savefig(os.path.join("..","docs","img","example_merge_plateaus.png"),format="png", bbox_inches="tight")
+dia.show()
+```
+![Merge plateaus](https://raw.githubusercontent.com/Tonner-Zech-Group/chem-diagrams/main/docs/img/example_merge_plateaus.png)
+
+Both paths must already be drawn and must have exactly the same y-value at `x`.
+
 ### Path labels
 
 Text labels can be added for each path at each position with `add_path_labels`. This is useful to label specific states along a pathway.
@@ -167,6 +254,7 @@ dia.show()
 ```
 ![Path labels](https://raw.githubusercontent.com/Tonner-Zech-Group/chem-diagrams/main/docs/img/example_path_labels.png)
 
+## Style-related methods
 
 ### Diagram styles
 
@@ -195,9 +283,36 @@ Use `labelplaces` to set explicit x-coordinates instead of the default sequentia
 dia.set_xlabels(["A", "TS", "B"], labelplaces=[0, 2, 3])
 ```
 
-### Energy labels (numbering)
+### Axis breaks
 
-#### Numbering styles
+Axis breaks can be added to either axis to indicate a discontinuity in the scale. The break is drawn at the specified x or y position in data coordinates, with a gap in the axis line and diagonal tick marks.
+
+```python
+dia = EnergyDiagram(style="twosided")
+dia.draw_path(x_data=[0,1,2,3,4,5], y_data=[0,-13,22,75,39,-25], color="blue")
+
+dia.add_yaxis_break(y=5)
+dia.add_xaxis_break(
+    x=2,                        # x-position of the break in data coordinates
+    gap_scale=2,                # scaling factor for the gap in the axis line (default: 1)
+    stopper_scale=1.5,          # scaling factor for the size of the stopper tick marks (default: 1)
+    angle=60,                   # angle of the stopper tick marks in degrees (default: 60)
+)
+dia.set_xlabels(["A", "B", "C", "D", "E", "F"])
+dia.add_numbers_auto()
+dia.ax.set_ylabel("Energy / kJ mol$^{-1}$", fontsize=8)
+
+dia.fig.savefig(os.path.join("..","docs","img","example_breaks.png"),format="png", bbox_inches="tight")
+dia.show()
+```
+
+![Axis breaks](https://raw.githubusercontent.com/Tonner-Zech-Group/chem-diagrams/main/docs/img/example_breaks.png)
+
+Note: x-axis breaks are not compatible with the `"open"` and `"borderless"` styles. y-axis breaks are not compatible with the `"borderless"` style.
+
+## Numbering
+
+### Numbering styles
 
 Four numbering strategies are available. Call them after all paths have been drawn. 
 
@@ -285,7 +400,7 @@ dia.show()
 
 ![Numbering styles](https://raw.githubusercontent.com/Tonner-Zech-Group/chem-diagrams/main/docs/img/example_numbering.png)
 
-#### Modifying existing numbers
+### Modifying existing numbers
 
 Existing energy annotations can be modified by adding or subtracting values with `modify_number_values()`. This is useful to annotate energy differences (e.g., activation energies or reaction energies) by subtracting the relevant reference energy from the target energy. The resulting number is caclulated for each path as follows:
 
@@ -349,7 +464,7 @@ dia.show()
 
 ![Modify numbers](https://raw.githubusercontent.com/Tonner-Zech-Group/chem-diagrams/main/docs/img/example_number_modification.png)
 
-### Energy difference bars
+## Energy difference bars
 
 `draw_difference_bar` draws a vertical bar between two energy levels at a specified x-position, with optional horizontal whiskers to indicate the reference points for the difference.
 
@@ -382,68 +497,10 @@ dia.show()
 
 ![Difference bar](https://raw.githubusercontent.com/Tonner-Zech-Group/chem-diagrams/main/docs/img/example_diffbar.png)
 
-### Axis breaks
 
-Axis breaks can be added to either axis to indicate a discontinuity in the scale. The break is drawn at the specified x or y position in data coordinates, with a gap in the axis line and diagonal tick marks.
+## Placing images
 
-```python
-dia = EnergyDiagram(style="twosided")
-dia.draw_path(x_data=[0,1,2,3,4,5], y_data=[0,-13,22,75,39,-25], color="blue")
-
-dia.add_yaxis_break(y=5)
-dia.add_xaxis_break(
-    x=2,                        # x-position of the break in data coordinates
-    gap_scale=2,                # scaling factor for the gap in the axis line (default: 1)
-    stopper_scale=1.5,          # scaling factor for the size of the stopper tick marks (default: 1)
-    angle=60,                   # angle of the stopper tick marks in degrees (default: 60)
-)
-dia.set_xlabels(["A", "B", "C", "D", "E", "F"])
-dia.add_numbers_auto()
-dia.ax.set_ylabel("Energy / kJ mol$^{-1}$", fontsize=8)
-
-dia.fig.savefig(os.path.join("..","docs","img","example_breaks.png"),format="png", bbox_inches="tight")
-dia.show()
-```
-
-![Axis breaks](https://raw.githubusercontent.com/Tonner-Zech-Group/chem-diagrams/main/docs/img/example_breaks.png)
-
-Note: x-axis breaks are not compatible with the `"open"` and `"borderless"` styles. y-axis breaks are not compatible with the `"borderless"` style.
-
-### Merging degenerate plateaus
-
-When two paths share the same energy level at the same x-position, `merge_plateaus`
-replaces both full-width bars with two shorter half-bars separated by a gap, with
-diagonal tick marks to indicate degeneracy.
-
-```python
-dia = EnergyDiagram(style="twosided")
-dia.draw_path(x_data=[0, 1, 2], y_data=[10, 55, 0], color="blue", path_name="Path A")
-dia.draw_path(x_data=[2, 3, 4], y_data=[0, 50, -5], color="red",  path_name="Path B")
-
-# Both paths share y=0 at x=2
-dia.merge_plateaus(
-    x=2,                        # x-position of the shared plateau in data coordinates
-    path_name_left="Path A",    # name of the left path to merge (must match the path_name used in draw_path)
-    path_name_right="Path B",   # name of the right path to merge (must match the path_name used in draw_path)
-    gap_scale=1.0,              # width of the gap between the two half-bars
-    stopper_scale=1.0,          # size of the diagonal tick marks
-    angle=30,                   # angle of the tick marks in degrees
-)
-
-dia.add_numbers_auto()
-dia.set_xlabels(["P1", "TS1", "E", "TS2", "P2"])
-dia.ax.set_ylabel("Energy / kJ mol$^{-1}$", fontsize=8)
-
-dia.fig.savefig(os.path.join("..","docs","img","example_merge_plateaus.png"),format="png", bbox_inches="tight")
-dia.show()
-```
-![Merge plateaus](https://raw.githubusercontent.com/Tonner-Zech-Group/chem-diagrams/main/docs/img/example_merge_plateaus.png)
-
-Both paths must already be drawn and must have exactly the same y-value at `x`.
-
-### Placing images
-
-#### Single images
+### Single images
 
 `add_image_in_plot` places a single image at an explicit position in data coordinates. SVG and EPS formats are not supported; PNG and JPEG work best.
 
@@ -497,7 +554,7 @@ dia.show()
 ![Single image](https://raw.githubusercontent.com/Tonner-Zech-Group/chem-diagrams/main/docs/img/example_single_image.png)
 
 
-#### Image series
+### Image series
 
 `add_image_series_in_plot` places one image per reaction state, with automatic collision avoidance against energy numbers and x-axis labels. SVG and EPS formats are not supported; PNG and JPEG work best.
 
@@ -565,7 +622,7 @@ dia.show()
 ![Image series](https://raw.githubusercontent.com/Tonner-Zech-Group/chem-diagrams/main/docs/img/example_image_series.png)
 
 
-### Accessing Matplotlib objects
+## Accessing Matplotlib objects
 
 All Matplotlib artists are accessible after drawing for direct customisation. Most importantly, the figure and axes objects are available as `dia.fig` and `dia.ax` for direct Matplotlib calls. This allows to set axis labels, titles, limits, or any other Matplotlib property before saving or showing the figure.
 
@@ -579,7 +636,7 @@ dia.fig.savefig("diagram.png", dpi=300, bbox_inches="tight")
 dia.ax.set_title("My Energy Diagram", fontsize=12)
 ```
 
-#### Artists for paths
+### Artists for paths
 
 All objects of a path (plateaus and connectors) are stored in dia.lines and can be accessed by the path name and x-position. If a path was drawn with `width_plateau=0`, it has no plateau objects.
 
@@ -599,7 +656,7 @@ path_labels = dia.lines["My Path"].labels["2.0"]       # Label of "My Path" at x
 path_labels.set_color("blue")
 ```
 
-#### Artists for numbers
+### Artists for numbers
 
 All energy labels are stored in dia.numbers and can be accessed by path name and x-position.
 
@@ -610,7 +667,7 @@ label.set_color("red")
 label.set_fontsize(12)
 ```
 
-#### Artists for difference bars
+### Artists for difference bars
 
 Components of difference bars are stored in dia.bars and can be accessed by the order of bar placement (e.g., `dia.bars[0]` for the first one, `dia.bars[1]` for the second one...). A difference bar consists of the vertical bar (`bar`), an optional text label (`text`), and optional horizontal whiskers (`whisker_1`, `whisker_2`).
 
@@ -621,7 +678,7 @@ first_bar.bar.arrow_patch.set_color("green")            # Set the color of the v
 first_bar.whisker_2.set_color("blue")                   # Set the color of the second whisker of the first bar to blue
 ```
 
-#### Artists for axes, arrows and x-labels
+### Artists for axes, arrows and x-labels
 
 Style objects for axes, arrows, and x-labels are stored in `dia.ax_objects` and can be accessed by their type and x-position (for x-labels). x-labels (`x_labels`) are only stored if they were created with `set_xlabels(..., in_plot=True)`. 
 
@@ -656,7 +713,7 @@ The horizontal line when using diagram style `"open"` is stored as `x_axis`.
 dia.ax_objects.axes["x_axis"].set_visible(False)
 ```
 
-#### Artists for images
+### Artists for images
 
 Images are stored in `dia.images` by their name, which is either the `img_name` passed to `add_image_in_plot` or the `img_series_name` passed to `add_image_series_in_plot`. The former is stored as an `ImageObject`, which has an `image` attribute for the Matplotlib AxesImage and a `borders` dictionary for the frame lines keyed by "top", "bottom", "left", and "right". The latter is stored as a dictionary keyed by x-position as a string formatted to one decimal place, with each entry being an `ImageObject`.
 
@@ -674,7 +731,3 @@ img_at_x1.image.set_alpha(0.5)
 img_at_x1.borders["bottom"].set_linestyle("--")
 
 ```
-
-## Examples
-
-Examples can be found in the ([documentation](https://tonner-zech-group.github.io/chem-diagrams/)). A set of even more examples is available in [`examples/example_use.ipynb`](https://github.com/Tonner-Zech-Group/chem-diagrams/blob/main/examples/example_use.ipynb). The latter, however, is not actively maintained anymore and may be outdated with respect to the latest version of the package.
