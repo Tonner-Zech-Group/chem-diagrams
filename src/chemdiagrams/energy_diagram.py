@@ -66,6 +66,13 @@ class EnergyDiagram:
     template : instance of BaseTemplate, optional
         Template class for customizing default settings and startup behavior.
         Default is an instance of BaseTemplate with no modifications.
+    ax : matplotlib.axes.Axes or None, optional
+        External Matplotlib axes to use for the diagram. If None, a new figure
+        and axes are created internally. If an external axis is provided, the
+        ``figsize`` and ``width_limit`` parameters are ignored, automatic figure
+        size scaling is disabled, and the size of the external figure is used
+        instead. This is useful for creating multi-panel figures with subplots.
+        Default is None.
 
     Attributes
     ----------
@@ -160,6 +167,7 @@ class EnergyDiagram:
         style: str | None = None,
         dpi: int | None = None,
         template: BaseTemplate = BaseTemplate(),
+        ax: Axes | None = None,
     ):
         # Check that template is a BaseTemplate or subclass thereof
         if isinstance(template, type):
@@ -181,7 +189,7 @@ class EnergyDiagram:
             dpi = constants.DEFAULT_DPI
 
         # Initialize managers
-        self._figure_manager = FigureManager(fontsize=fontsize, dpi=dpi)
+        self._figure_manager = FigureManager(fontsize=fontsize, dpi=dpi, ax=ax)
         self._path_manager = PathManager(self._figure_manager, constants=constants)
         self._number_manager = NumberManager(self._figure_manager, constants=constants)
         self._style_manager = StyleManager(

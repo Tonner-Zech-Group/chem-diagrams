@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from typing import cast
+
 from ..constants import Constants
 from ..validation import Validators
 from .figure_manager import FigureManager
@@ -39,7 +41,55 @@ class LayoutManager:
         self.figsize = figsize
         self.extra_x_margin = extra_x_margin
         self.extra_y_margin = extra_y_margin
-        self.width_limit = width_limit
+
+        if self.figure_manager.has_external_ax:
+            if width_limit is not None:
+                print("Warning: width_limit is ignored when using an external axis.")
+                self.width_limit = None
+            if self.figsize is not None:
+                print(
+                    "Warning: figsize is ignored when using an external "
+                    "axis. Must be set on the external figure directly."
+                )
+            # Get figsize of total suplot arrangement
+            total_figsize = self.figure_manager.fig.get_size_inches()
+
+            subplot_spec = self.figure_manager.ax.get_subplotspec()
+
+            if subplot_spec is None:
+                raise TypeError("The provided ax does not belong to a valid subplot.")
+
+            # Calculate width
+            width_ratios = cast(
+                list[float] | None, subplot_spec.get_gridspec().get_width_ratios()
+            )
+            if width_ratios is None:
+                n_cols = subplot_spec.get_gridspec().get_geometry()[1]
+                width = total_figsize[0] / n_cols
+            else:
+                current_width_ratio = width_ratios[subplot_spec.colspan.start]
+                assert isinstance(current_width_ratio, (int, float))
+                total_width_ratio = sum(width_ratios)
+                width = total_figsize[0] * (current_width_ratio / total_width_ratio)
+
+            # Calculate height
+            height_ratios = cast(
+                list[float] | None, subplot_spec.get_gridspec().get_height_ratios()
+            )
+            if height_ratios is None:
+                n_rows = subplot_spec.get_gridspec().get_geometry()[0]
+                height = total_figsize[1] / n_rows
+            else:
+                current_height_ratio = height_ratios[subplot_spec.rowspan.start]
+                assert isinstance(current_height_ratio, (int, float))
+                total_height_ratio = sum(height_ratios)
+                height = total_figsize[1] * (current_height_ratio / total_height_ratio)
+
+            # Save figsize
+            self.figsize = (width, height)
+        else:
+            self.width_limit = width_limit
+            self.figsize = figsize
 
     def adjust_xy_limits(self, path_data: dict) -> dict[str, tuple]:
         """
@@ -131,17 +181,21 @@ class LayoutManager:
                 x_size = self.width_limit
             if x_size <= 0:  # Avoid a figure without size
                 x_size = 1
-            self.figure_manager.fig.set_figwidth(x_size)
 
             # Determine and set height
             y_size = self.constants.FIG_HEIGHT
             if y_size > x_size:
                 y_size = x_size  # Avoid ugly diagrams
+
+            # Apply the figure size
+            self.figure_manager.fig.set_figwidth(x_size)
             self.figure_manager.fig.set_figheight(y_size)
             return (x_size, y_size)
 
         else:
             self.adjust_xy_limits(path_data)
-            self.figure_manager.fig.set_figwidth(self.figsize[0])
-            self.figure_manager.fig.set_figheight(self.figsize[1])
+            # Only adjust figure size if not controlles externally
+            if not self.figure_manager.has_external_ax:
+                self.figure_manager.fig.set_figwidth(self.figsize[0])
+                self.figure_manager.fig.set_figheight(self.figsize[1])
             return (self.figsize[0], self.figsize[1])

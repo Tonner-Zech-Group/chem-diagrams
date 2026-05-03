@@ -12,6 +12,7 @@ theme:
 
 nav:
   - Home: index.md
+  - Quickstart: quickstart.md
   - Methods: methods.md
   - Usage: usage.md
   - Examples: examples.md

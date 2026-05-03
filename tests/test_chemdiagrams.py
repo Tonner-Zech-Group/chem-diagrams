@@ -81,6 +81,270 @@ class TestConstruction:
 
 
 # ---------------------------------------------------------------------------
+# External Axis (Subplots)
+# ---------------------------------------------------------------------------
+
+
+class TestExternalAxis:
+    """Tests for using EnergyDiagram with externally provided matplotlib axes."""
+
+    def test_external_ax_provided(self):
+        """Test that EnergyDiagram accepts an external axis."""
+        fig, ax = plt.subplots()
+        dia = EnergyDiagram(ax=ax)
+        assert isinstance(dia, EnergyDiagram)
+        assert dia.ax is ax
+
+    def test_external_ax_uses_provided_figure(self):
+        """Test that the diagram uses the figure from the external axis."""
+        fig, ax = plt.subplots()
+        dia = EnergyDiagram(ax=ax)
+        assert dia.fig is fig
+
+    def test_external_ax_flag_is_set(self):
+        """Test that has_external_ax flag is True when ax is provided."""
+        fig, ax = plt.subplots()
+        dia = EnergyDiagram(ax=ax)
+        assert dia._figure_manager.has_external_ax is True
+
+    def test_internal_ax_flag_is_false(self):
+        """Test that has_external_ax flag is False for default construction."""
+        dia = EnergyDiagram()
+        assert dia._figure_manager.has_external_ax is False
+
+    def test_external_ax_invalid_type(self):
+        """Test that providing an invalid type as ax raises TypeError."""
+        with pytest.raises(TypeError):
+            EnergyDiagram(ax="not an axis")
+
+    def test_external_ax_with_draw_path(self):
+        """Test that draw_path works with external axis."""
+        fig, ax = plt.subplots()
+        dia = EnergyDiagram(ax=ax)
+        result = dia.draw_path([0, 1, 2], [0, 10, -5], color="blue")
+        assert result is dia
+
+    def test_external_ax_with_multiple_paths(self):
+        """Test drawing multiple paths on external axis."""
+        fig, ax = plt.subplots()
+        dia = EnergyDiagram(ax=ax)
+        dia.draw_path([0, 1, 2], [0, 10, -5], color="blue", path_name="path_A")
+        dia.draw_path([0, 1, 2], [0, 5, -10], color="red", path_name="path_B")
+        assert len(dia._path_manager.path_data) == 2
+
+    def test_external_ax_with_labels(self):
+        """Test that set_xlabels works with external axis."""
+        fig, ax = plt.subplots()
+        dia = EnergyDiagram(ax=ax)
+        dia.draw_path([0, 1, 2, 3, 4], [0, 28, -14, 15, -22], color="blue")
+        result = dia.set_xlabels(["E", "TS1", "I", "TS2", "P"])
+        assert result is dia
+
+    def test_external_ax_with_numbers_auto(self):
+        """Test that add_numbers_auto works with external axis."""
+        fig, ax = plt.subplots()
+        dia = EnergyDiagram(ax=ax)
+        dia.draw_path([0, 1, 2, 3, 4], [0, 28, -14, 15, -22], color="blue")
+        result = dia.add_numbers_auto()
+        assert result is dia
+
+    def test_external_ax_with_numbers_stacked(self):
+        """Test that add_numbers_stacked works with external axis."""
+        fig, ax = plt.subplots()
+        dia = EnergyDiagram(ax=ax)
+        dia.draw_path([0, 1, 2, 3, 4], [0, 28, -14, 15, -22], color="blue")
+        result = dia.add_numbers_stacked()
+        assert result is dia
+
+    def test_external_ax_with_difference_bar(self):
+        """Test that draw_difference_bar works with external axis."""
+        fig, ax = plt.subplots()
+        dia = EnergyDiagram(ax=ax)
+        dia.draw_path([0, 1, 2, 3, 4], [0, 28, -14, 15, -22], color="blue")
+        result = dia.draw_difference_bar(x=1, y_start_end=(0, 28), description=r"$\Delta E$: ")
+        assert result is dia
+
+    def test_external_ax_with_legend(self):
+        """Test that legend works with external axis."""
+        fig, ax = plt.subplots()
+        dia = EnergyDiagram(ax=ax)
+        dia.draw_path([0, 1, 2, 3, 4], [0, 28, -14, 15, -22], color="blue", path_name="Path A")
+        result = dia.legend()
+        assert result is dia
+
+    def test_subplot_2x2_grid(self):
+        """Test creating diagrams in a 2x2 subplot grid."""
+        fig, axes = plt.subplots(nrows=2, ncols=2, figsize=(10, 8))
+
+        # Create diagrams for each subplot
+        dia11 = EnergyDiagram(ax=axes[0, 0], style="halfboxed")
+        dia11.draw_path([0, 1, 2, 3, 4], [0, 28, -14, 15, -22], color="blue")
+        dia11.set_xlabels(["E", "TS1", "I", "TS2", "P"])
+
+        dia12 = EnergyDiagram(ax=axes[0, 1], style="open")
+        dia12.draw_path([0, 1, 2, 3, 4], [0, 25, 6, 15, -18], color="red")
+        dia12.set_xlabels(["E", "TS1", "I", "TS2", "P"])
+
+        dia21 = EnergyDiagram(ax=axes[1, 0], style="boxed")
+        dia21.draw_path([0, 1, 2, 3, 4], [0, 28, -14, 15, -22], color="green")
+        dia21.set_xlabels(["E", "TS1", "I", "TS2", "P"])
+
+        dia22 = EnergyDiagram(ax=axes[1, 1], style="borderless")
+        dia22.draw_path([0, 1, 2, 3, 4], [0, 25, 6, 15, -18], color="purple")
+        dia22.set_xlabels(["E", "TS1", "I", "TS2", "P"])
+
+        # Verify all diagrams use their respective axes and the same figure
+        assert dia11.ax is axes[0, 0]
+        assert dia12.ax is axes[0, 1]
+        assert dia21.ax is axes[1, 0]
+        assert dia22.ax is axes[1, 1]
+        assert dia11.fig is fig
+        assert dia12.fig is fig
+        assert dia21.fig is fig
+        assert dia22.fig is fig
+
+    def test_subplot_1x3_grid(self):
+        """Test creating diagrams in a 1x3 subplot grid."""
+        fig, axes = plt.subplots(nrows=1, ncols=3, figsize=(15, 4))
+
+        diagrams = []
+        colors = ["blue", "red", "green"]
+        styles = ["open", "boxed", "halfboxed"]
+
+        for i, (ax, color, style) in enumerate(zip(axes, colors, styles)):
+            dia = EnergyDiagram(ax=ax, style=style)
+            dia.draw_path([0, 1, 2], [0, i * 10, -5], color=color)
+            diagrams.append(dia)
+
+        # Verify all diagrams share the same figure
+        for dia in diagrams:
+            assert dia.fig is fig
+
+        # Verify each diagram has a different axis
+        for i, dia in enumerate(diagrams):
+            assert dia.ax is axes[i]
+
+    def test_subplot_with_width_ratios(self):
+        """Test that subplot width_ratios are respected."""
+        fig, axes = plt.subplots(
+            nrows=2,
+            ncols=2,
+            width_ratios=[1.5, 1],
+            figsize=(10, 6),
+        )
+
+        dia11 = EnergyDiagram(ax=axes[0, 0])
+        dia11.draw_path([0, 1, 2, 3, 4, 5, 6], [0, 28, -14, 15, -22, 12, -13], color="blue")
+
+        dia12 = EnergyDiagram(ax=axes[0, 1])
+        dia12.draw_path([0, 1, 2, 3, 4], [0, 28, -14, 15, -22], color="blue")
+
+        # Both diagrams should share the same figure
+        assert dia11.fig is dia12.fig
+        # But use different axes
+        assert dia11.ax is not dia12.ax
+
+    def test_external_ax_figsize_ignored(self):
+        """Test that figsize parameter is effectively overridden by external ax."""
+        fig, ax = plt.subplots(figsize=(8, 6))
+        original_figsize = fig.get_size_inches()
+
+        # Create diagram with an explicit figsize (should be ignored)
+        dia = EnergyDiagram(ax=ax, figsize=(12, 10))
+
+        # The figure size should match the external figure, not the requested figsize
+        current_figsize = dia.fig.get_size_inches()
+        assert np.allclose(current_figsize, original_figsize)
+
+    def test_external_ax_width_limit_ignored(self):
+        """Test that width_limit parameter is overridden by external ax."""
+        fig, ax = plt.subplots(figsize=(6, 4))
+        original_figsize = fig.get_size_inches()
+
+        # Create diagram with a width_limit (should be ignored)
+        dia = EnergyDiagram(ax=ax, width_limit=100)
+
+        # The figure size should match the external figure, not be scaled by width_limit
+        current_figsize = dia.fig.get_size_inches()
+        assert np.allclose(current_figsize, original_figsize)
+
+    def test_external_ax_all_styles(self):
+        """Test that all diagram styles work with external axes."""
+        styles = ["open", "boxed", "halfboxed", "twosided", "borderless"]
+
+        for style in styles:
+            fig, ax = plt.subplots()
+            dia = EnergyDiagram(ax=ax, style=style)
+            dia.draw_path([0, 1, 2, 3, 4], [0, 28, -14, 15, -22], color="blue")
+            assert dia.ax is ax
+            assert dia.fig is fig
+            plt.close(fig)
+
+    def test_external_ax_with_custom_fontsize(self):
+        """Test that custom fontsize works with external axis."""
+        fig, ax = plt.subplots()
+        dia = EnergyDiagram(ax=ax, fontsize=14)
+        assert dia._figure_manager.fontsize == 14
+
+    def test_external_ax_with_numbers_naive(self):
+        """Test that add_numbers_naive works with external axis."""
+        fig, ax = plt.subplots()
+        dia = EnergyDiagram(ax=ax)
+        dia.draw_path([0, 1, 2, 3, 4], [0, 28, -14, 15, -22], color="blue")
+        result = dia.add_numbers_naive()
+        assert result is dia
+
+    def test_external_ax_with_numbers_average(self):
+        """Test that add_numbers_average works with external axis."""
+        fig, ax = plt.subplots()
+        dia = EnergyDiagram(ax=ax)
+        dia.draw_path([0, 1, 2, 3, 4], [0, 28, -14, 15, -22], color="blue")
+        result = dia.add_numbers_average()
+        assert result is dia
+
+    def test_external_ax_with_path_labels(self):
+        """Test that add_path_labels works with external axis."""
+        fig, ax = plt.subplots()
+        dia = EnergyDiagram(ax=ax)
+        dia.draw_path([0, 1, 2, 3, 4], [0, 28, -14, 15, -22], color="blue", path_name="Path")
+        result = dia.add_path_labels("Path", ["E", "TS1", "I", "TS2", "P"])
+        assert result is dia
+
+    def test_external_ax_with_axis_breaks(self):
+        """Test that add_xaxis_break and add_yaxis_break work with external axis."""
+        fig, ax = plt.subplots()
+        # Use twosided style which supports axis breaks
+        dia = EnergyDiagram(ax=ax, style="twosided")
+        dia.draw_path([0, 1, 2, 3, 4, 5], [0, -13, 22, 75, 39, -25], color="blue")
+        dia.add_xaxis_break(x=2)
+        dia.add_yaxis_break(y=5)
+        assert dia.ax is ax
+
+    def test_external_ax_with_merge_plateaus(self):
+        """Test that merge_plateaus works with external axis."""
+        fig, ax = plt.subplots()
+        dia = EnergyDiagram(ax=ax)
+        dia.draw_path([0, 1, 2], [10, 55, 0], color="blue", path_name="Path A")
+        dia.draw_path([2, 3, 4], [0, 50, -5], color="red", path_name="Path B")
+        result = dia.merge_plateaus(x=2, path_name_left="Path A", path_name_right="Path B")
+        assert result is dia
+
+    def test_external_ax_multiple_operations_chain(self):
+        """Test that method chaining works correctly with external axis."""
+        fig, ax = plt.subplots()
+        dia = (
+            EnergyDiagram(ax=ax, style="halfboxed")
+            .draw_path([0, 1, 2, 3, 4], [0, 28, -14, 15, -22], color="blue", path_name="Path")
+            .draw_path([0, 1, 2, 3, 4], [0, 25, 6, 15, -18], color="red", path_name="Path2")
+            .set_xlabels(["E", "TS1", "I", "TS2", "P"])
+            .add_numbers_auto()
+            .legend()
+        )
+        assert dia.ax is ax
+        assert len(dia._path_manager.path_data) == 2
+
+
+# ---------------------------------------------------------------------------
 # draw_path
 # ---------------------------------------------------------------------------
 

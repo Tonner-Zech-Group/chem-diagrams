@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [0.5.0] - 2026-05-03
+
+### Added
+
+- Added the possiblity to pass an axis to the constructor of `EnergyDiagram` for inserting it into an existing figure and axes, which allows it to be integrated into a subplot or to be combined with other plot elements.
+
+### Changed
+
+- Shortened the README to the most essential information. Detailed usage instructions and examples for all methods are provided in the documentation on GitHub Pages: https://tonner-zech-group.github.io/chem-diagrams/.
+
 ## [0.4.3] - 2026-05-02
 
 ### Changed
