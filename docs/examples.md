@@ -194,7 +194,7 @@ dia.show()
 ```
 ![Diagram 4](https://raw.githubusercontent.com/Tonner-Zech-Group/chem-diagrams/main/docs/img/title/image_4.png)
 
-## Example 5: Path labels
+## Example 5: Path labels, append to energy labels
 
 ```python
 from chemdiagrams import EnergyDiagram
@@ -205,7 +205,8 @@ dia = EnergyDiagram()
 dia.draw_path(
     [0,1,2,3], [0, 18, 12, 26], "blue",
     path_name="Blue path",
-    linetypes=[4,4,3]
+    linetypes=[4,4,3],
+    width_plateau=0.65,
 )
 
 dia.add_path_labels("Blue path", [None, "TS", "P", "P2"])
@@ -213,14 +214,24 @@ dia.add_path_labels("Blue path", [None, "TS", "P", "P2"])
 dia.draw_path(
     [0,1,2,3], [0, 7, -10, -5], "red",
     path_name="Red path",
-    linetypes=[4,4,3]
+    linetypes=[4,4,3],
+    width_plateau=0.65,
 )
 
 dia.add_path_labels("Red path", ["E", "TS", "P", "P2"])
 dia.lines["Red path"].labels["0.0"].set_color("black")
 
-dia.add_numbers_auto(x_min_max=(1,3))
+dia.add_numbers_auto(x_min_max=(1,3), fontsize=7)
 dia.add_numbers_average(color="black", x_min_max=0)
+
+dia.append_to_energy_labels(
+    numbers_to_append={
+        "Blue path": [16, 10, 20],
+        "Red path": [9, -8, -4],
+        "Average": [0]
+    },
+    brackets=("(", ")")
+)
 
 dia.legend(fontsize=5)
 dia.ax.set_ylabel(r"$\Delta E$ in kJ mol$^{-1}$", fontsize=8)

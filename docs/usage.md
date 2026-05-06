@@ -78,7 +78,7 @@ plt.show()
 ![Subplots](https://raw.githubusercontent.com/Tonner-Zech-Group/chem-diagrams/main/docs/img/example_subplots.png)
 
 
-## Pathrelated methods
+## Path-related methods
 
 ### Drawing paths
 
@@ -463,6 +463,78 @@ dia.show()
 ```
 
 ![Modify numbers](https://raw.githubusercontent.com/Tonner-Zech-Group/chem-diagrams/main/docs/img/example_number_modification.png)
+
+### Multiple numbers per label (appending to energy labels)
+
+`append_to_energy_labels` allows to append additional numbers to the existing energy labels for each path. This is useful for displaying multiple energy values (e.g., electronic energy and dispersion energy) for each state. To achieve this, first use a number placement method (e.g., `add_numbers_auto`) and then append the second set of values with `append_to_energy_labels`.
+
+```python
+...
+draw_path(path_name="Path A", ...)
+draw_path(path_name="Path B", ...)
+add_numbers_auto(xmin_max=(1,3))
+add_numbers_average(x_min_max=0)
+
+dia.append_to_energy_labels(
+    numbers_to_append={
+        "Path A": [16, 10, 20],   # list of numbers to append for each state of Path A
+        "Path B": [9, -8, -4],    # list of numbers to append for each state of Path B
+        "Average": [0],           # list of numbers to append for the average label (if add_numbers_average was used)
+    },
+    brackets=("[", "]"),          # pair of strings to add as brackets around the appended number; None for no brackets
+    n_decimals=0,                 # number of decimals to round the appended number to (default is 0)
+    infront=False,                # place the appended number in front of the original number instead of behind (default is False)
+)
+```
+
+The method `append_to_energy_labels` can also be used multiple times to append several sets of numbers, which will be added sequentially behind each other.
+
+Example:
+
+```python
+dia = EnergyDiagram()
+
+dia.draw_path(
+    x_data=[0, 1, 2, 3, 4],
+    y_data=[0, 28, -14, 15.3, -22],
+    color="blue",
+    path_name="Blue path",
+    linetypes=3,
+)
+
+dia.draw_path(
+    x_data=[0, 1, 2, 3, 4],
+    y_data=[0, 25, 6, 15.2, -18],
+    color="red",
+    path_name="Red path",
+    linetypes=3,
+)
+
+dia.add_numbers_auto(x_min_max=(1,4), fontsize=6)
+dia.add_numbers_average(x_min_max=0, fontsize=6)
+
+dia.append_to_energy_labels(
+    numbers_to_append={
+        "Blue path": [16, 10, 20, -6],
+        "Red path": [9, -8, -4, 2],
+        "Average": [0]
+    },
+)
+
+dia.append_to_energy_labels(
+    numbers_to_append={
+        "Average": [3]
+    },
+    brackets=("[", "]"),
+    n_decimals=1
+)
+
+dia.fig.tight_layout()
+dia.fig.savefig(os.path.join("..","docs","img","example_append_numbers.png"),format="png", bbox_inches="tight")
+dia.show()
+```
+
+![Append numbers](https://raw.githubusercontent.com/Tonner-Zech-Group/chem-diagrams/main/docs/img/example_append_numbers.png)
 
 ## Energy difference bars
 

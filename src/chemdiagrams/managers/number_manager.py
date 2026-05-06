@@ -439,6 +439,48 @@ class NumberManager:
                 new_text = new_text.replace("-", self.constants.MINUS_SIGN)
                 label.set_text(new_text)
 
+    def append_to_energy_labels(
+        self,
+        numbers_to_append: dict[str, Sequence[float]],
+        brackets: tuple[str, str] | list[str] | None = ("(", ")"),
+        n_decimals: int = 0,
+        infront: bool = False,
+    ) -> None:
+        # Sanity checks
+        if brackets is None:
+            brackets = ("", "")
+        Validators.validate_string_sequence(brackets, "brackets", required_length=2)
+        Validators.validate_number(n_decimals, "n_decimals", min_value=0, only_integer=True)
+        for path_name, number_list in numbers_to_append.items():
+            if path_name not in self.mpl_objects.keys():
+                raise ValueError(
+                    f"append_to_energy_labels: No energy labels found for path"
+                    f" '{path_name}' specified in numbers_to_append."
+                )
+
+            Validators.validate_numeric_sequence(
+                number_list, f"numbers_to_append['{path_name}']", allow_none_elements=True
+            )
+
+        # For each path append the numbers to the label
+        for path_name, number_list in numbers_to_append.items():
+            if len(number_list) != len(self.mpl_objects[path_name]):
+                raise ValueError(
+                    f"Length of numbers_to_append for path '{path_name}' does not match"
+                    f" the number of energy labels ({len(self.mpl_objects[path_name])})."
+                )
+            for i, energy_label in enumerate(self.mpl_objects[path_name].values()):
+                if number_list[i] is not None:
+                    number_to_append = (
+                        f"{brackets[0]}{number_list[i]:.{n_decimals}f}{brackets[1]}"
+                    )
+                    number_to_append = number_to_append.replace("-", self.constants.MINUS_SIGN)
+                    if infront:
+                        new_text = number_to_append + energy_label.get_text()
+                    else:
+                        new_text = energy_label.get_text() + number_to_append
+                    energy_label.set_text(new_text)
+
     ############################################################
     # Helper methods for number placement and overlap checking
     ############################################################

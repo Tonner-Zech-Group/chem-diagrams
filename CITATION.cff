@@ -2,7 +2,7 @@ cff-version: 1.2.0
 message: "If you use this software, please cite it using the metadata below."
 title: "chemdiagrams"
 abstract: "Publication-quality reaction energy diagrams for computational chemistry"
-version: "0.5.0"
+version: "0.5.1"
 date-released: "2026-05-02"
 license: MIT
 repository-code: "https://github.com/Tonner-Zech-Group/chem-diagrams"

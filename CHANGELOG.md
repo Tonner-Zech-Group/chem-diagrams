@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [0.5.1] - 2026-05-06
+
+### Added
+
+- Added the `append_to_energy_labels()` method, which can be used for adding additional values in brackets to existing energy labels.
+
 ## [0.5.0] - 2026-05-03
 
 ### Added
