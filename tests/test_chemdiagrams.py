@@ -901,6 +901,154 @@ class TestNumbering:
         dia.modify_number_values(x=3, x_subtract=[0], brackets=["ΔH", ""], n_decimals=1)
         assert len(dia.numbers) > 0
 
+    def test_append_to_energy_labels_basic(self):
+        """Test basic appending of numbers to energy labels."""
+        dia = make_diagram()
+        dia.add_numbers_naive()
+        result = dia.append_to_energy_labels({"A": [1.5, 2.3, None, 4.1, 0.0]})
+        assert result is dia  # method chaining
+
+    def test_append_to_energy_labels_with_default_brackets(self):
+        """Test appending numbers with default parentheses brackets."""
+        dia = make_diagram()
+        dia.add_numbers_naive()
+        dia.append_to_energy_labels({"A": [1.0, 2.0, 3.0, 4.0, 5.0]})
+        # Labels should now contain appended values in brackets
+        label_text = dia.numbers["A"]["0.0"].get_text()
+        assert "(" in label_text and ")" in label_text
+
+    def test_append_to_energy_labels_with_custom_brackets(self):
+        """Test appending numbers with custom bracket characters."""
+        dia = make_diagram()
+        dia.add_numbers_naive()
+        dia.append_to_energy_labels({"A": [1.5, 2.3, 3.1, 4.2, 5.0]}, brackets=("[", "]"))
+        label_text = dia.numbers["A"]["0.0"].get_text()
+        assert "[" in label_text and "]" in label_text
+
+    def test_append_to_energy_labels_with_no_brackets(self):
+        """Test appending numbers without brackets."""
+        dia = make_diagram()
+        dia.add_numbers_naive()
+        original_text = dia.numbers["A"]["0.0"].get_text()
+        dia.append_to_energy_labels({"A": [1.5, 2.3, 3.1, 4.2, 5.0]}, brackets=("", ""))
+        new_text = dia.numbers["A"]["0.0"].get_text()
+        # Text should just be concatenated without brackets
+        assert new_text != original_text
+        assert "(" not in new_text and ")" not in new_text
+
+    def test_append_to_energy_labels_with_none_brackets(self):
+        """Test appending numbers with None for brackets (should default to empty)."""
+        dia = make_diagram()
+        dia.add_numbers_naive()
+        dia.append_to_energy_labels({"A": [1.0, 2.0, 3.0, 4.0, 5.0]}, brackets=None)
+
+    def test_append_to_energy_labels_with_decimal_places(self):
+        """Test appending numbers with custom decimal precision."""
+        dia = make_diagram()
+        dia.add_numbers_naive()
+        dia.append_to_energy_labels(
+            {"A": [1.5678, 2.3456, 3.1234, 4.2345, 5.6789]}, brackets=("[", "]"), n_decimals=2
+        )
+        label_text = dia.numbers["A"]["0.0"].get_text()
+        # Should contain 2 decimal places
+        assert "1.57" in label_text
+
+    def test_append_to_energy_labels_with_none_values(self):
+        """Test that None values in the list are skipped."""
+        dia = make_diagram()
+        dia.add_numbers_naive()
+        original_text_1 = dia.numbers["A"]["1.0"].get_text()
+        original_text_2 = dia.numbers["A"]["2.0"].get_text()
+
+        dia.append_to_energy_labels({"A": [1.0, None, None, 4.0, 5.0]}, brackets=("[", "]"))
+
+        # Labels at index 1 and 2 should remain unchanged
+        assert dia.numbers["A"]["1.0"].get_text() == original_text_1
+        assert dia.numbers["A"]["2.0"].get_text() == original_text_2
+        # Labels at index 0 and 3 should have been modified
+        assert dia.numbers["A"]["0.0"].get_text() != original_text_1.replace("0", "1")
+
+    def test_append_to_energy_labels_infront_parameter(self):
+        """Test placing appended numbers in front of existing text."""
+        dia = make_diagram()
+        dia.add_numbers_naive()
+        original_text = dia.numbers["A"]["0.0"].get_text()
+
+        dia.append_to_energy_labels(
+            {"A": [1.5, 2.3, 3.1, 4.2, 5.0]}, brackets=("[", "]"), infront=True
+        )
+
+        new_text = dia.numbers["A"]["0.0"].get_text()
+        # Appended text should be at the front
+        assert new_text.startswith("[")
+        assert original_text in new_text
+
+    def test_append_to_energy_labels_infront_false(self):
+        """Test default behavior of placing appended numbers after existing text."""
+        dia = make_diagram()
+        dia.add_numbers_naive()
+        original_text = dia.numbers["A"]["0.0"].get_text()
+
+        dia.append_to_energy_labels(
+            {"A": [1.5, 2.3, 3.1, 4.2, 5.0]}, brackets=("[", "]"), infront=False
+        )
+
+        new_text = dia.numbers["A"]["0.0"].get_text()
+        # Original text should be at the front
+        assert new_text.startswith(original_text)
+        assert "[" in new_text
+
+    def test_append_to_energy_labels_multiple_paths(self):
+        """Test appending numbers to multiple paths at once."""
+        dia = EnergyDiagram()
+        dia.draw_path([0, 1, 2, 3], [0, 20, -10, 5], color="blue", path_name="path_a")
+        dia.draw_path([0, 1, 2, 3], [0, 15, -5, 8], color="red", path_name="path_b")
+        dia.add_numbers_naive()
+
+        dia.append_to_energy_labels(
+            {"path_a": [1.0, 2.0, 3.0, 4.0], "path_b": [0.5, 1.5, 2.5, 3.5]}
+        )
+
+        # Both paths should have been modified
+        assert "(" in dia.numbers["path_a"]["0.0"].get_text()
+        assert "(" in dia.numbers["path_b"]["0.0"].get_text()
+
+    def test_append_to_energy_labels_nonexistent_path_raises_error(self):
+        """Test that appending to nonexistent path raises ValueError."""
+        dia = make_diagram()
+        dia.add_numbers_naive()
+
+        with pytest.raises(ValueError, match="No energy labels found for path"):
+            dia.append_to_energy_labels({"nonexistent_path": [1.0, 2.0, 3.0, 4.0, 5.0]})
+
+    def test_append_to_energy_labels_length_mismatch_raises_error(self):
+        """Test that mismatched number list length raises ValueError."""
+        dia = make_diagram()
+        dia.add_numbers_naive()
+
+        # Path has 5 energy levels, but we provide only 3 numbers
+        with pytest.raises(ValueError, match="Length of numbers_to_append.*does not match"):
+            dia.append_to_energy_labels({"A": [1.0, 2.0, 3.0]})
+
+    def test_append_to_energy_labels_zero_values(self):
+        """Test appending zero values."""
+        dia = make_diagram()
+        dia.add_numbers_naive()
+        dia.append_to_energy_labels({"A": [0.0, 0.0, 0.0, 0.0, 0.0]}, brackets=("[", "]"))
+        label_text = dia.numbers["A"]["0.0"].get_text()
+        assert "[0" in label_text
+
+    def test_append_to_energy_labels_negative_values(self):
+        """Test appending negative values with minus sign handling."""
+        dia = make_diagram()
+        dia.add_numbers_naive()
+        dia.append_to_energy_labels(
+            {"A": [-1.5, -2.3, -3.1, -4.2, -5.0]}, brackets=("[", "]"), n_decimals=1
+        )
+        # Should contain formatted negative numbers
+        label_text = dia.numbers["A"]["0.0"].get_text()
+        assert "[" in label_text
+
 
 # ---------------------------------------------------------------------------
 # Difference bars

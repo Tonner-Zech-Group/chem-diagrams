@@ -13,6 +13,7 @@
 | `add_numbers_auto()` | Automatically distribute labels to minimise clutter (recommended) |
 | `add_numbers_average()` | Annotate with the mean energy across all paths at each x-position |
 | `modify_number_values()` | Modify existing energy annotations by adding or subtracting values |
+| `append_to_energy_labels()` | Append additional values to existing energy annotations |
 | `add_xaxis_break()` | Add a break marker on the x-axis |
 | `add_yaxis_break()` | Add a break marker on the y-axis |
 | `add_image_in_plot()` | Place a single image at an explicit data-coordinate position |

@@ -136,6 +136,9 @@ class EnergyDiagram:
     modify_number_values(x, x_add=None, x_subtract=None, ...)
         Modify existing energy annotations by adding or subtracting values.
 
+    append_to_energy_labels(numbers_to_append, brackets=("(", ")"), ...)
+        Append numbers in brackets to existing energy annotations.
+
     add_image_in_plot(img_path, position, ...)
         Place a single image at an explicit position within the diagram.
 
@@ -1082,6 +1085,73 @@ class EnergyDiagram:
             exclude_paths=exclude_paths,
             brackets=brackets,
             n_decimals=n_decimals,
+        )
+        return self
+
+    def append_to_energy_labels(
+        self,
+        numbers_to_append: dict[str, Sequence[float]],
+        brackets: tuple[str, str] | list[str] | None = ("(", ")"),
+        n_decimals: int = 0,
+        infront: bool = False,
+    ) -> EnergyDiagram:
+        """Append additional numbers to existing energy labels.
+
+        Appends numeric values to the text of existing energy labels, with
+        optional formatting via brackets and decimal places. This is useful
+        for adding supplementary information to labels, such as rates,
+        additional energy values, or other quantitative annotations.
+
+        Parameters
+        ----------
+        numbers_to_append : dict of str to sequence of float
+            Dictionary mapping path names to sequences of numbers to append.
+            Each sequence must have length equal to the number of energy labels
+            for that path. Use None for positions where no number should be
+            appended. Example:
+            ``{"Path A": [1.5, 2.3, None, 4.1], "Path B": [None, 0.8, 3.2]}``
+        brackets : tuple of str or list of str or None, optional
+            Two-element sequence specifying opening and closing bracket
+            characters to surround each number. If None, no brackets are used.
+            Default is ``("(", ")")``.
+        n_decimals : int, optional
+            Number of decimal places to show for each appended number.
+            Default is 0 (integers).
+        infront : bool, optional
+            If True, appended numbers are placed before the existing label text.
+            If False (default), appended numbers are placed after the existing
+            label text. Default is False.
+
+        Returns
+        -------
+        EnergyDiagram
+            Returns *self* to allow method chaining.
+
+        Raises
+        ------
+        ValueError
+            If a path name in ``numbers_to_append`` does not exist or if the
+            length of the number sequence does not match the number of energy
+            labels for that path.
+
+        Examples
+        --------
+        Append dispersion energy values to existing energy labels:
+
+        >>> dia = EnergyDiagram()
+        >>> dia.draw_path([0, 1, 2], [0, 25, -10], color="blue", path_name="Path A")
+        >>> dia.add_numbers_auto()
+        >>> dia.append_to_energy_labels(
+        ...     {"Path A": [None, 5, -3]},
+        ...     brackets=("[", "]"),
+        ...     n_decimals=1
+        ... )
+        """
+        self._number_manager.append_to_energy_labels(
+            numbers_to_append=numbers_to_append,
+            brackets=brackets,
+            n_decimals=n_decimals,
+            infront=infront,
         )
         return self
 
