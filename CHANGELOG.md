@@ -8,7 +8,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Added
 
-- Added the `color` and `angle` parameters to `set_xlabels()` for customizing the color and rotation angle of x-axis labels.
+- Added the `color` and `rotation` parameters to `set_xlabels()` for customizing the color and rotation angle of x-axis labels.
 
 ## [0.5.1] - 2026-05-06
 

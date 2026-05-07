@@ -148,7 +148,7 @@ class StyleManager:
         weight: str = "bold",
         color: str = "black",  # labelcolor
         in_plot: bool = False,
-        angle: float | None = None,  # labelrotation, just in_plot=False
+        rotation: float | None = None,  # labelrotation, just in_plot=False
     ) -> None:
         # Sanity checks
         Validators.validate_numeric_sequence(labelplaces, "labelplaces", allow_none=True)
@@ -156,13 +156,13 @@ class StyleManager:
         if labelplaces is not None:
             if len(labels) != len(labelplaces):
                 raise ValueError("There must be the same number of labels and labelplaces.")
-        if angle is not None:
+        if rotation is not None:
             if in_plot:
                 raise ValueError("Label rotation is not supported when in_plot=True.")
             else:
-                Validators.validate_number(angle, "angle")
+                Validators.validate_number(rotation, "rotation")
         elif not in_plot:
-            angle = 0
+            rotation = 0
 
         # Create labelplace list if none given
         if labelplaces is None:
@@ -174,7 +174,7 @@ class StyleManager:
             "weight": weight,
             "color": color,
             "in_plot": in_plot,
-            "angle": angle,
+            "rotation": rotation,
         }
 
         # Clear or hide labels if present
@@ -220,7 +220,7 @@ class StyleManager:
             self.figure_manager.ax.set_xticklabels(labels)
             self.figure_manager.ax.tick_params(
                 axis="x",
-                labelrotation=angle,
+                labelrotation=rotation,
             )
             for label in self.figure_manager.ax.get_xticklabels():
                 label.set_fontproperties(labelfont)

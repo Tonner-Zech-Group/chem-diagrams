@@ -591,7 +591,7 @@ class EnergyDiagram:
         weight: str = "bold",
         color: str = "black",
         in_plot: bool = False,
-        angle: float | None = None,
+        rotation: float | None = None,
     ) -> EnergyDiagram:
         """Set text labels for the reaction states along the x-axis.
 
@@ -620,7 +620,7 @@ class EnergyDiagram:
             If True, labels are drawn inside the plot area below the
             lowest state rather than below the x-axis. Default
             is False.
-        angle : float or None, optional
+        rotation : float or None, optional
             Rotation angle for the labels in degrees. When None, no
             rotation is applied. Default is None. Can only be used when
             ``in_plot`` is False.
@@ -640,7 +640,7 @@ class EnergyDiagram:
             weight=weight,
             color=color,
             in_plot=in_plot,
-            angle=angle,
+            rotation=rotation,
         )
         if self._image_manager.has_image_series:
             self._image_manager.recalculate_image_series(

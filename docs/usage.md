@@ -288,9 +288,9 @@ Use `labelplaces` to set explicit x-coordinates instead of the default sequentia
 dia.set_xlabels(["A", "TS", "B"], labelplaces=[0, 2, 3])
 ```
 
-The `angle` keyword can be used to set the rotation angle of the x-axis labels in degrees. This keyword is not compatible with `in_plot=True`.
+The `rotation` keyword can be used to set the rotation angle of the x-axis labels in degrees. This keyword is not compatible with `in_plot=True`.
 ```python
-dia.set_xlabels(["A", "TS", "B"], angle=45)
+dia.set_xlabels(["A", "TS", "B"], rotation=45)
 ```
 
 ### Axis breaks
