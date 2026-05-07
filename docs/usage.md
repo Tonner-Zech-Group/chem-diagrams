@@ -273,6 +273,11 @@ By default labels are placed **below** the x-axis:
 dia.set_xlabels(["A", "TS", "B"], fontsize=8, weight="normal")
 ```
 
+The `weight`and `color`keywords can be used to set the font weight and color of the x-axis labels.
+```python
+dia.set_xlabels(["A", "TS", "B"], weight="normal", color="red")
+```
+
 Pass `in_plot=True` to render them **inside** the plot area, directly below the lowest energy state.
 ```python
 dia.set_xlabels(["A", "TS", "B"], in_plot=True)
@@ -281,6 +286,11 @@ dia.set_xlabels(["A", "TS", "B"], in_plot=True)
 Use `labelplaces` to set explicit x-coordinates instead of the default sequential placement:
 ```python
 dia.set_xlabels(["A", "TS", "B"], labelplaces=[0, 2, 3])
+```
+
+The `angle` keyword can be used to set the rotation angle of the x-axis labels in degrees. This keyword is not compatible with `in_plot=True`.
+```python
+dia.set_xlabels(["A", "TS", "B"], angle=45)
 ```
 
 ### Axis breaks

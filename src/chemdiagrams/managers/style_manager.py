@@ -146,7 +146,9 @@ class StyleManager:
         labelplaces: Sequence[float] | None = None,
         fontsize: int | None = None,
         weight: str = "bold",
+        color: str = "black",  # labelcolor
         in_plot: bool = False,
+        angle: float | None = None,  # labelrotation, just in_plot=False
     ) -> None:
         # Sanity checks
         Validators.validate_numeric_sequence(labelplaces, "labelplaces", allow_none=True)
@@ -154,6 +156,13 @@ class StyleManager:
         if labelplaces is not None:
             if len(labels) != len(labelplaces):
                 raise ValueError("There must be the same number of labels and labelplaces.")
+        if angle is not None:
+            if in_plot:
+                raise ValueError("Label rotation is not supported when in_plot=True.")
+            else:
+                Validators.validate_number(angle, "angle")
+        elif not in_plot:
+            angle = 0
 
         # Create labelplace list if none given
         if labelplaces is None:
@@ -163,7 +172,9 @@ class StyleManager:
             "labelplaces": labelplaces,
             "fontsize": fontsize,
             "weight": weight,
+            "color": color,
             "in_plot": in_plot,
+            "angle": angle,
         }
 
         # Clear or hide labels if present
@@ -174,7 +185,10 @@ class StyleManager:
         # Set font of x labels
         if fontsize is None:
             fontsize = self.figure_manager.fontsize
-        labelfont = font_manager.FontProperties(weight=weight, size=fontsize)
+        labelfont = font_manager.FontProperties(
+            weight=weight,
+            size=fontsize,
+        )
 
         # Set labels in the plot or at axis
         if in_plot:
@@ -192,6 +206,7 @@ class StyleManager:
                         labelfont,
                         x,
                         y,
+                        color,
                     )
                     label_dict[f"{x:.1f}"] = label
                 else:
@@ -203,8 +218,13 @@ class StyleManager:
         else:
             self.figure_manager.ax.set_xticks(labelplaces)
             self.figure_manager.ax.set_xticklabels(labels)
+            self.figure_manager.ax.tick_params(
+                axis="x",
+                labelrotation=angle,
+            )
             for label in self.figure_manager.ax.get_xticklabels():
                 label.set_fontproperties(labelfont)
+                label.set_color(color)
 
     def add_xaxis_break(
         self,

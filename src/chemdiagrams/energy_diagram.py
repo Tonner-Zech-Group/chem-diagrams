@@ -589,7 +589,9 @@ class EnergyDiagram:
         labelplaces: Sequence[float] | None = None,
         fontsize: int | None = None,
         weight: str = "bold",
+        color: str = "black",
         in_plot: bool = False,
+        angle: float | None = None,
     ) -> EnergyDiagram:
         """Set text labels for the reaction states along the x-axis.
 
@@ -612,10 +614,16 @@ class EnergyDiagram:
         weight : str, optional
             Font weight for the labels, e.g. ``"bold"`` or
             ``"normal"``. Default is ``"bold"``.
+        color : str, optional
+            Color for the labels, as any Matplotlib color string
         in_plot : bool, optional
             If True, labels are drawn inside the plot area below the
             lowest state rather than below the x-axis. Default
             is False.
+        angle : float or None, optional
+            Rotation angle for the labels in degrees. When None, no
+            rotation is applied. Default is None. Can only be used when
+            ``in_plot`` is False.
 
         Returns
         -------
@@ -630,7 +638,9 @@ class EnergyDiagram:
             labelplaces=labelplaces,
             fontsize=fontsize,
             weight=weight,
+            color=color,
             in_plot=in_plot,
+            angle=angle,
         )
         if self._image_manager.has_image_series:
             self._image_manager.recalculate_image_series(

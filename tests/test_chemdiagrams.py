@@ -684,6 +684,23 @@ class TestSetXLabels:
         dia = make_diagram()
         dia.set_xlabels(["E", "TS1", "I", "TS2", "P"], labelplaces=[0, 1, 2, 3, 4])
 
+    def test_xlabels_with_custom_color(self):
+        """Test that set_xlabels applies custom color to x-axis labels."""
+        dia = make_diagram()
+        dia.set_xlabels(["E", "TS1", "I", "TS2", "P"], color="red")
+        # Verify that all x-tick labels have the specified color
+        for label in dia.ax.get_xticklabels():
+            assert label.get_color() == "red"
+
+    def test_xlabels_with_custom_angle(self):
+        """Test that set_xlabels applies rotation angle to x-axis labels."""
+        dia = make_diagram()
+        angle = 45
+        dia.set_xlabels(["E", "TS1", "I", "TS2", "P"], angle=angle)
+        # Verify that all x-tick labels have the specified rotation
+        for label in dia.ax.get_xticklabels():
+            assert label.get_rotation() == angle
+
 
 # ---------------------------------------------------------------------------
 # Numbering methods
