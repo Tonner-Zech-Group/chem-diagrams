@@ -9199,7 +9199,7 @@ placement, either below the axis or inside the plot area.</p>
         <span class="n">weight</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;bold&quot;</span><span class="p">,</span>
         <span class="n">color</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;black&quot;</span><span class="p">,</span>  <span class="c1"># labelcolor</span>
         <span class="n">in_plot</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-        <span class="n">angle</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>  <span class="c1"># labelrotation, just in_plot=False</span>
+        <span class="n">rotation</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>  <span class="c1"># labelrotation, just in_plot=False</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="c1"># Sanity checks</span>
         <span class="n">Validators</span><span class="o">.</span><span class="n">validate_numeric_sequence</span><span class="p">(</span><span class="n">labelplaces</span><span class="p">,</span> <span class="s2">&quot;labelplaces&quot;</span><span class="p">,</span> <span class="n">allow_none</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -9207,13 +9207,13 @@ placement, either below the axis or inside the plot area.</p>
         <span class="k">if</span> <span class="n">labelplaces</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">labelplaces</span><span class="p">):</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;There must be the same number of labels and labelplaces.&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">angle</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">rotation</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">in_plot</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Label rotation is not supported when in_plot=True.&quot;</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">Validators</span><span class="o">.</span><span class="n">validate_number</span><span class="p">(</span><span class="n">angle</span><span class="p">,</span> <span class="s2">&quot;angle&quot;</span><span class="p">)</span>
+                <span class="n">Validators</span><span class="o">.</span><span class="n">validate_number</span><span class="p">(</span><span class="n">rotation</span><span class="p">,</span> <span class="s2">&quot;rotation&quot;</span><span class="p">)</span>
         <span class="k">elif</span> <span class="ow">not</span> <span class="n">in_plot</span><span class="p">:</span>
-            <span class="n">angle</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">rotation</span> <span class="o">=</span> <span class="mi">0</span>
 
         <span class="c1"># Create labelplace list if none given</span>
         <span class="k">if</span> <span class="n">labelplaces</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -9225,7 +9225,7 @@ placement, either below the axis or inside the plot area.</p>
             <span class="s2">&quot;weight&quot;</span><span class="p">:</span> <span class="n">weight</span><span class="p">,</span>
             <span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="n">color</span><span class="p">,</span>
             <span class="s2">&quot;in_plot&quot;</span><span class="p">:</span> <span class="n">in_plot</span><span class="p">,</span>
-            <span class="s2">&quot;angle&quot;</span><span class="p">:</span> <span class="n">angle</span><span class="p">,</span>
+            <span class="s2">&quot;rotation&quot;</span><span class="p">:</span> <span class="n">rotation</span><span class="p">,</span>
         <span class="p">}</span>
 
         <span class="c1"># Clear or hide labels if present</span>
@@ -9271,7 +9271,7 @@ placement, either below the axis or inside the plot area.</p>
             <span class="bp">self</span><span class="o">.</span><span class="n">figure_manager</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">figure_manager</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span>
                 <span class="n">axis</span><span class="o">=</span><span class="s2">&quot;x&quot;</span><span class="p">,</span>
-                <span class="n">labelrotation</span><span class="o">=</span><span class="n">angle</span><span class="p">,</span>
+                <span class="n">labelrotation</span><span class="o">=</span><span class="n">rotation</span><span class="p">,</span>
             <span class="p">)</span>
             <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">figure_manager</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">get_xticklabels</span><span class="p">():</span>
                 <span class="n">label</span><span class="o">.</span><span class="n">set_fontproperties</span><span class="p">(</span><span class="n">labelfont</span><span class="p">)</span>

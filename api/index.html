@@ -2432,7 +2432,7 @@ Matplotlib line objects.</p>
               </td>
             </tr>
             <tr class="doc-section-item">
-              <td><code><a class="autorefs autorefs-internal" title="set_xlabels(labels, labelplaces=None, fontsize=None, weight='bold', color='black', in_plot=False, angle=None) (chemdiagrams.EnergyDiagram.set_xlabels)" href="#chemdiagrams.EnergyDiagram.set_xlabels">set_xlabels</a></code></td>
+              <td><code><a class="autorefs autorefs-internal" title="set_xlabels(labels, labelplaces=None, fontsize=None, weight='bold', color='black', in_plot=False, rotation=None) (chemdiagrams.EnergyDiagram.set_xlabels)" href="#chemdiagrams.EnergyDiagram.set_xlabels">set_xlabels</a></code></td>
               <td>
                 <div class="doc-md-description">
                   <p>Set x-axis labels for reaction states.</p>
@@ -4475,7 +4475,7 @@ manager components.</p>
         <span class="n">weight</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;bold&quot;</span><span class="p">,</span>
         <span class="n">color</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;black&quot;</span><span class="p">,</span>
         <span class="n">in_plot</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-        <span class="n">angle</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">rotation</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EnergyDiagram</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Set text labels for the reaction states along the x-axis.</span>
 
@@ -4504,7 +4504,7 @@ manager components.</p>
 <span class="sd">            If True, labels are drawn inside the plot area below the</span>
 <span class="sd">            lowest state rather than below the x-axis. Default</span>
 <span class="sd">            is False.</span>
-<span class="sd">        angle : float or None, optional</span>
+<span class="sd">        rotation : float or None, optional</span>
 <span class="sd">            Rotation angle for the labels in degrees. When None, no</span>
 <span class="sd">            rotation is applied. Default is None. Can only be used when</span>
 <span class="sd">            ``in_plot`` is False.</span>
@@ -4524,7 +4524,7 @@ manager components.</p>
             <span class="n">weight</span><span class="o">=</span><span class="n">weight</span><span class="p">,</span>
             <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span>
             <span class="n">in_plot</span><span class="o">=</span><span class="n">in_plot</span><span class="p">,</span>
-            <span class="n">angle</span><span class="o">=</span><span class="n">angle</span><span class="p">,</span>
+            <span class="n">rotation</span><span class="o">=</span><span class="n">rotation</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_image_manager</span><span class="o">.</span><span class="n">has_image_series</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_image_manager</span><span class="o">.</span><span class="n">recalculate_image_series</span><span class="p">(</span>
@@ -9990,7 +9990,7 @@ and <code>"borderless"</code>. Default style is <code>"open"</code>.</p>
 
 
 <h3 id="chemdiagrams.EnergyDiagram.set_xlabels" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">set_xlabels</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">labelplaces</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">in_plot</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">angle</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+            <code class="highlight language-python"><span class="n">set_xlabels</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">labelplaces</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">in_plot</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
 
 </h3>
 
@@ -10119,7 +10119,7 @@ is False.</p>
           </tr>
           <tr class="doc-section-item">
             <td>
-                <code>angle</code>
+                <code>rotation</code>
             </td>
             <td>
                   <code><span title="float">float</span> or None</code>
@@ -10240,7 +10240,7 @@ rotation is applied. Default is None. Can only be used when
     <span class="n">weight</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;bold&quot;</span><span class="p">,</span>
     <span class="n">color</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;black&quot;</span><span class="p">,</span>
     <span class="n">in_plot</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-    <span class="n">angle</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">rotation</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EnergyDiagram</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Set text labels for the reaction states along the x-axis.</span>
 
@@ -10269,7 +10269,7 @@ rotation is applied. Default is None. Can only be used when
 <span class="sd">        If True, labels are drawn inside the plot area below the</span>
 <span class="sd">        lowest state rather than below the x-axis. Default</span>
 <span class="sd">        is False.</span>
-<span class="sd">    angle : float or None, optional</span>
+<span class="sd">    rotation : float or None, optional</span>
 <span class="sd">        Rotation angle for the labels in degrees. When None, no</span>
 <span class="sd">        rotation is applied. Default is None. Can only be used when</span>
 <span class="sd">        ``in_plot`` is False.</span>
@@ -10289,7 +10289,7 @@ rotation is applied. Default is None. Can only be used when
         <span class="n">weight</span><span class="o">=</span><span class="n">weight</span><span class="p">,</span>
         <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span>
         <span class="n">in_plot</span><span class="o">=</span><span class="n">in_plot</span><span class="p">,</span>
-        <span class="n">angle</span><span class="o">=</span><span class="n">angle</span><span class="p">,</span>
+        <span class="n">rotation</span><span class="o">=</span><span class="n">rotation</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_image_manager</span><span class="o">.</span><span class="n">has_image_series</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_image_manager</span><span class="o">.</span><span class="n">recalculate_image_series</span><span class="p">(</span>
