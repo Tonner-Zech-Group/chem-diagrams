@@ -1163,14 +1163,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../api/managers/difference_manager/" class="md-nav__link">
+      <a href="../api/managers/collision_manager/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    difference_manager
+    collision_manager
   
 
     
@@ -2258,6 +2258,7 @@ diagonal tick marks to indicate degeneracy.</p>
     <span class="n">fontsize</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>                         <span class="c1"># Font size for the labels (uses diagram default if None)</span>
     <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span>                      <span class="c1"># Color for the labels (uses diagram default if None)</span>
     <span class="n">weight</span><span class="o">=</span><span class="s2">&quot;bold&quot;</span>                       <span class="c1"># Font weight for the labels (uses &quot;normal&quot; if None)</span>
+    <span class="n">rotation</span><span class="o">=</span><span class="mi">0</span>                          <span class="c1"># Rotation angle for the labels in degrees (default is 0)</span>
 <span class="p">)</span>
 </code></pre></div>
 <p>Example:</p>
@@ -2319,7 +2320,7 @@ diagonal tick marks to indicate degeneracy.</p>
 <p>Use <code>labelplaces</code> to set explicit x-coordinates instead of the default sequential placement:
 <div class="highlight"><pre><span></span><code><span class="n">dia</span><span class="o">.</span><span class="n">set_xlabels</span><span class="p">([</span><span class="s2">&quot;A&quot;</span><span class="p">,</span> <span class="s2">&quot;TS&quot;</span><span class="p">,</span> <span class="s2">&quot;B&quot;</span><span class="p">],</span> <span class="n">labelplaces</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
 </code></pre></div></p>
-<p>The <code>rotation</code> keyword can be used to set the rotation angle of the x-axis labels in degrees. This keyword is not compatible with <code>in_plot=True</code>.
+<p>The <code>rotation</code> keyword can be used to set the rotation angle of the x-axis labels in degrees.
 <div class="highlight"><pre><span></span><code><span class="n">dia</span><span class="o">.</span><span class="n">set_xlabels</span><span class="p">([</span><span class="s2">&quot;A&quot;</span><span class="p">,</span> <span class="s2">&quot;TS&quot;</span><span class="p">,</span> <span class="s2">&quot;B&quot;</span><span class="p">],</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">)</span>
 </code></pre></div></p>
 <h3 id="axis-breaks">Axis breaks</h3>
@@ -2572,9 +2573,10 @@ diagonal tick marks to indicate degeneracy.</p>
 <span class="p">)</span>
 </code></pre></div>
 <p>Example:</p>
-<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">os.path</span>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">chemdiagrams.templates.example_template</span><span class="w"> </span><span class="kn">import</span> <span class="n">ExampleTemplate</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os.path</span>
 
-<span class="n">dia</span> <span class="o">=</span> <span class="n">EnergyDiagram</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s2">&quot;open&quot;</span><span class="p">)</span>
+<span class="n">dia</span> <span class="o">=</span> <span class="n">EnergyDiagram</span><span class="p">(</span><span class="n">template</span><span class="o">=</span><span class="n">ExampleTemplate</span><span class="p">())</span>
 
 <span class="n">penguin</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;figures&quot;</span><span class="p">,</span> <span class="s2">&quot;penguin.png&quot;</span><span class="p">)</span>
 
@@ -2583,11 +2585,12 @@ diagonal tick marks to indicate degeneracy.</p>
 <span class="p">)</span>
 
 <span class="n">dia</span><span class="o">.</span><span class="n">add_numbers_auto</span><span class="p">(</span>
-    <span class="n">n_decimals</span><span class="o">=</span><span class="mi">2</span>
+    <span class="n">n_decimals</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+    <span class="n">fontsize</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span>
 <span class="p">)</span>
 
 <span class="n">dia</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\Delta E$ in eV&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
-<span class="n">dia</span><span class="o">.</span><span class="n">set_xlabels</span><span class="p">([</span><span class="s2">&quot;E&quot;</span><span class="p">,</span> <span class="s2">&quot;TS1&quot;</span><span class="p">,</span> <span class="s2">&quot;I&quot;</span><span class="p">,</span> <span class="s2">&quot;TS2&quot;</span><span class="p">,</span> <span class="s2">&quot;P&quot;</span><span class="p">],</span> <span class="n">in_plot</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">dia</span><span class="o">.</span><span class="n">set_xlabels</span><span class="p">([</span><span class="s2">&quot;Pengu@gas&quot;</span><span class="p">,</span> <span class="s2">&quot;TS1&quot;</span><span class="p">,</span> <span class="s2">&quot;Pengu@Cat&quot;</span><span class="p">,</span> <span class="s2">&quot;TS2&quot;</span><span class="p">,</span> <span class="s2">&quot;CO$_</span><span class="si">{2}</span><span class="s2">$&quot;</span><span class="p">],</span> <span class="n">in_plot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">90</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s2">&quot;normal&quot;</span><span class="p">)</span>
 
 <span class="n">dia</span><span class="o">.</span><span class="n">add_image_in_plot</span><span class="p">(</span>
     <span class="n">penguin</span><span class="p">,</span>

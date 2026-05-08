@@ -804,14 +804,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../difference_manager/" class="md-nav__link">
+      <a href="../collision_manager/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    difference_manager
+    collision_manager
   
 
     
@@ -1683,16 +1683,7 @@ reaction coordinate.</p>
 
               <details class="mkdocstrings-source">
                 <summary>Source code in <code>src/chemdiagrams/managers/path_manager.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">718</span>
-<span class="normal">719</span>
-<span class="normal">720</span>
-<span class="normal">721</span>
-<span class="normal">722</span>
-<span class="normal">723</span>
-<span class="normal">724</span>
-<span class="normal">725</span>
-<span class="normal">726</span>
-<span class="normal">727</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">727</span>
 <span class="normal">728</span>
 <span class="normal">729</span>
 <span class="normal">730</span>
@@ -1713,7 +1704,16 @@ reaction coordinate.</p>
 <span class="normal">745</span>
 <span class="normal">746</span>
 <span class="normal">747</span>
-<span class="normal">748</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span>
+<span class="normal">748</span>
+<span class="normal">749</span>
+<span class="normal">750</span>
+<span class="normal">751</span>
+<span class="normal">752</span>
+<span class="normal">753</span>
+<span class="normal">754</span>
+<span class="normal">755</span>
+<span class="normal">756</span>
+<span class="normal">757</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">BrokenLine</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Container for the four artists that make up a broken connector line.</span>
@@ -1804,6 +1804,17 @@ covers the original overlapping plateau segments.</p>
       </thead>
       <tbody>
           <tr class="doc-section-item">
+            <td><code><span title="chemdiagrams.managers.path_manager.MergedPlateau.collision_manager">collision_manager</span></code></td>
+            <td>
+                  <code><a class="autorefs autorefs-internal" title="CollisionManager (chemdiagrams.managers.collision_manager.CollisionManager)" href="../collision_manager/#chemdiagrams.managers.collision_manager.CollisionManager">CollisionManager</a></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The collision manager instance.</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
             <td><code><span title="chemdiagrams.managers.path_manager.MergedPlateau.plateau_left">plateau_left</span></code></td>
             <td>
                   <code><span title="matplotlib.collections.LineCollection">LineCollection</span></code>
@@ -1871,16 +1882,7 @@ used to hide any underlying plateau or connector artifacts.</p>
 
               <details class="mkdocstrings-source">
                 <summary>Source code in <code>src/chemdiagrams/managers/path_manager.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">751</span>
-<span class="normal">752</span>
-<span class="normal">753</span>
-<span class="normal">754</span>
-<span class="normal">755</span>
-<span class="normal">756</span>
-<span class="normal">757</span>
-<span class="normal">758</span>
-<span class="normal">759</span>
-<span class="normal">760</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">760</span>
 <span class="normal">761</span>
 <span class="normal">762</span>
 <span class="normal">763</span>
@@ -1946,7 +1948,17 @@ used to hide any underlying plateau or connector artifacts.</p>
 <span class="normal">823</span>
 <span class="normal">824</span>
 <span class="normal">825</span>
-<span class="normal">826</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span>
+<span class="normal">826</span>
+<span class="normal">827</span>
+<span class="normal">828</span>
+<span class="normal">829</span>
+<span class="normal">830</span>
+<span class="normal">831</span>
+<span class="normal">832</span>
+<span class="normal">833</span>
+<span class="normal">834</span>
+<span class="normal">835</span>
+<span class="normal">836</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">MergedPlateau</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Container for the Matplotlib artists that make up a merged plateau pair.</span>
@@ -1957,6 +1969,8 @@ used to hide any underlying plateau or connector artifacts.</p>
 
 <span class="sd">    Attributes</span>
 <span class="sd">    ----------</span>
+<span class="sd">    collision_manager : CollisionManager</span>
+<span class="sd">        The collision manager instance.</span>
 <span class="sd">    plateau_left : LineCollection</span>
 <span class="sd">        The left half-plateau artist, ending at the left edge of the gap.</span>
 <span class="sd">    plateau_right : LineCollection</span>
@@ -1970,7 +1984,7 @@ used to hide any underlying plateau or connector artifacts.</p>
 <span class="sd">        used to hide any underlying plateau or connector artifacts.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">constants</span><span class="p">:</span> <span class="n">Constants</span>
+    <span class="n">collision_manager</span><span class="p">:</span> <span class="n">CollisionManager</span>
     <span class="n">plateau_left</span><span class="p">:</span> <span class="n">LineCollection</span>
     <span class="n">plateau_right</span><span class="p">:</span> <span class="n">LineCollection</span>
     <span class="n">stopper_left</span><span class="p">:</span> <span class="n">Annotation</span>
@@ -2006,8 +2020,7 @@ used to hide any underlying plateau or connector artifacts.</p>
 <span class="sd">            Angle of the stopper tick marks in degrees from the vertical,</span>
 <span class="sd">            as originally passed to ``merge_plateaus``.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">delta_x</span><span class="p">,</span> <span class="n">delta_y</span> <span class="o">=</span> <span class="n">DifferenceManager</span><span class="o">.</span><span class="n">_get_axis_break_stopper_differences</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">constants</span><span class="p">,</span>
+        <span class="n">delta_x</span><span class="p">,</span> <span class="n">delta_y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">collision_manager</span><span class="o">.</span><span class="n">_get_axis_break_stopper_differences</span><span class="p">(</span>
             <span class="n">margins</span><span class="p">,</span>
             <span class="n">figsize</span><span class="p">,</span>
             <span class="n">angle</span><span class="p">,</span>
@@ -2016,8 +2029,8 @@ used to hide any underlying plateau or connector artifacts.</p>
         <span class="n">x_right</span><span class="p">,</span> <span class="n">y_right</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stopper_right</span><span class="o">.</span><span class="n">xy</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">stopper_left</span><span class="o">.</span><span class="n">set_position</span><span class="p">((</span><span class="n">x_left</span> <span class="o">+</span> <span class="n">delta_x</span><span class="p">,</span> <span class="n">y_left</span> <span class="o">+</span> <span class="n">delta_y</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">stopper_right</span><span class="o">.</span><span class="n">set_position</span><span class="p">((</span><span class="n">x_right</span> <span class="o">-</span> <span class="n">delta_x</span><span class="p">,</span> <span class="n">y_right</span> <span class="o">-</span> <span class="n">delta_y</span><span class="p">))</span>
-        <span class="n">cover_width</span> <span class="o">=</span> <span class="n">DifferenceManager</span><span class="o">.</span><span class="n">_get_axis_break_whitespace_cover_width</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">constants</span><span class="p">,</span> <span class="n">margins</span><span class="p">,</span> <span class="n">figsize</span>
+        <span class="n">cover_width</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">collision_manager</span><span class="o">.</span><span class="n">_get_axis_break_whitespace_cover_width</span><span class="p">(</span>
+            <span class="n">margins</span><span class="p">,</span> <span class="n">figsize</span>
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">whitespace</span><span class="o">.</span><span class="n">set_height</span><span class="p">(</span><span class="n">cover_width</span><span class="p">)</span>
         <span class="n">y_whitespace</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">whitespace</span><span class="o">.</span><span class="n">get_y</span><span class="p">()</span>
@@ -2121,18 +2134,7 @@ as originally passed to <code>merge_plateaus</code>.</p>
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>src/chemdiagrams/managers/path_manager.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">789</span>
-<span class="normal">790</span>
-<span class="normal">791</span>
-<span class="normal">792</span>
-<span class="normal">793</span>
-<span class="normal">794</span>
-<span class="normal">795</span>
-<span class="normal">796</span>
-<span class="normal">797</span>
-<span class="normal">798</span>
-<span class="normal">799</span>
-<span class="normal">800</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">800</span>
 <span class="normal">801</span>
 <span class="normal">802</span>
 <span class="normal">803</span>
@@ -2158,7 +2160,17 @@ as originally passed to <code>merge_plateaus</code>.</p>
 <span class="normal">823</span>
 <span class="normal">824</span>
 <span class="normal">825</span>
-<span class="normal">826</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">recalculate_gap</span><span class="p">(</span>
+<span class="normal">826</span>
+<span class="normal">827</span>
+<span class="normal">828</span>
+<span class="normal">829</span>
+<span class="normal">830</span>
+<span class="normal">831</span>
+<span class="normal">832</span>
+<span class="normal">833</span>
+<span class="normal">834</span>
+<span class="normal">835</span>
+<span class="normal">836</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">recalculate_gap</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">margins</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">],</span>
     <span class="n">figsize</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
@@ -2180,8 +2192,7 @@ as originally passed to <code>merge_plateaus</code>.</p>
 <span class="sd">        Angle of the stopper tick marks in degrees from the vertical,</span>
 <span class="sd">        as originally passed to ``merge_plateaus``.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">delta_x</span><span class="p">,</span> <span class="n">delta_y</span> <span class="o">=</span> <span class="n">DifferenceManager</span><span class="o">.</span><span class="n">_get_axis_break_stopper_differences</span><span class="p">(</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">constants</span><span class="p">,</span>
+    <span class="n">delta_x</span><span class="p">,</span> <span class="n">delta_y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">collision_manager</span><span class="o">.</span><span class="n">_get_axis_break_stopper_differences</span><span class="p">(</span>
         <span class="n">margins</span><span class="p">,</span>
         <span class="n">figsize</span><span class="p">,</span>
         <span class="n">angle</span><span class="p">,</span>
@@ -2190,8 +2201,8 @@ as originally passed to <code>merge_plateaus</code>.</p>
     <span class="n">x_right</span><span class="p">,</span> <span class="n">y_right</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stopper_right</span><span class="o">.</span><span class="n">xy</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">stopper_left</span><span class="o">.</span><span class="n">set_position</span><span class="p">((</span><span class="n">x_left</span> <span class="o">+</span> <span class="n">delta_x</span><span class="p">,</span> <span class="n">y_left</span> <span class="o">+</span> <span class="n">delta_y</span><span class="p">))</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">stopper_right</span><span class="o">.</span><span class="n">set_position</span><span class="p">((</span><span class="n">x_right</span> <span class="o">-</span> <span class="n">delta_x</span><span class="p">,</span> <span class="n">y_right</span> <span class="o">-</span> <span class="n">delta_y</span><span class="p">))</span>
-    <span class="n">cover_width</span> <span class="o">=</span> <span class="n">DifferenceManager</span><span class="o">.</span><span class="n">_get_axis_break_whitespace_cover_width</span><span class="p">(</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">constants</span><span class="p">,</span> <span class="n">margins</span><span class="p">,</span> <span class="n">figsize</span>
+    <span class="n">cover_width</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">collision_manager</span><span class="o">.</span><span class="n">_get_axis_break_whitespace_cover_width</span><span class="p">(</span>
+        <span class="n">margins</span><span class="p">,</span> <span class="n">figsize</span>
     <span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">whitespace</span><span class="o">.</span><span class="n">set_height</span><span class="p">(</span><span class="n">cover_width</span><span class="p">)</span>
     <span class="n">y_whitespace</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">whitespace</span><span class="o">.</span><span class="n">get_y</span><span class="p">()</span>
@@ -2893,7 +2904,16 @@ the underlying data in <code>path_data</code> for use by other managers.</p>
 <span class="normal">676</span>
 <span class="normal">677</span>
 <span class="normal">678</span>
-<span class="normal">679</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">PathManager</span><span class="p">:</span>
+<span class="normal">679</span>
+<span class="normal">680</span>
+<span class="normal">681</span>
+<span class="normal">682</span>
+<span class="normal">683</span>
+<span class="normal">684</span>
+<span class="normal">685</span>
+<span class="normal">686</span>
+<span class="normal">687</span>
+<span class="normal">688</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">PathManager</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Manages the creation and storage of reaction path artists.</span>
 
@@ -2905,9 +2925,11 @@ the underlying data in <code>path_data</code> for use by other managers.</p>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">figure_manager</span><span class="p">:</span> <span class="n">FigureManager</span><span class="p">,</span>
+        <span class="n">collision_manager</span><span class="p">:</span> <span class="n">CollisionManager</span><span class="p">,</span>
         <span class="n">constants</span><span class="p">:</span> <span class="n">Constants</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">figure_manager</span> <span class="o">=</span> <span class="n">figure_manager</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">collision_manager</span> <span class="o">=</span> <span class="n">collision_manager</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">constants</span> <span class="o">=</span> <span class="n">constants</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">path_data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">path_label_data</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
@@ -3073,6 +3095,7 @@ the underlying data in <code>path_data</code> for use by other managers.</p>
         <span class="n">fontsize</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">weight</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;normal&quot;</span><span class="p">,</span>
         <span class="n">color</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">rotation</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="c1"># Sanity checks</span>
         <span class="k">if</span> <span class="n">path_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">path_data</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
@@ -3089,6 +3112,10 @@ the underlying data in <code>path_data</code> for use by other managers.</p>
             <span class="n">fontsize</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">figure_manager</span><span class="o">.</span><span class="n">fontsize</span>
         <span class="k">if</span> <span class="n">color</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">color</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">path_data</span><span class="p">[</span><span class="n">path_name</span><span class="p">][</span><span class="s2">&quot;color&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">rotation</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">Validators</span><span class="o">.</span><span class="n">validate_number</span><span class="p">(</span><span class="n">rotation</span><span class="p">,</span> <span class="s2">&quot;rotation&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">rotation</span> <span class="o">=</span> <span class="mi">0</span>
 
         <span class="n">labelfont</span> <span class="o">=</span> <span class="n">font_manager</span><span class="o">.</span><span class="n">FontProperties</span><span class="p">(</span><span class="n">weight</span><span class="o">=</span><span class="n">weight</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">fontsize</span><span class="p">)</span>
 
@@ -3099,6 +3126,7 @@ the underlying data in <code>path_data</code> for use by other managers.</p>
                 <span class="n">label_artist</span> <span class="o">=</span> <span class="n">StyleManager</span><span class="o">.</span><span class="n">_add_label_in_plot</span><span class="p">(</span>
                     <span class="n">constants</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">constants</span><span class="p">,</span>
                     <span class="n">figure_manager</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">figure_manager</span><span class="p">,</span>
+                    <span class="n">collision_manager</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">collision_manager</span><span class="p">,</span>
                     <span class="n">margins</span><span class="o">=</span><span class="n">margins</span><span class="p">,</span>
                     <span class="n">figsize</span><span class="o">=</span><span class="n">figsize</span><span class="p">,</span>
                     <span class="n">labeltext</span><span class="o">=</span><span class="n">labeltext</span><span class="p">,</span>
@@ -3107,6 +3135,7 @@ the underlying data in <code>path_data</code> for use by other managers.</p>
                     <span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span>
                     <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span>
                     <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span>
+                    <span class="n">rotation</span><span class="o">=</span><span class="n">rotation</span><span class="p">,</span>
                 <span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">mpl_objects</span><span class="p">[</span><span class="n">path_name</span><span class="p">]</span><span class="o">.</span><span class="n">labels</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">x</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">label_artist</span>
 
@@ -3117,6 +3146,7 @@ the underlying data in <code>path_data</code> for use by other managers.</p>
                 <span class="s2">&quot;fontsize&quot;</span><span class="p">:</span> <span class="n">fontsize</span><span class="p">,</span>
                 <span class="s2">&quot;weight&quot;</span><span class="p">:</span> <span class="n">weight</span><span class="p">,</span>
                 <span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="n">color</span><span class="p">,</span>
+                <span class="s2">&quot;rotation&quot;</span><span class="p">:</span> <span class="n">rotation</span><span class="p">,</span>
             <span class="p">}</span>
         <span class="p">)</span>
 
@@ -3188,8 +3218,8 @@ the underlying data in <code>path_data</code> for use by other managers.</p>
         <span class="n">plateau_right</span><span class="o">.</span><span class="n">set_segments</span><span class="p">(</span><span class="n">coordinates_right</span><span class="p">)</span>
 
         <span class="c1"># Draw white rectangle to cover the gap</span>
-        <span class="n">cover_width</span> <span class="o">=</span> <span class="n">DifferenceManager</span><span class="o">.</span><span class="n">_get_axis_break_whitespace_cover_width</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">constants</span><span class="p">,</span> <span class="n">margins</span><span class="p">,</span> <span class="n">figsize</span>
+        <span class="n">cover_width</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">collision_manager</span><span class="o">.</span><span class="n">_get_axis_break_whitespace_cover_width</span><span class="p">(</span>
+            <span class="n">margins</span><span class="p">,</span> <span class="n">figsize</span>
         <span class="p">)</span>
 
         <span class="c1"># Add white covering reactange</span>
@@ -3204,8 +3234,7 @@ the underlying data in <code>path_data</code> for use by other managers.</p>
         <span class="p">)</span>
 
         <span class="c1"># Calculate stopper direction in data coordinates</span>
-        <span class="n">delta_x</span><span class="p">,</span> <span class="n">delta_y</span> <span class="o">=</span> <span class="n">DifferenceManager</span><span class="o">.</span><span class="n">_get_axis_break_stopper_differences</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">constants</span><span class="p">,</span>
+        <span class="n">delta_x</span><span class="p">,</span> <span class="n">delta_y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">collision_manager</span><span class="o">.</span><span class="n">_get_axis_break_stopper_differences</span><span class="p">(</span>
             <span class="n">margins</span><span class="p">,</span>
             <span class="n">figsize</span><span class="p">,</span>
             <span class="n">angle</span><span class="p">,</span>
@@ -3245,7 +3274,7 @@ the underlying data in <code>path_data</code> for use by other managers.</p>
 
         <span class="c1"># Save mpl objects get a pointer for angle correction</span>
         <span class="n">merged_plateau</span> <span class="o">=</span> <span class="n">MergedPlateau</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">constants</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">collision_manager</span><span class="p">,</span>
             <span class="n">plateau_left</span><span class="p">,</span>
             <span class="n">plateau_right</span><span class="p">,</span>
             <span class="n">stopper_left</span><span class="p">,</span>
@@ -3640,16 +3669,7 @@ as a formatted string (e.g. <code>"1.0"</code>).</p>
 
               <details class="mkdocstrings-source">
                 <summary>Source code in <code>src/chemdiagrams/managers/path_manager.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">682</span>
-<span class="normal">683</span>
-<span class="normal">684</span>
-<span class="normal">685</span>
-<span class="normal">686</span>
-<span class="normal">687</span>
-<span class="normal">688</span>
-<span class="normal">689</span>
-<span class="normal">690</span>
-<span class="normal">691</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">691</span>
 <span class="normal">692</span>
 <span class="normal">693</span>
 <span class="normal">694</span>
@@ -3673,7 +3693,16 @@ as a formatted string (e.g. <code>"1.0"</code>).</p>
 <span class="normal">712</span>
 <span class="normal">713</span>
 <span class="normal">714</span>
-<span class="normal">715</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span>
+<span class="normal">715</span>
+<span class="normal">716</span>
+<span class="normal">717</span>
+<span class="normal">718</span>
+<span class="normal">719</span>
+<span class="normal">720</span>
+<span class="normal">721</span>
+<span class="normal">722</span>
+<span class="normal">723</span>
+<span class="normal">724</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">PathObject</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Container for the Matplotlib artists that make up a single reaction path.</span>

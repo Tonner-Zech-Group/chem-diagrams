@@ -871,14 +871,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../managers/difference_manager/" class="md-nav__link">
+      <a href="../managers/collision_manager/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    difference_manager
+    collision_manager
   
 
     
@@ -1643,7 +1643,10 @@
 <span class="normal">125</span>
 <span class="normal">126</span>
 <span class="normal">127</span>
-<span class="normal">128</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">Constants</span><span class="p">:</span>
+<span class="normal">128</span>
+<span class="normal">129</span>
+<span class="normal">130</span>
+<span class="normal">131</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">Constants</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Default constants for plotting the energy diagram&quot;&quot;&quot;</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -1681,7 +1684,6 @@
 
         <span class="c1"># Default distances of images (inches at sdt fontsize)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">DISTANCE_IMAGE_LINE</span> <span class="o">=</span> <span class="mf">0.09</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">DISTANCE_IMAGE_LABEL</span> <span class="o">=</span> <span class="mf">0.12</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">DISTANCE_IMAGE_NUMBER</span> <span class="o">=</span> <span class="mf">0.15</span>  <span class="c1"># 0.135 pre v0.3.0</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ZORDER_IMAGE</span> <span class="o">=</span> <span class="mf">0.6</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">IMAGE_INTERPOLATION_METHOD</span> <span class="o">=</span> <span class="s2">&quot;bilinear&quot;</span>
@@ -1716,6 +1718,11 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">ZORDER_NUMBERS</span> <span class="o">=</span> <span class="mi">2</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">MINUS_SIGN</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\u2212</span><span class="s2">&quot;</span>
+
+        <span class="c1"># To avoid numerical precision issues where the label is exactly at the boundary</span>
+        <span class="c1"># This factor is used to slightly reduce the calculated diff_to_label when checking</span>
+        <span class="c1"># for collisions, creating a small buffer zone that unnecessary collision warnings</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">NUMERICAL_PRECISION_FACTOR</span> <span class="o">=</span> <span class="mf">0.999</span>
 
         <span class="c1">#################################</span>
         <span class="c1"># Path Manager</span>
@@ -1758,8 +1765,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">X_AXIS_OFFSET_OPENSTYLE</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.03</span>
 
         <span class="c1"># Label (in_plot=True) parameters</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">DISTANCE_LABEL_LINE</span> <span class="o">=</span> <span class="mf">0.12</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">DISTANCE_LABEL_NEWLINE</span> <span class="o">=</span> <span class="mf">0.095</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">DISTANCE_TO_LABEL</span> <span class="o">=</span> <span class="mf">0.04</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ZORDER_X_LABEL</span> <span class="o">=</span> <span class="mi">1</span>
 
         <span class="c1"># Axes break cover parameters in inches or degree</span>

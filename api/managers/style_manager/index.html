@@ -804,14 +804,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../difference_manager/" class="md-nav__link">
+      <a href="../collision_manager/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    difference_manager
+    collision_manager
   
 
     
@@ -2033,7 +2033,12 @@ placement, either below the axis or inside the plot area.</p>
 <span class="normal">510</span>
 <span class="normal">511</span>
 <span class="normal">512</span>
-<span class="normal">513</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">StyleManager</span><span class="p">:</span>
+<span class="normal">513</span>
+<span class="normal">514</span>
+<span class="normal">515</span>
+<span class="normal">516</span>
+<span class="normal">517</span>
+<span class="normal">518</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">StyleManager</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Manages the visual style and x-axis labels of the diagram.</span>
 
@@ -2046,10 +2051,12 @@ placement, either below the axis or inside the plot area.</p>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">figure_manager</span><span class="p">:</span> <span class="n">FigureManager</span><span class="p">,</span>
+        <span class="n">collision_manager</span><span class="p">:</span> <span class="n">CollisionManager</span><span class="p">,</span>
         <span class="n">constants</span><span class="p">:</span> <span class="n">Constants</span><span class="p">,</span>
         <span class="n">style</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">figure_manager</span> <span class="o">=</span> <span class="n">figure_manager</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">collision_manager</span> <span class="o">=</span> <span class="n">collision_manager</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">constants</span> <span class="o">=</span> <span class="n">constants</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">style</span> <span class="o">=</span> <span class="n">style</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mpl_objects</span> <span class="o">=</span> <span class="n">StyleObjects</span><span class="p">({},</span> <span class="p">{},</span> <span class="p">{},</span> <span class="p">{},</span> <span class="p">{})</span>
@@ -2169,11 +2176,8 @@ placement, either below the axis or inside the plot area.</p>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">labelplaces</span><span class="p">):</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;There must be the same number of labels and labelplaces.&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">rotation</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">in_plot</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Label rotation is not supported when in_plot=True.&quot;</span><span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">Validators</span><span class="o">.</span><span class="n">validate_number</span><span class="p">(</span><span class="n">rotation</span><span class="p">,</span> <span class="s2">&quot;rotation&quot;</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="ow">not</span> <span class="n">in_plot</span><span class="p">:</span>
+            <span class="n">Validators</span><span class="o">.</span><span class="n">validate_number</span><span class="p">(</span><span class="n">rotation</span><span class="p">,</span> <span class="s2">&quot;rotation&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
             <span class="n">rotation</span> <span class="o">=</span> <span class="mi">0</span>
 
         <span class="c1"># Create labelplace list if none given</span>
@@ -2211,6 +2215,7 @@ placement, either below the axis or inside the plot area.</p>
                     <span class="n">label</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_add_label_in_plot</span><span class="p">(</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">constants</span><span class="p">,</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">figure_manager</span><span class="p">,</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">collision_manager</span><span class="p">,</span>
                         <span class="n">margins</span><span class="p">,</span>
                         <span class="n">figsize</span><span class="p">,</span>
                         <span class="n">labeltext</span><span class="p">,</span>
@@ -2219,6 +2224,7 @@ placement, either below the axis or inside the plot area.</p>
                         <span class="n">x</span><span class="p">,</span>
                         <span class="n">y</span><span class="p">,</span>
                         <span class="n">color</span><span class="p">,</span>
+                        <span class="n">rotation</span><span class="p">,</span>
                     <span class="p">)</span>
                     <span class="n">label_dict</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">x</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">label</span>
                 <span class="k">else</span><span class="p">:</span>
@@ -2500,6 +2506,7 @@ placement, either below the axis or inside the plot area.</p>
     <span class="k">def</span><span class="w"> </span><span class="nf">_add_label_in_plot</span><span class="p">(</span>
         <span class="n">constants</span><span class="p">:</span> <span class="n">Constants</span><span class="p">,</span>
         <span class="n">figure_manager</span><span class="p">:</span> <span class="n">FigureManager</span><span class="p">,</span>
+        <span class="n">collision_manager</span><span class="p">:</span> <span class="n">CollisionManager</span><span class="p">,</span>
         <span class="n">margins</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">],</span>
         <span class="n">figsize</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
         <span class="n">labeltext</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -2508,9 +2515,11 @@ placement, either below the axis or inside the plot area.</p>
         <span class="n">x</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
         <span class="n">y</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
         <span class="n">color</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;black&quot;</span><span class="p">,</span>
+        <span class="n">rotation</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Text</span><span class="p">:</span>
-        <span class="n">y_diff</span> <span class="o">=</span> <span class="o">-</span><span class="n">DifferenceManager</span><span class="o">.</span><span class="n">_get_diff_plateau_label</span><span class="p">(</span>
-            <span class="n">constants</span><span class="p">,</span> <span class="n">margins</span><span class="p">,</span> <span class="n">figsize</span><span class="p">,</span> <span class="n">fontsize</span><span class="p">,</span> <span class="n">labeltext</span>
+        <span class="n">y_diff</span> <span class="o">=</span> <span class="o">-</span><span class="n">collision_manager</span><span class="o">.</span><span class="n">_get_diff_to_label</span><span class="p">(</span>
+            <span class="n">margins</span><span class="p">,</span>
+            <span class="n">figsize</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="n">label</span> <span class="o">=</span> <span class="n">figure_manager</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
             <span class="n">x</span><span class="p">,</span>
@@ -2518,8 +2527,9 @@ placement, either below the axis or inside the plot area.</p>
             <span class="n">labeltext</span><span class="p">,</span>
             <span class="n">font</span><span class="o">=</span><span class="n">labelfont</span><span class="p">,</span>
             <span class="n">ha</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span>
-            <span class="n">va</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span>
+            <span class="n">va</span><span class="o">=</span><span class="s2">&quot;top&quot;</span><span class="p">,</span>
             <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span>
+            <span class="n">rotation</span><span class="o">=</span><span class="n">rotation</span><span class="p">,</span>
             <span class="n">zorder</span><span class="o">=</span><span class="n">constants</span><span class="o">.</span><span class="n">ZORDER_X_LABEL</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="k">return</span> <span class="n">label</span>
@@ -2652,12 +2662,7 @@ own tick system and not stored here.</p>
 
               <details class="mkdocstrings-source">
                 <summary>Source code in <code>src/chemdiagrams/managers/style_manager.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">516</span>
-<span class="normal">517</span>
-<span class="normal">518</span>
-<span class="normal">519</span>
-<span class="normal">520</span>
-<span class="normal">521</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">521</span>
 <span class="normal">522</span>
 <span class="normal">523</span>
 <span class="normal">524</span>
@@ -2708,7 +2713,12 @@ own tick system and not stored here.</p>
 <span class="normal">569</span>
 <span class="normal">570</span>
 <span class="normal">571</span>
-<span class="normal">572</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span>
+<span class="normal">572</span>
+<span class="normal">573</span>
+<span class="normal">574</span>
+<span class="normal">575</span>
+<span class="normal">576</span>
+<span class="normal">577</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">StyleObjects</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Container for the Matplotlib artists controlled by the style manager.</span>

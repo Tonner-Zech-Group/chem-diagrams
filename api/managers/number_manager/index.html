@@ -804,14 +804,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../difference_manager/" class="md-nav__link">
+      <a href="../collision_manager/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    difference_manager
+    collision_manager
   
 
     
@@ -2219,7 +2219,17 @@ path name and x-coordinate.</p>
 <span class="normal">705</span>
 <span class="normal">706</span>
 <span class="normal">707</span>
-<span class="normal">708</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">NumberManager</span><span class="p">:</span>
+<span class="normal">708</span>
+<span class="normal">709</span>
+<span class="normal">710</span>
+<span class="normal">711</span>
+<span class="normal">712</span>
+<span class="normal">713</span>
+<span class="normal">714</span>
+<span class="normal">715</span>
+<span class="normal">716</span>
+<span class="normal">717</span>
+<span class="normal">718</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">NumberManager</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Manages energy value annotations on the diagram.</span>
 
@@ -2234,9 +2244,11 @@ path name and x-coordinate.</p>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">figure_manager</span><span class="p">:</span> <span class="n">FigureManager</span><span class="p">,</span>
+        <span class="n">collision_manager</span><span class="p">:</span> <span class="n">CollisionManager</span><span class="p">,</span>
         <span class="n">constants</span><span class="p">:</span> <span class="n">Constants</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">figure_manager</span> <span class="o">=</span> <span class="n">figure_manager</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">collision_manager</span> <span class="o">=</span> <span class="n">collision_manager</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">constants</span> <span class="o">=</span> <span class="n">constants</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mpl_objects</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">numberings_added</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
@@ -2330,6 +2342,7 @@ path name and x-coordinate.</p>
                 <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
                     <span class="n">no_overlap</span> <span class="o">=</span> <span class="n">NumberManager</span><span class="o">.</span><span class="n">_check_no_overlap</span><span class="p">(</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">constants</span><span class="p">,</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">collision_manager</span><span class="p">,</span>
                         <span class="n">y_print_start</span><span class="p">,</span>
                         <span class="n">numbers_to_stack</span><span class="p">,</span>
                         <span class="n">higher_numbers_at_x</span><span class="p">,</span>
@@ -2385,9 +2398,7 @@ path name and x-coordinate.</p>
             <span class="n">fontsize</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">figure_manager</span><span class="o">.</span><span class="n">fontsize</span>
         <span class="n">x_min_max</span> <span class="o">=</span> <span class="n">NumberManager</span><span class="o">.</span><span class="n">_regularize_x_min_max</span><span class="p">(</span><span class="n">x_min_max</span><span class="p">)</span>
         <span class="n">values_to_print</span> <span class="o">=</span> <span class="n">NumberManager</span><span class="o">.</span><span class="n">_get_all_visible_numbers</span><span class="p">(</span><span class="n">path_data</span><span class="p">,</span> <span class="n">x_min_max</span><span class="p">)</span>
-        <span class="n">_</span><span class="p">,</span> <span class="n">diff_per_step</span> <span class="o">=</span> <span class="n">DifferenceManager</span><span class="o">.</span><span class="n">_get_number_diffs</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">constants</span><span class="p">,</span> <span class="n">margins</span><span class="p">,</span> <span class="n">figsize</span><span class="p">,</span> <span class="n">fontsize</span>
-        <span class="p">)</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">diff_per_step</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">collision_manager</span><span class="o">.</span><span class="n">_get_number_diffs</span><span class="p">(</span><span class="n">margins</span><span class="p">,</span> <span class="n">figsize</span><span class="p">,</span> <span class="n">fontsize</span><span class="p">)</span>
 
         <span class="c1"># Get a list of all x values where to print</span>
         <span class="n">x_places</span><span class="p">:</span> <span class="nb">list</span> <span class="o">|</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="p">[]</span>
@@ -2425,6 +2436,7 @@ path name and x-coordinate.</p>
                 <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
                     <span class="n">no_overlap</span> <span class="o">=</span> <span class="n">NumberManager</span><span class="o">.</span><span class="n">_check_no_overlap</span><span class="p">(</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">constants</span><span class="p">,</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">collision_manager</span><span class="p">,</span>
                         <span class="n">y_print_start</span><span class="p">,</span>
                         <span class="n">numbers_to_stack_current</span><span class="p">,</span>
                         <span class="n">higher_numbers_at_x</span><span class="p">,</span>
@@ -2785,8 +2797,8 @@ path name and x-coordinate.</p>
 <span class="sd">        resulting Text artists are saved into ``mpl_objects`` under their</span>
 <span class="sd">        path name and x-coordinate key.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">diff_bias</span><span class="p">,</span> <span class="n">diff_per_step</span> <span class="o">=</span> <span class="n">DifferenceManager</span><span class="o">.</span><span class="n">_get_number_diffs</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">constants</span><span class="p">,</span> <span class="n">margins</span><span class="p">,</span> <span class="n">figsize</span><span class="p">,</span> <span class="n">fontsize</span>
+        <span class="n">diff_bias</span><span class="p">,</span> <span class="n">diff_per_step</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">collision_manager</span><span class="o">.</span><span class="n">_get_number_diffs</span><span class="p">(</span>
+            <span class="n">margins</span><span class="p">,</span> <span class="n">figsize</span><span class="p">,</span> <span class="n">fontsize</span>
         <span class="p">)</span>
         <span class="n">n_printed</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="k">for</span> <span class="n">number</span> <span class="ow">in</span> <span class="n">numbers_to_stack</span><span class="p">:</span>
@@ -2808,6 +2820,7 @@ path name and x-coordinate.</p>
     <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_check_no_overlap</span><span class="p">(</span>
         <span class="n">constants</span><span class="p">:</span> <span class="n">Constants</span><span class="p">,</span>
+        <span class="n">collision_manager</span><span class="p">:</span> <span class="n">CollisionManager</span><span class="p">,</span>
         <span class="n">y_print_start</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
         <span class="n">numbers_to_stack</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">dict</span><span class="p">],</span>
         <span class="n">higher_numbers_at_x</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
@@ -2822,7 +2835,7 @@ path name and x-coordinate.</p>
 <span class="sd">        any higher plateaus or path labels.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">no_number_overlap</span> <span class="o">=</span> <span class="n">NumberManager</span><span class="o">.</span><span class="n">_check_no_plateau_overlap</span><span class="p">(</span>
-            <span class="n">constants</span><span class="o">=</span><span class="n">constants</span><span class="p">,</span>
+            <span class="n">collision_manager</span><span class="o">=</span><span class="n">collision_manager</span><span class="p">,</span>
             <span class="n">y_print_start</span><span class="o">=</span><span class="n">y_print_start</span><span class="p">,</span>
             <span class="n">numbers_to_stack</span><span class="o">=</span><span class="n">numbers_to_stack</span><span class="p">,</span>
             <span class="n">higher_numbers_at_x</span><span class="o">=</span><span class="n">higher_numbers_at_x</span><span class="p">,</span>
@@ -2832,6 +2845,7 @@ path name and x-coordinate.</p>
         <span class="p">)</span>
         <span class="n">no_overlap_with_path_labels</span> <span class="o">=</span> <span class="n">NumberManager</span><span class="o">.</span><span class="n">_check_no_overlap_with_path_labels</span><span class="p">(</span>
             <span class="n">constants</span><span class="o">=</span><span class="n">constants</span><span class="p">,</span>
+            <span class="n">collision_manager</span><span class="o">=</span><span class="n">collision_manager</span><span class="p">,</span>
             <span class="n">y_print_start</span><span class="o">=</span><span class="n">y_print_start</span><span class="p">,</span>
             <span class="n">numbers_to_stack</span><span class="o">=</span><span class="n">numbers_to_stack</span><span class="p">,</span>
             <span class="n">margins</span><span class="o">=</span><span class="n">margins</span><span class="p">,</span>
@@ -2845,6 +2859,7 @@ path name and x-coordinate.</p>
     <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_check_no_overlap_with_path_labels</span><span class="p">(</span>
         <span class="n">constants</span><span class="p">:</span> <span class="n">Constants</span><span class="p">,</span>
+        <span class="n">collision_manager</span><span class="p">:</span> <span class="n">CollisionManager</span><span class="p">,</span>
         <span class="n">y_print_start</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
         <span class="n">numbers_to_stack</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">dict</span><span class="p">],</span>
         <span class="n">margins</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">],</span>
@@ -2860,8 +2875,8 @@ path name and x-coordinate.</p>
 <span class="sd">        and compares it to the proposed stack position. Returns True if there is no</span>
 <span class="sd">        overlap, False otherwise.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">diff_bias</span><span class="p">,</span> <span class="n">diff_per_step</span> <span class="o">=</span> <span class="n">DifferenceManager</span><span class="o">.</span><span class="n">_get_number_diffs</span><span class="p">(</span>
-            <span class="n">constants</span><span class="p">,</span> <span class="n">margins</span><span class="p">,</span> <span class="n">figsize</span><span class="p">,</span> <span class="n">fontsize</span>
+        <span class="n">diff_bias</span><span class="p">,</span> <span class="n">diff_per_step</span> <span class="o">=</span> <span class="n">collision_manager</span><span class="o">.</span><span class="n">_get_number_diffs</span><span class="p">(</span>
+            <span class="n">margins</span><span class="p">,</span> <span class="n">figsize</span><span class="p">,</span> <span class="n">fontsize</span>
         <span class="p">)</span>
         <span class="n">stacked_offset</span> <span class="o">=</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">numbers_to_stack</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">diff_per_step</span>
         <span class="n">base_offset</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">diff_bias</span>
@@ -2869,16 +2884,21 @@ path name and x-coordinate.</p>
         <span class="n">no_overlap_with_path_labels</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="k">for</span> <span class="n">path_obj</span> <span class="ow">in</span> <span class="n">path_mpl_objects</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
             <span class="k">try</span><span class="p">:</span>
-                <span class="n">label_obj</span> <span class="o">=</span> <span class="n">path_obj</span><span class="o">.</span><span class="n">labels</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">x</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span>
-                <span class="n">label_fontsize</span> <span class="o">=</span> <span class="n">label_obj</span><span class="o">.</span><span class="n">get_fontsize</span><span class="p">()</span>
-                <span class="n">label_y</span> <span class="o">=</span> <span class="n">label_obj</span><span class="o">.</span><span class="n">get_position</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span>
-                <span class="n">labeltext</span> <span class="o">=</span> <span class="n">label_obj</span><span class="o">.</span><span class="n">get_text</span><span class="p">()</span>
-                <span class="n">diff_to_label</span> <span class="o">=</span> <span class="n">DifferenceManager</span><span class="o">.</span><span class="n">_get_diff_img_label</span><span class="p">(</span>
-                    <span class="n">constants</span><span class="p">,</span> <span class="n">margins</span><span class="p">,</span> <span class="n">figsize</span><span class="p">,</span> <span class="n">label_fontsize</span><span class="p">,</span> <span class="n">labeltext</span>
+                <span class="n">pathlabel</span> <span class="o">=</span> <span class="n">path_obj</span><span class="o">.</span><span class="n">labels</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">x</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span>
+                <span class="n">pathlabel_y_boundaries</span> <span class="o">=</span> <span class="n">collision_manager</span><span class="o">.</span><span class="n">_get_label_boundaries</span><span class="p">(</span>
+                    <span class="n">label</span><span class="o">=</span><span class="n">pathlabel</span><span class="p">,</span>
                 <span class="p">)</span>
+                <span class="n">diff_to_label</span> <span class="o">=</span> <span class="n">collision_manager</span><span class="o">.</span><span class="n">_get_diff_to_label</span><span class="p">(</span><span class="n">margins</span><span class="p">,</span> <span class="n">figsize</span><span class="p">)</span>
+                <span class="c1"># Use the numerical precision factor to avoid numerical precision</span>
+                <span class="c1"># issues where the label is exactly at the boundary</span>
                 <span class="n">has_collision</span> <span class="o">=</span> <span class="p">(</span>
-                    <span class="n">label_y</span> <span class="o">-</span> <span class="n">diff_to_label</span> <span class="o">&lt;</span> <span class="n">y_stacked_max</span>
-                    <span class="ow">and</span> <span class="n">label_y</span> <span class="o">+</span> <span class="n">diff_to_label</span> <span class="o">&gt;</span> <span class="n">y_print_start</span>
+                    <span class="n">pathlabel_y_boundaries</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="o">-</span> <span class="n">diff_to_label</span> <span class="o">*</span> <span class="n">constants</span><span class="o">.</span><span class="n">NUMERICAL_PRECISION_FACTOR</span>
+                    <span class="o">&lt;</span> <span class="n">y_stacked_max</span>
+                <span class="p">)</span> <span class="ow">and</span> <span class="p">(</span>
+                    <span class="n">pathlabel_y_boundaries</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                    <span class="o">+</span> <span class="n">diff_to_label</span> <span class="o">*</span> <span class="n">constants</span><span class="o">.</span><span class="n">NUMERICAL_PRECISION_FACTOR</span>
+                    <span class="o">&gt;</span> <span class="n">y_print_start</span>
                 <span class="p">)</span>
                 <span class="k">if</span> <span class="n">has_collision</span><span class="p">:</span>
                     <span class="n">no_overlap_with_path_labels</span> <span class="o">=</span> <span class="kc">False</span>
@@ -2888,7 +2908,7 @@ path name and x-coordinate.</p>
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_check_no_plateau_overlap</span><span class="p">(</span>
-        <span class="n">constants</span><span class="p">:</span> <span class="n">Constants</span><span class="p">,</span>
+        <span class="n">collision_manager</span><span class="p">:</span> <span class="n">CollisionManager</span><span class="p">,</span>
         <span class="n">y_print_start</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
         <span class="n">numbers_to_stack</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">dict</span><span class="p">],</span>
         <span class="n">higher_numbers_at_x</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
@@ -2904,8 +2924,8 @@ path name and x-coordinate.</p>
 <span class="sd">        bar above ``y_print_start``. Returns True unconditionally if there</span>
 <span class="sd">        are no higher bars.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">diff_bias</span><span class="p">,</span> <span class="n">diff_per_step</span> <span class="o">=</span> <span class="n">DifferenceManager</span><span class="o">.</span><span class="n">_get_number_diffs</span><span class="p">(</span>
-            <span class="n">constants</span><span class="p">,</span> <span class="n">margins</span><span class="p">,</span> <span class="n">figsize</span><span class="p">,</span> <span class="n">fontsize</span>
+        <span class="n">diff_bias</span><span class="p">,</span> <span class="n">diff_per_step</span> <span class="o">=</span> <span class="n">collision_manager</span><span class="o">.</span><span class="n">_get_number_diffs</span><span class="p">(</span>
+            <span class="n">margins</span><span class="p">,</span> <span class="n">figsize</span><span class="p">,</span> <span class="n">fontsize</span>
         <span class="p">)</span>
         <span class="n">stacked_offset</span> <span class="o">=</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">numbers_to_stack</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">diff_per_step</span>
         <span class="n">base_offset</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">diff_bias</span>

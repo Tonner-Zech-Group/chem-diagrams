@@ -841,10 +841,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#chemdiagrams.managers.DifferenceBar" class="md-nav__link">
+  <a href="#chemdiagrams.managers.CollisionManager" class="md-nav__link">
     <span class="md-ellipsis">
       
-        DifferenceBar
+        CollisionManager
       
     </span>
   </a>
@@ -852,10 +852,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#chemdiagrams.managers.DifferenceManager" class="md-nav__link">
+  <a href="#chemdiagrams.managers.DifferenceBar" class="md-nav__link">
     <span class="md-ellipsis">
       
-        DifferenceManager
+        DifferenceBar
       
     </span>
   </a>
@@ -1067,14 +1067,14 @@
   
   
     <li class="md-nav__item">
-      <a href="difference_manager/" class="md-nav__link">
+      <a href="collision_manager/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    difference_manager
+    collision_manager
   
 
     
@@ -1652,10 +1652,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#chemdiagrams.managers.DifferenceBar" class="md-nav__link">
+  <a href="#chemdiagrams.managers.CollisionManager" class="md-nav__link">
     <span class="md-ellipsis">
       
-        DifferenceBar
+        CollisionManager
       
     </span>
   </a>
@@ -1663,10 +1663,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#chemdiagrams.managers.DifferenceManager" class="md-nav__link">
+  <a href="#chemdiagrams.managers.DifferenceBar" class="md-nav__link">
     <span class="md-ellipsis">
       
-        DifferenceManager
+        DifferenceBar
       
     </span>
   </a>
@@ -1912,8 +1912,7 @@ later access via <code>EnergyDiagram.bars</code>.</p>
 
               <details class="mkdocstrings-source">
                 <summary>Source code in <code>src/chemdiagrams/managers/bar_manager.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 16</span>
-<span class="normal"> 17</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 17</span>
 <span class="normal"> 18</span>
 <span class="normal"> 19</span>
 <span class="normal"> 20</span>
@@ -2030,7 +2029,10 @@ later access via <code>EnergyDiagram.bars</code>.</p>
 <span class="normal">131</span>
 <span class="normal">132</span>
 <span class="normal">133</span>
-<span class="normal">134</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">BarManager</span><span class="p">:</span>
+<span class="normal">134</span>
+<span class="normal">135</span>
+<span class="normal">136</span>
+<span class="normal">137</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">BarManager</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Manages the creation and storage of energy difference bars.</span>
 
@@ -2043,9 +2045,11 @@ later access via <code>EnergyDiagram.bars</code>.</p>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">figure_manager</span><span class="p">:</span> <span class="n">FigureManager</span><span class="p">,</span>
+        <span class="n">collision_manager</span><span class="p">:</span> <span class="n">CollisionManager</span><span class="p">,</span>
         <span class="n">constants</span><span class="p">:</span> <span class="n">Constants</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">figure_manager</span> <span class="o">=</span> <span class="n">figure_manager</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">collision_manager</span> <span class="o">=</span> <span class="n">collision_manager</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">constants</span> <span class="o">=</span> <span class="n">constants</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mpl_objects</span><span class="p">:</span> <span class="nb">list</span> <span class="o">=</span> <span class="p">[]</span>
 
@@ -2264,16 +2268,7 @@ reaction coordinate.</p>
 
               <details class="mkdocstrings-source">
                 <summary>Source code in <code>src/chemdiagrams/managers/path_manager.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">718</span>
-<span class="normal">719</span>
-<span class="normal">720</span>
-<span class="normal">721</span>
-<span class="normal">722</span>
-<span class="normal">723</span>
-<span class="normal">724</span>
-<span class="normal">725</span>
-<span class="normal">726</span>
-<span class="normal">727</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">727</span>
 <span class="normal">728</span>
 <span class="normal">729</span>
 <span class="normal">730</span>
@@ -2294,7 +2289,16 @@ reaction coordinate.</p>
 <span class="normal">745</span>
 <span class="normal">746</span>
 <span class="normal">747</span>
-<span class="normal">748</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span>
+<span class="normal">748</span>
+<span class="normal">749</span>
+<span class="normal">750</span>
+<span class="normal">751</span>
+<span class="normal">752</span>
+<span class="normal">753</span>
+<span class="normal">754</span>
+<span class="normal">755</span>
+<span class="normal">756</span>
+<span class="normal">757</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">BrokenLine</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Container for the four artists that make up a broken connector line.</span>
@@ -2353,161 +2357,8 @@ reaction coordinate.</p>
 
 
 
-<h2 id="chemdiagrams.managers.DifferenceBar" class="doc doc-heading">
-            <code>DifferenceBar</code>
-
-
-  <span class="doc doc-labels">
-      <small class="doc doc-label doc-label-dataclass"><code>dataclass</code></small>
-  </span>
-
-</h2>
-
-
-    <div class="doc doc-contents ">
-
-
-
-        <p>Container for the Matplotlib artists that make up a single difference bar.</p>
-
-
-<p><span class="doc-section-title">Attributes:</span></p>
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Description</th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr class="doc-section-item">
-            <td><code><span title="chemdiagrams.managers.DifferenceBar.bar">bar</span></code></td>
-            <td>
-                  <code><span title="matplotlib.text.Annotation">Annotation</span></code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>The double-headed arrow spanning the two energy levels.</p>
-              </div>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td><code><span title="chemdiagrams.managers.DifferenceBar.text">text</span></code></td>
-            <td>
-                  <code><span title="matplotlib.text.Text">Text</span></code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>The label displayed beside the arrow.</p>
-              </div>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td><code><span title="chemdiagrams.managers.DifferenceBar.whisker_1">whisker_1</span></code></td>
-            <td>
-                  <code><span title="matplotlib.lines.Line2D">Line2D</span> or None</code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>Horizontal whisker line at the bottom energy level, or None if not drawn.</p>
-              </div>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td><code><span title="chemdiagrams.managers.DifferenceBar.whisker_2">whisker_2</span></code></td>
-            <td>
-                  <code><span title="matplotlib.lines.Line2D">Line2D</span> or None</code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>Horizontal whisker line at the top energy level, or None if not drawn.</p>
-              </div>
-            </td>
-          </tr>
-      </tbody>
-    </table>
-
-
-
-
-
-
-
-
-              <details class="mkdocstrings-source">
-                <summary>Source code in <code>src/chemdiagrams/managers/bar_manager.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">137</span>
-<span class="normal">138</span>
-<span class="normal">139</span>
-<span class="normal">140</span>
-<span class="normal">141</span>
-<span class="normal">142</span>
-<span class="normal">143</span>
-<span class="normal">144</span>
-<span class="normal">145</span>
-<span class="normal">146</span>
-<span class="normal">147</span>
-<span class="normal">148</span>
-<span class="normal">149</span>
-<span class="normal">150</span>
-<span class="normal">151</span>
-<span class="normal">152</span>
-<span class="normal">153</span>
-<span class="normal">154</span>
-<span class="normal">155</span>
-<span class="normal">156</span>
-<span class="normal">157</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span>
-<span class="k">class</span><span class="w"> </span><span class="nc">DifferenceBar</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Container for the Matplotlib artists that make up a single difference bar.</span>
-
-<span class="sd">    Attributes</span>
-<span class="sd">    ----------</span>
-<span class="sd">    bar : Annotation</span>
-<span class="sd">        The double-headed arrow spanning the two energy levels.</span>
-<span class="sd">    text : Text</span>
-<span class="sd">        The label displayed beside the arrow.</span>
-<span class="sd">    whisker_1 : Line2D or None</span>
-<span class="sd">        Horizontal whisker line at the bottom energy level, or None if not drawn.</span>
-<span class="sd">    whisker_2 : Line2D or None</span>
-<span class="sd">        Horizontal whisker line at the top energy level, or None if not drawn.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="n">bar</span><span class="p">:</span> <span class="n">Annotation</span>
-    <span class="n">text</span><span class="p">:</span> <span class="n">Text</span>
-    <span class="n">whisker_1</span><span class="p">:</span> <span class="n">Line2D</span> <span class="o">|</span> <span class="kc">None</span>
-    <span class="n">whisker_2</span><span class="p">:</span> <span class="n">Line2D</span> <span class="o">|</span> <span class="kc">None</span>
-</code></pre></div></td></tr></table></div>
-              </details>
-
-
-
-<div class="doc doc-children">
-
-
-
-
-
-
-
-
-
-
-
-
-  </div>
-
-    </div>
-
-</div>
-
-<div class="doc doc-object doc-class">
-
-
-
-<h2 id="chemdiagrams.managers.DifferenceManager" class="doc doc-heading">
-            <code>DifferenceManager</code>
+<h2 id="chemdiagrams.managers.CollisionManager" class="doc doc-heading">
+            <code>CollisionManager</code>
 
 
 </h2>
@@ -2518,9 +2369,7 @@ reaction coordinate.</p>
 
 
         <p>Container for methods related to calculating difference values
-for object collision avoidance and label placement. This manager does not store
-any state or rendered artists, but is kept separate for organizational
-purposes and to avoid circular imports.</p>
+for object collision avoidance.</p>
 
 
 
@@ -2530,13 +2379,8 @@ purposes and to avoid circular imports.</p>
 
 
               <details class="mkdocstrings-source">
-                <summary>Source code in <code>src/chemdiagrams/managers/difference_manager.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 10</span>
-<span class="normal"> 11</span>
-<span class="normal"> 12</span>
-<span class="normal"> 13</span>
-<span class="normal"> 14</span>
-<span class="normal"> 15</span>
+                <summary>Source code in <code>src/chemdiagrams/managers/collision_manager.py</code></summary>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 15</span>
 <span class="normal"> 16</span>
 <span class="normal"> 17</span>
 <span class="normal"> 18</span>
@@ -2677,84 +2521,83 @@ purposes and to avoid circular imports.</p>
 <span class="normal">153</span>
 <span class="normal">154</span>
 <span class="normal">155</span>
-<span class="normal">156</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">DifferenceManager</span><span class="p">:</span>
+<span class="normal">156</span>
+<span class="normal">157</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">CollisionManager</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Container for methods related to calculating difference values</span>
-<span class="sd">    for object collision avoidance and label placement. This manager does not store</span>
-<span class="sd">    any state or rendered artists, but is kept separate for organizational</span>
-<span class="sd">    purposes and to avoid circular imports.</span>
+<span class="sd">    for object collision avoidance.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">_get_diff_img_plateau</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">figure_manager</span><span class="p">:</span> <span class="n">FigureManager</span><span class="p">,</span>
         <span class="n">constants</span><span class="p">:</span> <span class="n">Constants</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">figure_manager</span> <span class="o">=</span> <span class="n">figure_manager</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">constants</span> <span class="o">=</span> <span class="n">constants</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_diff_img_plateau</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
         <span class="n">margins</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">],</span>
         <span class="n">figsize</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute vertical spacing value for image plateau distance in data coordinates.&quot;&quot;&quot;</span>
         <span class="n">diff_to_plateau</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="p">(</span><span class="n">margins</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">margins</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span> <span class="o">/</span> <span class="n">figsize</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">constants</span><span class="o">.</span><span class="n">DISTANCE_IMAGE_LINE</span>
+            <span class="p">(</span><span class="n">margins</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">margins</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+            <span class="o">/</span> <span class="n">figsize</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">DISTANCE_IMAGE_LINE</span>
         <span class="p">)</span>
         <span class="k">return</span> <span class="n">diff_to_plateau</span>
 
-    <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_get_diff_img_number</span><span class="p">(</span>
-        <span class="n">constants</span><span class="p">:</span> <span class="n">Constants</span><span class="p">,</span>
+        <span class="bp">self</span><span class="p">,</span>
         <span class="n">margins</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">],</span>
         <span class="n">figsize</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
         <span class="n">fontsize</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute vertical spacing value for image number distance in data coordinates.&quot;&quot;&quot;</span>
         <span class="n">diff_to_number</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="p">(</span><span class="n">fontsize</span> <span class="o">/</span> <span class="n">constants</span><span class="o">.</span><span class="n">STD_FONTSIZE</span><span class="p">)</span>
+            <span class="p">(</span><span class="n">fontsize</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">STD_FONTSIZE</span><span class="p">)</span>
             <span class="o">*</span> <span class="p">(</span><span class="n">margins</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">margins</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
             <span class="o">/</span> <span class="n">figsize</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-            <span class="o">*</span> <span class="n">constants</span><span class="o">.</span><span class="n">DISTANCE_NUMBER_LINE</span>
+            <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">DISTANCE_NUMBER_LINE</span>
         <span class="p">)</span>
         <span class="k">return</span> <span class="n">diff_to_number</span>
 
-    <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">_get_diff_img_label</span><span class="p">(</span>
-        <span class="n">constants</span><span class="p">:</span> <span class="n">Constants</span><span class="p">,</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_diff_to_label</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
         <span class="n">margins</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">],</span>
         <span class="n">figsize</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
-        <span class="n">fontsize</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-        <span class="n">labeltext</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute vertical spacing value for image label distance in data coordinates.&quot;&quot;&quot;</span>
-        <span class="n">n_linebreaks</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">findall</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">labeltext</span><span class="p">))</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute vertical spacing needed for label placement in data coordinates.&quot;&quot;&quot;</span>
         <span class="n">diff_to_label</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="p">(</span><span class="n">fontsize</span> <span class="o">/</span> <span class="n">constants</span><span class="o">.</span><span class="n">STD_FONTSIZE</span><span class="p">)</span>
-            <span class="o">*</span> <span class="p">(</span><span class="n">margins</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">margins</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+            <span class="p">(</span><span class="n">margins</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">margins</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
             <span class="o">/</span> <span class="n">figsize</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-            <span class="o">*</span> <span class="p">(</span>
-                <span class="n">constants</span><span class="o">.</span><span class="n">DISTANCE_IMAGE_LABEL</span>
-                <span class="o">+</span> <span class="n">n_linebreaks</span> <span class="o">*</span> <span class="n">constants</span><span class="o">.</span><span class="n">DISTANCE_LABEL_NEWLINE</span>
-            <span class="p">)</span>
+            <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">DISTANCE_TO_LABEL</span><span class="p">)</span>
         <span class="p">)</span>
         <span class="k">return</span> <span class="n">diff_to_label</span>
 
-    <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">_get_diff_plateau_label</span><span class="p">(</span>
-        <span class="n">constants</span><span class="p">:</span> <span class="n">Constants</span><span class="p">,</span>
-        <span class="n">margins</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">],</span>
-        <span class="n">figsize</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
-        <span class="n">fontsize</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-        <span class="n">labeltext</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute vertical spacing value for plateau label distance in data coordinates.&quot;&quot;&quot;</span>
-        <span class="n">n_linebreaks</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">findall</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">labeltext</span><span class="p">))</span>
-        <span class="n">diff_to_label</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="p">(</span><span class="n">fontsize</span> <span class="o">/</span> <span class="n">constants</span><span class="o">.</span><span class="n">STD_FONTSIZE</span><span class="p">)</span>
-            <span class="o">*</span> <span class="p">(</span><span class="n">margins</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">margins</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
-            <span class="o">/</span> <span class="n">figsize</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-            <span class="o">*</span> <span class="p">(</span><span class="n">constants</span><span class="o">.</span><span class="n">DISTANCE_LABEL_LINE</span> <span class="o">+</span> <span class="n">n_linebreaks</span> <span class="o">*</span> <span class="n">constants</span><span class="o">.</span><span class="n">DISTANCE_LABEL_NEWLINE</span><span class="p">)</span>
-        <span class="p">)</span>
-        <span class="k">return</span> <span class="n">diff_to_label</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_label_boundaries</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">label</span><span class="p">:</span> <span class="n">Text</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get vertical maximum and minimum y boundaries of a label in data coordinates.</span>
 
-    <span class="nd">@staticmethod</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        tuple</span>
+<span class="sd">            A tuple of (y_min, y_max) for the label in data coordinates.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">label_window</span> <span class="o">=</span> <span class="n">label</span><span class="o">.</span><span class="n">get_window_extent</span><span class="p">()</span><span class="o">.</span><span class="n">transformed</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">figure_manager</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">transData</span><span class="o">.</span><span class="n">inverted</span><span class="p">()</span>
+        <span class="p">)</span>
+        <span class="n">y_min</span> <span class="o">=</span> <span class="n">label_window</span><span class="o">.</span><span class="n">ymin</span>
+        <span class="n">y_max</span> <span class="o">=</span> <span class="n">label_window</span><span class="o">.</span><span class="n">ymax</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">y_min</span><span class="p">,</span> <span class="n">y_max</span><span class="p">)</span>
+
     <span class="k">def</span><span class="w"> </span><span class="nf">_get_number_diffs</span><span class="p">(</span>
-        <span class="n">constants</span><span class="p">:</span> <span class="n">Constants</span><span class="p">,</span>
+        <span class="bp">self</span><span class="p">,</span>
         <span class="n">margins</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">],</span>
         <span class="n">figsize</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
         <span class="n">fontsize</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
@@ -2774,22 +2617,21 @@ purposes and to avoid circular imports.</p>
 <span class="sd">            The vertical distance between consecutive stacked labels.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">diff_bias</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="p">(</span><span class="n">fontsize</span> <span class="o">/</span> <span class="n">constants</span><span class="o">.</span><span class="n">STD_FONTSIZE</span><span class="p">)</span>
+            <span class="p">(</span><span class="n">fontsize</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">STD_FONTSIZE</span><span class="p">)</span>
             <span class="o">*</span> <span class="p">(</span><span class="n">margins</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">margins</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
             <span class="o">/</span> <span class="n">figsize</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-            <span class="o">*</span> <span class="n">constants</span><span class="o">.</span><span class="n">DISTANCE_NUMBER_LINE</span>
+            <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">DISTANCE_NUMBER_LINE</span>
         <span class="p">)</span>
         <span class="n">diff_per_step</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="p">(</span><span class="n">fontsize</span> <span class="o">/</span> <span class="n">constants</span><span class="o">.</span><span class="n">STD_FONTSIZE</span><span class="p">)</span>
+            <span class="p">(</span><span class="n">fontsize</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">STD_FONTSIZE</span><span class="p">)</span>
             <span class="o">*</span> <span class="p">(</span><span class="n">margins</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">margins</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
             <span class="o">/</span> <span class="n">figsize</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-            <span class="o">*</span> <span class="n">constants</span><span class="o">.</span><span class="n">DISTANCE_NUMBER_NUMBER</span>
+            <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">DISTANCE_NUMBER_NUMBER</span>
         <span class="p">)</span>
         <span class="k">return</span> <span class="n">diff_bias</span><span class="p">,</span> <span class="n">diff_per_step</span>
 
-    <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_get_axis_break_stopper_differences</span><span class="p">(</span>
-        <span class="n">constants</span><span class="p">:</span> <span class="n">Constants</span><span class="p">,</span>
+        <span class="bp">self</span><span class="p">,</span>
         <span class="n">margins</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">],</span>
         <span class="n">figsize</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
         <span class="n">angle</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
@@ -2811,19 +2653,171 @@ purposes and to avoid circular imports.</p>
         <span class="p">)</span>
         <span class="k">return</span> <span class="n">delta_x</span><span class="p">,</span> <span class="n">delta_y</span>
 
-    <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_get_axis_break_whitespace_cover_width</span><span class="p">(</span>
-        <span class="n">constants</span><span class="p">:</span> <span class="n">Constants</span><span class="p">,</span>
+        <span class="bp">self</span><span class="p">,</span>
         <span class="n">margins</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">],</span>
         <span class="n">figsize</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute data coordinate width for axis break whitespace cover.&quot;&quot;&quot;</span>
         <span class="n">cover_width</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="n">constants</span><span class="o">.</span><span class="n">MERGED_PLATEAU_COVER_WIDTH</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">MERGED_PLATEAU_COVER_WIDTH</span>
             <span class="o">*</span> <span class="p">(</span><span class="n">margins</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">margins</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
             <span class="o">/</span> <span class="n">figsize</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
         <span class="p">)</span>
         <span class="k">return</span> <span class="n">cover_width</span>
+</code></pre></div></td></tr></table></div>
+              </details>
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="chemdiagrams.managers.DifferenceBar" class="doc doc-heading">
+            <code>DifferenceBar</code>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-dataclass"><code>dataclass</code></small>
+  </span>
+
+</h2>
+
+
+    <div class="doc doc-contents ">
+
+
+
+        <p>Container for the Matplotlib artists that make up a single difference bar.</p>
+
+
+<p><span class="doc-section-title">Attributes:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td><code><span title="chemdiagrams.managers.DifferenceBar.bar">bar</span></code></td>
+            <td>
+                  <code><span title="matplotlib.text.Annotation">Annotation</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The double-headed arrow spanning the two energy levels.</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><span title="chemdiagrams.managers.DifferenceBar.text">text</span></code></td>
+            <td>
+                  <code><span title="matplotlib.text.Text">Text</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The label displayed beside the arrow.</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><span title="chemdiagrams.managers.DifferenceBar.whisker_1">whisker_1</span></code></td>
+            <td>
+                  <code><span title="matplotlib.lines.Line2D">Line2D</span> or None</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Horizontal whisker line at the bottom energy level, or None if not drawn.</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td><code><span title="chemdiagrams.managers.DifferenceBar.whisker_2">whisker_2</span></code></td>
+            <td>
+                  <code><span title="matplotlib.lines.Line2D">Line2D</span> or None</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Horizontal whisker line at the top energy level, or None if not drawn.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+
+
+
+
+
+
+              <details class="mkdocstrings-source">
+                <summary>Source code in <code>src/chemdiagrams/managers/bar_manager.py</code></summary>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">140</span>
+<span class="normal">141</span>
+<span class="normal">142</span>
+<span class="normal">143</span>
+<span class="normal">144</span>
+<span class="normal">145</span>
+<span class="normal">146</span>
+<span class="normal">147</span>
+<span class="normal">148</span>
+<span class="normal">149</span>
+<span class="normal">150</span>
+<span class="normal">151</span>
+<span class="normal">152</span>
+<span class="normal">153</span>
+<span class="normal">154</span>
+<span class="normal">155</span>
+<span class="normal">156</span>
+<span class="normal">157</span>
+<span class="normal">158</span>
+<span class="normal">159</span>
+<span class="normal">160</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">DifferenceBar</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Container for the Matplotlib artists that make up a single difference bar.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    bar : Annotation</span>
+<span class="sd">        The double-headed arrow spanning the two energy levels.</span>
+<span class="sd">    text : Text</span>
+<span class="sd">        The label displayed beside the arrow.</span>
+<span class="sd">    whisker_1 : Line2D or None</span>
+<span class="sd">        Horizontal whisker line at the bottom energy level, or None if not drawn.</span>
+<span class="sd">    whisker_2 : Line2D or None</span>
+<span class="sd">        Horizontal whisker line at the top energy level, or None if not drawn.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">bar</span><span class="p">:</span> <span class="n">Annotation</span>
+    <span class="n">text</span><span class="p">:</span> <span class="n">Text</span>
+    <span class="n">whisker_1</span><span class="p">:</span> <span class="n">Line2D</span> <span class="o">|</span> <span class="kc">None</span>
+    <span class="n">whisker_2</span><span class="p">:</span> <span class="n">Line2D</span> <span class="o">|</span> <span class="kc">None</span>
 </code></pre></div></td></tr></table></div>
               </details>
 
@@ -3763,8 +3757,7 @@ All rendered artists are stored in <code>mpl_objects</code> for later access.</p
 <span class="normal">562</span>
 <span class="normal">563</span>
 <span class="normal">564</span>
-<span class="normal">565</span>
-<span class="normal">566</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">ImageManager</span><span class="p">:</span>
+<span class="normal">565</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">ImageManager</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Manages the placement and storage of image overlays within the energy diagram.</span>
 
@@ -3778,9 +3771,11 @@ All rendered artists are stored in <code>mpl_objects</code> for later access.</p
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">figure_manager</span><span class="p">:</span> <span class="n">FigureManager</span><span class="p">,</span>
+        <span class="n">collision_manager</span><span class="p">:</span> <span class="n">CollisionManager</span><span class="p">,</span>
         <span class="n">constants</span><span class="p">:</span> <span class="n">Constants</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">figure_manager</span> <span class="o">=</span> <span class="n">figure_manager</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">collision_manager</span> <span class="o">=</span> <span class="n">collision_manager</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">constants</span> <span class="o">=</span> <span class="n">constants</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">image_series_data</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">has_image_series</span> <span class="o">=</span> <span class="kc">False</span>
@@ -4021,8 +4016,7 @@ All rendered artists are stored in <code>mpl_objects</code> for later access.</p
             <span class="n">x</span> <span class="o">=</span> <span class="n">img_x_places</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
 
             <span class="c1"># Avoid collision with plateaus</span>
-            <span class="n">diff_to_plateau</span> <span class="o">=</span> <span class="n">DifferenceManager</span><span class="o">.</span><span class="n">_get_diff_img_plateau</span><span class="p">(</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">constants</span><span class="p">,</span>
+            <span class="n">diff_to_plateau</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">collision_manager</span><span class="o">.</span><span class="n">_get_diff_img_plateau</span><span class="p">(</span>
                 <span class="n">margins</span><span class="p">,</span>
                 <span class="n">figsize</span><span class="p">,</span>
             <span class="p">)</span>
@@ -4040,8 +4034,8 @@ All rendered artists are stored in <code>mpl_objects</code> for later access.</p
                 <span class="k">try</span><span class="p">:</span>
                     <span class="n">number_fontsize</span> <span class="o">=</span> <span class="n">numbers</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">x</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">get_fontsize</span><span class="p">()</span>
                     <span class="n">number_y</span> <span class="o">=</span> <span class="n">numbers</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">x</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">get_position</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span>
-                    <span class="n">diff_to_number</span> <span class="o">=</span> <span class="n">DifferenceManager</span><span class="o">.</span><span class="n">_get_diff_img_number</span><span class="p">(</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">constants</span><span class="p">,</span> <span class="n">margins</span><span class="p">,</span> <span class="n">figsize</span><span class="p">,</span> <span class="n">number_fontsize</span>
+                    <span class="n">diff_to_number</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">collision_manager</span><span class="o">.</span><span class="n">_get_diff_img_number</span><span class="p">(</span>
+                        <span class="n">margins</span><span class="p">,</span> <span class="n">figsize</span><span class="p">,</span> <span class="n">number_fontsize</span>
                     <span class="p">)</span>
                     <span class="k">if</span> <span class="n">number_y</span> <span class="o">+</span> <span class="n">diff_to_number</span> <span class="o">&gt;</span> <span class="n">y_min_top</span><span class="p">:</span>
                         <span class="n">y_min_top</span> <span class="o">=</span> <span class="n">number_y</span> <span class="o">+</span> <span class="n">diff_to_number</span>
@@ -4052,32 +4046,30 @@ All rendered artists are stored in <code>mpl_objects</code> for later access.</p
 
             <span class="c1"># Avoid collision with x-labels</span>
             <span class="k">try</span><span class="p">:</span>
-                <span class="n">label_fontsize</span> <span class="o">=</span> <span class="n">xlabel_mpl_objects</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">x</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">get_fontsize</span><span class="p">()</span>
-                <span class="n">label_y</span> <span class="o">=</span> <span class="n">xlabel_mpl_objects</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">x</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">get_position</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span>
-                <span class="n">labeltext</span> <span class="o">=</span> <span class="n">xlabel_mpl_objects</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">x</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">get_text</span><span class="p">()</span>
-                <span class="n">diff_to_label</span> <span class="o">=</span> <span class="n">DifferenceManager</span><span class="o">.</span><span class="n">_get_diff_img_label</span><span class="p">(</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">constants</span><span class="p">,</span> <span class="n">margins</span><span class="p">,</span> <span class="n">figsize</span><span class="p">,</span> <span class="n">label_fontsize</span><span class="p">,</span> <span class="n">labeltext</span>
+                <span class="n">xlabel</span> <span class="o">=</span> <span class="n">xlabel_mpl_objects</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">x</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span>
+                <span class="n">xlabel_y_boundaries</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">collision_manager</span><span class="o">.</span><span class="n">_get_label_boundaries</span><span class="p">(</span>
+                    <span class="n">label</span><span class="o">=</span><span class="n">xlabel</span><span class="p">,</span>
                 <span class="p">)</span>
-                <span class="k">if</span> <span class="n">label_y</span> <span class="o">+</span> <span class="n">diff_to_label</span> <span class="o">&gt;</span> <span class="n">y_min_top</span><span class="p">:</span>
-                    <span class="n">y_min_top</span> <span class="o">=</span> <span class="n">label_y</span> <span class="o">+</span> <span class="n">diff_to_label</span>
-                <span class="k">if</span> <span class="n">label_y</span> <span class="o">-</span> <span class="n">diff_to_label</span> <span class="o">&lt;</span> <span class="n">y_max_bottom</span><span class="p">:</span>
-                    <span class="n">y_max_bottom</span> <span class="o">=</span> <span class="n">label_y</span> <span class="o">-</span> <span class="n">diff_to_label</span>
+                <span class="n">diff_to_label</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">collision_manager</span><span class="o">.</span><span class="n">_get_diff_to_label</span><span class="p">(</span><span class="n">margins</span><span class="p">,</span> <span class="n">figsize</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">xlabel_y_boundaries</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">diff_to_label</span> <span class="o">&gt;</span> <span class="n">y_min_top</span><span class="p">:</span>
+                    <span class="n">y_min_top</span> <span class="o">=</span> <span class="n">xlabel_y_boundaries</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">diff_to_label</span>
+                <span class="k">if</span> <span class="n">xlabel_y_boundaries</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">diff_to_label</span> <span class="o">&lt;</span> <span class="n">y_max_bottom</span><span class="p">:</span>
+                    <span class="n">y_max_bottom</span> <span class="o">=</span> <span class="n">xlabel_y_boundaries</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">diff_to_label</span>
             <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
                 <span class="k">pass</span>
 
             <span class="c1"># Avoid collision with path labels</span>
             <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">paths_obj</span> <span class="ow">in</span> <span class="n">path_mpl_objects</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
                 <span class="k">try</span><span class="p">:</span>
-                    <span class="n">label_fontsize</span> <span class="o">=</span> <span class="n">paths_obj</span><span class="o">.</span><span class="n">labels</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">x</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">get_fontsize</span><span class="p">()</span>
-                    <span class="n">label_y</span> <span class="o">=</span> <span class="n">paths_obj</span><span class="o">.</span><span class="n">labels</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">x</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">get_position</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span>
-                    <span class="n">labeltext</span> <span class="o">=</span> <span class="n">paths_obj</span><span class="o">.</span><span class="n">labels</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">x</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">get_text</span><span class="p">()</span>
-                    <span class="n">diff_to_label</span> <span class="o">=</span> <span class="n">DifferenceManager</span><span class="o">.</span><span class="n">_get_diff_img_label</span><span class="p">(</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">constants</span><span class="p">,</span> <span class="n">margins</span><span class="p">,</span> <span class="n">figsize</span><span class="p">,</span> <span class="n">label_fontsize</span><span class="p">,</span> <span class="n">labeltext</span>
+                    <span class="n">pathlabel</span> <span class="o">=</span> <span class="n">paths_obj</span><span class="o">.</span><span class="n">labels</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">x</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span>
+                    <span class="n">pathlabel_y_boundaries</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">collision_manager</span><span class="o">.</span><span class="n">_get_label_boundaries</span><span class="p">(</span>
+                        <span class="n">label</span><span class="o">=</span><span class="n">pathlabel</span><span class="p">,</span>
                     <span class="p">)</span>
-                    <span class="k">if</span> <span class="n">label_y</span> <span class="o">+</span> <span class="n">diff_to_label</span> <span class="o">&gt;</span> <span class="n">y_min_top</span><span class="p">:</span>
-                        <span class="n">y_min_top</span> <span class="o">=</span> <span class="n">label_y</span> <span class="o">+</span> <span class="n">diff_to_label</span>
-                    <span class="k">if</span> <span class="n">label_y</span> <span class="o">-</span> <span class="n">diff_to_label</span> <span class="o">&lt;</span> <span class="n">y_max_bottom</span><span class="p">:</span>
-                        <span class="n">y_max_bottom</span> <span class="o">=</span> <span class="n">label_y</span> <span class="o">-</span> <span class="n">diff_to_label</span>
+                    <span class="n">diff_to_label</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">collision_manager</span><span class="o">.</span><span class="n">_get_diff_to_label</span><span class="p">(</span><span class="n">margins</span><span class="p">,</span> <span class="n">figsize</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">pathlabel_y_boundaries</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">diff_to_label</span> <span class="o">&gt;</span> <span class="n">y_min_top</span><span class="p">:</span>
+                        <span class="n">y_min_top</span> <span class="o">=</span> <span class="n">pathlabel_y_boundaries</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">diff_to_label</span>
+                    <span class="k">if</span> <span class="n">pathlabel_y_boundaries</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">diff_to_label</span> <span class="o">&lt;</span> <span class="n">y_max_bottom</span><span class="p">:</span>
+                        <span class="n">y_max_bottom</span> <span class="o">=</span> <span class="n">pathlabel_y_boundaries</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">diff_to_label</span>
                 <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
                     <span class="k">pass</span>
 
@@ -4362,10 +4354,7 @@ was provided.</p>
 
               <details class="mkdocstrings-source">
                 <summary>Source code in <code>src/chemdiagrams/managers/layout_manager.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 10</span>
-<span class="normal"> 11</span>
-<span class="normal"> 12</span>
-<span class="normal"> 13</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 13</span>
 <span class="normal"> 14</span>
 <span class="normal"> 15</span>
 <span class="normal"> 16</span>
@@ -4553,7 +4542,12 @@ was provided.</p>
 <span class="normal">198</span>
 <span class="normal">199</span>
 <span class="normal">200</span>
-<span class="normal">201</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">LayoutManager</span><span class="p">:</span>
+<span class="normal">201</span>
+<span class="normal">202</span>
+<span class="normal">203</span>
+<span class="normal">204</span>
+<span class="normal">205</span>
+<span class="normal">206</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">LayoutManager</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Manages axis limits and figure dimensions based on the plotted path data.</span>
 
@@ -4565,6 +4559,7 @@ was provided.</p>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">figure_manager</span><span class="p">:</span> <span class="n">FigureManager</span><span class="p">,</span>
+        <span class="n">collision_manager</span><span class="p">:</span> <span class="n">CollisionManager</span><span class="p">,</span>
         <span class="n">constants</span><span class="p">:</span> <span class="n">Constants</span><span class="p">,</span>
         <span class="n">extra_x_margin</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
         <span class="n">extra_y_margin</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
@@ -4583,6 +4578,7 @@ was provided.</p>
         <span class="n">Validators</span><span class="o">.</span><span class="n">validate_number</span><span class="p">(</span><span class="n">width_limit</span><span class="p">,</span> <span class="s2">&quot;width_limit&quot;</span><span class="p">,</span> <span class="n">min_value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">allow_none</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">figure_manager</span> <span class="o">=</span> <span class="n">figure_manager</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">collision_manager</span> <span class="o">=</span> <span class="n">collision_manager</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">constants</span> <span class="o">=</span> <span class="n">constants</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">figsize</span> <span class="o">=</span> <span class="n">figsize</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">extra_x_margin</span> <span class="o">=</span> <span class="n">extra_x_margin</span>
@@ -4836,12 +4832,7 @@ applying default and user-specified margins.</p>
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>src/chemdiagrams/managers/layout_manager.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 94</span>
-<span class="normal"> 95</span>
-<span class="normal"> 96</span>
-<span class="normal"> 97</span>
-<span class="normal"> 98</span>
-<span class="normal"> 99</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 99</span>
 <span class="normal">100</span>
 <span class="normal">101</span>
 <span class="normal">102</span>
@@ -4893,7 +4884,12 @@ applying default and user-specified margins.</p>
 <span class="normal">148</span>
 <span class="normal">149</span>
 <span class="normal">150</span>
-<span class="normal">151</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">adjust_xy_limits</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path_data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">]:</span>
+<span class="normal">151</span>
+<span class="normal">152</span>
+<span class="normal">153</span>
+<span class="normal">154</span>
+<span class="normal">155</span>
+<span class="normal">156</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">adjust_xy_limits</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path_data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Recompute and apply x/y axis limits from the current path data.</span>
 
@@ -5032,12 +5028,7 @@ whichever is smaller, to avoid disproportionate figures.</p>
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>src/chemdiagrams/managers/layout_manager.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">153</span>
-<span class="normal">154</span>
-<span class="normal">155</span>
-<span class="normal">156</span>
-<span class="normal">157</span>
-<span class="normal">158</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">158</span>
 <span class="normal">159</span>
 <span class="normal">160</span>
 <span class="normal">161</span>
@@ -5080,7 +5071,12 @@ whichever is smaller, to avoid disproportionate figures.</p>
 <span class="normal">198</span>
 <span class="normal">199</span>
 <span class="normal">200</span>
-<span class="normal">201</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">scale_figure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path_data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="normal">201</span>
+<span class="normal">202</span>
+<span class="normal">203</span>
+<span class="normal">204</span>
+<span class="normal">205</span>
+<span class="normal">206</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">scale_figure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path_data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Resize the figure to fit the current data range.</span>
 
@@ -5179,6 +5175,17 @@ covers the original overlapping plateau segments.</p>
       </thead>
       <tbody>
           <tr class="doc-section-item">
+            <td><code><span title="chemdiagrams.managers.MergedPlateau.collision_manager">collision_manager</span></code></td>
+            <td>
+                  <code><a class="autorefs autorefs-internal" title="CollisionManager (chemdiagrams.managers.collision_manager.CollisionManager)" href="collision_manager/#chemdiagrams.managers.collision_manager.CollisionManager">CollisionManager</a></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The collision manager instance.</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
             <td><code><span title="chemdiagrams.managers.MergedPlateau.plateau_left">plateau_left</span></code></td>
             <td>
                   <code><span title="matplotlib.collections.LineCollection">LineCollection</span></code>
@@ -5246,16 +5253,7 @@ used to hide any underlying plateau or connector artifacts.</p>
 
               <details class="mkdocstrings-source">
                 <summary>Source code in <code>src/chemdiagrams/managers/path_manager.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">751</span>
-<span class="normal">752</span>
-<span class="normal">753</span>
-<span class="normal">754</span>
-<span class="normal">755</span>
-<span class="normal">756</span>
-<span class="normal">757</span>
-<span class="normal">758</span>
-<span class="normal">759</span>
-<span class="normal">760</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">760</span>
 <span class="normal">761</span>
 <span class="normal">762</span>
 <span class="normal">763</span>
@@ -5321,7 +5319,17 @@ used to hide any underlying plateau or connector artifacts.</p>
 <span class="normal">823</span>
 <span class="normal">824</span>
 <span class="normal">825</span>
-<span class="normal">826</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span>
+<span class="normal">826</span>
+<span class="normal">827</span>
+<span class="normal">828</span>
+<span class="normal">829</span>
+<span class="normal">830</span>
+<span class="normal">831</span>
+<span class="normal">832</span>
+<span class="normal">833</span>
+<span class="normal">834</span>
+<span class="normal">835</span>
+<span class="normal">836</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">MergedPlateau</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Container for the Matplotlib artists that make up a merged plateau pair.</span>
@@ -5332,6 +5340,8 @@ used to hide any underlying plateau or connector artifacts.</p>
 
 <span class="sd">    Attributes</span>
 <span class="sd">    ----------</span>
+<span class="sd">    collision_manager : CollisionManager</span>
+<span class="sd">        The collision manager instance.</span>
 <span class="sd">    plateau_left : LineCollection</span>
 <span class="sd">        The left half-plateau artist, ending at the left edge of the gap.</span>
 <span class="sd">    plateau_right : LineCollection</span>
@@ -5345,7 +5355,7 @@ used to hide any underlying plateau or connector artifacts.</p>
 <span class="sd">        used to hide any underlying plateau or connector artifacts.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">constants</span><span class="p">:</span> <span class="n">Constants</span>
+    <span class="n">collision_manager</span><span class="p">:</span> <span class="n">CollisionManager</span>
     <span class="n">plateau_left</span><span class="p">:</span> <span class="n">LineCollection</span>
     <span class="n">plateau_right</span><span class="p">:</span> <span class="n">LineCollection</span>
     <span class="n">stopper_left</span><span class="p">:</span> <span class="n">Annotation</span>
@@ -5381,8 +5391,7 @@ used to hide any underlying plateau or connector artifacts.</p>
 <span class="sd">            Angle of the stopper tick marks in degrees from the vertical,</span>
 <span class="sd">            as originally passed to ``merge_plateaus``.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">delta_x</span><span class="p">,</span> <span class="n">delta_y</span> <span class="o">=</span> <span class="n">DifferenceManager</span><span class="o">.</span><span class="n">_get_axis_break_stopper_differences</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">constants</span><span class="p">,</span>
+        <span class="n">delta_x</span><span class="p">,</span> <span class="n">delta_y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">collision_manager</span><span class="o">.</span><span class="n">_get_axis_break_stopper_differences</span><span class="p">(</span>
             <span class="n">margins</span><span class="p">,</span>
             <span class="n">figsize</span><span class="p">,</span>
             <span class="n">angle</span><span class="p">,</span>
@@ -5391,8 +5400,8 @@ used to hide any underlying plateau or connector artifacts.</p>
         <span class="n">x_right</span><span class="p">,</span> <span class="n">y_right</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stopper_right</span><span class="o">.</span><span class="n">xy</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">stopper_left</span><span class="o">.</span><span class="n">set_position</span><span class="p">((</span><span class="n">x_left</span> <span class="o">+</span> <span class="n">delta_x</span><span class="p">,</span> <span class="n">y_left</span> <span class="o">+</span> <span class="n">delta_y</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">stopper_right</span><span class="o">.</span><span class="n">set_position</span><span class="p">((</span><span class="n">x_right</span> <span class="o">-</span> <span class="n">delta_x</span><span class="p">,</span> <span class="n">y_right</span> <span class="o">-</span> <span class="n">delta_y</span><span class="p">))</span>
-        <span class="n">cover_width</span> <span class="o">=</span> <span class="n">DifferenceManager</span><span class="o">.</span><span class="n">_get_axis_break_whitespace_cover_width</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">constants</span><span class="p">,</span> <span class="n">margins</span><span class="p">,</span> <span class="n">figsize</span>
+        <span class="n">cover_width</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">collision_manager</span><span class="o">.</span><span class="n">_get_axis_break_whitespace_cover_width</span><span class="p">(</span>
+            <span class="n">margins</span><span class="p">,</span> <span class="n">figsize</span>
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">whitespace</span><span class="o">.</span><span class="n">set_height</span><span class="p">(</span><span class="n">cover_width</span><span class="p">)</span>
         <span class="n">y_whitespace</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">whitespace</span><span class="o">.</span><span class="n">get_y</span><span class="p">()</span>
@@ -5496,18 +5505,7 @@ as originally passed to <code>merge_plateaus</code>.</p>
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>src/chemdiagrams/managers/path_manager.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">789</span>
-<span class="normal">790</span>
-<span class="normal">791</span>
-<span class="normal">792</span>
-<span class="normal">793</span>
-<span class="normal">794</span>
-<span class="normal">795</span>
-<span class="normal">796</span>
-<span class="normal">797</span>
-<span class="normal">798</span>
-<span class="normal">799</span>
-<span class="normal">800</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">800</span>
 <span class="normal">801</span>
 <span class="normal">802</span>
 <span class="normal">803</span>
@@ -5533,7 +5531,17 @@ as originally passed to <code>merge_plateaus</code>.</p>
 <span class="normal">823</span>
 <span class="normal">824</span>
 <span class="normal">825</span>
-<span class="normal">826</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">recalculate_gap</span><span class="p">(</span>
+<span class="normal">826</span>
+<span class="normal">827</span>
+<span class="normal">828</span>
+<span class="normal">829</span>
+<span class="normal">830</span>
+<span class="normal">831</span>
+<span class="normal">832</span>
+<span class="normal">833</span>
+<span class="normal">834</span>
+<span class="normal">835</span>
+<span class="normal">836</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">recalculate_gap</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">margins</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">],</span>
     <span class="n">figsize</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
@@ -5555,8 +5563,7 @@ as originally passed to <code>merge_plateaus</code>.</p>
 <span class="sd">        Angle of the stopper tick marks in degrees from the vertical,</span>
 <span class="sd">        as originally passed to ``merge_plateaus``.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">delta_x</span><span class="p">,</span> <span class="n">delta_y</span> <span class="o">=</span> <span class="n">DifferenceManager</span><span class="o">.</span><span class="n">_get_axis_break_stopper_differences</span><span class="p">(</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">constants</span><span class="p">,</span>
+    <span class="n">delta_x</span><span class="p">,</span> <span class="n">delta_y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">collision_manager</span><span class="o">.</span><span class="n">_get_axis_break_stopper_differences</span><span class="p">(</span>
         <span class="n">margins</span><span class="p">,</span>
         <span class="n">figsize</span><span class="p">,</span>
         <span class="n">angle</span><span class="p">,</span>
@@ -5565,8 +5572,8 @@ as originally passed to <code>merge_plateaus</code>.</p>
     <span class="n">x_right</span><span class="p">,</span> <span class="n">y_right</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stopper_right</span><span class="o">.</span><span class="n">xy</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">stopper_left</span><span class="o">.</span><span class="n">set_position</span><span class="p">((</span><span class="n">x_left</span> <span class="o">+</span> <span class="n">delta_x</span><span class="p">,</span> <span class="n">y_left</span> <span class="o">+</span> <span class="n">delta_y</span><span class="p">))</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">stopper_right</span><span class="o">.</span><span class="n">set_position</span><span class="p">((</span><span class="n">x_right</span> <span class="o">-</span> <span class="n">delta_x</span><span class="p">,</span> <span class="n">y_right</span> <span class="o">-</span> <span class="n">delta_y</span><span class="p">))</span>
-    <span class="n">cover_width</span> <span class="o">=</span> <span class="n">DifferenceManager</span><span class="o">.</span><span class="n">_get_axis_break_whitespace_cover_width</span><span class="p">(</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">constants</span><span class="p">,</span> <span class="n">margins</span><span class="p">,</span> <span class="n">figsize</span>
+    <span class="n">cover_width</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">collision_manager</span><span class="o">.</span><span class="n">_get_axis_break_whitespace_cover_width</span><span class="p">(</span>
+        <span class="n">margins</span><span class="p">,</span> <span class="n">figsize</span>
     <span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">whitespace</span><span class="o">.</span><span class="n">set_height</span><span class="p">(</span><span class="n">cover_width</span><span class="p">)</span>
     <span class="n">y_whitespace</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">whitespace</span><span class="o">.</span><span class="n">get_y</span><span class="p">()</span>
@@ -6312,7 +6319,17 @@ path name and x-coordinate.</p>
 <span class="normal">705</span>
 <span class="normal">706</span>
 <span class="normal">707</span>
-<span class="normal">708</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">NumberManager</span><span class="p">:</span>
+<span class="normal">708</span>
+<span class="normal">709</span>
+<span class="normal">710</span>
+<span class="normal">711</span>
+<span class="normal">712</span>
+<span class="normal">713</span>
+<span class="normal">714</span>
+<span class="normal">715</span>
+<span class="normal">716</span>
+<span class="normal">717</span>
+<span class="normal">718</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">NumberManager</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Manages energy value annotations on the diagram.</span>
 
@@ -6327,9 +6344,11 @@ path name and x-coordinate.</p>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">figure_manager</span><span class="p">:</span> <span class="n">FigureManager</span><span class="p">,</span>
+        <span class="n">collision_manager</span><span class="p">:</span> <span class="n">CollisionManager</span><span class="p">,</span>
         <span class="n">constants</span><span class="p">:</span> <span class="n">Constants</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">figure_manager</span> <span class="o">=</span> <span class="n">figure_manager</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">collision_manager</span> <span class="o">=</span> <span class="n">collision_manager</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">constants</span> <span class="o">=</span> <span class="n">constants</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mpl_objects</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">numberings_added</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
@@ -6423,6 +6442,7 @@ path name and x-coordinate.</p>
                 <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
                     <span class="n">no_overlap</span> <span class="o">=</span> <span class="n">NumberManager</span><span class="o">.</span><span class="n">_check_no_overlap</span><span class="p">(</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">constants</span><span class="p">,</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">collision_manager</span><span class="p">,</span>
                         <span class="n">y_print_start</span><span class="p">,</span>
                         <span class="n">numbers_to_stack</span><span class="p">,</span>
                         <span class="n">higher_numbers_at_x</span><span class="p">,</span>
@@ -6478,9 +6498,7 @@ path name and x-coordinate.</p>
             <span class="n">fontsize</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">figure_manager</span><span class="o">.</span><span class="n">fontsize</span>
         <span class="n">x_min_max</span> <span class="o">=</span> <span class="n">NumberManager</span><span class="o">.</span><span class="n">_regularize_x_min_max</span><span class="p">(</span><span class="n">x_min_max</span><span class="p">)</span>
         <span class="n">values_to_print</span> <span class="o">=</span> <span class="n">NumberManager</span><span class="o">.</span><span class="n">_get_all_visible_numbers</span><span class="p">(</span><span class="n">path_data</span><span class="p">,</span> <span class="n">x_min_max</span><span class="p">)</span>
-        <span class="n">_</span><span class="p">,</span> <span class="n">diff_per_step</span> <span class="o">=</span> <span class="n">DifferenceManager</span><span class="o">.</span><span class="n">_get_number_diffs</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">constants</span><span class="p">,</span> <span class="n">margins</span><span class="p">,</span> <span class="n">figsize</span><span class="p">,</span> <span class="n">fontsize</span>
-        <span class="p">)</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">diff_per_step</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">collision_manager</span><span class="o">.</span><span class="n">_get_number_diffs</span><span class="p">(</span><span class="n">margins</span><span class="p">,</span> <span class="n">figsize</span><span class="p">,</span> <span class="n">fontsize</span><span class="p">)</span>
 
         <span class="c1"># Get a list of all x values where to print</span>
         <span class="n">x_places</span><span class="p">:</span> <span class="nb">list</span> <span class="o">|</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="p">[]</span>
@@ -6518,6 +6536,7 @@ path name and x-coordinate.</p>
                 <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
                     <span class="n">no_overlap</span> <span class="o">=</span> <span class="n">NumberManager</span><span class="o">.</span><span class="n">_check_no_overlap</span><span class="p">(</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">constants</span><span class="p">,</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">collision_manager</span><span class="p">,</span>
                         <span class="n">y_print_start</span><span class="p">,</span>
                         <span class="n">numbers_to_stack_current</span><span class="p">,</span>
                         <span class="n">higher_numbers_at_x</span><span class="p">,</span>
@@ -6878,8 +6897,8 @@ path name and x-coordinate.</p>
 <span class="sd">        resulting Text artists are saved into ``mpl_objects`` under their</span>
 <span class="sd">        path name and x-coordinate key.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">diff_bias</span><span class="p">,</span> <span class="n">diff_per_step</span> <span class="o">=</span> <span class="n">DifferenceManager</span><span class="o">.</span><span class="n">_get_number_diffs</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">constants</span><span class="p">,</span> <span class="n">margins</span><span class="p">,</span> <span class="n">figsize</span><span class="p">,</span> <span class="n">fontsize</span>
+        <span class="n">diff_bias</span><span class="p">,</span> <span class="n">diff_per_step</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">collision_manager</span><span class="o">.</span><span class="n">_get_number_diffs</span><span class="p">(</span>
+            <span class="n">margins</span><span class="p">,</span> <span class="n">figsize</span><span class="p">,</span> <span class="n">fontsize</span>
         <span class="p">)</span>
         <span class="n">n_printed</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="k">for</span> <span class="n">number</span> <span class="ow">in</span> <span class="n">numbers_to_stack</span><span class="p">:</span>
@@ -6901,6 +6920,7 @@ path name and x-coordinate.</p>
     <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_check_no_overlap</span><span class="p">(</span>
         <span class="n">constants</span><span class="p">:</span> <span class="n">Constants</span><span class="p">,</span>
+        <span class="n">collision_manager</span><span class="p">:</span> <span class="n">CollisionManager</span><span class="p">,</span>
         <span class="n">y_print_start</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
         <span class="n">numbers_to_stack</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">dict</span><span class="p">],</span>
         <span class="n">higher_numbers_at_x</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
@@ -6915,7 +6935,7 @@ path name and x-coordinate.</p>
 <span class="sd">        any higher plateaus or path labels.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">no_number_overlap</span> <span class="o">=</span> <span class="n">NumberManager</span><span class="o">.</span><span class="n">_check_no_plateau_overlap</span><span class="p">(</span>
-            <span class="n">constants</span><span class="o">=</span><span class="n">constants</span><span class="p">,</span>
+            <span class="n">collision_manager</span><span class="o">=</span><span class="n">collision_manager</span><span class="p">,</span>
             <span class="n">y_print_start</span><span class="o">=</span><span class="n">y_print_start</span><span class="p">,</span>
             <span class="n">numbers_to_stack</span><span class="o">=</span><span class="n">numbers_to_stack</span><span class="p">,</span>
             <span class="n">higher_numbers_at_x</span><span class="o">=</span><span class="n">higher_numbers_at_x</span><span class="p">,</span>
@@ -6925,6 +6945,7 @@ path name and x-coordinate.</p>
         <span class="p">)</span>
         <span class="n">no_overlap_with_path_labels</span> <span class="o">=</span> <span class="n">NumberManager</span><span class="o">.</span><span class="n">_check_no_overlap_with_path_labels</span><span class="p">(</span>
             <span class="n">constants</span><span class="o">=</span><span class="n">constants</span><span class="p">,</span>
+            <span class="n">collision_manager</span><span class="o">=</span><span class="n">collision_manager</span><span class="p">,</span>
             <span class="n">y_print_start</span><span class="o">=</span><span class="n">y_print_start</span><span class="p">,</span>
             <span class="n">numbers_to_stack</span><span class="o">=</span><span class="n">numbers_to_stack</span><span class="p">,</span>
             <span class="n">margins</span><span class="o">=</span><span class="n">margins</span><span class="p">,</span>
@@ -6938,6 +6959,7 @@ path name and x-coordinate.</p>
     <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_check_no_overlap_with_path_labels</span><span class="p">(</span>
         <span class="n">constants</span><span class="p">:</span> <span class="n">Constants</span><span class="p">,</span>
+        <span class="n">collision_manager</span><span class="p">:</span> <span class="n">CollisionManager</span><span class="p">,</span>
         <span class="n">y_print_start</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
         <span class="n">numbers_to_stack</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">dict</span><span class="p">],</span>
         <span class="n">margins</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">],</span>
@@ -6953,8 +6975,8 @@ path name and x-coordinate.</p>
 <span class="sd">        and compares it to the proposed stack position. Returns True if there is no</span>
 <span class="sd">        overlap, False otherwise.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">diff_bias</span><span class="p">,</span> <span class="n">diff_per_step</span> <span class="o">=</span> <span class="n">DifferenceManager</span><span class="o">.</span><span class="n">_get_number_diffs</span><span class="p">(</span>
-            <span class="n">constants</span><span class="p">,</span> <span class="n">margins</span><span class="p">,</span> <span class="n">figsize</span><span class="p">,</span> <span class="n">fontsize</span>
+        <span class="n">diff_bias</span><span class="p">,</span> <span class="n">diff_per_step</span> <span class="o">=</span> <span class="n">collision_manager</span><span class="o">.</span><span class="n">_get_number_diffs</span><span class="p">(</span>
+            <span class="n">margins</span><span class="p">,</span> <span class="n">figsize</span><span class="p">,</span> <span class="n">fontsize</span>
         <span class="p">)</span>
         <span class="n">stacked_offset</span> <span class="o">=</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">numbers_to_stack</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">diff_per_step</span>
         <span class="n">base_offset</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">diff_bias</span>
@@ -6962,16 +6984,21 @@ path name and x-coordinate.</p>
         <span class="n">no_overlap_with_path_labels</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="k">for</span> <span class="n">path_obj</span> <span class="ow">in</span> <span class="n">path_mpl_objects</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
             <span class="k">try</span><span class="p">:</span>
-                <span class="n">label_obj</span> <span class="o">=</span> <span class="n">path_obj</span><span class="o">.</span><span class="n">labels</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">x</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span>
-                <span class="n">label_fontsize</span> <span class="o">=</span> <span class="n">label_obj</span><span class="o">.</span><span class="n">get_fontsize</span><span class="p">()</span>
-                <span class="n">label_y</span> <span class="o">=</span> <span class="n">label_obj</span><span class="o">.</span><span class="n">get_position</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span>
-                <span class="n">labeltext</span> <span class="o">=</span> <span class="n">label_obj</span><span class="o">.</span><span class="n">get_text</span><span class="p">()</span>
-                <span class="n">diff_to_label</span> <span class="o">=</span> <span class="n">DifferenceManager</span><span class="o">.</span><span class="n">_get_diff_img_label</span><span class="p">(</span>
-                    <span class="n">constants</span><span class="p">,</span> <span class="n">margins</span><span class="p">,</span> <span class="n">figsize</span><span class="p">,</span> <span class="n">label_fontsize</span><span class="p">,</span> <span class="n">labeltext</span>
+                <span class="n">pathlabel</span> <span class="o">=</span> <span class="n">path_obj</span><span class="o">.</span><span class="n">labels</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">x</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span>
+                <span class="n">pathlabel_y_boundaries</span> <span class="o">=</span> <span class="n">collision_manager</span><span class="o">.</span><span class="n">_get_label_boundaries</span><span class="p">(</span>
+                    <span class="n">label</span><span class="o">=</span><span class="n">pathlabel</span><span class="p">,</span>
                 <span class="p">)</span>
+                <span class="n">diff_to_label</span> <span class="o">=</span> <span class="n">collision_manager</span><span class="o">.</span><span class="n">_get_diff_to_label</span><span class="p">(</span><span class="n">margins</span><span class="p">,</span> <span class="n">figsize</span><span class="p">)</span>
+                <span class="c1"># Use the numerical precision factor to avoid numerical precision</span>
+                <span class="c1"># issues where the label is exactly at the boundary</span>
                 <span class="n">has_collision</span> <span class="o">=</span> <span class="p">(</span>
-                    <span class="n">label_y</span> <span class="o">-</span> <span class="n">diff_to_label</span> <span class="o">&lt;</span> <span class="n">y_stacked_max</span>
-                    <span class="ow">and</span> <span class="n">label_y</span> <span class="o">+</span> <span class="n">diff_to_label</span> <span class="o">&gt;</span> <span class="n">y_print_start</span>
+                    <span class="n">pathlabel_y_boundaries</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="o">-</span> <span class="n">diff_to_label</span> <span class="o">*</span> <span class="n">constants</span><span class="o">.</span><span class="n">NUMERICAL_PRECISION_FACTOR</span>
+                    <span class="o">&lt;</span> <span class="n">y_stacked_max</span>
+                <span class="p">)</span> <span class="ow">and</span> <span class="p">(</span>
+                    <span class="n">pathlabel_y_boundaries</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                    <span class="o">+</span> <span class="n">diff_to_label</span> <span class="o">*</span> <span class="n">constants</span><span class="o">.</span><span class="n">NUMERICAL_PRECISION_FACTOR</span>
+                    <span class="o">&gt;</span> <span class="n">y_print_start</span>
                 <span class="p">)</span>
                 <span class="k">if</span> <span class="n">has_collision</span><span class="p">:</span>
                     <span class="n">no_overlap_with_path_labels</span> <span class="o">=</span> <span class="kc">False</span>
@@ -6981,7 +7008,7 @@ path name and x-coordinate.</p>
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_check_no_plateau_overlap</span><span class="p">(</span>
-        <span class="n">constants</span><span class="p">:</span> <span class="n">Constants</span><span class="p">,</span>
+        <span class="n">collision_manager</span><span class="p">:</span> <span class="n">CollisionManager</span><span class="p">,</span>
         <span class="n">y_print_start</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
         <span class="n">numbers_to_stack</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">dict</span><span class="p">],</span>
         <span class="n">higher_numbers_at_x</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
@@ -6997,8 +7024,8 @@ path name and x-coordinate.</p>
 <span class="sd">        bar above ``y_print_start``. Returns True unconditionally if there</span>
 <span class="sd">        are no higher bars.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">diff_bias</span><span class="p">,</span> <span class="n">diff_per_step</span> <span class="o">=</span> <span class="n">DifferenceManager</span><span class="o">.</span><span class="n">_get_number_diffs</span><span class="p">(</span>
-            <span class="n">constants</span><span class="p">,</span> <span class="n">margins</span><span class="p">,</span> <span class="n">figsize</span><span class="p">,</span> <span class="n">fontsize</span>
+        <span class="n">diff_bias</span><span class="p">,</span> <span class="n">diff_per_step</span> <span class="o">=</span> <span class="n">collision_manager</span><span class="o">.</span><span class="n">_get_number_diffs</span><span class="p">(</span>
+            <span class="n">margins</span><span class="p">,</span> <span class="n">figsize</span><span class="p">,</span> <span class="n">fontsize</span>
         <span class="p">)</span>
         <span class="n">stacked_offset</span> <span class="o">=</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">numbers_to_stack</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">diff_per_step</span>
         <span class="n">base_offset</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">diff_bias</span>
@@ -7715,7 +7742,16 @@ the underlying data in <code>path_data</code> for use by other managers.</p>
 <span class="normal">676</span>
 <span class="normal">677</span>
 <span class="normal">678</span>
-<span class="normal">679</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">PathManager</span><span class="p">:</span>
+<span class="normal">679</span>
+<span class="normal">680</span>
+<span class="normal">681</span>
+<span class="normal">682</span>
+<span class="normal">683</span>
+<span class="normal">684</span>
+<span class="normal">685</span>
+<span class="normal">686</span>
+<span class="normal">687</span>
+<span class="normal">688</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">PathManager</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Manages the creation and storage of reaction path artists.</span>
 
@@ -7727,9 +7763,11 @@ the underlying data in <code>path_data</code> for use by other managers.</p>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">figure_manager</span><span class="p">:</span> <span class="n">FigureManager</span><span class="p">,</span>
+        <span class="n">collision_manager</span><span class="p">:</span> <span class="n">CollisionManager</span><span class="p">,</span>
         <span class="n">constants</span><span class="p">:</span> <span class="n">Constants</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">figure_manager</span> <span class="o">=</span> <span class="n">figure_manager</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">collision_manager</span> <span class="o">=</span> <span class="n">collision_manager</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">constants</span> <span class="o">=</span> <span class="n">constants</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">path_data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">path_label_data</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
@@ -7895,6 +7933,7 @@ the underlying data in <code>path_data</code> for use by other managers.</p>
         <span class="n">fontsize</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">weight</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;normal&quot;</span><span class="p">,</span>
         <span class="n">color</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">rotation</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="c1"># Sanity checks</span>
         <span class="k">if</span> <span class="n">path_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">path_data</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
@@ -7911,6 +7950,10 @@ the underlying data in <code>path_data</code> for use by other managers.</p>
             <span class="n">fontsize</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">figure_manager</span><span class="o">.</span><span class="n">fontsize</span>
         <span class="k">if</span> <span class="n">color</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">color</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">path_data</span><span class="p">[</span><span class="n">path_name</span><span class="p">][</span><span class="s2">&quot;color&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">rotation</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">Validators</span><span class="o">.</span><span class="n">validate_number</span><span class="p">(</span><span class="n">rotation</span><span class="p">,</span> <span class="s2">&quot;rotation&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">rotation</span> <span class="o">=</span> <span class="mi">0</span>
 
         <span class="n">labelfont</span> <span class="o">=</span> <span class="n">font_manager</span><span class="o">.</span><span class="n">FontProperties</span><span class="p">(</span><span class="n">weight</span><span class="o">=</span><span class="n">weight</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">fontsize</span><span class="p">)</span>
 
@@ -7921,6 +7964,7 @@ the underlying data in <code>path_data</code> for use by other managers.</p>
                 <span class="n">label_artist</span> <span class="o">=</span> <span class="n">StyleManager</span><span class="o">.</span><span class="n">_add_label_in_plot</span><span class="p">(</span>
                     <span class="n">constants</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">constants</span><span class="p">,</span>
                     <span class="n">figure_manager</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">figure_manager</span><span class="p">,</span>
+                    <span class="n">collision_manager</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">collision_manager</span><span class="p">,</span>
                     <span class="n">margins</span><span class="o">=</span><span class="n">margins</span><span class="p">,</span>
                     <span class="n">figsize</span><span class="o">=</span><span class="n">figsize</span><span class="p">,</span>
                     <span class="n">labeltext</span><span class="o">=</span><span class="n">labeltext</span><span class="p">,</span>
@@ -7929,6 +7973,7 @@ the underlying data in <code>path_data</code> for use by other managers.</p>
                     <span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span>
                     <span class="n">y</span><span class="o">=</span><span class="n">y</span><span class="p">,</span>
                     <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span>
+                    <span class="n">rotation</span><span class="o">=</span><span class="n">rotation</span><span class="p">,</span>
                 <span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">mpl_objects</span><span class="p">[</span><span class="n">path_name</span><span class="p">]</span><span class="o">.</span><span class="n">labels</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">x</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">label_artist</span>
 
@@ -7939,6 +7984,7 @@ the underlying data in <code>path_data</code> for use by other managers.</p>
                 <span class="s2">&quot;fontsize&quot;</span><span class="p">:</span> <span class="n">fontsize</span><span class="p">,</span>
                 <span class="s2">&quot;weight&quot;</span><span class="p">:</span> <span class="n">weight</span><span class="p">,</span>
                 <span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="n">color</span><span class="p">,</span>
+                <span class="s2">&quot;rotation&quot;</span><span class="p">:</span> <span class="n">rotation</span><span class="p">,</span>
             <span class="p">}</span>
         <span class="p">)</span>
 
@@ -8010,8 +8056,8 @@ the underlying data in <code>path_data</code> for use by other managers.</p>
         <span class="n">plateau_right</span><span class="o">.</span><span class="n">set_segments</span><span class="p">(</span><span class="n">coordinates_right</span><span class="p">)</span>
 
         <span class="c1"># Draw white rectangle to cover the gap</span>
-        <span class="n">cover_width</span> <span class="o">=</span> <span class="n">DifferenceManager</span><span class="o">.</span><span class="n">_get_axis_break_whitespace_cover_width</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">constants</span><span class="p">,</span> <span class="n">margins</span><span class="p">,</span> <span class="n">figsize</span>
+        <span class="n">cover_width</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">collision_manager</span><span class="o">.</span><span class="n">_get_axis_break_whitespace_cover_width</span><span class="p">(</span>
+            <span class="n">margins</span><span class="p">,</span> <span class="n">figsize</span>
         <span class="p">)</span>
 
         <span class="c1"># Add white covering reactange</span>
@@ -8026,8 +8072,7 @@ the underlying data in <code>path_data</code> for use by other managers.</p>
         <span class="p">)</span>
 
         <span class="c1"># Calculate stopper direction in data coordinates</span>
-        <span class="n">delta_x</span><span class="p">,</span> <span class="n">delta_y</span> <span class="o">=</span> <span class="n">DifferenceManager</span><span class="o">.</span><span class="n">_get_axis_break_stopper_differences</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">constants</span><span class="p">,</span>
+        <span class="n">delta_x</span><span class="p">,</span> <span class="n">delta_y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">collision_manager</span><span class="o">.</span><span class="n">_get_axis_break_stopper_differences</span><span class="p">(</span>
             <span class="n">margins</span><span class="p">,</span>
             <span class="n">figsize</span><span class="p">,</span>
             <span class="n">angle</span><span class="p">,</span>
@@ -8067,7 +8112,7 @@ the underlying data in <code>path_data</code> for use by other managers.</p>
 
         <span class="c1"># Save mpl objects get a pointer for angle correction</span>
         <span class="n">merged_plateau</span> <span class="o">=</span> <span class="n">MergedPlateau</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">constants</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">collision_manager</span><span class="p">,</span>
             <span class="n">plateau_left</span><span class="p">,</span>
             <span class="n">plateau_right</span><span class="p">,</span>
             <span class="n">stopper_left</span><span class="p">,</span>
@@ -8462,16 +8507,7 @@ as a formatted string (e.g. <code>"1.0"</code>).</p>
 
               <details class="mkdocstrings-source">
                 <summary>Source code in <code>src/chemdiagrams/managers/path_manager.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">682</span>
-<span class="normal">683</span>
-<span class="normal">684</span>
-<span class="normal">685</span>
-<span class="normal">686</span>
-<span class="normal">687</span>
-<span class="normal">688</span>
-<span class="normal">689</span>
-<span class="normal">690</span>
-<span class="normal">691</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">691</span>
 <span class="normal">692</span>
 <span class="normal">693</span>
 <span class="normal">694</span>
@@ -8495,7 +8531,16 @@ as a formatted string (e.g. <code>"1.0"</code>).</p>
 <span class="normal">712</span>
 <span class="normal">713</span>
 <span class="normal">714</span>
-<span class="normal">715</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span>
+<span class="normal">715</span>
+<span class="normal">716</span>
+<span class="normal">717</span>
+<span class="normal">718</span>
+<span class="normal">719</span>
+<span class="normal">720</span>
+<span class="normal">721</span>
+<span class="normal">722</span>
+<span class="normal">723</span>
+<span class="normal">724</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">PathObject</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Container for the Matplotlib artists that make up a single reaction path.</span>
@@ -9072,7 +9117,12 @@ placement, either below the axis or inside the plot area.</p>
 <span class="normal">510</span>
 <span class="normal">511</span>
 <span class="normal">512</span>
-<span class="normal">513</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">StyleManager</span><span class="p">:</span>
+<span class="normal">513</span>
+<span class="normal">514</span>
+<span class="normal">515</span>
+<span class="normal">516</span>
+<span class="normal">517</span>
+<span class="normal">518</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">StyleManager</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Manages the visual style and x-axis labels of the diagram.</span>
 
@@ -9085,10 +9135,12 @@ placement, either below the axis or inside the plot area.</p>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">figure_manager</span><span class="p">:</span> <span class="n">FigureManager</span><span class="p">,</span>
+        <span class="n">collision_manager</span><span class="p">:</span> <span class="n">CollisionManager</span><span class="p">,</span>
         <span class="n">constants</span><span class="p">:</span> <span class="n">Constants</span><span class="p">,</span>
         <span class="n">style</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">figure_manager</span> <span class="o">=</span> <span class="n">figure_manager</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">collision_manager</span> <span class="o">=</span> <span class="n">collision_manager</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">constants</span> <span class="o">=</span> <span class="n">constants</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">style</span> <span class="o">=</span> <span class="n">style</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mpl_objects</span> <span class="o">=</span> <span class="n">StyleObjects</span><span class="p">({},</span> <span class="p">{},</span> <span class="p">{},</span> <span class="p">{},</span> <span class="p">{})</span>
@@ -9208,11 +9260,8 @@ placement, either below the axis or inside the plot area.</p>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">labelplaces</span><span class="p">):</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;There must be the same number of labels and labelplaces.&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">rotation</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">in_plot</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Label rotation is not supported when in_plot=True.&quot;</span><span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">Validators</span><span class="o">.</span><span class="n">validate_number</span><span class="p">(</span><span class="n">rotation</span><span class="p">,</span> <span class="s2">&quot;rotation&quot;</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="ow">not</span> <span class="n">in_plot</span><span class="p">:</span>
+            <span class="n">Validators</span><span class="o">.</span><span class="n">validate_number</span><span class="p">(</span><span class="n">rotation</span><span class="p">,</span> <span class="s2">&quot;rotation&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
             <span class="n">rotation</span> <span class="o">=</span> <span class="mi">0</span>
 
         <span class="c1"># Create labelplace list if none given</span>
@@ -9250,6 +9299,7 @@ placement, either below the axis or inside the plot area.</p>
                     <span class="n">label</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_add_label_in_plot</span><span class="p">(</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">constants</span><span class="p">,</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">figure_manager</span><span class="p">,</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">collision_manager</span><span class="p">,</span>
                         <span class="n">margins</span><span class="p">,</span>
                         <span class="n">figsize</span><span class="p">,</span>
                         <span class="n">labeltext</span><span class="p">,</span>
@@ -9258,6 +9308,7 @@ placement, either below the axis or inside the plot area.</p>
                         <span class="n">x</span><span class="p">,</span>
                         <span class="n">y</span><span class="p">,</span>
                         <span class="n">color</span><span class="p">,</span>
+                        <span class="n">rotation</span><span class="p">,</span>
                     <span class="p">)</span>
                     <span class="n">label_dict</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">x</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">label</span>
                 <span class="k">else</span><span class="p">:</span>
@@ -9539,6 +9590,7 @@ placement, either below the axis or inside the plot area.</p>
     <span class="k">def</span><span class="w"> </span><span class="nf">_add_label_in_plot</span><span class="p">(</span>
         <span class="n">constants</span><span class="p">:</span> <span class="n">Constants</span><span class="p">,</span>
         <span class="n">figure_manager</span><span class="p">:</span> <span class="n">FigureManager</span><span class="p">,</span>
+        <span class="n">collision_manager</span><span class="p">:</span> <span class="n">CollisionManager</span><span class="p">,</span>
         <span class="n">margins</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">],</span>
         <span class="n">figsize</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
         <span class="n">labeltext</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -9547,9 +9599,11 @@ placement, either below the axis or inside the plot area.</p>
         <span class="n">x</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
         <span class="n">y</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
         <span class="n">color</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;black&quot;</span><span class="p">,</span>
+        <span class="n">rotation</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Text</span><span class="p">:</span>
-        <span class="n">y_diff</span> <span class="o">=</span> <span class="o">-</span><span class="n">DifferenceManager</span><span class="o">.</span><span class="n">_get_diff_plateau_label</span><span class="p">(</span>
-            <span class="n">constants</span><span class="p">,</span> <span class="n">margins</span><span class="p">,</span> <span class="n">figsize</span><span class="p">,</span> <span class="n">fontsize</span><span class="p">,</span> <span class="n">labeltext</span>
+        <span class="n">y_diff</span> <span class="o">=</span> <span class="o">-</span><span class="n">collision_manager</span><span class="o">.</span><span class="n">_get_diff_to_label</span><span class="p">(</span>
+            <span class="n">margins</span><span class="p">,</span>
+            <span class="n">figsize</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="n">label</span> <span class="o">=</span> <span class="n">figure_manager</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
             <span class="n">x</span><span class="p">,</span>
@@ -9557,8 +9611,9 @@ placement, either below the axis or inside the plot area.</p>
             <span class="n">labeltext</span><span class="p">,</span>
             <span class="n">font</span><span class="o">=</span><span class="n">labelfont</span><span class="p">,</span>
             <span class="n">ha</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span>
-            <span class="n">va</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span>
+            <span class="n">va</span><span class="o">=</span><span class="s2">&quot;top&quot;</span><span class="p">,</span>
             <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span>
+            <span class="n">rotation</span><span class="o">=</span><span class="n">rotation</span><span class="p">,</span>
             <span class="n">zorder</span><span class="o">=</span><span class="n">constants</span><span class="o">.</span><span class="n">ZORDER_X_LABEL</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="k">return</span> <span class="n">label</span>
@@ -9691,12 +9746,7 @@ own tick system and not stored here.</p>
 
               <details class="mkdocstrings-source">
                 <summary>Source code in <code>src/chemdiagrams/managers/style_manager.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">516</span>
-<span class="normal">517</span>
-<span class="normal">518</span>
-<span class="normal">519</span>
-<span class="normal">520</span>
-<span class="normal">521</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">521</span>
 <span class="normal">522</span>
 <span class="normal">523</span>
 <span class="normal">524</span>
@@ -9747,7 +9797,12 @@ own tick system and not stored here.</p>
 <span class="normal">569</span>
 <span class="normal">570</span>
 <span class="normal">571</span>
-<span class="normal">572</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span>
+<span class="normal">572</span>
+<span class="normal">573</span>
+<span class="normal">574</span>
+<span class="normal">575</span>
+<span class="normal">576</span>
+<span class="normal">577</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">StyleObjects</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Container for the Matplotlib artists controlled by the style manager.</span>

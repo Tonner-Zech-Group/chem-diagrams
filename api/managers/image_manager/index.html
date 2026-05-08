@@ -804,14 +804,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../difference_manager/" class="md-nav__link">
+      <a href="../collision_manager/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    difference_manager
+    collision_manager
   
 
     
@@ -2088,8 +2088,7 @@ All rendered artists are stored in <code>mpl_objects</code> for later access.</p
 <span class="normal">562</span>
 <span class="normal">563</span>
 <span class="normal">564</span>
-<span class="normal">565</span>
-<span class="normal">566</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">ImageManager</span><span class="p">:</span>
+<span class="normal">565</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">ImageManager</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Manages the placement and storage of image overlays within the energy diagram.</span>
 
@@ -2103,9 +2102,11 @@ All rendered artists are stored in <code>mpl_objects</code> for later access.</p
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">figure_manager</span><span class="p">:</span> <span class="n">FigureManager</span><span class="p">,</span>
+        <span class="n">collision_manager</span><span class="p">:</span> <span class="n">CollisionManager</span><span class="p">,</span>
         <span class="n">constants</span><span class="p">:</span> <span class="n">Constants</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">figure_manager</span> <span class="o">=</span> <span class="n">figure_manager</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">collision_manager</span> <span class="o">=</span> <span class="n">collision_manager</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">constants</span> <span class="o">=</span> <span class="n">constants</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">image_series_data</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">has_image_series</span> <span class="o">=</span> <span class="kc">False</span>
@@ -2346,8 +2347,7 @@ All rendered artists are stored in <code>mpl_objects</code> for later access.</p
             <span class="n">x</span> <span class="o">=</span> <span class="n">img_x_places</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
 
             <span class="c1"># Avoid collision with plateaus</span>
-            <span class="n">diff_to_plateau</span> <span class="o">=</span> <span class="n">DifferenceManager</span><span class="o">.</span><span class="n">_get_diff_img_plateau</span><span class="p">(</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">constants</span><span class="p">,</span>
+            <span class="n">diff_to_plateau</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">collision_manager</span><span class="o">.</span><span class="n">_get_diff_img_plateau</span><span class="p">(</span>
                 <span class="n">margins</span><span class="p">,</span>
                 <span class="n">figsize</span><span class="p">,</span>
             <span class="p">)</span>
@@ -2365,8 +2365,8 @@ All rendered artists are stored in <code>mpl_objects</code> for later access.</p
                 <span class="k">try</span><span class="p">:</span>
                     <span class="n">number_fontsize</span> <span class="o">=</span> <span class="n">numbers</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">x</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">get_fontsize</span><span class="p">()</span>
                     <span class="n">number_y</span> <span class="o">=</span> <span class="n">numbers</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">x</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">get_position</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span>
-                    <span class="n">diff_to_number</span> <span class="o">=</span> <span class="n">DifferenceManager</span><span class="o">.</span><span class="n">_get_diff_img_number</span><span class="p">(</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">constants</span><span class="p">,</span> <span class="n">margins</span><span class="p">,</span> <span class="n">figsize</span><span class="p">,</span> <span class="n">number_fontsize</span>
+                    <span class="n">diff_to_number</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">collision_manager</span><span class="o">.</span><span class="n">_get_diff_img_number</span><span class="p">(</span>
+                        <span class="n">margins</span><span class="p">,</span> <span class="n">figsize</span><span class="p">,</span> <span class="n">number_fontsize</span>
                     <span class="p">)</span>
                     <span class="k">if</span> <span class="n">number_y</span> <span class="o">+</span> <span class="n">diff_to_number</span> <span class="o">&gt;</span> <span class="n">y_min_top</span><span class="p">:</span>
                         <span class="n">y_min_top</span> <span class="o">=</span> <span class="n">number_y</span> <span class="o">+</span> <span class="n">diff_to_number</span>
@@ -2377,32 +2377,30 @@ All rendered artists are stored in <code>mpl_objects</code> for later access.</p
 
             <span class="c1"># Avoid collision with x-labels</span>
             <span class="k">try</span><span class="p">:</span>
-                <span class="n">label_fontsize</span> <span class="o">=</span> <span class="n">xlabel_mpl_objects</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">x</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">get_fontsize</span><span class="p">()</span>
-                <span class="n">label_y</span> <span class="o">=</span> <span class="n">xlabel_mpl_objects</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">x</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">get_position</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span>
-                <span class="n">labeltext</span> <span class="o">=</span> <span class="n">xlabel_mpl_objects</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">x</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">get_text</span><span class="p">()</span>
-                <span class="n">diff_to_label</span> <span class="o">=</span> <span class="n">DifferenceManager</span><span class="o">.</span><span class="n">_get_diff_img_label</span><span class="p">(</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">constants</span><span class="p">,</span> <span class="n">margins</span><span class="p">,</span> <span class="n">figsize</span><span class="p">,</span> <span class="n">label_fontsize</span><span class="p">,</span> <span class="n">labeltext</span>
+                <span class="n">xlabel</span> <span class="o">=</span> <span class="n">xlabel_mpl_objects</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">x</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span>
+                <span class="n">xlabel_y_boundaries</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">collision_manager</span><span class="o">.</span><span class="n">_get_label_boundaries</span><span class="p">(</span>
+                    <span class="n">label</span><span class="o">=</span><span class="n">xlabel</span><span class="p">,</span>
                 <span class="p">)</span>
-                <span class="k">if</span> <span class="n">label_y</span> <span class="o">+</span> <span class="n">diff_to_label</span> <span class="o">&gt;</span> <span class="n">y_min_top</span><span class="p">:</span>
-                    <span class="n">y_min_top</span> <span class="o">=</span> <span class="n">label_y</span> <span class="o">+</span> <span class="n">diff_to_label</span>
-                <span class="k">if</span> <span class="n">label_y</span> <span class="o">-</span> <span class="n">diff_to_label</span> <span class="o">&lt;</span> <span class="n">y_max_bottom</span><span class="p">:</span>
-                    <span class="n">y_max_bottom</span> <span class="o">=</span> <span class="n">label_y</span> <span class="o">-</span> <span class="n">diff_to_label</span>
+                <span class="n">diff_to_label</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">collision_manager</span><span class="o">.</span><span class="n">_get_diff_to_label</span><span class="p">(</span><span class="n">margins</span><span class="p">,</span> <span class="n">figsize</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">xlabel_y_boundaries</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">diff_to_label</span> <span class="o">&gt;</span> <span class="n">y_min_top</span><span class="p">:</span>
+                    <span class="n">y_min_top</span> <span class="o">=</span> <span class="n">xlabel_y_boundaries</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">diff_to_label</span>
+                <span class="k">if</span> <span class="n">xlabel_y_boundaries</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">diff_to_label</span> <span class="o">&lt;</span> <span class="n">y_max_bottom</span><span class="p">:</span>
+                    <span class="n">y_max_bottom</span> <span class="o">=</span> <span class="n">xlabel_y_boundaries</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">diff_to_label</span>
             <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
                 <span class="k">pass</span>
 
             <span class="c1"># Avoid collision with path labels</span>
             <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">paths_obj</span> <span class="ow">in</span> <span class="n">path_mpl_objects</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
                 <span class="k">try</span><span class="p">:</span>
-                    <span class="n">label_fontsize</span> <span class="o">=</span> <span class="n">paths_obj</span><span class="o">.</span><span class="n">labels</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">x</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">get_fontsize</span><span class="p">()</span>
-                    <span class="n">label_y</span> <span class="o">=</span> <span class="n">paths_obj</span><span class="o">.</span><span class="n">labels</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">x</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">get_position</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span>
-                    <span class="n">labeltext</span> <span class="o">=</span> <span class="n">paths_obj</span><span class="o">.</span><span class="n">labels</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">x</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">get_text</span><span class="p">()</span>
-                    <span class="n">diff_to_label</span> <span class="o">=</span> <span class="n">DifferenceManager</span><span class="o">.</span><span class="n">_get_diff_img_label</span><span class="p">(</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">constants</span><span class="p">,</span> <span class="n">margins</span><span class="p">,</span> <span class="n">figsize</span><span class="p">,</span> <span class="n">label_fontsize</span><span class="p">,</span> <span class="n">labeltext</span>
+                    <span class="n">pathlabel</span> <span class="o">=</span> <span class="n">paths_obj</span><span class="o">.</span><span class="n">labels</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">x</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span>
+                    <span class="n">pathlabel_y_boundaries</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">collision_manager</span><span class="o">.</span><span class="n">_get_label_boundaries</span><span class="p">(</span>
+                        <span class="n">label</span><span class="o">=</span><span class="n">pathlabel</span><span class="p">,</span>
                     <span class="p">)</span>
-                    <span class="k">if</span> <span class="n">label_y</span> <span class="o">+</span> <span class="n">diff_to_label</span> <span class="o">&gt;</span> <span class="n">y_min_top</span><span class="p">:</span>
-                        <span class="n">y_min_top</span> <span class="o">=</span> <span class="n">label_y</span> <span class="o">+</span> <span class="n">diff_to_label</span>
-                    <span class="k">if</span> <span class="n">label_y</span> <span class="o">-</span> <span class="n">diff_to_label</span> <span class="o">&lt;</span> <span class="n">y_max_bottom</span><span class="p">:</span>
-                        <span class="n">y_max_bottom</span> <span class="o">=</span> <span class="n">label_y</span> <span class="o">-</span> <span class="n">diff_to_label</span>
+                    <span class="n">diff_to_label</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">collision_manager</span><span class="o">.</span><span class="n">_get_diff_to_label</span><span class="p">(</span><span class="n">margins</span><span class="p">,</span> <span class="n">figsize</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">pathlabel_y_boundaries</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">diff_to_label</span> <span class="o">&gt;</span> <span class="n">y_min_top</span><span class="p">:</span>
+                        <span class="n">y_min_top</span> <span class="o">=</span> <span class="n">pathlabel_y_boundaries</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">diff_to_label</span>
+                    <span class="k">if</span> <span class="n">pathlabel_y_boundaries</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">diff_to_label</span> <span class="o">&lt;</span> <span class="n">y_max_bottom</span><span class="p">:</span>
+                        <span class="n">y_max_bottom</span> <span class="o">=</span> <span class="n">pathlabel_y_boundaries</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">diff_to_label</span>
                 <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
                     <span class="k">pass</span>
 
@@ -2725,7 +2723,8 @@ All rendered artists are stored in <code>mpl_objects</code> for later access.</p
 
               <details class="mkdocstrings-source">
                 <summary>Source code in <code>src/chemdiagrams/managers/image_manager.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">569</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">568</span>
+<span class="normal">569</span>
 <span class="normal">570</span>
 <span class="normal">571</span>
 <span class="normal">572</span>
@@ -2749,8 +2748,7 @@ All rendered artists are stored in <code>mpl_objects</code> for later access.</p
 <span class="normal">590</span>
 <span class="normal">591</span>
 <span class="normal">592</span>
-<span class="normal">593</span>
-<span class="normal">594</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span>
+<span class="normal">593</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">ImageObject</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Container for the Matplotlib artists that make up a single diagram image.</span>

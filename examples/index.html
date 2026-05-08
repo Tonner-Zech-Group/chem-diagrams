@@ -940,14 +940,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../api/managers/difference_manager/" class="md-nav__link">
+      <a href="../api/managers/collision_manager/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    difference_manager
+    collision_manager
   
 
     
@@ -1959,11 +1959,12 @@
 <span class="p">)</span>
 
 <span class="n">dia</span><span class="o">.</span><span class="n">add_numbers_auto</span><span class="p">(</span>
-    <span class="n">n_decimals</span><span class="o">=</span><span class="mi">2</span>
+    <span class="n">n_decimals</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+    <span class="n">fontsize</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span>
 <span class="p">)</span>
 
 <span class="n">dia</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\Delta E$ in eV&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
-<span class="n">dia</span><span class="o">.</span><span class="n">set_xlabels</span><span class="p">([</span><span class="s2">&quot;E&quot;</span><span class="p">,</span> <span class="s2">&quot;TS1&quot;</span><span class="p">,</span> <span class="s2">&quot;I&quot;</span><span class="p">,</span> <span class="s2">&quot;TS2&quot;</span><span class="p">,</span> <span class="s2">&quot;P&quot;</span><span class="p">],</span> <span class="n">in_plot</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">dia</span><span class="o">.</span><span class="n">set_xlabels</span><span class="p">([</span><span class="s2">&quot;Pengu@gas&quot;</span><span class="p">,</span> <span class="s2">&quot;TS1&quot;</span><span class="p">,</span> <span class="s2">&quot;Pengu@Cat&quot;</span><span class="p">,</span> <span class="s2">&quot;TS2&quot;</span><span class="p">,</span> <span class="s2">&quot;CO$_</span><span class="si">{2}</span><span class="s2">$&quot;</span><span class="p">],</span> <span class="n">in_plot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">90</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s2">&quot;normal&quot;</span><span class="p">)</span>
 
 <span class="n">dia</span><span class="o">.</span><span class="n">add_image_in_plot</span><span class="p">(</span>
     <span class="n">penguin</span><span class="p">,</span>
