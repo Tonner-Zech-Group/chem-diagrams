@@ -17,7 +17,7 @@ if TYPE_CHECKING:
 
 from ..constants import Constants
 from ..validation import Validators
-from .difference_manager import DifferenceManager
+from .collision_manager import CollisionManager
 from .figure_manager import FigureManager
 from .style_manager import StyleManager
 
@@ -34,9 +34,11 @@ class PathManager:
     def __init__(
         self,
         figure_manager: FigureManager,
+        collision_manager: CollisionManager,
         constants: Constants,
     ) -> None:
         self.figure_manager = figure_manager
+        self.collision_manager = collision_manager
         self.constants = constants
         self.path_data: dict[str, dict] = {}
         self.path_label_data: list[dict] = []
@@ -202,6 +204,7 @@ class PathManager:
         fontsize: int | None = None,
         weight: str = "normal",
         color: str | None = None,
+        rotation: float | None = None,
     ) -> None:
         # Sanity checks
         if path_name not in self.path_data.keys():
@@ -218,6 +221,10 @@ class PathManager:
             fontsize = self.figure_manager.fontsize
         if color is None:
             color = self.path_data[path_name]["color"]
+        if rotation is not None:
+            Validators.validate_number(rotation, "rotation")
+        else:
+            rotation = 0
 
         labelfont = font_manager.FontProperties(weight=weight, size=fontsize)
 
@@ -228,6 +235,7 @@ class PathManager:
                 label_artist = StyleManager._add_label_in_plot(
                     constants=self.constants,
                     figure_manager=self.figure_manager,
+                    collision_manager=self.collision_manager,
                     margins=margins,
                     figsize=figsize,
                     labeltext=labeltext,
@@ -236,6 +244,7 @@ class PathManager:
                     x=x,
                     y=y,
                     color=color,
+                    rotation=rotation,
                 )
                 self.mpl_objects[path_name].labels[f"{x:.1f}"] = label_artist
 
@@ -246,6 +255,7 @@ class PathManager:
                 "fontsize": fontsize,
                 "weight": weight,
                 "color": color,
+                "rotation": rotation,
             }
         )
 
@@ -317,8 +327,8 @@ class PathManager:
         plateau_right.set_segments(coordinates_right)
 
         # Draw white rectangle to cover the gap
-        cover_width = DifferenceManager._get_axis_break_whitespace_cover_width(
-            self.constants, margins, figsize
+        cover_width = self.collision_manager._get_axis_break_whitespace_cover_width(
+            margins, figsize
         )
 
         # Add white covering reactange
@@ -333,8 +343,7 @@ class PathManager:
         )
 
         # Calculate stopper direction in data coordinates
-        delta_x, delta_y = DifferenceManager._get_axis_break_stopper_differences(
-            self.constants,
+        delta_x, delta_y = self.collision_manager._get_axis_break_stopper_differences(
             margins,
             figsize,
             angle,
@@ -374,7 +383,7 @@ class PathManager:
 
         # Save mpl objects get a pointer for angle correction
         merged_plateau = MergedPlateau(
-            self.constants,
+            self.collision_manager,
             plateau_left,
             plateau_right,
             stopper_left,
@@ -759,6 +768,8 @@ class MergedPlateau:
 
     Attributes
     ----------
+    collision_manager : CollisionManager
+        The collision manager instance.
     plateau_left : LineCollection
         The left half-plateau artist, ending at the left edge of the gap.
     plateau_right : LineCollection
@@ -772,7 +783,7 @@ class MergedPlateau:
         used to hide any underlying plateau or connector artifacts.
     """
 
-    constants: Constants
+    collision_manager: CollisionManager
     plateau_left: LineCollection
     plateau_right: LineCollection
     stopper_left: Annotation
@@ -808,8 +819,7 @@ class MergedPlateau:
             Angle of the stopper tick marks in degrees from the vertical,
             as originally passed to ``merge_plateaus``.
         """
-        delta_x, delta_y = DifferenceManager._get_axis_break_stopper_differences(
-            self.constants,
+        delta_x, delta_y = self.collision_manager._get_axis_break_stopper_differences(
             margins,
             figsize,
             angle,
@@ -818,8 +828,8 @@ class MergedPlateau:
         x_right, y_right = self.stopper_right.xy
         self.stopper_left.set_position((x_left + delta_x, y_left + delta_y))
         self.stopper_right.set_position((x_right - delta_x, y_right - delta_y))
-        cover_width = DifferenceManager._get_axis_break_whitespace_cover_width(
-            self.constants, margins, figsize
+        cover_width = self.collision_manager._get_axis_break_whitespace_cover_width(
+            margins, figsize
         )
         self.whitespace.set_height(cover_width)
         y_whitespace = self.whitespace.get_y()

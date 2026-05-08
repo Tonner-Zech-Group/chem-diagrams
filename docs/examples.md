@@ -379,11 +379,12 @@ dia.draw_path(
 )
 
 dia.add_numbers_auto(
-    n_decimals=2
+    n_decimals=2,
+    fontsize=7,
 )
 
 dia.ax.set_ylabel(r"$\Delta E$ in eV", fontsize=8)
-dia.set_xlabels(["E", "TS1", "I", "TS2", "P"], in_plot=True)
+dia.set_xlabels(["Pengu@gas", "TS1", "Pengu@Cat", "TS2", "CO$_{2}$"], in_plot=True, rotation=90, fontsize=6, weight="normal")
 
 dia.add_image_in_plot(
     penguin,

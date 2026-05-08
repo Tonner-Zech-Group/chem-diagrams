@@ -11,7 +11,7 @@ from matplotlib import font_manager
 
 from ..constants import Constants
 from ..validation import Validators
-from .difference_manager import DifferenceManager
+from .collision_manager import CollisionManager
 from .figure_manager import FigureManager
 from .number_manager import NumberManager
 
@@ -34,10 +34,12 @@ class StyleManager:
     def __init__(
         self,
         figure_manager: FigureManager,
+        collision_manager: CollisionManager,
         constants: Constants,
         style: str,
     ) -> None:
         self.figure_manager = figure_manager
+        self.collision_manager = collision_manager
         self.constants = constants
         self.style = style
         self.mpl_objects = StyleObjects({}, {}, {}, {}, {})
@@ -157,11 +159,8 @@ class StyleManager:
             if len(labels) != len(labelplaces):
                 raise ValueError("There must be the same number of labels and labelplaces.")
         if rotation is not None:
-            if in_plot:
-                raise ValueError("Label rotation is not supported when in_plot=True.")
-            else:
-                Validators.validate_number(rotation, "rotation")
-        elif not in_plot:
+            Validators.validate_number(rotation, "rotation")
+        else:
             rotation = 0
 
         # Create labelplace list if none given
@@ -199,6 +198,7 @@ class StyleManager:
                     label = self._add_label_in_plot(
                         self.constants,
                         self.figure_manager,
+                        self.collision_manager,
                         margins,
                         figsize,
                         labeltext,
@@ -207,6 +207,7 @@ class StyleManager:
                         x,
                         y,
                         color,
+                        rotation,
                     )
                     label_dict[f"{x:.1f}"] = label
                 else:
@@ -488,6 +489,7 @@ class StyleManager:
     def _add_label_in_plot(
         constants: Constants,
         figure_manager: FigureManager,
+        collision_manager: CollisionManager,
         margins: dict[str, tuple],
         figsize: tuple[float, float],
         labeltext: str,
@@ -496,9 +498,11 @@ class StyleManager:
         x: float,
         y: float,
         color: str = "black",
+        rotation: float | None = None,
     ) -> Text:
-        y_diff = -DifferenceManager._get_diff_plateau_label(
-            constants, margins, figsize, fontsize, labeltext
+        y_diff = -collision_manager._get_diff_to_label(
+            margins,
+            figsize,
         )
         label = figure_manager.ax.text(
             x,
@@ -506,8 +510,9 @@ class StyleManager:
             labeltext,
             font=labelfont,
             ha="center",
-            va="center",
+            va="top",
             color=color,
+            rotation=rotation,
             zorder=constants.ZORDER_X_LABEL,
         )
         return label
