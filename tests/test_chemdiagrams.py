@@ -1863,6 +1863,30 @@ class TestAddPathLabels:
         dia = make_diagram()
         dia.add_path_labels(path_name="A", labels=["A", "B", "C", "D", "E"], color="red")
 
+    def test_custom_rotation(self):
+        """Test adding labels with custom rotation."""
+        dia = make_diagram()
+        dia.add_path_labels(path_name="A", labels=["A", "B", "C", "D", "E"], rotation=45)
+
+    def test_rotation_stored_in_path_label_data(self):
+        """Test that rotation value is stored in path_label_data."""
+        dia = make_diagram()
+        rotation_angle = 30
+        dia.add_path_labels(
+            path_name="A", labels=["E", "TS1", "I", "TS2", "P"], rotation=rotation_angle
+        )
+
+        label_entry = dia._path_manager.path_label_data[0]
+        assert label_entry["rotation"] == rotation_angle
+
+    def test_rotation_none_defaults_to_zero(self):
+        """Test that None rotation defaults to 0."""
+        dia = make_diagram()
+        dia.add_path_labels(path_name="A", labels=["A", "B", "C", "D", "E"], rotation=None)
+
+        label_entry = dia._path_manager.path_label_data[0]
+        assert label_entry["rotation"] == 0
+
     def test_custom_fontsize_and_weight_and_color(self):
         """Test adding labels with all customizations at once."""
         dia = make_diagram()

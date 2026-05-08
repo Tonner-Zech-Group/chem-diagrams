@@ -208,6 +208,7 @@ dia.add_path_labels(
     fontsize=6,                         # Font size for the labels (uses diagram default if None)
     color="black",                      # Color for the labels (uses diagram default if None)
     weight="bold"                       # Font weight for the labels (uses "normal" if None)
+    rotation=0                          # Rotation angle for the labels in degrees (default is 0)
 )
 ```
 
@@ -288,7 +289,7 @@ Use `labelplaces` to set explicit x-coordinates instead of the default sequentia
 dia.set_xlabels(["A", "TS", "B"], labelplaces=[0, 2, 3])
 ```
 
-The `rotation` keyword can be used to set the rotation angle of the x-axis labels in degrees. This keyword is not compatible with `in_plot=True`.
+The `rotation` keyword can be used to set the rotation angle of the x-axis labels in degrees.
 ```python
 dia.set_xlabels(["A", "TS", "B"], rotation=45)
 ```
@@ -605,9 +606,10 @@ dia.add_image_in_plot(
 Example:
 
 ```python
+from chemdiagrams.templates.example_template import ExampleTemplate
 import os.path
 
-dia = EnergyDiagram(style="open")
+dia = EnergyDiagram(template=ExampleTemplate())
 
 penguin = os.path.join("figures", "penguin.png")
 
@@ -616,11 +618,12 @@ dia.draw_path(
 )
 
 dia.add_numbers_auto(
-    n_decimals=2
+    n_decimals=2,
+    fontsize=7,
 )
 
 dia.ax.set_ylabel(r"$\Delta E$ in eV", fontsize=8)
-dia.set_xlabels(["E", "TS1", "I", "TS2", "P"], in_plot=True)
+dia.set_xlabels(["Pengu@gas", "TS1", "Pengu@Cat", "TS2", "CO$_{2}$"], in_plot=True, rotation=90, fontsize=6, weight="normal")
 
 dia.add_image_in_plot(
     penguin,

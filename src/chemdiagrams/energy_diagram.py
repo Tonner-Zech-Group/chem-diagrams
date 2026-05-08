@@ -14,6 +14,7 @@ if TYPE_CHECKING:
 
 from .managers import (
     BarManager,
+    CollisionManager,
     DifferenceBar,
     FigureManager,
     ImageManager,
@@ -193,21 +194,31 @@ class EnergyDiagram:
 
         # Initialize managers
         self._figure_manager = FigureManager(fontsize=fontsize, dpi=dpi, ax=ax)
-        self._path_manager = PathManager(self._figure_manager, constants=constants)
-        self._number_manager = NumberManager(self._figure_manager, constants=constants)
+        self._collision_manager = CollisionManager(self._figure_manager, constants=constants)
+        self._path_manager = PathManager(
+            self._figure_manager, self._collision_manager, constants=constants
+        )
+        self._number_manager = NumberManager(
+            self._figure_manager, self._collision_manager, constants=constants
+        )
         self._style_manager = StyleManager(
-            self._figure_manager, constants=constants, style=style
+            self._figure_manager, self._collision_manager, constants=constants, style=style
         )
         self._layout_manager = LayoutManager(
             self._figure_manager,
+            self._collision_manager,
             constants=constants,
             extra_x_margin=extra_x_margin,
             extra_y_margin=extra_y_margin,
             width_limit=width_limit,
             figsize=figsize,
         )
-        self._bar_manager = BarManager(self._figure_manager, constants=constants)
-        self._image_manager = ImageManager(self._figure_manager, constants=constants)
+        self._bar_manager = BarManager(
+            self._figure_manager, self._collision_manager, constants=constants
+        )
+        self._image_manager = ImageManager(
+            self._figure_manager, self._collision_manager, constants=constants
+        )
         self.verbose = verbose
         self.margins = self._layout_manager.adjust_xy_limits(self._path_manager.path_data)
         self.figsize = self._layout_manager.scale_figure(self._path_manager.path_data)
@@ -451,6 +462,7 @@ class EnergyDiagram:
         fontsize: int | None = None,
         weight: str = "normal",
         color: str | None = None,
+        rotation: float | None = None,
     ) -> EnergyDiagram:
         """Add text labels below the energy levels of a specific path.
 
@@ -470,6 +482,9 @@ class EnergyDiagram:
             Default is ``"normal"``.
         color : str or None, optional
             Color for the labels. When None, uses the same color as the path.
+            Default is None.
+        rotation : float or None, optional
+            Rotation angle for the labels in degrees. When None, labels are not rotated.
             Default is None.
 
         Returns
@@ -491,6 +506,7 @@ class EnergyDiagram:
             fontsize=fontsize,
             weight=weight,
             color=color,
+            rotation=rotation,
         )
         if self._image_manager.has_image_series:
             self._image_manager.recalculate_image_series(
@@ -622,8 +638,7 @@ class EnergyDiagram:
             is False.
         rotation : float or None, optional
             Rotation angle for the labels in degrees. When None, no
-            rotation is applied. Default is None. Can only be used when
-            ``in_plot`` is False.
+            rotation is applied. Default is None.
 
         Returns
         -------

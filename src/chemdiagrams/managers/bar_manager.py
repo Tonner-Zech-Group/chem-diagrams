@@ -10,6 +10,7 @@ if TYPE_CHECKING:
 
 from ..constants import Constants
 from ..validation import Validators
+from .collision_manager import CollisionManager
 from .figure_manager import FigureManager
 
 
@@ -26,9 +27,11 @@ class BarManager:
     def __init__(
         self,
         figure_manager: FigureManager,
+        collision_manager: CollisionManager,
         constants: Constants,
     ) -> None:
         self.figure_manager = figure_manager
+        self.collision_manager = collision_manager
         self.constants = constants
         self.mpl_objects: list = []
 

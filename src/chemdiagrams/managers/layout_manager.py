@@ -1,10 +1,13 @@
 from __future__ import annotations
 
-from typing import cast
+from typing import TYPE_CHECKING, cast
 
 from ..constants import Constants
 from ..validation import Validators
-from .figure_manager import FigureManager
+
+if TYPE_CHECKING:
+    from .collision_manager import CollisionManager
+    from .figure_manager import FigureManager
 
 
 class LayoutManager:
@@ -19,6 +22,7 @@ class LayoutManager:
     def __init__(
         self,
         figure_manager: FigureManager,
+        collision_manager: CollisionManager,
         constants: Constants,
         extra_x_margin: tuple[float, float] | list[float],
         extra_y_margin: tuple[float, float] | list[float],
@@ -37,6 +41,7 @@ class LayoutManager:
         Validators.validate_number(width_limit, "width_limit", min_value=0, allow_none=True)
 
         self.figure_manager = figure_manager
+        self.collision_manager = collision_manager
         self.constants = constants
         self.figsize = figsize
         self.extra_x_margin = extra_x_margin

@@ -6,7 +6,7 @@ import numpy as np
 
 from ..constants import Constants
 from ..validation import Validators
-from .difference_manager import DifferenceManager
+from .collision_manager import CollisionManager
 from .figure_manager import FigureManager
 
 
@@ -25,9 +25,11 @@ class NumberManager:
     def __init__(
         self,
         figure_manager: FigureManager,
+        collision_manager: CollisionManager,
         constants: Constants,
     ) -> None:
         self.figure_manager = figure_manager
+        self.collision_manager = collision_manager
         self.constants = constants
         self.mpl_objects: dict[str, dict] = {}
         self.numberings_added: list[dict] = []
@@ -121,6 +123,7 @@ class NumberManager:
                 while True:
                     no_overlap = NumberManager._check_no_overlap(
                         self.constants,
+                        self.collision_manager,
                         y_print_start,
                         numbers_to_stack,
                         higher_numbers_at_x,
@@ -176,9 +179,7 @@ class NumberManager:
             fontsize = self.figure_manager.fontsize
         x_min_max = NumberManager._regularize_x_min_max(x_min_max)
         values_to_print = NumberManager._get_all_visible_numbers(path_data, x_min_max)
-        _, diff_per_step = DifferenceManager._get_number_diffs(
-            self.constants, margins, figsize, fontsize
-        )
+        _, diff_per_step = self.collision_manager._get_number_diffs(margins, figsize, fontsize)
 
         # Get a list of all x values where to print
         x_places: list | np.ndarray = []
@@ -216,6 +217,7 @@ class NumberManager:
                 while True:
                     no_overlap = NumberManager._check_no_overlap(
                         self.constants,
+                        self.collision_manager,
                         y_print_start,
                         numbers_to_stack_current,
                         higher_numbers_at_x,
@@ -576,8 +578,8 @@ class NumberManager:
         resulting Text artists are saved into ``mpl_objects`` under their
         path name and x-coordinate key.
         """
-        diff_bias, diff_per_step = DifferenceManager._get_number_diffs(
-            self.constants, margins, figsize, fontsize
+        diff_bias, diff_per_step = self.collision_manager._get_number_diffs(
+            margins, figsize, fontsize
         )
         n_printed = 0
         for number in numbers_to_stack:
@@ -599,6 +601,7 @@ class NumberManager:
     @staticmethod
     def _check_no_overlap(
         constants: Constants,
+        collision_manager: CollisionManager,
         y_print_start: float,
         numbers_to_stack: Sequence[dict],
         higher_numbers_at_x: Sequence[float],
@@ -613,7 +616,7 @@ class NumberManager:
         any higher plateaus or path labels.
         """
         no_number_overlap = NumberManager._check_no_plateau_overlap(
-            constants=constants,
+            collision_manager=collision_manager,
             y_print_start=y_print_start,
             numbers_to_stack=numbers_to_stack,
             higher_numbers_at_x=higher_numbers_at_x,
@@ -623,6 +626,7 @@ class NumberManager:
         )
         no_overlap_with_path_labels = NumberManager._check_no_overlap_with_path_labels(
             constants=constants,
+            collision_manager=collision_manager,
             y_print_start=y_print_start,
             numbers_to_stack=numbers_to_stack,
             margins=margins,
@@ -636,6 +640,7 @@ class NumberManager:
     @staticmethod
     def _check_no_overlap_with_path_labels(
         constants: Constants,
+        collision_manager: CollisionManager,
         y_print_start: float,
         numbers_to_stack: Sequence[dict],
         margins: dict[str, tuple],
@@ -651,8 +656,8 @@ class NumberManager:
         and compares it to the proposed stack position. Returns True if there is no
         overlap, False otherwise.
         """
-        diff_bias, diff_per_step = DifferenceManager._get_number_diffs(
-            constants, margins, figsize, fontsize
+        diff_bias, diff_per_step = collision_manager._get_number_diffs(
+            margins, figsize, fontsize
         )
         stacked_offset = (len(numbers_to_stack) - 1) * diff_per_step
         base_offset = 2 * diff_bias
@@ -660,16 +665,21 @@ class NumberManager:
         no_overlap_with_path_labels = True
         for path_obj in path_mpl_objects.values():
             try:
-                label_obj = path_obj.labels[f"{x:.1f}"]
-                label_fontsize = label_obj.get_fontsize()
-                label_y = label_obj.get_position()[1]
-                labeltext = label_obj.get_text()
-                diff_to_label = DifferenceManager._get_diff_img_label(
-                    constants, margins, figsize, label_fontsize, labeltext
+                pathlabel = path_obj.labels[f"{x:.1f}"]
+                pathlabel_y_boundaries = collision_manager._get_label_boundaries(
+                    label=pathlabel,
                 )
+                diff_to_label = collision_manager._get_diff_to_label(margins, figsize)
+                # Use the numerical precision factor to avoid numerical precision
+                # issues where the label is exactly at the boundary
                 has_collision = (
-                    label_y - diff_to_label < y_stacked_max
-                    and label_y + diff_to_label > y_print_start
+                    pathlabel_y_boundaries[0]
+                    - diff_to_label * constants.NUMERICAL_PRECISION_FACTOR
+                    < y_stacked_max
+                ) and (
+                    pathlabel_y_boundaries[1]
+                    + diff_to_label * constants.NUMERICAL_PRECISION_FACTOR
+                    > y_print_start
                 )
                 if has_collision:
                     no_overlap_with_path_labels = False
@@ -679,7 +689,7 @@ class NumberManager:
 
     @staticmethod
     def _check_no_plateau_overlap(
-        constants: Constants,
+        collision_manager: CollisionManager,
         y_print_start: float,
         numbers_to_stack: Sequence[dict],
         higher_numbers_at_x: Sequence[float],
@@ -695,8 +705,8 @@ class NumberManager:
         bar above ``y_print_start``. Returns True unconditionally if there
         are no higher bars.
         """
-        diff_bias, diff_per_step = DifferenceManager._get_number_diffs(
-            constants, margins, figsize, fontsize
+        diff_bias, diff_per_step = collision_manager._get_number_diffs(
+            margins, figsize, fontsize
         )
         stacked_offset = (len(numbers_to_stack) - 1) * diff_per_step
         base_offset = 2 * diff_bias

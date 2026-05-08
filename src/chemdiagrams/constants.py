@@ -36,7 +36,6 @@ class Constants:
 
         # Default distances of images (inches at sdt fontsize)
         self.DISTANCE_IMAGE_LINE = 0.09
-        self.DISTANCE_IMAGE_LABEL = 0.12
         self.DISTANCE_IMAGE_NUMBER = 0.15  # 0.135 pre v0.3.0
         self.ZORDER_IMAGE = 0.6
         self.IMAGE_INTERPOLATION_METHOD = "bilinear"
@@ -71,6 +70,11 @@ class Constants:
 
         self.ZORDER_NUMBERS = 2
         self.MINUS_SIGN = "\u2212"
+
+        # To avoid numerical precision issues where the label is exactly at the boundary
+        # This factor is used to slightly reduce the calculated diff_to_label when checking
+        # for collisions, creating a small buffer zone that unnecessary collision warnings
+        self.NUMERICAL_PRECISION_FACTOR = 0.999
 
         #################################
         # Path Manager
@@ -113,8 +117,7 @@ class Constants:
         self.X_AXIS_OFFSET_OPENSTYLE = -0.03
 
         # Label (in_plot=True) parameters
-        self.DISTANCE_LABEL_LINE = 0.12
-        self.DISTANCE_LABEL_NEWLINE = 0.095
+        self.DISTANCE_TO_LABEL = 0.04
         self.ZORDER_X_LABEL = 1
 
         # Axes break cover parameters in inches or degree

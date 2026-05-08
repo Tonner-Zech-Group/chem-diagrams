@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [0.5.3] - 2026-05-08
+
+### Added
+
+- Added the `rotation` parameter to `add_path_labels()`. The `rotation` keyword now also works for `set_xlabels()` when using `in_plot=True`.
+
+### Changed
+
+- Internal overhaul of the collision avoidance system for x-labels and path labels. This may change label spacing slightly.
+
 ## [0.5.2] - 2026-05-07
 
 ### Added

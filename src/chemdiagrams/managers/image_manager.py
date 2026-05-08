@@ -14,7 +14,7 @@ if TYPE_CHECKING:
 
 from ..constants import Constants
 from ..validation import Validators
-from .difference_manager import DifferenceManager
+from .collision_manager import CollisionManager
 from .figure_manager import FigureManager
 from .number_manager import NumberManager
 
@@ -33,9 +33,11 @@ class ImageManager:
     def __init__(
         self,
         figure_manager: FigureManager,
+        collision_manager: CollisionManager,
         constants: Constants,
     ) -> None:
         self.figure_manager = figure_manager
+        self.collision_manager = collision_manager
         self.constants = constants
         self.image_series_data: dict = {}
         self.has_image_series = False
@@ -276,8 +278,7 @@ class ImageManager:
             x = img_x_places[index]
 
             # Avoid collision with plateaus
-            diff_to_plateau = DifferenceManager._get_diff_img_plateau(
-                self.constants,
+            diff_to_plateau = self.collision_manager._get_diff_img_plateau(
                 margins,
                 figsize,
             )
@@ -295,8 +296,8 @@ class ImageManager:
                 try:
                     number_fontsize = numbers[f"{x:.1f}"].get_fontsize()
                     number_y = numbers[f"{x:.1f}"].get_position()[1]
-                    diff_to_number = DifferenceManager._get_diff_img_number(
-                        self.constants, margins, figsize, number_fontsize
+                    diff_to_number = self.collision_manager._get_diff_img_number(
+                        margins, figsize, number_fontsize
                     )
                     if number_y + diff_to_number > y_min_top:
                         y_min_top = number_y + diff_to_number
@@ -307,32 +308,30 @@ class ImageManager:
 
             # Avoid collision with x-labels
             try:
-                label_fontsize = xlabel_mpl_objects[f"{x:.1f}"].get_fontsize()
-                label_y = xlabel_mpl_objects[f"{x:.1f}"].get_position()[1]
-                labeltext = xlabel_mpl_objects[f"{x:.1f}"].get_text()
-                diff_to_label = DifferenceManager._get_diff_img_label(
-                    self.constants, margins, figsize, label_fontsize, labeltext
+                xlabel = xlabel_mpl_objects[f"{x:.1f}"]
+                xlabel_y_boundaries = self.collision_manager._get_label_boundaries(
+                    label=xlabel,
                 )
-                if label_y + diff_to_label > y_min_top:
-                    y_min_top = label_y + diff_to_label
-                if label_y - diff_to_label < y_max_bottom:
-                    y_max_bottom = label_y - diff_to_label
+                diff_to_label = self.collision_manager._get_diff_to_label(margins, figsize)
+                if xlabel_y_boundaries[1] + diff_to_label > y_min_top:
+                    y_min_top = xlabel_y_boundaries[1] + diff_to_label
+                if xlabel_y_boundaries[0] - diff_to_label < y_max_bottom:
+                    y_max_bottom = xlabel_y_boundaries[0] - diff_to_label
             except KeyError:
                 pass
 
             # Avoid collision with path labels
             for _, paths_obj in path_mpl_objects.items():
                 try:
-                    label_fontsize = paths_obj.labels[f"{x:.1f}"].get_fontsize()
-                    label_y = paths_obj.labels[f"{x:.1f}"].get_position()[1]
-                    labeltext = paths_obj.labels[f"{x:.1f}"].get_text()
-                    diff_to_label = DifferenceManager._get_diff_img_label(
-                        self.constants, margins, figsize, label_fontsize, labeltext
+                    pathlabel = paths_obj.labels[f"{x:.1f}"]
+                    pathlabel_y_boundaries = self.collision_manager._get_label_boundaries(
+                        label=pathlabel,
                     )
-                    if label_y + diff_to_label > y_min_top:
-                        y_min_top = label_y + diff_to_label
-                    if label_y - diff_to_label < y_max_bottom:
-                        y_max_bottom = label_y - diff_to_label
+                    diff_to_label = self.collision_manager._get_diff_to_label(margins, figsize)
+                    if pathlabel_y_boundaries[1] + diff_to_label > y_min_top:
+                        y_min_top = pathlabel_y_boundaries[1] + diff_to_label
+                    if pathlabel_y_boundaries[0] - diff_to_label < y_max_bottom:
+                        y_max_bottom = pathlabel_y_boundaries[0] - diff_to_label
                 except KeyError:
                     pass
 
