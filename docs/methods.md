@@ -12,6 +12,7 @@
 | `add_numbers_stacked()` | Stack labels above the highest state to avoid overlap |
 | `add_numbers_auto()` | Automatically distribute labels to minimise clutter (recommended) |
 | `add_numbers_average()` | Annotate with the mean energy across all paths at each x-position |
+| `display_activation_barriers()` | Replace existing energy annotations with activation energy barriers |
 | `modify_number_values()` | Modify existing energy annotations by adding or subtracting values |
 | `append_to_energy_labels()` | Append additional values to existing energy annotations |
 | `add_xaxis_break()` | Add a break marker on the x-axis |

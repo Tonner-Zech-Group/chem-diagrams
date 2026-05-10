@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [0.5.4] - 2026-05-10
+
+### Added
+
+- Added the `display_activation_barriers()` method for calculating and displaying activation energy barriers.
+- Added the `append_to_existing` parameter to `modify_number_values()`.
+
 ## [0.5.3] - 2026-05-08
 
 ### Added

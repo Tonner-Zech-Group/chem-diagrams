@@ -411,6 +411,59 @@ dia.show()
 
 ![Numbering styles](https://raw.githubusercontent.com/Tonner-Zech-Group/chem-diagrams/main/docs/img/example_numbering.png)
 
+### Displaying activation energy barriers
+
+`display_activation_barriers()` replaces existing energy annotations with activation energy barriers. It calculates the energy difference between a state and its preceding intermediate at given x-positions and replaces the existing number with the calculated energy difference. `display_activation_barriers()` takes a list of x-positions and a direction parameter that specifies whether to calculate the energy difference to the preceding state in `-x` direction (`direction="right"`), the following state in `+x` direction (`direction="left"`) or both (`direction="both"`).
+
+```python
+display_activation_barriers(
+        x_positions=[1, 3],         # list of x-positions in data coordinates for which to display activation barriers
+        direction="both",           # direction to calculate the energy difference ("right", "left" or "both")
+        include_paths=None,         # list of path names to include in the calculation; None to include all paths,
+        exclude_paths=None,         # list of path names to exclude from the calculation; None includes all paths
+        brackets=("(", ")"),        # pair of strings to add as brackets around the modified number (e.g. ("[", "]"); None for no brackets)
+        seperator="/",              # string to separate the forward and backward activation energy when direction="both" (default is "/")
+        n_decimals=0,               # number of decimals to round the calculated energy differences to (default is 0)
+        switch_order=False,         # switch the order of the energy differences in case of direction="both"
+        append_to_existing=False,   # append the activation energy to the existing number instead of replacing it (default is False)
+)
+```
+
+Example:
+
+```python
+dia = EnergyDiagram()
+
+dia.draw_path(
+    x_data=[0, 1, 2, 3, 4],
+    y_data=[0, 28, -14, 15.3, -22],
+    color="blue",
+    path_name="Blue path",
+)
+
+dia.draw_path(
+    x_data=[0, 1, 2, 3, 4],
+    y_data=[0, 25, 6, 15.2, -18],
+    color="red",
+    path_name="Red path",
+
+)
+
+dia.add_numbers_auto()
+dia.display_activation_barriers(
+    x_positions=[1,3],
+    direction="both",
+    brackets=("(", ")"),
+    seperator="I",
+)
+
+dia.fig.savefig(os.path.join("..","docs","img","example_activation_barriers.png"),format="png", bbox_inches="tight")
+dia.show()
+```
+
+![Activation barriers](https://raw.githubusercontent.com/Tonner-Zech-Group/chem-diagrams/main/docs/img/example_activation_barriers.png)
+
+
 ### Modifying existing numbers
 
 Existing energy annotations can be modified by adding or subtracting values with `modify_number_values()`. This is useful to annotate energy differences (e.g., activation energies or reaction energies) by subtracting the relevant reference energy from the target energy. The resulting number is caclulated for each path as follows:
@@ -425,11 +478,12 @@ dia.modify_number_values(
     x_add=[2],                  # list of x-positions (or single x-position) to add to the number; None for no addition
     x_subtract=[1],             # list of x-positions (or single x-position) to subtract from the number; None for no subtraction
     base_value=0,               # value to add or subtract directly (e.g., to convert units); default is 0
-    brackets=["(", ")"],        # pair of strings to add as brackets around the modified number (e.g., ["[", "]); None for no brackets")
+    brackets=("(", ")"),        # pair of strings to add as brackets around the modified number (e.g., ("[", "]"); None for no brackets)
     n_decimals=0,               # number of decimals to round the modified number to (default is 0)
     include_paths=None,         # list of path names to include in the modification; None to include all paths
     exclude_paths=None,         # list of path names to exclude from the modification; None includes all paths
     n_decimals=0,               # number of decimals to round the modified number to (default is 0)
+    append_to_existing=False,   # append the modified value to the existing number instead of replacing it (default is False)
 )
 ```
 

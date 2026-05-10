@@ -354,6 +354,10 @@ class NumberManager:
                 **settings,
             )
 
+    ############################################################
+    # Methods for modifying existing numbers
+    ############################################################
+
     def modify_number_values(
         self,
         path_data: dict,
@@ -365,6 +369,7 @@ class NumberManager:
         exclude_paths: list[str] | None = None,
         brackets: tuple[str, str] | list[str] | None = ("(", ")"),
         n_decimals: int = 0,
+        append_to_existing: bool = False,
     ) -> None:
         # Sanity checks
         Validators.validate_number(x, "x")
@@ -439,7 +444,149 @@ class NumberManager:
                 # Update the label text
                 new_text = f"{brackets[0]}{number_new:.{n_decimals}f}{brackets[1]}"
                 new_text = new_text.replace("-", self.constants.MINUS_SIGN)
+                if append_to_existing:
+                    new_text = label.get_text() + new_text
                 label.set_text(new_text)
+
+    def display_activation_barriers(
+        self,
+        path_data: dict,
+        x_positions: Sequence[float],
+        direction: str = "right",
+        include_paths: list[str] | None = None,
+        exclude_paths: list[str] | None = None,
+        brackets: tuple[str, str] | list[str] | None = ("(", ")"),
+        seperator: str = "/",
+        n_decimals: int = 0,
+        switch_order: bool = False,
+        append_to_existing: bool = False,
+    ) -> None:
+        # Sanity checks
+        ALLOWED_DIRECTIONS = ["right", "left", "both"]
+        if direction not in ALLOWED_DIRECTIONS:
+            raise ValueError(
+                f"Invalid direction '{direction}'. Must be one of {ALLOWED_DIRECTIONS}."
+            )
+        Validators.validate_numeric_sequence(x_positions, "x_positions")
+        Validators.validate_string_sequence(include_paths, "include_paths", allow_none=True)
+        Validators.validate_string_sequence(exclude_paths, "exclude_paths", allow_none=True)
+        if brackets is None:
+            brackets = ("", "")
+        if seperator is None:
+            seperator = ""
+        Validators.validate_string_sequence(brackets, "brackets", required_length=2)
+        if not isinstance(seperator, str):
+            raise TypeError("seperator must be a string.")
+        Validators.validate_number(n_decimals, "n_decimals", min_value=0, only_integer=True)
+        if include_paths is not None and exclude_paths is not None:
+            raise ValueError("Cannot specify both include_paths and exclude_paths.")
+
+        # Get all paths that should be modified
+        if include_paths is not None:
+            path_names_to_modify = set(include_paths)
+        elif exclude_paths is not None:
+            path_names_to_modify = set(path_data.keys()) - set(exclude_paths)
+        else:
+            path_names_to_modify = set(path_data.keys())
+
+        for x_position in x_positions:
+            for path_name in path_names_to_modify:
+                try:
+                    path = path_data[path_name]
+                except KeyError:
+                    raise ValueError(f"Path '{path_name}' not found in path_data.")
+                try:
+                    label = self.mpl_objects[path_name][f"{x_position:.1f}"]
+                    is_label_found = True
+                except KeyError:
+                    if path["show_numbers"]:
+                        print(
+                            f"Warning (display_activation_barriers): No label found for path"
+                            f" '{path_name}' at x={x_position}. Skipping modification."
+                        )
+                    is_label_found = False
+
+                # Get index of x_position in path
+                try:
+                    index = path["x"].index(x_position)
+                    is_value_found = True
+                except ValueError:
+                    if path["show_numbers"]:
+                        print(
+                            f"Warning (display_activation_barriers): Value at x={x_position} "
+                            f"not found for path '{path_name}'. Skipping modification."
+                        )
+                    is_value_found = False
+
+                # Only proceed if both label and value are found
+                if is_label_found and is_value_found:
+                    # Calculate activation barriers to the right and left (if possible)
+                    activation_barrier_right = None
+                    activation_barrier_left = None
+                    if direction in ["right", "both"]:
+                        if index > 0:
+                            activation_barrier_right = (
+                                path_data[path_name]["y"][index]
+                                - path_data[path_name]["y"][index - 1]
+                            )
+                        else:
+                            print(
+                                f"Warning (display_activation_barriers): "
+                                f"Cannot calculate right activation barrier for path "
+                                f"'{path_name}' at x={x_position} because it is the first "
+                                f"point on the path. Skipping right barrier."
+                            )
+                    if direction in ["left", "both"]:
+                        if index < len(path["x"]) - 1:
+                            activation_barrier_left = (
+                                path_data[path_name]["y"][index]
+                                - path_data[path_name]["y"][index + 1]
+                            )
+                        else:
+                            print(
+                                f"Warning (display_activation_barriers): "
+                                f"Cannot calculate left activation barrier for path "
+                                f"'{path_name}' at x={x_position} because it is the last "
+                                f"point on the path. Skipping left barrier."
+                            )
+
+                    # Format the label text to display the activation barriers
+                    barrier_texts = [brackets[0], "", "", "", brackets[1]]
+                    if (
+                        activation_barrier_right is not None
+                        and activation_barrier_left is not None
+                    ):
+                        barrier_texts[2] = seperator
+                    if activation_barrier_right is not None:
+                        if switch_order:
+                            barrier_texts[3] = (
+                                f"{activation_barrier_right:.{n_decimals}f}".replace(
+                                    "-", self.constants.MINUS_SIGN
+                                )
+                            )
+                        else:
+                            barrier_texts[1] = (
+                                f"{activation_barrier_right:.{n_decimals}f}".replace(
+                                    "-", self.constants.MINUS_SIGN
+                                )
+                            )
+                    if activation_barrier_left is not None:
+                        if switch_order:
+                            barrier_texts[1] = (
+                                f"{activation_barrier_left:.{n_decimals}f}".replace(
+                                    "-", self.constants.MINUS_SIGN
+                                )
+                            )
+                        else:
+                            barrier_texts[3] = (
+                                f"{activation_barrier_left:.{n_decimals}f}".replace(
+                                    "-", self.constants.MINUS_SIGN
+                                )
+                            )
+                    new_label_text = "".join(barrier_texts)
+                    if append_to_existing:
+                        new_label_text = label.get_text() + new_label_text
+                    label.set_text(new_label_text)
 
     def append_to_energy_labels(
         self,

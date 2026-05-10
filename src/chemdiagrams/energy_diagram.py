@@ -137,6 +137,9 @@ class EnergyDiagram:
     modify_number_values(x, x_add=None, x_subtract=None, ...)
         Modify existing energy annotations by adding or subtracting values.
 
+    display_activation_barriers(x_positions, ...)
+        Calculate and display activation energy barriers.
+
     append_to_energy_labels(numbers_to_append, brackets=("(", ")"), ...)
         Append numbers in brackets to existing energy annotations.
 
@@ -1021,9 +1024,9 @@ class EnergyDiagram:
         exclude_paths: list[str] | None = None,
         brackets: tuple[str, str] | list[str] | None = ("(", ")"),
         n_decimals: int = 0,
+        append_to_existing: bool = False,
     ) -> EnergyDiagram:
-        """
-        Modify energy labels at a specific x-position by combining energy values.
+        """Modify energy labels at a specific x-position by combining energy values.
 
         This method recalculates and updates the numeric label displayed above an
         energy level at a given x-coordinate. The new value is computed from a
@@ -1064,6 +1067,9 @@ class EnergyDiagram:
         n_decimals : int, optional
             Number of decimal places in the formatted label. Default is 0
             (integer values).
+        append_to_existing : bool, optional
+            If True, the calculated value is appended to the existing label text
+            at the specified x-position instead of replacing it. Default is False.
 
         Returns
         -------
@@ -1110,6 +1116,102 @@ class EnergyDiagram:
             exclude_paths=exclude_paths,
             brackets=brackets,
             n_decimals=n_decimals,
+            append_to_existing=append_to_existing,
+        )
+        return self
+
+    def display_activation_barriers(
+        self,
+        x_positions: Sequence[float],
+        direction: str = "right",
+        include_paths: list[str] | None = None,
+        exclude_paths: list[str] | None = None,
+        brackets: tuple[str, str] | list[str] | None = ("(", ")"),
+        seperator: str = "/",
+        n_decimals: int = 0,
+        switch_order: bool = False,
+        append_to_existing: bool = False,
+    ) -> EnergyDiagram:
+        """Automatically calculate and display activation barriers.
+
+        Computes energy barriers (differences) at specified x-positions along
+        all paths and appends the calculated values to existing energy labels
+        or replaces the old values. Barriers can be calculated toward the left
+        (lower x), right (higher x), or both directions. Labels are updated
+        with formatted text showing the barrier values, optionally enclosed
+        in brackets and separated by a delimiter.
+
+        Parameters
+        ----------
+        x_positions : sequence of float
+            X-coordinates at which to calculate and display activation barriers.
+        direction : str, optional
+            Direction(s) for barrier calculation. Options are:
+
+            * ``"right"`` : barriers toward higher x (default)
+            * ``"left"`` : barriers toward lower x
+            * ``"both"`` : barriers in both directions
+
+            Default is ``"right"``.
+        include_paths : list of str or None, optional
+            List of path names to include. When specified, only these paths
+            are modified. Cannot be used together with ``exclude_paths``.
+            Default is None (all paths included).
+        exclude_paths : list of str or None, optional
+            List of path names to exclude from modification. Cannot be used
+            together with ``include_paths``. Default is None.
+        brackets : tuple of str or list of str or None, optional
+            A two-element sequence ``(left_bracket, right_bracket)`` to wrap
+            the barrier text. Use None to omit brackets. Default is ``("(", ")")``.
+        seperator : str, optional
+            String to place between left and right barriers when ``direction``
+            is ``"both"`` and both barriers exist. Default is ``"|"``.
+        n_decimals : int, optional
+            Number of decimal places to display for barrier values.
+            Default is 0.
+        switch_order : bool, optional
+            If True, reverses the order of left and right barriers in the
+            displayed text. Default is False.
+        append_to_existing : bool, optional
+            If True, appends barrier information to existing labels instead of
+            replacing them. Default is False (barriers replace existing label text).
+
+        Returns
+        -------
+        EnergyDiagram
+            Returns *self* to allow method chaining.
+
+        Notes
+        -----
+        Activation barriers are calculated as the energy difference between
+        the current level and the adjacent level in the specified direction(s).
+        Barriers at path endpoints (first point for right, last point for left)
+        cannot be calculated and are reported with a warning.
+
+        If energy labels have not been previously added with ``add_numbers_*()``
+        methods, this function has no visible effect. Use this after calling
+        one of the ``add_numbers_*`` methods.
+
+        Raises
+        ------
+        ValueError
+            If an invalid ``direction`` is provided, if ``x_positions`` contains
+            non-numeric values, if path names in ``include_paths`` do not exist,
+            or if both ``include_paths`` and ``exclude_paths`` are specified.
+        TypeError
+            If ``seperator`` is not a string.
+        """
+        self._number_manager.display_activation_barriers(
+            path_data=self._path_manager.path_data,
+            x_positions=x_positions,
+            direction=direction,
+            include_paths=include_paths,
+            exclude_paths=exclude_paths,
+            brackets=brackets,
+            seperator=seperator,
+            n_decimals=n_decimals,
+            switch_order=switch_order,
+            append_to_existing=append_to_existing,
         )
         return self
 
