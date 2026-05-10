@@ -702,6 +702,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#displaying-activation-energy-barriers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Displaying activation energy barriers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#modifying-existing-numbers" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1882,6 +1893,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#displaying-activation-energy-barriers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Displaying activation energy barriers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#modifying-existing-numbers" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2410,6 +2432,50 @@ diagonal tick marks to indicate degeneracy.</p>
 <span class="n">dia</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </code></pre></div>
 <p><img alt="Numbering styles" src="https://raw.githubusercontent.com/Tonner-Zech-Group/chem-diagrams/main/docs/img/example_numbering.png" /></p>
+<h3 id="displaying-activation-energy-barriers">Displaying activation energy barriers</h3>
+<p><code>display_activation_barriers()</code> replaces existing energy annotations with activation energy barriers. It calculates the energy difference between a state and its preceding intermediate at given x-positions and replaces the existing number with the calculated energy difference. <code>display_activation_barriers()</code> takes a list of x-positions and a direction parameter that specifies whether to calculate the energy difference to the preceding state in <code>-x</code> direction (<code>direction="right"</code>), the following state in <code>+x</code> direction (<code>direction="left"</code>) or both (<code>direction="both"</code>).</p>
+<div class="highlight"><pre><span></span><code><span class="n">display_activation_barriers</span><span class="p">(</span>
+        <span class="n">x_positions</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>         <span class="c1"># list of x-positions in data coordinates for which to display activation barriers</span>
+        <span class="n">direction</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">,</span>           <span class="c1"># direction to calculate the energy difference (&quot;right&quot;, &quot;left&quot; or &quot;both&quot;)</span>
+        <span class="n">include_paths</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>         <span class="c1"># list of path names to include in the calculation; None to include all paths,</span>
+        <span class="n">exclude_paths</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>         <span class="c1"># list of path names to exclude from the calculation; None includes all paths</span>
+        <span class="n">brackets</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;(&quot;</span><span class="p">,</span> <span class="s2">&quot;)&quot;</span><span class="p">),</span>        <span class="c1"># pair of strings to add as brackets around the modified number (e.g. (&quot;[&quot;, &quot;]&quot;); None for no brackets)</span>
+        <span class="n">seperator</span><span class="o">=</span><span class="s2">&quot;/&quot;</span><span class="p">,</span>              <span class="c1"># string to separate the forward and backward activation energy when direction=&quot;both&quot; (default is &quot;/&quot;)</span>
+        <span class="n">n_decimals</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>               <span class="c1"># number of decimals to round the calculated energy differences to (default is 0)</span>
+        <span class="n">switch_order</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>         <span class="c1"># switch the order of the energy differences in case of direction=&quot;both&quot;</span>
+        <span class="n">append_to_existing</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>   <span class="c1"># append the activation energy to the existing number instead of replacing it (default is False)</span>
+<span class="p">)</span>
+</code></pre></div>
+<p>Example:</p>
+<div class="highlight"><pre><span></span><code><span class="n">dia</span> <span class="o">=</span> <span class="n">EnergyDiagram</span><span class="p">()</span>
+
+<span class="n">dia</span><span class="o">.</span><span class="n">draw_path</span><span class="p">(</span>
+    <span class="n">x_data</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span>
+    <span class="n">y_data</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="o">-</span><span class="mi">14</span><span class="p">,</span> <span class="mf">15.3</span><span class="p">,</span> <span class="o">-</span><span class="mi">22</span><span class="p">],</span>
+    <span class="n">color</span><span class="o">=</span><span class="s2">&quot;blue&quot;</span><span class="p">,</span>
+    <span class="n">path_name</span><span class="o">=</span><span class="s2">&quot;Blue path&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">dia</span><span class="o">.</span><span class="n">draw_path</span><span class="p">(</span>
+    <span class="n">x_data</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span>
+    <span class="n">y_data</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mf">15.2</span><span class="p">,</span> <span class="o">-</span><span class="mi">18</span><span class="p">],</span>
+    <span class="n">color</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">,</span>
+    <span class="n">path_name</span><span class="o">=</span><span class="s2">&quot;Red path&quot;</span><span class="p">,</span>
+
+<span class="p">)</span>
+
+<span class="n">dia</span><span class="o">.</span><span class="n">add_numbers_auto</span><span class="p">()</span>
+<span class="n">dia</span><span class="o">.</span><span class="n">display_activation_barriers</span><span class="p">(</span>
+    <span class="n">x_positions</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span>
+    <span class="n">direction</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">,</span>
+    <span class="n">brackets</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;(&quot;</span><span class="p">,</span> <span class="s2">&quot;)&quot;</span><span class="p">),</span>
+    <span class="n">seperator</span><span class="o">=</span><span class="s2">&quot;I&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">dia</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;..&quot;</span><span class="p">,</span><span class="s2">&quot;docs&quot;</span><span class="p">,</span><span class="s2">&quot;img&quot;</span><span class="p">,</span><span class="s2">&quot;example_activation_barriers.png&quot;</span><span class="p">),</span><span class="nb">format</span><span class="o">=</span><span class="s2">&quot;png&quot;</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s2">&quot;tight&quot;</span><span class="p">)</span>
+<span class="n">dia</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div>
+<p><img alt="Activation barriers" src="https://raw.githubusercontent.com/Tonner-Zech-Group/chem-diagrams/main/docs/img/example_activation_barriers.png" /></p>
 <h3 id="modifying-existing-numbers">Modifying existing numbers</h3>
 <p>Existing energy annotations can be modified by adding or subtracting values with <code>modify_number_values()</code>. This is useful to annotate energy differences (e.g., activation energies or reaction energies) by subtracting the relevant reference energy from the target energy. The resulting number is caclulated for each path as follows:</p>
 <div class="highlight"><pre><span></span><code>base_value + sum(energies at x_add) - sum(energies at x_subtract)
@@ -2419,11 +2485,12 @@ diagonal tick marks to indicate degeneracy.</p>
     <span class="n">x_add</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>                  <span class="c1"># list of x-positions (or single x-position) to add to the number; None for no addition</span>
     <span class="n">x_subtract</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>             <span class="c1"># list of x-positions (or single x-position) to subtract from the number; None for no subtraction</span>
     <span class="n">base_value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>               <span class="c1"># value to add or subtract directly (e.g., to convert units); default is 0</span>
-    <span class="n">brackets</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;(&quot;</span><span class="p">,</span> <span class="s2">&quot;)&quot;</span><span class="p">],</span>        <span class="c1"># pair of strings to add as brackets around the modified number (e.g., [&quot;[&quot;, &quot;]); None for no brackets&quot;)</span>
+    <span class="n">brackets</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;(&quot;</span><span class="p">,</span> <span class="s2">&quot;)&quot;</span><span class="p">),</span>        <span class="c1"># pair of strings to add as brackets around the modified number (e.g., (&quot;[&quot;, &quot;]&quot;); None for no brackets)</span>
     <span class="n">n_decimals</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>               <span class="c1"># number of decimals to round the modified number to (default is 0)</span>
     <span class="n">include_paths</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>         <span class="c1"># list of path names to include in the modification; None to include all paths</span>
     <span class="n">exclude_paths</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>         <span class="c1"># list of path names to exclude from the modification; None includes all paths</span>
     <span class="n">n_decimals</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>               <span class="c1"># number of decimals to round the modified number to (default is 0)</span>
+    <span class="n">append_to_existing</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>   <span class="c1"># append the modified value to the existing number instead of replacing it (default is False)</span>
 <span class="p">)</span>
 </code></pre></div>
 <p>Example:</p>
