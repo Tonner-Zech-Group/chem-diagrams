@@ -150,7 +150,7 @@ class StyleManager:
         weight: str = "bold",
         color: str = "black",  # labelcolor
         in_plot: bool = False,
-        rotation: float | None = None,  # labelrotation, just in_plot=False
+        rotation: float | None = None,  # labelrotation
     ) -> None:
         # Sanity checks
         Validators.validate_numeric_sequence(labelplaces, "labelplaces", allow_none=True)

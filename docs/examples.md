@@ -57,7 +57,7 @@ dia.show()
 
 ![Diagram 1](https://raw.githubusercontent.com/Tonner-Zech-Group/chem-diagrams/main/docs/img/title/image_1.png)
 
-## Example 2: Multiple paths
+## Example 2: Multiple paths and activation energy barriers
 
 ```python
 from chemdiagrams import EnergyDiagram
@@ -89,8 +89,11 @@ dia.draw_path(
     linetypes=2
 )
 
-
-dia.add_numbers_auto()
+dia.add_numbers_auto(fontsize=6.5)
+dia.display_activation_barriers(
+    x_positions=[1,3],
+    direction="both",
+)
 
 dia.legend(fontsize=5)
 dia.set_xlabels(["Educt", "Transition\nState 1", "Intermediate", "Transition\nState 2", "Product"], weight="normal", fontsize=6)
@@ -398,7 +401,7 @@ dia.show()
 ```
 ![Diagram 8](https://raw.githubusercontent.com/Tonner-Zech-Group/chem-diagrams/main/docs/img/title/image_8.png)
 
-## Example 9: Connector line customization and number modification
+## Example 9: Number modification and path labels
 
 ```python
 from chemdiagrams import EnergyDiagram
@@ -410,13 +413,15 @@ dia.set_diagram_style("borderless")
 dia.draw_path(
     [0,1,2,3,4,5,6], [0, 67, 42, 87, 15, 38, -20], "blue",
     path_name="Blue path",
-    linetypes=2   
+    linetypes=2,
+    lw_connector=0.5,   
 )
 
 dia.draw_path(
     [0,1,2,3,4,5,6], [0, 37, 15, 23, -29, -12, -45], "red",
     path_name="Red path",
-    linetypes=2   
+    linetypes=2,
+    lw_connector=0.5,   
 )
 
 dia.add_numbers_auto()
@@ -440,10 +445,6 @@ dia.modify_number_values(
     x_add=5,
     x_subtract=4
 )
-
-for path in dia.lines.values():
-    for connector in path.connections.values():
-        connector.set_lw(0.5)
 
 dia.legend(fontsize=6)
 

@@ -1066,6 +1066,385 @@ class TestNumbering:
         label_text = dia.numbers["A"]["0.0"].get_text()
         assert "[" in label_text
 
+    def test_modify_number_values_with_append_to_existing_true(self):
+        """Test append_to_existing parameter: appends new text to existing label."""
+        dia = make_diagram()
+        dia.add_numbers_naive()
+
+        # Get original label text
+        original_text = dia.numbers["A"]["1.0"].get_text()
+        assert original_text != ""
+
+        # Modify with append_to_existing=True
+        dia.modify_number_values(
+            x=1, base_value=10.0, append_to_existing=True, brackets=("[", "]")
+        )
+
+        # New text should contain both original and new text
+        new_text = dia.numbers["A"]["1.0"].get_text()
+        assert original_text in new_text
+        assert "[10]" in new_text
+        assert new_text == original_text + "[10]"
+
+    def test_modify_number_values_with_append_to_existing_false(self):
+        """Test append_to_existing parameter: replaces existing label (default behavior)."""
+        dia = make_diagram()
+        dia.add_numbers_naive()
+
+        # Get original label text
+        original_text = dia.numbers["A"]["1.0"].get_text()
+
+        # Modify with append_to_existing=False (default)
+        dia.modify_number_values(
+            x=1, base_value=10.0, append_to_existing=False, brackets=("[", "]")
+        )
+
+        # New text should only contain the new value
+        new_text = dia.numbers["A"]["1.0"].get_text()
+        assert new_text == "[10]"
+        assert original_text not in new_text
+
+    def test_modify_number_values_append_to_existing_complex(self):
+        """Test append_to_existing with complex calculations."""
+        dia = EnergyDiagram()
+        dia.draw_path([0, 1, 2, 3], [0, 20, 10, 15], color="blue", path_name="path_1")
+        dia.add_numbers_naive()
+
+        # Get original text
+        original_text = dia.numbers["path_1"]["1.0"].get_text()
+
+        # Complex modification with append
+        dia.modify_number_values(
+            x=1, base_value=5.0, x_add=[0], brackets=("[", "]"), append_to_existing=True
+        )
+
+        new_text = dia.numbers["path_1"]["1.0"].get_text()
+        assert original_text in new_text
+        assert "[5]" in new_text  # 5.0 + 0 = 5
+
+
+# ---------------------------------------------------------------------------
+# Activation barriers
+# ---------------------------------------------------------------------------
+
+
+class TestDisplayActivationBarriers:
+    """Tests for the display_activation_barriers method."""
+
+    def test_display_activation_barriers_basic(self):
+        """Test basic activation barrier calculation with default direction='right'."""
+        dia = EnergyDiagram()
+        dia.draw_path([0, 1, 2, 3], [0, 20, 10, 15], color="blue", path_name="A")
+        dia.add_numbers_naive()
+        result = dia.display_activation_barriers(x_positions=[1, 2])
+        assert result is dia  # method chaining
+
+    def test_display_activation_barriers_returns_self(self):
+        """Test that method returns self for chaining."""
+        dia = make_diagram()
+        dia.add_numbers_naive()
+        result = dia.display_activation_barriers(x_positions=[1])
+        assert result is dia
+
+    def test_display_activation_barriers_direction_right(self):
+        """Test activation barriers calculated to the right."""
+        dia = EnergyDiagram()
+        dia.draw_path([0, 1, 2, 3], [0, 20, 10, 15], color="blue", path_name="A")
+        dia.add_numbers_naive()
+        dia.display_activation_barriers(x_positions=[1], direction="right")
+
+        # Barrier should be y[1] - y[0] = 20 - 0 = 20
+        label_text = dia.numbers["A"]["1.0"].get_text()
+        assert "20" in label_text
+
+    def test_display_activation_barriers_direction_left(self):
+        """Test activation barriers calculated to the left."""
+        dia = EnergyDiagram()
+        dia.draw_path([0, 1, 2, 3], [0, 20, 10, 15], color="blue", path_name="A")
+        dia.add_numbers_naive()
+        dia.display_activation_barriers(x_positions=[1], direction="left")
+
+        # Barrier should be y[1] - y[2] = 20 - 10 = 10
+        label_text = dia.numbers["A"]["1.0"].get_text()
+        assert "10" in label_text
+
+    def test_display_activation_barriers_direction_both(self):
+        """Test activation barriers calculated in both directions."""
+        dia = EnergyDiagram()
+        dia.draw_path([0, 1, 2, 3], [0, 20, 10, 15], color="blue", path_name="A")
+        dia.add_numbers_naive()
+        dia.display_activation_barriers(x_positions=[1], direction="both", seperator="/")
+
+        # Right barrier: y[1] - y[0] = 20 - 0 = 20
+        # Left barrier: y[1] - y[2] = 20 - 10 = 10
+        label_text = dia.numbers["A"]["1.0"].get_text()
+        assert "20" in label_text and "10" in label_text and "/" in label_text
+
+    def test_display_activation_barriers_custom_separator(self):
+        """Test custom separator between left and right barriers."""
+        dia = EnergyDiagram()
+        dia.draw_path([0, 1, 2, 3], [0, 20, 10, 15], color="blue", path_name="A")
+        dia.add_numbers_naive()
+        dia.display_activation_barriers(x_positions=[1], direction="both", seperator="|")
+
+        label_text = dia.numbers["A"]["1.0"].get_text()
+        assert "|" in label_text
+
+    def test_display_activation_barriers_custom_brackets(self):
+        """Test custom brackets around barrier values."""
+        dia = EnergyDiagram()
+        dia.draw_path([0, 1, 2, 3], [0, 20, 10, 15], color="blue", path_name="A")
+        dia.add_numbers_naive()
+        dia.display_activation_barriers(
+            x_positions=[1], direction="right", brackets=("[", "]")
+        )
+
+        label_text = dia.numbers["A"]["1.0"].get_text()
+        assert "[" in label_text and "]" in label_text
+
+    def test_display_activation_barriers_no_brackets(self):
+        """Test without brackets."""
+        dia = EnergyDiagram()
+        dia.draw_path([0, 1, 2, 3], [0, 20, 10, 15], color="blue", path_name="A")
+        dia.add_numbers_naive()
+        dia.display_activation_barriers(x_positions=[1], direction="right", brackets=("", ""))
+
+        label_text = dia.numbers["A"]["1.0"].get_text()
+        assert "20" in label_text  # Just the number, no brackets
+
+    def test_display_activation_barriers_with_decimals(self):
+        """Test barrier values with specified decimal places."""
+        dia = EnergyDiagram()
+        dia.draw_path([0, 1, 2], [0, 20.5, 10.3], color="blue", path_name="A")
+        dia.add_numbers_naive()
+        dia.display_activation_barriers(x_positions=[1], direction="right", n_decimals=2)
+
+        label_text = dia.numbers["A"]["1.0"].get_text()
+        assert "20.50" in label_text or "20,50" in label_text  # locale may vary
+
+    def test_display_activation_barriers_switch_order(self):
+        """Test switch_order parameter reverses barrier display."""
+        dia = EnergyDiagram()
+        dia.draw_path([0, 1, 2, 3], [0, 20, 10, 15], color="blue", path_name="A")
+        dia.add_numbers_naive()
+        dia.display_activation_barriers(
+            x_positions=[1], direction="both", switch_order=False, seperator="/"
+        )
+
+        text_normal = dia.numbers["A"]["1.0"].get_text()
+
+        # Reset and try with switch_order=True
+        dia2 = EnergyDiagram()
+        dia2.draw_path([0, 1, 2, 3], [0, 20, 10, 15], color="blue", path_name="A")
+        dia2.add_numbers_naive()
+        dia2.display_activation_barriers(
+            x_positions=[1], direction="both", switch_order=True, seperator="/"
+        )
+
+        text_switched = dia2.numbers["A"]["1.0"].get_text()
+
+        # Order should be different
+        assert text_normal != text_switched
+
+    def test_display_activation_barriers_multiple_x_positions(self):
+        """Test barrier calculation at multiple x-positions."""
+        dia = EnergyDiagram()
+        dia.draw_path([0, 1, 2, 3, 4], [0, 20, 10, 15, 5], color="blue", path_name="A")
+        dia.add_numbers_naive()
+        dia.display_activation_barriers(x_positions=[1, 2, 3], direction="right")
+
+        # All three positions should have labels
+        label_1 = dia.numbers["A"]["1.0"].get_text()
+        label_2 = dia.numbers["A"]["2.0"].get_text()
+        label_3 = dia.numbers["A"]["3.0"].get_text()
+
+        assert "20" in label_1  # y[1] - y[0] = 20 - 0
+        assert "10" in label_2  # y[2] - y[1] = 10 - 20 = -10 (with minus sign)
+        assert "5" in label_3  # y[3] - y[2] = 15 - 10 = 5
+
+    def test_display_activation_barriers_multiple_paths(self):
+        """Test barriers applied to multiple paths."""
+        dia = EnergyDiagram()
+        dia.draw_path([0, 1, 2], [0, 20, 10], color="blue", path_name="A")
+        dia.draw_path([0, 1, 2], [0, 15, 5], color="red", path_name="B")
+        dia.add_numbers_naive()
+        dia.display_activation_barriers(x_positions=[1], direction="right")
+
+        # Both paths should have barrier labels
+        label_a = dia.numbers["A"]["1.0"].get_text()
+        label_b = dia.numbers["B"]["1.0"].get_text()
+
+        assert "20" in label_a  # A: y[1] - y[0] = 20
+        assert "15" in label_b  # B: y[1] - y[0] = 15
+
+    def test_display_activation_barriers_include_paths(self):
+        """Test include_paths parameter to modify only specific paths."""
+        dia = EnergyDiagram()
+        dia.draw_path([0, 1, 2], [0, 20, 10], color="blue", path_name="A")
+        dia.draw_path([0, 1, 2], [0, 15, 5], color="red", path_name="B")
+        dia.add_numbers_naive()
+
+        # Get original label for B
+        original_b = dia.numbers["B"]["1.0"].get_text()
+
+        # Apply barriers only to path A
+        dia.display_activation_barriers(x_positions=[1], include_paths=["A"])
+
+        # A should be modified
+        label_a = dia.numbers["A"]["1.0"].get_text()
+        assert "20" in label_a
+
+        # B should remain unchanged
+        label_b = dia.numbers["B"]["1.0"].get_text()
+        assert label_b == original_b
+
+    def test_display_activation_barriers_exclude_paths(self):
+        """Test exclude_paths parameter to skip specific paths."""
+        dia = EnergyDiagram()
+        dia.draw_path([0, 1, 2], [0, 20, 10], color="blue", path_name="A")
+        dia.draw_path([0, 1, 2], [0, 15, 5], color="red", path_name="B")
+        dia.draw_path([0, 1, 2], [0, 12, 6], color="green", path_name="C")
+        dia.add_numbers_naive()
+
+        # Get original labels
+        original_b = dia.numbers["B"]["1.0"].get_text()
+
+        # Apply barriers excluding path B
+        dia.display_activation_barriers(x_positions=[1], exclude_paths=["B"])
+
+        # A and C should be modified
+        label_a = dia.numbers["A"]["1.0"].get_text()
+        label_c = dia.numbers["C"]["1.0"].get_text()
+
+        assert "20" in label_a
+        assert "12" in label_c
+
+        # B should remain unchanged
+        label_b = dia.numbers["B"]["1.0"].get_text()
+        assert label_b == original_b
+
+    def test_display_activation_barriers_append_to_existing_true(self):
+        """Test append_to_existing=True appends barriers to existing labels."""
+        dia = EnergyDiagram()
+        dia.draw_path([0, 1, 2, 3], [0, 20, 10, 15], color="blue", path_name="A")
+        dia.add_numbers_naive()
+
+        # Get original label text
+        original_text = dia.numbers["A"]["1.0"].get_text()
+        assert original_text != ""
+
+        # Display barriers with append_to_existing=True
+        dia.display_activation_barriers(
+            x_positions=[1], direction="right", append_to_existing=True
+        )
+
+        # New text should contain both original and barrier
+        new_text = dia.numbers["A"]["1.0"].get_text()
+        assert original_text in new_text
+        assert "20" in new_text
+
+    def test_display_activation_barriers_append_to_existing_false(self):
+        """Test append_to_existing=False replaces existing labels (default)."""
+        dia = EnergyDiagram()
+        dia.draw_path([0, 1, 2, 3], [0, 20, 10, 15], color="blue", path_name="A")
+        dia.add_numbers_naive()
+
+        # Get original label text (should be "20")
+        original_text = dia.numbers["A"]["1.0"].get_text()
+        assert "20" in original_text
+
+        # Display barriers with append_to_existing=False (default)
+        # This should replace the label completely
+        dia.display_activation_barriers(
+            x_positions=[1], direction="right", append_to_existing=False, brackets=("[", "]")
+        )
+
+        # New text should be just the barrier, not contain original as separate text
+        new_text = dia.numbers["A"]["1.0"].get_text()
+        assert new_text == "[20]"  # Exact replacement, not original_text + new_text
+
+    def test_display_activation_barriers_at_endpoint_right(self):
+        """Test that barriers at first point cannot be calculated for direction='right'."""
+        dia = EnergyDiagram()
+        dia.draw_path([0, 1, 2], [0, 20, 10], color="blue", path_name="A")
+        dia.add_numbers_naive()
+
+        # Try to calculate right barrier at first point (should print warning)
+        dia.display_activation_barriers(x_positions=[0], direction="right")
+
+        # Label should still exist but contain empty barrier or just brackets
+        label_text = dia.numbers["A"]["0.0"].get_text()
+        assert label_text == "()"  # Just brackets, no value
+
+    def test_display_activation_barriers_at_endpoint_left(self):
+        """Test that barriers at last point cannot be calculated for direction='left'."""
+        dia = EnergyDiagram()
+        dia.draw_path([0, 1, 2], [0, 20, 10], color="blue", path_name="A")
+        dia.add_numbers_naive()
+
+        # Try to calculate left barrier at last point (should print warning)
+        dia.display_activation_barriers(x_positions=[2], direction="left")
+
+        # Label should still exist but contain empty barrier or just brackets
+        label_text = dia.numbers["A"]["2.0"].get_text()
+        assert label_text == "()"  # Just brackets, no value
+
+    def test_display_activation_barriers_invalid_direction_raises(self):
+        """Test that invalid direction raises ValueError."""
+        dia = make_diagram()
+        dia.add_numbers_naive()
+
+        with pytest.raises(ValueError, match="Invalid direction"):
+            dia.display_activation_barriers(x_positions=[1], direction="invalid")
+
+    def test_display_activation_barriers_invalid_x_position_warning(self):
+        """Test handling of x_position not found in path."""
+        dia = make_diagram()
+        dia.add_numbers_naive()
+
+        # Try to get barrier at x=99 which doesn't exist (should print warning)
+        # This should not raise, just skip
+        dia.display_activation_barriers(x_positions=[99], direction="right")
+
+    def test_display_activation_barriers_both_include_and_exclude_raises(self):
+        """Test that specifying both include_paths and exclude_paths raises ValueError."""
+        dia = make_diagram()
+        dia.add_numbers_naive()
+
+        with pytest.raises(ValueError):
+            dia.display_activation_barriers(
+                x_positions=[1], include_paths=["A"], exclude_paths=["A"]
+            )
+
+    def test_display_activation_barriers_nonexistent_path_in_include_raises(self):
+        """Test that including a nonexistent path raises ValueError."""
+        dia = make_diagram()
+        dia.add_numbers_naive()
+
+        with pytest.raises(ValueError):
+            dia.display_activation_barriers(x_positions=[1], include_paths=["nonexistent"])
+
+    def test_display_activation_barriers_complex_workflow(self):
+        """Integration test: complete workflow with barriers."""
+        dia = EnergyDiagram(fontsize=8)
+        dia.draw_path([0, 1, 2, 3, 4], [0, 28, -14, 15, -22], color="blue", path_name="A")
+        dia.draw_path([0, 1, 2, 3, 4], [0, 20, -10, 12, -25], color="red", path_name="B")
+        dia.add_numbers_naive()
+        dia.display_activation_barriers(
+            x_positions=[1, 3],
+            direction="both",
+            seperator="/",
+            n_decimals=1,
+            include_paths=["A"],
+        )
+
+        # Path A should have barriers at x=1 and x=3
+        label_1 = dia.numbers["A"]["1.0"].get_text()
+        label_3 = dia.numbers["A"]["3.0"].get_text()
+
+        assert "/" in label_1  # Both barriers should be present
+        assert "/" in label_3
+
 
 # ---------------------------------------------------------------------------
 # Difference bars
