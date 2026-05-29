@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [0.5.5] - 2026-05-29
+
+### Fixed
+
+- Methods of `EnergyDiagram` now accept NumPy arrays as sequence inputs. Before this, passing a NumPy array would raise a `TypeError`.
+
 ## [0.5.4] - 2026-05-10
 
 ### Added

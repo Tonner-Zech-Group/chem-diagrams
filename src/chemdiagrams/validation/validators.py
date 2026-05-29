@@ -2,6 +2,8 @@ from __future__ import annotations
 
 from collections.abc import Sequence
 
+import numpy as np
+
 
 class Validators:
     """
@@ -27,14 +29,17 @@ class Validators:
             raise ValueError(f"{name} cannot be None.")
 
         if seq is not None:
-            if not isinstance(seq, Sequence):
+            if not isinstance(seq, (Sequence, np.ndarray)):
                 raise TypeError(f"{name} must be a tuple or list.")
             if isinstance(seq, (str, bytes)):
                 raise TypeError(f"{name} must be a tuple or list.")
             if allow_none_elements:
-                if not all(isinstance(val, (int, float, type(None))) for val in seq):
+                if not all(
+                    isinstance(val, (int, float, type(None), np.float64, np.int64))
+                    for val in seq
+                ):
                     raise TypeError(f"{name} can only contain numeric values or None.")
-            elif not all(isinstance(val, (int, float)) for val in seq):
+            elif not all(isinstance(val, (int, float, np.float64, np.int64)) for val in seq):
                 raise TypeError(f"{name} can only contain numeric values.")
             if min_value is not None and any(min_value > val for val in seq):
                 raise ValueError(f"{name} cannot contain values smaller than {min_value}.")
@@ -62,10 +67,10 @@ class Validators:
                 if min_value > num:
                     raise ValueError(f"{name} must be equal or larger than {min_value}.")
             if only_integer:
-                if not isinstance(num, int):
+                if not isinstance(num, (int, np.int64)):
                     raise TypeError(f"{name} must be an integer.")
             else:
-                if not isinstance(num, (int, float)):
+                if not isinstance(num, (int, float, np.float64, np.int64)):
                     raise TypeError(f"{name} must be an integer or float.")
 
     @staticmethod
