@@ -2802,3 +2802,44 @@ class TestTemplates:
 
         assert isinstance(dia1, EnergyDiagram)
         assert isinstance(dia2, EnergyDiagram)
+
+
+# ---------------------------------------------------------------------------
+# NumPy compatibility
+# ---------------------------------------------------------------------------
+
+
+class TestNumpyCompatibility:
+    """Tests to verify that methods accepting arrays also accept numpy arrays and scalars."""
+
+    def test_draw_path_with_numpy_arrays(self):
+        """Test draw_path with numpy arrays for x_data and y_data."""
+        dia = EnergyDiagram()
+        x_data = np.array([0, 1, 2, 3, 4])
+        y_data = np.array([0, 28, -14, 15, -22])
+        result = dia.draw_path(x_data, y_data, color="blue", path_name="numpy_path")
+        assert result is dia
+        assert len(dia.lines) == 1
+
+    def test_draw_path_with_numpy_scalars(self):
+        """Test draw_path with numpy float64 and int64 scalars."""
+        dia = EnergyDiagram()
+        x_data = [np.int64(0), np.int64(1), np.int64(2)]
+        y_data = [np.float64(0), np.float64(10), np.float64(-5)]
+        result = dia.draw_path(x_data, y_data, color="red", path_name="numpy_scalars")
+        assert result is dia
+        assert len(dia.lines) == 1
+
+    def test_set_xlabels_with_numpy_array_labelplaces(self):
+        """Test set_xlabels with numpy array for labelplaces parameter."""
+        dia = make_diagram()
+        labelplaces = np.array([0, 1, 2, 3, 4])
+        result = dia.set_xlabels(["E", "TS1", "I", "TS2", "P"], labelplaces=labelplaces)
+        assert result is dia
+
+    def test_add_numbers_naive_with_numpy_array_x_min_max(self):
+        """Test add_numbers_naive with numpy array for x_min_max parameter."""
+        dia = make_diagram()
+        x_min_max = np.array([1.0, 3.0])
+        result = dia.add_numbers_naive(x_min_max=x_min_max)
+        assert result is dia

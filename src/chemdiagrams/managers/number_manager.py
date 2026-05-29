@@ -640,10 +640,10 @@ class NumberManager:
     ) -> tuple[float, float]:
         # Convert x_min_max to an inclusive interval
         if x_min_max is not None:
-            if isinstance(x_min_max, (Sequence)):
+            if isinstance(x_min_max, (Sequence, np.ndarray)):
                 Validators.validate_numeric_sequence(x_min_max, "x_min_max", required_length=2)
                 x_min_max_new = (x_min_max[0], x_min_max[1])
-            elif isinstance(x_min_max, (int, float)):
+            elif isinstance(x_min_max, (int, float, np.float64, np.int64)):
                 x_min_max_new = (x_min_max, x_min_max)
             else:
                 raise TypeError(
