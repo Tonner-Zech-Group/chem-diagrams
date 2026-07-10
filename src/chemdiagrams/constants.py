@@ -88,6 +88,7 @@ class Constants:
         # Connector parameters
         self.ZORDER_CONNECTOR = 1
         self.LW_CONNECTOR = 1.0
+        self.OFFSET_CONNECTOR = 0
 
         # Broken line parameters
         self.BROKEN_LINE_GAP = 0.2

@@ -184,7 +184,10 @@ class PathManager:
             plateaus[f"{x_data[i]:.1f}"] = plateau
             if i > 0:
                 connector = self._draw_connector(
-                    x_corners[-3:-1],
+                    [
+                        x_corners[-3] - self.constants.OFFSET_CONNECTOR,
+                        x_corners[-2] + self.constants.OFFSET_CONNECTOR,
+                    ],
                     y_corners[-3:-1],
                     linetypes[i - 1],
                     color,
