@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [0.5.6] - 2026-07-10
+
+- Added the `OFFSET_CONNECTOR` constant for controlling the horizontal offset of connectors between energy levels.
+
 ## [0.5.5] - 2026-05-29
 
 ### Fixed
