@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any, cast
 
 import matplotlib.patches as mpatches
 import matplotlib.pyplot as plt
@@ -346,7 +346,7 @@ class EnergyDiagram:
         for path_name, path_info in self._path_manager.path_data.items():
             if path_info["has_name"]:
                 patches.append(mpatches.Patch(color=path_info["color"], label=path_name))
-        self._figure_manager.ax.legend(handles=patches, fontsize=fontsize, loc=loc)
+        self._figure_manager.ax.legend(handles=patches, fontsize=fontsize, loc=cast(Any, loc))
         return self
 
     def show(self) -> None:
