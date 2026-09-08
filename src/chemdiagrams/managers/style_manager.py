@@ -253,7 +253,7 @@ class StyleManager:
             # cover_width in y axis fraction
             cover_width = self.constants.AXIS_BREAK_COVER_WIDTH / figsize[1]
 
-            # Add white covering reactange
+            # Add white covering rectangle
             # x in data coords, y in axis fractions
             rect = mpatches.Rectangle(
                 (x_pos - gap / 2, y_pos - cover_width / 2),
@@ -374,7 +374,7 @@ class StyleManager:
             # Cover_width in x axis fraction
             cover_width = self.constants.AXIS_BREAK_COVER_WIDTH / figsize[0]
 
-            # Add white covering reactange
+            # Add white covering rectangle
             # y in data coords, x in axis fractions
             rect = mpatches.Rectangle(
                 (x_pos - cover_width / 2, y_pos - gap / 2),

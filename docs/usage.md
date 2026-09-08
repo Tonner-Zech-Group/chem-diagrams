@@ -466,7 +466,7 @@ dia.show()
 
 ### Modifying existing numbers
 
-Existing energy annotations can be modified by adding or subtracting values with `modify_number_values()`. This is useful to annotate energy differences (e.g., activation energies or reaction energies) by subtracting the relevant reference energy from the target energy. The resulting number is caclulated for each path as follows:
+Existing energy annotations can be modified by adding or subtracting values with `modify_number_values()`. This is useful to annotate energy differences (e.g., activation energies or reaction energies) by subtracting the relevant reference energy from the target energy. The resulting number is calculated for each path as follows:
 
 ```
 base_value + sum(energies at x_add) - sum(energies at x_subtract)

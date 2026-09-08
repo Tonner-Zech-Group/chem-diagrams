@@ -200,7 +200,7 @@ class NumberManager:
                 # Append to temporary list one number after each other
                 numbers_to_stack_current = []
                 numbers_to_stack_current.append(numbers_to_stack[n_numbers_printed])
-                # Calulate where to try to print
+                # Calculate where to try to print
                 y_print_start = max(
                     numbers_to_stack[n_numbers_printed]["y"],
                     y_last_printed + diff_per_step,
@@ -213,7 +213,7 @@ class NumberManager:
                         numbers_to_stack_current.append(number)
                 # Determine every value greater than where to print
                 higher_numbers_at_x = [val for val in all_numbers_at_x if val > y_print_start]
-                # Increse print height, until no overlap
+                # Increase print height, until no overlap
                 while True:
                     no_overlap = NumberManager._check_no_overlap(
                         self.constants,

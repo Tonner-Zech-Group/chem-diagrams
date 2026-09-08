@@ -119,7 +119,7 @@ class ImageManager:
         framed: Sequence[bool] | bool = False,
         frame_colors: Sequence[str] | str = "black",
     ) -> None:
-        # Save underlying data if redrawing is neccesary
+        # Save underlying data if redrawing is necessary
         # Before sanity checks, since some checks alter the data
         # Only name has to be checked since else "ghost images" after redrawing
         if img_series_name is None:
@@ -335,7 +335,7 @@ class ImageManager:
                 except KeyError:
                     pass
 
-            # Determine current vertival alignment and position
+            # Determine current vertical alignment and position
             if y_placement[index] == "auto":
                 space_on_top = margins["y"][1] - y_min_top
                 space_on_bottom = y_max_bottom - margins["y"][0]

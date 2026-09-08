@@ -56,7 +56,7 @@ class LayoutManager:
                     "Warning: figsize is ignored when using an external "
                     "axis. Must be set on the external figure directly."
                 )
-            # Get figsize of total suplot arrangement
+            # Get figsize of total subplot arrangement
             total_figsize = self.figure_manager.fig.get_size_inches()
 
             subplot_spec = self.figure_manager.ax.get_subplotspec()
@@ -199,7 +199,7 @@ class LayoutManager:
 
         else:
             self.adjust_xy_limits(path_data)
-            # Only adjust figure size if not controlles externally
+            # Only adjust figure size if not controlled externally
             if not self.figure_manager.has_external_ax:
                 self.figure_manager.fig.set_figwidth(self.figsize[0])
                 self.figure_manager.fig.set_figheight(self.figsize[1])
