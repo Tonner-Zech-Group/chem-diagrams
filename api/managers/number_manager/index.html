@@ -1524,8 +1524,7 @@ path name and x-coordinate.</p>
 
               <details class="mkdocstrings-source">
                 <summary>Source code in <code>src/chemdiagrams/managers/number_manager.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 13</span>
-<span class="normal"> 14</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 14</span>
 <span class="normal"> 15</span>
 <span class="normal"> 16</span>
 <span class="normal"> 17</span>
@@ -2374,9 +2373,7 @@ path name and x-coordinate.</p>
 <span class="normal">860</span>
 <span class="normal">861</span>
 <span class="normal">862</span>
-<span class="normal">863</span>
-<span class="normal">864</span>
-<span class="normal">865</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">NumberManager</span><span class="p">:</span>
+<span class="normal">863</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">NumberManager</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Manages energy value annotations on the diagram.</span>
 
@@ -2771,17 +2768,16 @@ path name and x-coordinate.</p>
                 <span class="n">path</span> <span class="o">=</span> <span class="n">path_data</span><span class="p">[</span><span class="n">path_name</span><span class="p">]</span>
             <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Path '</span><span class="si">{</span><span class="n">path_name</span><span class="si">}</span><span class="s2">' not found in path_data."</span><span class="p">)</span>
+            <span class="n">label</span> <span class="o">=</span> <span class="kc">None</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">label</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mpl_objects</span><span class="p">[</span><span class="n">path_name</span><span class="p">][</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">x</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">"</span><span class="p">]</span>
-                <span class="n">is_label_found</span> <span class="o">=</span> <span class="kc">True</span>
             <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
                 <span class="nb">print</span><span class="p">(</span>
                     <span class="sa">f</span><span class="s2">"Warning (modify_number_values): No label found for path"</span>
                     <span class="sa">f</span><span class="s2">" '</span><span class="si">{</span><span class="n">path_name</span><span class="si">}</span><span class="s2">' at x=</span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s2">. Skipping modification."</span>
                 <span class="p">)</span>
-                <span class="n">is_label_found</span> <span class="o">=</span> <span class="kc">False</span>
 
-            <span class="k">if</span> <span class="n">is_label_found</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">label</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">number_new</span> <span class="o">=</span> <span class="n">base_value</span>
 
                 <span class="c1"># Add all the values at x position specified in x_subtract and x_add</span>
@@ -2861,31 +2857,29 @@ path name and x-coordinate.</p>
                     <span class="n">path</span> <span class="o">=</span> <span class="n">path_data</span><span class="p">[</span><span class="n">path_name</span><span class="p">]</span>
                 <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
                     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Path '</span><span class="si">{</span><span class="n">path_name</span><span class="si">}</span><span class="s2">' not found in path_data."</span><span class="p">)</span>
+                <span class="n">label</span> <span class="o">=</span> <span class="kc">None</span>
                 <span class="k">try</span><span class="p">:</span>
                     <span class="n">label</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mpl_objects</span><span class="p">[</span><span class="n">path_name</span><span class="p">][</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">x_position</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">"</span><span class="p">]</span>
-                    <span class="n">is_label_found</span> <span class="o">=</span> <span class="kc">True</span>
                 <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
                     <span class="k">if</span> <span class="n">path</span><span class="p">[</span><span class="s2">"show_numbers"</span><span class="p">]:</span>
                         <span class="nb">print</span><span class="p">(</span>
                             <span class="sa">f</span><span class="s2">"Warning (display_activation_barriers): No label found for path"</span>
                             <span class="sa">f</span><span class="s2">" '</span><span class="si">{</span><span class="n">path_name</span><span class="si">}</span><span class="s2">' at x=</span><span class="si">{</span><span class="n">x_position</span><span class="si">}</span><span class="s2">. Skipping modification."</span>
                         <span class="p">)</span>
-                    <span class="n">is_label_found</span> <span class="o">=</span> <span class="kc">False</span>
 
                 <span class="c1"># Get index of x_position in path</span>
+                <span class="n">index</span> <span class="o">=</span> <span class="kc">None</span>
                 <span class="k">try</span><span class="p">:</span>
                     <span class="n">index</span> <span class="o">=</span> <span class="n">path</span><span class="p">[</span><span class="s2">"x"</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">x_position</span><span class="p">)</span>
-                    <span class="n">is_value_found</span> <span class="o">=</span> <span class="kc">True</span>
                 <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
                     <span class="k">if</span> <span class="n">path</span><span class="p">[</span><span class="s2">"show_numbers"</span><span class="p">]:</span>
                         <span class="nb">print</span><span class="p">(</span>
                             <span class="sa">f</span><span class="s2">"Warning (display_activation_barriers): Value at x=</span><span class="si">{</span><span class="n">x_position</span><span class="si">}</span><span class="s2"> "</span>
                             <span class="sa">f</span><span class="s2">"not found for path '</span><span class="si">{</span><span class="n">path_name</span><span class="si">}</span><span class="s2">'. Skipping modification."</span>
                         <span class="p">)</span>
-                    <span class="n">is_value_found</span> <span class="o">=</span> <span class="kc">False</span>
 
                 <span class="c1"># Only proceed if both label and value are found</span>
-                <span class="k">if</span> <span class="n">is_label_found</span> <span class="ow">and</span> <span class="n">is_value_found</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">label</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">index</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                     <span class="c1"># Calculate activation barriers to the right and left (if possible)</span>
                     <span class="n">activation_barrier_right</span> <span class="o">=</span> <span class="kc">None</span>
                     <span class="n">activation_barrier_left</span> <span class="o">=</span> <span class="kc">None</span>
@@ -3009,7 +3003,7 @@ path name and x-coordinate.</p>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x_min_max</span><span class="p">,</span> <span class="p">(</span><span class="n">Sequence</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)):</span>
                 <span class="n">Validators</span><span class="o">.</span><span class="n">validate_numeric_sequence</span><span class="p">(</span><span class="n">x_min_max</span><span class="p">,</span> <span class="s2">"x_min_max"</span><span class="p">,</span> <span class="n">required_length</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
                 <span class="n">x_min_max_new</span> <span class="o">=</span> <span class="p">(</span><span class="n">x_min_max</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">x_min_max</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x_min_max</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">)):</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x_min_max</span><span class="p">,</span> <span class="n">Real</span><span class="p">):</span>
                 <span class="n">x_min_max_new</span> <span class="o">=</span> <span class="p">(</span><span class="n">x_min_max</span><span class="p">,</span> <span class="n">x_min_max</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>

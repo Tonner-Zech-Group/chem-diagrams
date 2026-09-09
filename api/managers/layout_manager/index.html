@@ -1856,7 +1856,7 @@ was provided.</p>
             <span class="bp">self</span><span class="o">.</span><span class="n">width_limit</span> <span class="o">=</span> <span class="n">width_limit</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">figsize</span> <span class="o">=</span> <span class="n">figsize</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">adjust_xy_limits</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path_data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">adjust_xy_limits</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path_data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
 <span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Recompute and apply x/y axis limits from the current path data.</span>
 
@@ -2112,7 +2112,7 @@ applying default and user-specified margins.</p>
 <span class="normal">153</span>
 <span class="normal">154</span>
 <span class="normal">155</span>
-<span class="normal">156</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">adjust_xy_limits</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path_data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">]:</span>
+<span class="normal">156</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">adjust_xy_limits</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path_data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
 <span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Recompute and apply x/y axis limits from the current path data.</span>
 

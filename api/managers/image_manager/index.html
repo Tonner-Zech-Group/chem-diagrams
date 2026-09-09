@@ -2088,7 +2088,16 @@ All rendered artists are stored in <code>mpl_objects</code> for later access.</p
 <span class="normal">562</span>
 <span class="normal">563</span>
 <span class="normal">564</span>
-<span class="normal">565</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">ImageManager</span><span class="p">:</span>
+<span class="normal">565</span>
+<span class="normal">566</span>
+<span class="normal">567</span>
+<span class="normal">568</span>
+<span class="normal">569</span>
+<span class="normal">570</span>
+<span class="normal">571</span>
+<span class="normal">572</span>
+<span class="normal">573</span>
+<span class="normal">574</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">ImageManager</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Manages the placement and storage of image overlays within the energy diagram.</span>
 
@@ -2420,6 +2429,8 @@ All rendered artists are stored in <code>mpl_objects</code> for later access.</p
             <span class="k">elif</span> <span class="n">y_placement</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"bottom"</span><span class="p">:</span>
                 <span class="n">vertical_alignment_current</span> <span class="o">=</span> <span class="s2">"top"</span>
                 <span class="n">position_current</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y_max_bottom</span> <span class="o">-</span> <span class="n">y_offsets</span><span class="p">[</span><span class="n">index</span><span class="p">])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"y_placement must be one of 'top', 'bottom', or 'auto'."</span><span class="p">)</span>
 
             <span class="c1"># Construct the image</span>
             <span class="n">img_object</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_construct_image</span><span class="p">(</span>
@@ -2545,6 +2556,7 @@ All rendered artists are stored in <code>mpl_objects</code> for later access.</p
         <span class="k">assert</span> <span class="n">width</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
         <span class="k">assert</span> <span class="n">height</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
 
+        <span class="n">img_x_extent</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">horizontal_alignment</span> <span class="o">==</span> <span class="s2">"center"</span><span class="p">:</span>
             <span class="n">img_x_extent</span> <span class="o">=</span> <span class="p">(</span>
                 <span class="n">position</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">width</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>
@@ -2561,6 +2573,7 @@ All rendered artists are stored in <code>mpl_objects</code> for later access.</p
                 <span class="n">position</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
             <span class="p">)</span>
 
+        <span class="n">img_y_extent</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">vertical_alignment</span> <span class="o">==</span> <span class="s2">"bottom"</span><span class="p">:</span>
             <span class="n">img_y_extent</span> <span class="o">=</span> <span class="p">(</span>
                 <span class="n">position</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
@@ -2577,7 +2590,12 @@ All rendered artists are stored in <code>mpl_objects</code> for later access.</p
                 <span class="n">position</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">height</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>
             <span class="p">)</span>
 
-        <span class="n">img_extent</span> <span class="o">=</span> <span class="n">img_x_extent</span> <span class="o">+</span> <span class="n">img_y_extent</span>
+        <span class="n">img_extent</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">img_x_extent</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+            <span class="n">img_x_extent</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+            <span class="n">img_y_extent</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+            <span class="n">img_y_extent</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+        <span class="p">)</span>
 
         <span class="c1"># Draw image</span>
         <span class="n">img_artist</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">figure_manager</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span>
@@ -2723,16 +2741,7 @@ All rendered artists are stored in <code>mpl_objects</code> for later access.</p
 
               <details class="mkdocstrings-source">
                 <summary>Source code in <code>src/chemdiagrams/managers/image_manager.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">568</span>
-<span class="normal">569</span>
-<span class="normal">570</span>
-<span class="normal">571</span>
-<span class="normal">572</span>
-<span class="normal">573</span>
-<span class="normal">574</span>
-<span class="normal">575</span>
-<span class="normal">576</span>
-<span class="normal">577</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">577</span>
 <span class="normal">578</span>
 <span class="normal">579</span>
 <span class="normal">580</span>
@@ -2748,7 +2757,16 @@ All rendered artists are stored in <code>mpl_objects</code> for later access.</p
 <span class="normal">590</span>
 <span class="normal">591</span>
 <span class="normal">592</span>
-<span class="normal">593</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span>
+<span class="normal">593</span>
+<span class="normal">594</span>
+<span class="normal">595</span>
+<span class="normal">596</span>
+<span class="normal">597</span>
+<span class="normal">598</span>
+<span class="normal">599</span>
+<span class="normal">600</span>
+<span class="normal">601</span>
+<span class="normal">602</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">ImageObject</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Container for the Matplotlib artists that make up a single diagram image.</span>

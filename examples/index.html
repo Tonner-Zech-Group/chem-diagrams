@@ -1621,28 +1621,31 @@
 <span class="p">)</span>
 
 <span class="n">dia</span><span class="o">.</span><span class="n">draw_path</span><span class="p">(</span>
-    <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mi">32</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="s2">"blue"</span><span class="p">,</span>
-    <span class="n">path_name</span><span class="o">=</span><span class="s2">"Blue path"</span><span class="p">,</span>   
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
+    <span class="p">[</span><span class="o">-</span><span class="mi">32</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+    <span class="s2">"blue"</span><span class="p">,</span>
+    <span class="n">path_name</span><span class="o">=</span><span class="s2">"Blue path"</span><span class="p">,</span>
 <span class="p">)</span>
 
 <span class="n">dia</span><span class="o">.</span><span class="n">draw_path</span><span class="p">(</span>
-    <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="o">-</span><span class="mi">42</span><span class="p">],</span> <span class="s2">"red"</span><span class="p">,</span>
+    <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="o">-</span><span class="mi">42</span><span class="p">],</span>
+    <span class="s2">"red"</span><span class="p">,</span>
     <span class="n">path_name</span><span class="o">=</span><span class="s2">"Red path"</span><span class="p">,</span>
 <span class="p">)</span>
 
 <span class="n">dia</span><span class="o">.</span><span class="n">draw_difference_bar</span><span class="p">(</span>
-    <span class="mi">2</span><span class="p">,</span> <span class="p">(</span><span class="o">-</span><span class="mi">32</span><span class="p">,</span> <span class="o">-</span><span class="mi">42</span><span class="p">),</span>
+    <span class="mi">2</span><span class="p">,</span>
+    <span class="p">(</span><span class="o">-</span><span class="mi">32</span><span class="p">,</span> <span class="o">-</span><span class="mi">42</span><span class="p">),</span>
     <span class="sa">r</span><span class="s2">"$\Delta E_\mathrm</span><span class="si">{R}</span><span class="s2">$: "</span><span class="p">,</span>
     <span class="n">left_side</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">x_whiskers</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">4</span><span class="p">),</span>
-    <span class="n">whiskercolor</span><span class="o">=</span><span class="s2">"red"</span>
+    <span class="n">x_whiskers</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
+    <span class="n">whiskercolor</span><span class="o">=</span><span class="s2">"red"</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="n">dia</span><span class="o">.</span><span class="n">bars</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">whisker_1</span><span class="o">.</span><span class="n">set_color</span><span class="p">(</span><span class="s2">"blue"</span><span class="p">)</span>
 
 <span class="n">dia</span><span class="o">.</span><span class="n">add_image_series_in_plot</span><span class="p">(</span>
-    <span class="p">[</span><span class="n">penguin_II</span><span class="p">,</span> <span class="n">penguin_TS</span><span class="p">,</span> <span class="n">penguin</span><span class="p">,</span> <span class="n">penguin_TS</span><span class="p">,</span> <span class="n">penguin_II</span><span class="p">],</span>
-    <span class="n">y_placement</span><span class="o">=</span><span class="s2">"top"</span><span class="p">,</span>
-    <span class="n">y_offsets</span><span class="o">=</span><span class="mi">2</span>
+    <span class="p">[</span><span class="n">penguin_II</span><span class="p">,</span> <span class="n">penguin_TS</span><span class="p">,</span> <span class="n">penguin</span><span class="p">,</span> <span class="n">penguin_TS</span><span class="p">,</span> <span class="n">penguin_II</span><span class="p">],</span> <span class="n">y_placement</span><span class="o">=</span><span class="s2">"top"</span><span class="p">,</span> <span class="n">y_offsets</span><span class="o">=</span><span class="mi">2</span>
 <span class="p">)</span>
 
 <span class="n">dia</span><span class="o">.</span><span class="n">add_numbers_average</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s2">"black"</span><span class="p">)</span>
@@ -1653,7 +1656,9 @@
 <span class="n">dia</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
 <span class="n">dia</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">"Penguin Reaction"</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 
-<span class="n">dia</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">".."</span><span class="p">,</span> <span class="s2">"docs"</span><span class="p">,</span> <span class="s2">"img"</span><span class="p">,</span> <span class="s2">"title"</span><span class="p">,</span> <span class="s2">"image_1.png"</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s2">"tight"</span><span class="p">)</span>
+<span class="n">dia</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">".."</span><span class="p">,</span> <span class="s2">"docs"</span><span class="p">,</span> <span class="s2">"img"</span><span class="p">,</span> <span class="s2">"title"</span><span class="p">,</span> <span class="s2">"image_1.png"</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s2">"tight"</span>
+<span class="p">)</span>
 <span class="n">dia</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </code></pre></div>
 <p><img alt="Diagram 1" src="https://raw.githubusercontent.com/Tonner-Zech-Group/chem-diagrams/main/docs/img/title/image_1.png" /></p>
@@ -1663,41 +1668,33 @@
 
 <span class="n">dia</span> <span class="o">=</span> <span class="n">EnergyDiagram</span><span class="p">()</span>
 
-<span class="n">dia</span><span class="o">.</span><span class="n">draw_path</span><span class="p">(</span>
-    <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="o">-</span><span class="mi">15</span><span class="p">],</span> <span class="s2">"blue"</span><span class="p">,</span>
-    <span class="n">path_name</span><span class="o">=</span><span class="s2">"Blue path"</span><span class="p">,</span>
-    <span class="n">linetypes</span><span class="o">=</span><span class="mi">2</span>
-<span class="p">)</span>
+<span class="n">dia</span><span class="o">.</span><span class="n">draw_path</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="o">-</span><span class="mi">15</span><span class="p">],</span> <span class="s2">"blue"</span><span class="p">,</span> <span class="n">path_name</span><span class="o">=</span><span class="s2">"Blue path"</span><span class="p">,</span> <span class="n">linetypes</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">dia</span><span class="o">.</span><span class="n">draw_path</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">26</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="o">-</span><span class="mi">18</span><span class="p">],</span> <span class="s2">"red"</span><span class="p">,</span> <span class="n">path_name</span><span class="o">=</span><span class="s2">"Red path"</span><span class="p">,</span> <span class="n">linetypes</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">dia</span><span class="o">.</span><span class="n">draw_path</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="o">-</span><span class="mi">32</span><span class="p">],</span> <span class="s2">"green"</span><span class="p">,</span> <span class="n">path_name</span><span class="o">=</span><span class="s2">"Green path"</span><span class="p">,</span> <span class="n">linetypes</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
 
 <span class="n">dia</span><span class="o">.</span><span class="n">draw_path</span><span class="p">(</span>
-    <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">26</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="o">-</span><span class="mi">18</span><span class="p">],</span> <span class="s2">"red"</span><span class="p">,</span>
-    <span class="n">path_name</span><span class="o">=</span><span class="s2">"Red path"</span><span class="p">,</span>
-    <span class="n">linetypes</span><span class="o">=</span><span class="mi">2</span>
-<span class="p">)</span>
-
-<span class="n">dia</span><span class="o">.</span><span class="n">draw_path</span><span class="p">(</span>
-    <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="o">-</span><span class="mi">32</span><span class="p">],</span> <span class="s2">"green"</span><span class="p">,</span>
-    <span class="n">path_name</span><span class="o">=</span><span class="s2">"Green path"</span><span class="p">,</span>
-    <span class="n">linetypes</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
-<span class="p">)</span>
-
-<span class="n">dia</span><span class="o">.</span><span class="n">draw_path</span><span class="p">(</span>
-    <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="o">-</span><span class="mi">20</span><span class="p">],</span> <span class="s2">"orange"</span><span class="p">,</span>
-    <span class="n">path_name</span><span class="o">=</span><span class="s2">"Orange path"</span><span class="p">,</span>
-    <span class="n">linetypes</span><span class="o">=</span><span class="mi">2</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="o">-</span><span class="mi">20</span><span class="p">],</span> <span class="s2">"orange"</span><span class="p">,</span> <span class="n">path_name</span><span class="o">=</span><span class="s2">"Orange path"</span><span class="p">,</span> <span class="n">linetypes</span><span class="o">=</span><span class="mi">2</span>
 <span class="p">)</span>
 
 <span class="n">dia</span><span class="o">.</span><span class="n">add_numbers_auto</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mf">6.5</span><span class="p">)</span>
 <span class="n">dia</span><span class="o">.</span><span class="n">display_activation_barriers</span><span class="p">(</span>
-    <span class="n">x_positions</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span>
+    <span class="n">x_positions</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
     <span class="n">direction</span><span class="o">=</span><span class="s2">"both"</span><span class="p">,</span>
 <span class="p">)</span>
 
 <span class="n">dia</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
-<span class="n">dia</span><span class="o">.</span><span class="n">set_xlabels</span><span class="p">([</span><span class="s2">"Educt"</span><span class="p">,</span> <span class="s2">"Transition</span><span class="se">\n</span><span class="s2">State 1"</span><span class="p">,</span> <span class="s2">"Intermediate"</span><span class="p">,</span> <span class="s2">"Transition</span><span class="se">\n</span><span class="s2">State 2"</span><span class="p">,</span> <span class="s2">"Product"</span><span class="p">],</span> <span class="n">weight</span><span class="o">=</span><span class="s2">"normal"</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
+<span class="n">dia</span><span class="o">.</span><span class="n">set_xlabels</span><span class="p">(</span>
+    <span class="p">[</span><span class="s2">"Educt"</span><span class="p">,</span> <span class="s2">"Transition</span><span class="se">\n</span><span class="s2">State 1"</span><span class="p">,</span> <span class="s2">"Intermediate"</span><span class="p">,</span> <span class="s2">"Transition</span><span class="se">\n</span><span class="s2">State 2"</span><span class="p">,</span> <span class="s2">"Product"</span><span class="p">],</span>
+    <span class="n">weight</span><span class="o">=</span><span class="s2">"normal"</span><span class="p">,</span>
+    <span class="n">fontsize</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="n">dia</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">"$\Delta E$ in kJ mol$^{-1}$"</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
 
-<span class="n">dia</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">".."</span><span class="p">,</span> <span class="s2">"docs"</span><span class="p">,</span> <span class="s2">"img"</span><span class="p">,</span> <span class="s2">"title"</span><span class="p">,</span> <span class="s2">"image_2.png"</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s2">"tight"</span><span class="p">)</span>
+<span class="n">dia</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">".."</span><span class="p">,</span> <span class="s2">"docs"</span><span class="p">,</span> <span class="s2">"img"</span><span class="p">,</span> <span class="s2">"title"</span><span class="p">,</span> <span class="s2">"image_2.png"</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s2">"tight"</span>
+<span class="p">)</span>
 <span class="n">dia</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </code></pre></div>
 <img alt="Diagram 2" src="https://raw.githubusercontent.com/Tonner-Zech-Group/chem-diagrams/main/docs/img/title/image_2.png" /></p>
@@ -1708,35 +1705,39 @@
 <span class="n">dia</span> <span class="o">=</span> <span class="n">EnergyDiagram</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s2">"boxed"</span><span class="p">)</span>
 
 <span class="n">dia</span><span class="o">.</span><span class="n">draw_path</span><span class="p">(</span>
-    <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="o">-</span><span class="mi">15</span><span class="p">],</span> <span class="s2">"blue"</span><span class="p">,</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="o">-</span><span class="mi">15</span><span class="p">],</span>
+    <span class="s2">"blue"</span><span class="p">,</span>
     <span class="n">path_name</span><span class="o">=</span><span class="s2">"Blue path"</span><span class="p">,</span>
-    <span class="n">linetypes</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">linetypes</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">],</span>
 <span class="p">)</span>
-<span class="n">dia</span><span class="o">.</span><span class="n">add_path_labels</span><span class="p">(</span><span class="s2">"Blue path"</span><span class="p">,</span> <span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">"Important</span><span class="se">\n</span><span class="s2">Intermediate"</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">"red"</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
+<span class="n">dia</span><span class="o">.</span><span class="n">add_path_labels</span><span class="p">(</span>
+    <span class="s2">"Blue path"</span><span class="p">,</span> <span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">"Important</span><span class="se">\n</span><span class="s2">Intermediate"</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">"red"</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">6</span>
+<span class="p">)</span>
 
 <span class="n">dia</span><span class="o">.</span><span class="n">add_numbers_auto</span><span class="p">()</span>
 <span class="n">dia</span><span class="o">.</span><span class="n">lines</span><span class="p">[</span><span class="s2">"Blue path"</span><span class="p">]</span><span class="o">.</span><span class="n">plateaus</span><span class="p">[</span><span class="s2">"2.0"</span><span class="p">]</span><span class="o">.</span><span class="n">set_color</span><span class="p">(</span><span class="s2">"red"</span><span class="p">)</span>
 <span class="n">dia</span><span class="o">.</span><span class="n">numbers</span><span class="p">[</span><span class="s2">"Blue path"</span><span class="p">][</span><span class="s2">"2.0"</span><span class="p">]</span><span class="o">.</span><span class="n">set_color</span><span class="p">(</span><span class="s2">"red"</span><span class="p">)</span>
 
 <span class="n">dia</span><span class="o">.</span><span class="n">draw_difference_bar</span><span class="p">(</span>
-    <span class="mi">1</span><span class="p">,</span> 
-    <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> 
-    <span class="sa">r</span><span class="s2">"$\Delta E_\mathrm{R,1}$"</span><span class="p">,</span> 
-    <span class="n">left_side</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> 
-    <span class="n">x_whiskers</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span> 
-    <span class="n">whiskercolor</span><span class="o">=</span><span class="s2">"blue"</span><span class="p">,</span> 
-    <span class="n">add_difference</span><span class="o">=</span><span class="kc">False</span>
+    <span class="mi">1</span><span class="p">,</span>
+    <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span>
+    <span class="sa">r</span><span class="s2">"$\Delta E_\mathrm{R,1}$"</span><span class="p">,</span>
+    <span class="n">left_side</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">x_whiskers</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+    <span class="n">whiskercolor</span><span class="o">=</span><span class="s2">"blue"</span><span class="p">,</span>
+    <span class="n">add_difference</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="n">dia</span><span class="o">.</span><span class="n">bars</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">whisker_2</span><span class="o">.</span><span class="n">set_color</span><span class="p">(</span><span class="s2">"red"</span><span class="p">)</span>
 
 <span class="n">dia</span><span class="o">.</span><span class="n">draw_difference_bar</span><span class="p">(</span>
-    <span class="mi">3</span><span class="p">,</span> 
-    <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="o">-</span><span class="mi">15</span><span class="p">),</span> 
-    <span class="sa">r</span><span class="s2">"$\Delta E_\mathrm{R,2}$"</span><span class="p">,</span> 
-    <span class="n">left_side</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> 
-    <span class="n">x_whiskers</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">),</span> 
-    <span class="n">whiskercolor</span><span class="o">=</span><span class="s2">"blue"</span><span class="p">,</span> 
-    <span class="n">add_difference</span><span class="o">=</span><span class="kc">False</span>
+    <span class="mi">3</span><span class="p">,</span>
+    <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="o">-</span><span class="mi">15</span><span class="p">),</span>
+    <span class="sa">r</span><span class="s2">"$\Delta E_\mathrm{R,2}$"</span><span class="p">,</span>
+    <span class="n">left_side</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">x_whiskers</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
+    <span class="n">whiskercolor</span><span class="o">=</span><span class="s2">"blue"</span><span class="p">,</span>
+    <span class="n">add_difference</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="n">dia</span><span class="o">.</span><span class="n">bars</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">whisker_1</span><span class="o">.</span><span class="n">set_color</span><span class="p">(</span><span class="s2">"red"</span><span class="p">)</span>
 
@@ -1744,7 +1745,9 @@
 <span class="n">dia</span><span class="o">.</span><span class="n">set_xlabels</span><span class="p">([</span><span class="s2">"E"</span><span class="p">,</span> <span class="s2">"TS1"</span><span class="p">,</span> <span class="s2">"I"</span><span class="p">,</span> <span class="s2">"TS2"</span><span class="p">,</span> <span class="s2">"P"</span><span class="p">])</span>
 <span class="n">dia</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">"$\Delta E$ in kJ mol$^{-1}$"</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
 
-<span class="n">dia</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">".."</span><span class="p">,</span> <span class="s2">"docs"</span><span class="p">,</span> <span class="s2">"img"</span><span class="p">,</span> <span class="s2">"title"</span><span class="p">,</span> <span class="s2">"image_3.png"</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s2">"tight"</span><span class="p">)</span>
+<span class="n">dia</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">".."</span><span class="p">,</span> <span class="s2">"docs"</span><span class="p">,</span> <span class="s2">"img"</span><span class="p">,</span> <span class="s2">"title"</span><span class="p">,</span> <span class="s2">"image_3.png"</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s2">"tight"</span>
+<span class="p">)</span>
 <span class="n">dia</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </code></pre></div>
 <img alt="Diagram 3" src="https://raw.githubusercontent.com/Tonner-Zech-Group/chem-diagrams/main/docs/img/title/image_3.png" /></p>
@@ -1763,14 +1766,15 @@
     <span class="n">extra_y_margin</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">),</span>
 <span class="p">)</span>
 
-<span class="n">dia</span><span class="o">.</span><span class="n">draw_path</span><span class="p">(</span>
-    <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="o">-</span><span class="mi">15</span><span class="p">],</span> <span class="s2">"blue"</span><span class="p">,</span>
-    <span class="n">path_name</span><span class="o">=</span><span class="s2">"Blue path"</span><span class="p">,</span>
-    <span class="n">linetypes</span><span class="o">=</span><span class="mi">3</span>   
-<span class="p">)</span>
+<span class="n">dia</span><span class="o">.</span><span class="n">draw_path</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="o">-</span><span class="mi">15</span><span class="p">],</span> <span class="s2">"blue"</span><span class="p">,</span> <span class="n">path_name</span><span class="o">=</span><span class="s2">"Blue path"</span><span class="p">,</span> <span class="n">linetypes</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
 
 <span class="n">dia</span><span class="o">.</span><span class="n">add_numbers_average</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s2">"black"</span><span class="p">)</span>
-<span class="n">dia</span><span class="o">.</span><span class="n">set_xlabels</span><span class="p">([</span><span class="s2">"Ester"</span><span class="p">,</span> <span class="s2">"TS1"</span><span class="p">,</span> <span class="s2">"Hemiacetal"</span><span class="p">,</span> <span class="s2">"TS2"</span><span class="p">,</span> <span class="s2">"Carboxylic</span><span class="se">\n</span><span class="s2">Acid"</span><span class="p">],</span> <span class="n">in_plot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s2">"normal"</span><span class="p">)</span>
+<span class="n">dia</span><span class="o">.</span><span class="n">set_xlabels</span><span class="p">(</span>
+    <span class="p">[</span><span class="s2">"Ester"</span><span class="p">,</span> <span class="s2">"TS1"</span><span class="p">,</span> <span class="s2">"Hemiacetal"</span><span class="p">,</span> <span class="s2">"TS2"</span><span class="p">,</span> <span class="s2">"Carboxylic</span><span class="se">\n</span><span class="s2">Acid"</span><span class="p">],</span>
+    <span class="n">in_plot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">fontsize</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
+    <span class="n">weight</span><span class="o">=</span><span class="s2">"normal"</span><span class="p">,</span>
+<span class="p">)</span>
 
 <span class="n">dia</span><span class="o">.</span><span class="n">add_image_series_in_plot</span><span class="p">(</span>
     <span class="p">[</span><span class="n">ester_1</span><span class="p">,</span> <span class="n">ester_2</span><span class="p">,</span> <span class="n">ester_3</span><span class="p">,</span> <span class="n">ester_4</span><span class="p">,</span> <span class="n">ester_5</span><span class="p">],</span>
@@ -1779,12 +1783,18 @@
     <span class="n">proportional_scaling</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="n">y_offsets</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span>
     <span class="n">framed</span><span class="o">=</span><span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">],</span>
-    <span class="n">frame_colors</span><span class="o">=</span><span class="s2">"blue"</span>
+    <span class="n">frame_colors</span><span class="o">=</span><span class="s2">"blue"</span><span class="p">,</span>
 <span class="p">)</span>
 
 <span class="n">dia</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">"Ester hydrolysis"</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
-<span class="n">dia</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">".."</span><span class="p">,</span> <span class="s2">"docs"</span><span class="p">,</span> <span class="s2">"img"</span><span class="p">,</span> <span class="s2">"title"</span><span class="p">,</span> <span class="s2">"image_4.png"</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s2">"tight"</span><span class="p">)</span>
-<span class="n">dia</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">".."</span><span class="p">,</span><span class="s2">"docs"</span><span class="p">,</span><span class="s2">"img"</span><span class="p">,</span><span class="s2">"example_image_series.png"</span><span class="p">),</span><span class="nb">format</span><span class="o">=</span><span class="s2">"png"</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s2">"tight"</span><span class="p">)</span>
+<span class="n">dia</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">".."</span><span class="p">,</span> <span class="s2">"docs"</span><span class="p">,</span> <span class="s2">"img"</span><span class="p">,</span> <span class="s2">"title"</span><span class="p">,</span> <span class="s2">"image_4.png"</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s2">"tight"</span>
+<span class="p">)</span>
+<span class="n">dia</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">".."</span><span class="p">,</span> <span class="s2">"docs"</span><span class="p">,</span> <span class="s2">"img"</span><span class="p">,</span> <span class="s2">"example_image_series.png"</span><span class="p">),</span>
+    <span class="nb">format</span><span class="o">=</span><span class="s2">"png"</span><span class="p">,</span>
+    <span class="n">bbox_inches</span><span class="o">=</span><span class="s2">"tight"</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="n">dia</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </code></pre></div>
 <img alt="Diagram 4" src="https://raw.githubusercontent.com/Tonner-Zech-Group/chem-diagrams/main/docs/img/title/image_4.png" /></p>
@@ -1795,40 +1805,42 @@
 <span class="n">dia</span> <span class="o">=</span> <span class="n">EnergyDiagram</span><span class="p">()</span>
 
 <span class="n">dia</span><span class="o">.</span><span class="n">draw_path</span><span class="p">(</span>
-    <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">26</span><span class="p">],</span> <span class="s2">"blue"</span><span class="p">,</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">26</span><span class="p">],</span>
+    <span class="s2">"blue"</span><span class="p">,</span>
     <span class="n">path_name</span><span class="o">=</span><span class="s2">"Blue path"</span><span class="p">,</span>
-    <span class="n">linetypes</span><span class="o">=</span><span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span>
+    <span class="n">linetypes</span><span class="o">=</span><span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
     <span class="n">width_plateau</span><span class="o">=</span><span class="mf">0.65</span><span class="p">,</span>
 <span class="p">)</span>
 
 <span class="n">dia</span><span class="o">.</span><span class="n">add_path_labels</span><span class="p">(</span><span class="s2">"Blue path"</span><span class="p">,</span> <span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="s2">"TS"</span><span class="p">,</span> <span class="s2">"P"</span><span class="p">,</span> <span class="s2">"P2"</span><span class="p">])</span>
 
 <span class="n">dia</span><span class="o">.</span><span class="n">draw_path</span><span class="p">(</span>
-    <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="o">-</span><span class="mi">5</span><span class="p">],</span> <span class="s2">"red"</span><span class="p">,</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="o">-</span><span class="mi">5</span><span class="p">],</span>
+    <span class="s2">"red"</span><span class="p">,</span>
     <span class="n">path_name</span><span class="o">=</span><span class="s2">"Red path"</span><span class="p">,</span>
-    <span class="n">linetypes</span><span class="o">=</span><span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span>
+    <span class="n">linetypes</span><span class="o">=</span><span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
     <span class="n">width_plateau</span><span class="o">=</span><span class="mf">0.65</span><span class="p">,</span>
 <span class="p">)</span>
 
 <span class="n">dia</span><span class="o">.</span><span class="n">add_path_labels</span><span class="p">(</span><span class="s2">"Red path"</span><span class="p">,</span> <span class="p">[</span><span class="s2">"E"</span><span class="p">,</span> <span class="s2">"TS"</span><span class="p">,</span> <span class="s2">"P"</span><span class="p">,</span> <span class="s2">"P2"</span><span class="p">])</span>
 <span class="n">dia</span><span class="o">.</span><span class="n">lines</span><span class="p">[</span><span class="s2">"Red path"</span><span class="p">]</span><span class="o">.</span><span class="n">labels</span><span class="p">[</span><span class="s2">"0.0"</span><span class="p">]</span><span class="o">.</span><span class="n">set_color</span><span class="p">(</span><span class="s2">"black"</span><span class="p">)</span>
 
-<span class="n">dia</span><span class="o">.</span><span class="n">add_numbers_auto</span><span class="p">(</span><span class="n">x_min_max</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">),</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
+<span class="n">dia</span><span class="o">.</span><span class="n">add_numbers_auto</span><span class="p">(</span><span class="n">x_min_max</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
 <span class="n">dia</span><span class="o">.</span><span class="n">add_numbers_average</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s2">"black"</span><span class="p">,</span> <span class="n">x_min_max</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
 <span class="n">dia</span><span class="o">.</span><span class="n">append_to_energy_labels</span><span class="p">(</span>
-    <span class="n">numbers_to_append</span><span class="o">=</span><span class="p">{</span>
-        <span class="s2">"Blue path"</span><span class="p">:</span> <span class="p">[</span><span class="mi">16</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">],</span>
-        <span class="s2">"Red path"</span><span class="p">:</span> <span class="p">[</span><span class="mi">9</span><span class="p">,</span> <span class="o">-</span><span class="mi">8</span><span class="p">,</span> <span class="o">-</span><span class="mi">4</span><span class="p">],</span>
-        <span class="s2">"Average"</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="p">},</span>
-    <span class="n">brackets</span><span class="o">=</span><span class="p">(</span><span class="s2">"("</span><span class="p">,</span> <span class="s2">")"</span><span class="p">)</span>
+    <span class="n">numbers_to_append</span><span class="o">=</span><span class="p">{</span><span class="s2">"Blue path"</span><span class="p">:</span> <span class="p">[</span><span class="mi">16</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">],</span> <span class="s2">"Red path"</span><span class="p">:</span> <span class="p">[</span><span class="mi">9</span><span class="p">,</span> <span class="o">-</span><span class="mi">8</span><span class="p">,</span> <span class="o">-</span><span class="mi">4</span><span class="p">],</span> <span class="s2">"Average"</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">]},</span>
+    <span class="n">brackets</span><span class="o">=</span><span class="p">(</span><span class="s2">"("</span><span class="p">,</span> <span class="s2">")"</span><span class="p">),</span>
 <span class="p">)</span>
 
 <span class="n">dia</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
 <span class="n">dia</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">"$\Delta E$ in kJ mol$^{-1}$"</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
 
-<span class="n">dia</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">".."</span><span class="p">,</span> <span class="s2">"docs"</span><span class="p">,</span> <span class="s2">"img"</span><span class="p">,</span> <span class="s2">"title"</span><span class="p">,</span> <span class="s2">"image_5.png"</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s2">"tight"</span><span class="p">)</span>
+<span class="n">dia</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">".."</span><span class="p">,</span> <span class="s2">"docs"</span><span class="p">,</span> <span class="s2">"img"</span><span class="p">,</span> <span class="s2">"title"</span><span class="p">,</span> <span class="s2">"image_5.png"</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s2">"tight"</span>
+<span class="p">)</span>
 <span class="n">dia</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </code></pre></div>
 <img alt="Diagram 5" src="https://raw.githubusercontent.com/Tonner-Zech-Group/chem-diagrams/main/docs/img/title/image_5.png" /></p>
@@ -1836,62 +1848,58 @@
 <p><div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">chemdiagrams</span><span class="w"> </span><span class="kn">import</span> <span class="n">EnergyDiagram</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">os.path</span>
 
-<span class="n">dia</span> <span class="o">=</span> <span class="n">EnergyDiagram</span><span class="p">(</span><span class="n">extra_x_margin</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mf">0.5</span><span class="p">])</span>
+<span class="n">dia</span> <span class="o">=</span> <span class="n">EnergyDiagram</span><span class="p">(</span><span class="n">extra_x_margin</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">])</span>
 
-<span class="n">dia</span><span class="o">.</span><span class="n">draw_path</span><span class="p">(</span>
-    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">18</span><span class="p">],</span> <span class="s2">"blue"</span><span class="p">,</span>
-    <span class="n">path_name</span><span class="o">=</span><span class="s2">"Blue states"</span><span class="p">,</span>
-    <span class="n">linetypes</span><span class="o">=</span><span class="mi">0</span>
-<span class="p">)</span>
+<span class="n">dia</span><span class="o">.</span><span class="n">draw_path</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">18</span><span class="p">],</span> <span class="s2">"blue"</span><span class="p">,</span> <span class="n">path_name</span><span class="o">=</span><span class="s2">"Blue states"</span><span class="p">,</span> <span class="n">linetypes</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
 <span class="n">dia</span><span class="o">.</span><span class="n">add_path_labels</span><span class="p">(</span><span class="s2">"Blue states"</span><span class="p">,</span> <span class="p">[</span><span class="s2">"S1"</span><span class="p">,</span> <span class="s2">"S1"</span><span class="p">])</span>
 
-<span class="n">dia</span><span class="o">.</span><span class="n">draw_path</span><span class="p">(</span>
-    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="o">-</span><span class="mi">12</span><span class="p">],</span> <span class="s2">"red"</span><span class="p">,</span>
-    <span class="n">path_name</span><span class="o">=</span><span class="s2">"Red states"</span><span class="p">,</span>
-    <span class="n">linetypes</span><span class="o">=</span><span class="mi">0</span>
-<span class="p">)</span>
+<span class="n">dia</span><span class="o">.</span><span class="n">draw_path</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="o">-</span><span class="mi">12</span><span class="p">],</span> <span class="s2">"red"</span><span class="p">,</span> <span class="n">path_name</span><span class="o">=</span><span class="s2">"Red states"</span><span class="p">,</span> <span class="n">linetypes</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
 <span class="n">dia</span><span class="o">.</span><span class="n">add_path_labels</span><span class="p">(</span><span class="s2">"Red states"</span><span class="p">,</span> <span class="p">[</span><span class="s2">"S2"</span><span class="p">,</span> <span class="s2">"S2"</span><span class="p">])</span>
 
 <span class="n">dia</span><span class="o">.</span><span class="n">draw_difference_bar</span><span class="p">(</span>
-    <span class="mf">0.8</span><span class="p">,</span> 
-    <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">18</span><span class="p">),</span> 
+    <span class="mf">0.8</span><span class="p">,</span>
+    <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">18</span><span class="p">),</span>
     <span class="sa">r</span><span class="s2">"$\Delta E_\mathrm</span><span class="si">{R1}</span><span class="s2">$: "</span><span class="p">,</span>
-    <span class="n">color</span><span class="o">=</span><span class="s2">"blue"</span><span class="p">,</span>  
-    <span class="n">x_whiskers</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span>  
-    <span class="n">arrowstyle</span><span class="o">=</span><span class="s2">"&lt;-&gt;"</span>
+    <span class="n">color</span><span class="o">=</span><span class="s2">"blue"</span><span class="p">,</span>
+    <span class="n">x_whiskers</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+    <span class="n">arrowstyle</span><span class="o">=</span><span class="s2">"&lt;-&gt;"</span><span class="p">,</span>
 <span class="p">)</span>
 
 <span class="n">dia</span><span class="o">.</span><span class="n">draw_difference_bar</span><span class="p">(</span>
-    <span class="mf">0.8</span><span class="p">,</span> 
-    <span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="o">-</span><span class="mi">12</span><span class="p">),</span> 
+    <span class="mf">0.8</span><span class="p">,</span>
+    <span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="o">-</span><span class="mi">12</span><span class="p">),</span>
     <span class="sa">r</span><span class="s2">"$\Delta E_\mathrm</span><span class="si">{R2}</span><span class="s2">$: "</span><span class="p">,</span>
-    <span class="n">color</span><span class="o">=</span><span class="s2">"red"</span><span class="p">,</span>  
-    <span class="n">x_whiskers</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span> 
-    <span class="n">arrowstyle</span><span class="o">=</span><span class="s2">"&lt;-&gt;"</span>
+    <span class="n">color</span><span class="o">=</span><span class="s2">"red"</span><span class="p">,</span>
+    <span class="n">x_whiskers</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+    <span class="n">arrowstyle</span><span class="o">=</span><span class="s2">"&lt;-&gt;"</span><span class="p">,</span>
 <span class="p">)</span>
 
 <span class="n">dia</span><span class="o">.</span><span class="n">draw_difference_bar</span><span class="p">(</span>
-    <span class="mf">2.8</span><span class="p">,</span> 
-    <span class="p">(</span><span class="o">-</span><span class="mi">12</span><span class="p">,</span> <span class="mi">18</span><span class="p">),</span> 
+    <span class="mf">2.8</span><span class="p">,</span>
+    <span class="p">(</span><span class="o">-</span><span class="mi">12</span><span class="p">,</span> <span class="mi">18</span><span class="p">),</span>
     <span class="sa">r</span><span class="s2">"$\Delta E_\mathrm</span><span class="si">{P}</span><span class="s2">$: "</span><span class="p">,</span>
     <span class="n">left_side</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">color</span><span class="o">=</span><span class="s2">"black"</span><span class="p">,</span>  
-    <span class="n">x_whiskers</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span> 
+    <span class="n">color</span><span class="o">=</span><span class="s2">"black"</span><span class="p">,</span>
+    <span class="n">x_whiskers</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
     <span class="n">arrowstyle</span><span class="o">=</span><span class="s2">"&lt;-&gt;"</span><span class="p">,</span>
-    <span class="n">whiskercolor</span><span class="o">=</span><span class="s2">"blue"</span>
+    <span class="n">whiskercolor</span><span class="o">=</span><span class="s2">"blue"</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="n">dia</span><span class="o">.</span><span class="n">bars</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">whisker_1</span><span class="o">.</span><span class="n">set_color</span><span class="p">(</span><span class="s2">"red"</span><span class="p">)</span>
 
 <span class="n">dia</span><span class="o">.</span><span class="n">add_numbers_auto</span><span class="p">()</span>
 
-<span class="n">dia</span><span class="o">.</span><span class="n">set_xlabels</span><span class="p">([</span><span class="s2">"Educt</span><span class="se">\n</span><span class="s2">States"</span><span class="p">,</span> <span class="s2">"Product</span><span class="se">\n</span><span class="s2">States"</span><span class="p">],</span> <span class="n">labelplaces</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s2">"normal"</span><span class="p">)</span>
+<span class="n">dia</span><span class="o">.</span><span class="n">set_xlabels</span><span class="p">(</span>
+    <span class="p">[</span><span class="s2">"Educt</span><span class="se">\n</span><span class="s2">States"</span><span class="p">,</span> <span class="s2">"Product</span><span class="se">\n</span><span class="s2">States"</span><span class="p">],</span> <span class="n">labelplaces</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s2">"normal"</span>
+<span class="p">)</span>
 <span class="n">dia</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">"$\Delta E$ in kJ mol$^{-1}$"</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
 <span class="n">dia</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
 <span class="n">dia</span><span class="o">.</span><span class="n">ax_objects</span><span class="o">.</span><span class="n">axes</span><span class="p">[</span><span class="s2">"x_axis"</span><span class="p">]</span><span class="o">.</span><span class="n">set_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
 
-<span class="n">dia</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">".."</span><span class="p">,</span> <span class="s2">"docs"</span><span class="p">,</span> <span class="s2">"img"</span><span class="p">,</span> <span class="s2">"title"</span><span class="p">,</span> <span class="s2">"image_6.png"</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s2">"tight"</span><span class="p">)</span>
+<span class="n">dia</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">".."</span><span class="p">,</span> <span class="s2">"docs"</span><span class="p">,</span> <span class="s2">"img"</span><span class="p">,</span> <span class="s2">"title"</span><span class="p">,</span> <span class="s2">"image_6.png"</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s2">"tight"</span>
+<span class="p">)</span>
 <span class="n">dia</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </code></pre></div>
 <img alt="Diagram 6" src="https://raw.githubusercontent.com/Tonner-Zech-Group/chem-diagrams/main/docs/img/title/image_6.png" /></p>
@@ -1901,14 +1909,18 @@
 <span class="n">dia</span> <span class="o">=</span> <span class="n">EnergyDiagram</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s2">"halfboxed"</span><span class="p">)</span>
 
 <span class="n">dia</span><span class="o">.</span><span class="n">draw_path</span><span class="p">(</span>
-    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">78</span><span class="p">,</span> <span class="o">-</span><span class="mi">20</span><span class="p">],</span> <span class="s2">"blue"</span><span class="p">,</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">78</span><span class="p">,</span> <span class="o">-</span><span class="mi">20</span><span class="p">],</span>
+    <span class="s2">"blue"</span><span class="p">,</span>
     <span class="n">path_name</span><span class="o">=</span><span class="s2">"No catalyst"</span><span class="p">,</span>
     <span class="n">linetypes</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
     <span class="n">width_plateau</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
 <span class="p">)</span>
 
 <span class="n">dia</span><span class="o">.</span><span class="n">draw_path</span><span class="p">(</span>
-    <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mf">1.2</span> <span class="p">,</span><span class="mf">1.8</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">24</span><span class="p">,</span> <span class="mi">38</span><span class="p">,</span> <span class="o">-</span><span class="mi">20</span><span class="p">],</span> <span class="s2">"red"</span><span class="p">,</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">1.8</span><span class="p">,</span> <span class="mf">2.5</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">24</span><span class="p">,</span> <span class="mi">38</span><span class="p">,</span> <span class="o">-</span><span class="mi">20</span><span class="p">],</span>
+    <span class="s2">"red"</span><span class="p">,</span>
     <span class="n">path_name</span><span class="o">=</span><span class="s2">"With catalyst"</span><span class="p">,</span>
     <span class="n">linetypes</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
     <span class="n">width_plateau</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
@@ -1917,34 +1929,36 @@
 <span class="n">dia</span><span class="o">.</span><span class="n">add_numbers_auto</span><span class="p">()</span>
 
 <span class="n">dia</span><span class="o">.</span><span class="n">modify_number_values</span><span class="p">(</span>
-    <span class="mi">2</span><span class="p">,</span> 
-    <span class="n">x_add</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> 
+    <span class="mi">2</span><span class="p">,</span>
+    <span class="n">x_add</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
     <span class="n">x_subtract</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
     <span class="n">include_paths</span><span class="o">=</span><span class="p">[</span><span class="s2">"No catalyst"</span><span class="p">],</span>
-    <span class="n">brackets</span><span class="o">=</span><span class="p">(</span><span class="s2">"["</span><span class="p">,</span> <span class="s2">"]"</span><span class="p">),</span> 
+    <span class="n">brackets</span><span class="o">=</span><span class="p">(</span><span class="s2">"["</span><span class="p">,</span> <span class="s2">"]"</span><span class="p">),</span>
 <span class="p">)</span>
 
 <span class="n">dia</span><span class="o">.</span><span class="n">modify_number_values</span><span class="p">(</span>
-    <span class="mf">1.2</span><span class="p">,</span> 
-    <span class="n">x_add</span><span class="o">=</span><span class="mf">1.2</span><span class="p">,</span> 
+    <span class="mf">1.2</span><span class="p">,</span>
+    <span class="n">x_add</span><span class="o">=</span><span class="mf">1.2</span><span class="p">,</span>
     <span class="n">x_subtract</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
     <span class="n">include_paths</span><span class="o">=</span><span class="p">[</span><span class="s2">"With catalyst"</span><span class="p">],</span>
-    <span class="n">brackets</span><span class="o">=</span><span class="p">(</span><span class="s2">"["</span><span class="p">,</span> <span class="s2">"]"</span><span class="p">),</span> 
+    <span class="n">brackets</span><span class="o">=</span><span class="p">(</span><span class="s2">"["</span><span class="p">,</span> <span class="s2">"]"</span><span class="p">),</span>
 <span class="p">)</span>
 
 <span class="n">dia</span><span class="o">.</span><span class="n">modify_number_values</span><span class="p">(</span>
-    <span class="mf">2.5</span><span class="p">,</span> 
-    <span class="n">x_add</span><span class="o">=</span><span class="mf">2.5</span><span class="p">,</span> 
+    <span class="mf">2.5</span><span class="p">,</span>
+    <span class="n">x_add</span><span class="o">=</span><span class="mf">2.5</span><span class="p">,</span>
     <span class="n">x_subtract</span><span class="o">=</span><span class="mf">1.8</span><span class="p">,</span>
     <span class="n">include_paths</span><span class="o">=</span><span class="p">[</span><span class="s2">"With catalyst"</span><span class="p">],</span>
-    <span class="n">brackets</span><span class="o">=</span><span class="p">(</span><span class="s2">"["</span><span class="p">,</span> <span class="s2">"]"</span><span class="p">),</span> 
+    <span class="n">brackets</span><span class="o">=</span><span class="p">(</span><span class="s2">"["</span><span class="p">,</span> <span class="s2">"]"</span><span class="p">),</span>
 <span class="p">)</span>
 
 <span class="n">dia</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">"Reaction Coordinate"</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
 <span class="n">dia</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">"$\Delta E$ in kJ mol$^{-1}$"</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
 
 <span class="n">dia</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
-<span class="n">dia</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">".."</span><span class="p">,</span> <span class="s2">"docs"</span><span class="p">,</span> <span class="s2">"img"</span><span class="p">,</span> <span class="s2">"title"</span><span class="p">,</span> <span class="s2">"image_7.png"</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s2">"tight"</span><span class="p">)</span>
+<span class="n">dia</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">".."</span><span class="p">,</span> <span class="s2">"docs"</span><span class="p">,</span> <span class="s2">"img"</span><span class="p">,</span> <span class="s2">"title"</span><span class="p">,</span> <span class="s2">"image_7.png"</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s2">"tight"</span>
+<span class="p">)</span>
 <span class="n">dia</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </code></pre></div>
 <img alt="Diagram 7" src="https://raw.githubusercontent.com/Tonner-Zech-Group/chem-diagrams/main/docs/img/title/image_7.png" /></p>
@@ -1958,7 +1972,9 @@
 <span class="n">penguin</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">"figures"</span><span class="p">,</span> <span class="s2">"penguin.png"</span><span class="p">)</span>
 
 <span class="n">dia</span><span class="o">.</span><span class="n">draw_path</span><span class="p">(</span>
-    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.154</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.382</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.287</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.748</span><span class="p">],</span> <span class="s2">"black"</span><span class="p">,</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.154</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.382</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.287</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.748</span><span class="p">],</span>
+    <span class="s2">"black"</span><span class="p">,</span>
 <span class="p">)</span>
 
 <span class="n">dia</span><span class="o">.</span><span class="n">add_numbers_auto</span><span class="p">(</span>
@@ -1967,16 +1983,24 @@
 <span class="p">)</span>
 
 <span class="n">dia</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">"$\Delta E$ in eV"</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
-<span class="n">dia</span><span class="o">.</span><span class="n">set_xlabels</span><span class="p">([</span><span class="s2">"Pengu@gas"</span><span class="p">,</span> <span class="s2">"TS1"</span><span class="p">,</span> <span class="s2">"Pengu@Cat"</span><span class="p">,</span> <span class="s2">"TS2"</span><span class="p">,</span> <span class="s2">"CO$_</span><span class="si">{2}</span><span class="s2">$"</span><span class="p">],</span> <span class="n">in_plot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">90</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s2">"normal"</span><span class="p">)</span>
-
-<span class="n">dia</span><span class="o">.</span><span class="n">add_image_in_plot</span><span class="p">(</span>
-    <span class="n">penguin</span><span class="p">,</span>
-    <span class="n">position</span><span class="o">=</span><span class="p">(</span><span class="mf">0.6</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.4</span><span class="p">),</span>
-    <span class="n">height</span><span class="o">=</span><span class="mf">0.4</span>
+<span class="n">dia</span><span class="o">.</span><span class="n">set_xlabels</span><span class="p">(</span>
+    <span class="p">[</span><span class="s2">"Pengu@gas"</span><span class="p">,</span> <span class="s2">"TS1"</span><span class="p">,</span> <span class="s2">"Pengu@Cat"</span><span class="p">,</span> <span class="s2">"TS2"</span><span class="p">,</span> <span class="s2">"CO$_</span><span class="si">{2}</span><span class="s2">$"</span><span class="p">],</span>
+    <span class="n">in_plot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">rotation</span><span class="o">=</span><span class="mi">90</span><span class="p">,</span>
+    <span class="n">fontsize</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
+    <span class="n">weight</span><span class="o">=</span><span class="s2">"normal"</span><span class="p">,</span>
 <span class="p">)</span>
 
-<span class="n">dia</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">".."</span><span class="p">,</span> <span class="s2">"docs"</span><span class="p">,</span> <span class="s2">"img"</span><span class="p">,</span> <span class="s2">"title"</span><span class="p">,</span> <span class="s2">"image_8.png"</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s2">"tight"</span><span class="p">)</span>
-<span class="n">dia</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">".."</span><span class="p">,</span><span class="s2">"docs"</span><span class="p">,</span><span class="s2">"img"</span><span class="p">,</span><span class="s2">"example_single_image.png"</span><span class="p">),</span><span class="nb">format</span><span class="o">=</span><span class="s2">"png"</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s2">"tight"</span><span class="p">)</span>
+<span class="n">dia</span><span class="o">.</span><span class="n">add_image_in_plot</span><span class="p">(</span><span class="n">penguin</span><span class="p">,</span> <span class="n">position</span><span class="o">=</span><span class="p">(</span><span class="mf">0.6</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.4</span><span class="p">),</span> <span class="n">height</span><span class="o">=</span><span class="mf">0.4</span><span class="p">)</span>
+
+<span class="n">dia</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">".."</span><span class="p">,</span> <span class="s2">"docs"</span><span class="p">,</span> <span class="s2">"img"</span><span class="p">,</span> <span class="s2">"title"</span><span class="p">,</span> <span class="s2">"image_8.png"</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s2">"tight"</span>
+<span class="p">)</span>
+<span class="n">dia</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">".."</span><span class="p">,</span> <span class="s2">"docs"</span><span class="p">,</span> <span class="s2">"img"</span><span class="p">,</span> <span class="s2">"example_single_image.png"</span><span class="p">),</span>
+    <span class="nb">format</span><span class="o">=</span><span class="s2">"png"</span><span class="p">,</span>
+    <span class="n">bbox_inches</span><span class="o">=</span><span class="s2">"tight"</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="n">dia</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </code></pre></div>
 <img alt="Diagram 8" src="https://raw.githubusercontent.com/Tonner-Zech-Group/chem-diagrams/main/docs/img/title/image_8.png" /></p>
@@ -1988,44 +2012,42 @@
 <span class="n">dia</span><span class="o">.</span><span class="n">set_diagram_style</span><span class="p">(</span><span class="s2">"borderless"</span><span class="p">)</span>
 
 <span class="n">dia</span><span class="o">.</span><span class="n">draw_path</span><span class="p">(</span>
-    <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">67</span><span class="p">,</span> <span class="mi">42</span><span class="p">,</span> <span class="mi">87</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">38</span><span class="p">,</span> <span class="o">-</span><span class="mi">20</span><span class="p">],</span> <span class="s2">"blue"</span><span class="p">,</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">67</span><span class="p">,</span> <span class="mi">42</span><span class="p">,</span> <span class="mi">87</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">38</span><span class="p">,</span> <span class="o">-</span><span class="mi">20</span><span class="p">],</span>
+    <span class="s2">"blue"</span><span class="p">,</span>
     <span class="n">path_name</span><span class="o">=</span><span class="s2">"Blue path"</span><span class="p">,</span>
     <span class="n">linetypes</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
-    <span class="n">lw_connector</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>   
+    <span class="n">lw_connector</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
 <span class="p">)</span>
 
 <span class="n">dia</span><span class="o">.</span><span class="n">draw_path</span><span class="p">(</span>
-    <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">37</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">23</span><span class="p">,</span> <span class="o">-</span><span class="mi">29</span><span class="p">,</span> <span class="o">-</span><span class="mi">12</span><span class="p">,</span> <span class="o">-</span><span class="mi">45</span><span class="p">],</span> <span class="s2">"red"</span><span class="p">,</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">],</span>
+    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">37</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">23</span><span class="p">,</span> <span class="o">-</span><span class="mi">29</span><span class="p">,</span> <span class="o">-</span><span class="mi">12</span><span class="p">,</span> <span class="o">-</span><span class="mi">45</span><span class="p">],</span>
+    <span class="s2">"red"</span><span class="p">,</span>
     <span class="n">path_name</span><span class="o">=</span><span class="s2">"Red path"</span><span class="p">,</span>
     <span class="n">linetypes</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
-    <span class="n">lw_connector</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>   
+    <span class="n">lw_connector</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
 <span class="p">)</span>
 
 <span class="n">dia</span><span class="o">.</span><span class="n">add_numbers_auto</span><span class="p">()</span>
-<span class="n">dia</span><span class="o">.</span><span class="n">add_path_labels</span><span class="p">(</span><span class="s2">"Blue path"</span><span class="p">,</span> <span class="p">[</span><span class="s2">"E"</span><span class="p">,</span> <span class="s2">"TS1"</span><span class="p">,</span> <span class="s2">"I"</span><span class="p">,</span> <span class="s2">"TS2"</span><span class="p">,</span> <span class="s2">"I2"</span><span class="p">,</span> <span class="s2">"TS3"</span><span class="p">,</span> <span class="s2">"P"</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">"black"</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
-<span class="n">dia</span><span class="o">.</span><span class="n">add_path_labels</span><span class="p">(</span><span class="s2">"Red path"</span><span class="p">,</span> <span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="s2">"TS1"</span><span class="p">,</span> <span class="s2">"I"</span><span class="p">,</span> <span class="s2">"TS2"</span><span class="p">,</span> <span class="s2">"I2"</span><span class="p">,</span> <span class="s2">"TS3"</span><span class="p">,</span> <span class="s2">"P"</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">"black"</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
-
-<span class="n">dia</span><span class="o">.</span><span class="n">modify_number_values</span><span class="p">(</span>
-    <span class="n">x</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-    <span class="n">x_add</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-    <span class="n">x_subtract</span><span class="o">=</span><span class="mi">0</span>
+<span class="n">dia</span><span class="o">.</span><span class="n">add_path_labels</span><span class="p">(</span>
+    <span class="s2">"Blue path"</span><span class="p">,</span> <span class="p">[</span><span class="s2">"E"</span><span class="p">,</span> <span class="s2">"TS1"</span><span class="p">,</span> <span class="s2">"I"</span><span class="p">,</span> <span class="s2">"TS2"</span><span class="p">,</span> <span class="s2">"I2"</span><span class="p">,</span> <span class="s2">"TS3"</span><span class="p">,</span> <span class="s2">"P"</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">"black"</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">6</span>
+<span class="p">)</span>
+<span class="n">dia</span><span class="o">.</span><span class="n">add_path_labels</span><span class="p">(</span>
+    <span class="s2">"Red path"</span><span class="p">,</span> <span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="s2">"TS1"</span><span class="p">,</span> <span class="s2">"I"</span><span class="p">,</span> <span class="s2">"TS2"</span><span class="p">,</span> <span class="s2">"I2"</span><span class="p">,</span> <span class="s2">"TS3"</span><span class="p">,</span> <span class="s2">"P"</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">"black"</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">6</span>
 <span class="p">)</span>
 
-<span class="n">dia</span><span class="o">.</span><span class="n">modify_number_values</span><span class="p">(</span>
-    <span class="n">x</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
-    <span class="n">x_add</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
-    <span class="n">x_subtract</span><span class="o">=</span><span class="mi">2</span>
-<span class="p">)</span>
+<span class="n">dia</span><span class="o">.</span><span class="n">modify_number_values</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">x_add</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">x_subtract</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
-<span class="n">dia</span><span class="o">.</span><span class="n">modify_number_values</span><span class="p">(</span>
-    <span class="n">x</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
-    <span class="n">x_add</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
-    <span class="n">x_subtract</span><span class="o">=</span><span class="mi">4</span>
-<span class="p">)</span>
+<span class="n">dia</span><span class="o">.</span><span class="n">modify_number_values</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">x_add</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">x_subtract</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">dia</span><span class="o">.</span><span class="n">modify_number_values</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">x_add</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">x_subtract</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
 
 <span class="n">dia</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
 
-<span class="n">dia</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">".."</span><span class="p">,</span> <span class="s2">"docs"</span><span class="p">,</span> <span class="s2">"img"</span><span class="p">,</span> <span class="s2">"title"</span><span class="p">,</span> <span class="s2">"image_9.png"</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s2">"tight"</span><span class="p">)</span>
+<span class="n">dia</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">".."</span><span class="p">,</span> <span class="s2">"docs"</span><span class="p">,</span> <span class="s2">"img"</span><span class="p">,</span> <span class="s2">"title"</span><span class="p">,</span> <span class="s2">"image_9.png"</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s2">"tight"</span>
+<span class="p">)</span>
 <span class="n">dia</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </code></pre></div>
 <img alt="Diagram 9" src="https://raw.githubusercontent.com/Tonner-Zech-Group/chem-diagrams/main/docs/img/title/image_9.png" /></p>

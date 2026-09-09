@@ -1683,8 +1683,7 @@ reaction coordinate.</p>
 
               <details class="mkdocstrings-source">
                 <summary>Source code in <code>src/chemdiagrams/managers/path_manager.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">730</span>
-<span class="normal">731</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">731</span>
 <span class="normal">732</span>
 <span class="normal">733</span>
 <span class="normal">734</span>
@@ -1713,7 +1712,8 @@ reaction coordinate.</p>
 <span class="normal">757</span>
 <span class="normal">758</span>
 <span class="normal">759</span>
-<span class="normal">760</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span>
+<span class="normal">760</span>
+<span class="normal">761</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">BrokenLine</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Container for the four artists that make up a broken connector line.</span>
@@ -1734,8 +1734,8 @@ reaction coordinate.</p>
 <span class="sd">        Orthogonal tick mark at the start of ``line_part_2``.</span>
 <span class="sd">    """</span>
 
-    <span class="n">line_part_1</span><span class="p">:</span> <span class="n">Line2D</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="n">Line2D</span><span class="p">]</span>
-    <span class="n">line_part_2</span><span class="p">:</span> <span class="n">Line2D</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="n">Line2D</span><span class="p">]</span>
+    <span class="n">line_part_1</span><span class="p">:</span> <span class="n">Line2D</span>
+    <span class="n">line_part_2</span><span class="p">:</span> <span class="n">Line2D</span>
     <span class="n">stopper_1</span><span class="p">:</span> <span class="n">Annotation</span>
     <span class="n">stopper_2</span><span class="p">:</span> <span class="n">Annotation</span>
 
@@ -1882,8 +1882,7 @@ used to hide any underlying plateau or connector artifacts.</p>
 
               <details class="mkdocstrings-source">
                 <summary>Source code in <code>src/chemdiagrams/managers/path_manager.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">763</span>
-<span class="normal">764</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">764</span>
 <span class="normal">765</span>
 <span class="normal">766</span>
 <span class="normal">767</span>
@@ -1958,7 +1957,8 @@ used to hide any underlying plateau or connector artifacts.</p>
 <span class="normal">836</span>
 <span class="normal">837</span>
 <span class="normal">838</span>
-<span class="normal">839</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span>
+<span class="normal">839</span>
+<span class="normal">840</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">MergedPlateau</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Container for the Matplotlib artists that make up a merged plateau pair.</span>
@@ -2134,8 +2134,7 @@ as originally passed to <code>merge_plateaus</code>.</p>
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>src/chemdiagrams/managers/path_manager.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">803</span>
-<span class="normal">804</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">804</span>
 <span class="normal">805</span>
 <span class="normal">806</span>
 <span class="normal">807</span>
@@ -2170,7 +2169,8 @@ as originally passed to <code>merge_plateaus</code>.</p>
 <span class="normal">836</span>
 <span class="normal">837</span>
 <span class="normal">838</span>
-<span class="normal">839</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">recalculate_gap</span><span class="p">(</span>
+<span class="normal">839</span>
+<span class="normal">840</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">recalculate_gap</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">margins</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">],</span>
     <span class="n">figsize</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
@@ -2916,7 +2916,8 @@ the underlying data in <code>path_data</code> for use by other managers.</p>
 <span class="normal">688</span>
 <span class="normal">689</span>
 <span class="normal">690</span>
-<span class="normal">691</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">PathManager</span><span class="p">:</span>
+<span class="normal">691</span>
+<span class="normal">692</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">PathManager</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Manages the creation and storage of reaction path artists.</span>
 
@@ -3118,6 +3119,7 @@ the underlying data in <code>path_data</code> for use by other managers.</p>
             <span class="n">fontsize</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">figure_manager</span><span class="o">.</span><span class="n">fontsize</span>
         <span class="k">if</span> <span class="n">color</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">color</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">path_data</span><span class="p">[</span><span class="n">path_name</span><span class="p">][</span><span class="s2">"color"</span><span class="p">]</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">color</span><span class="p">,</span> <span class="nb">str</span><span class="p">),</span> <span class="s2">"Color must be a string, bug in code."</span>
         <span class="k">if</span> <span class="n">rotation</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">Validators</span><span class="o">.</span><span class="n">validate_number</span><span class="p">(</span><span class="n">rotation</span><span class="p">,</span> <span class="s2">"rotation"</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
@@ -3675,8 +3677,7 @@ as a formatted string (e.g. <code>"1.0"</code>).</p>
 
               <details class="mkdocstrings-source">
                 <summary>Source code in <code>src/chemdiagrams/managers/path_manager.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">694</span>
-<span class="normal">695</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">695</span>
 <span class="normal">696</span>
 <span class="normal">697</span>
 <span class="normal">698</span>
@@ -3708,7 +3709,8 @@ as a formatted string (e.g. <code>"1.0"</code>).</p>
 <span class="normal">724</span>
 <span class="normal">725</span>
 <span class="normal">726</span>
-<span class="normal">727</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span>
+<span class="normal">727</span>
+<span class="normal">728</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">PathObject</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Container for the Matplotlib artists that make up a single reaction path.</span>

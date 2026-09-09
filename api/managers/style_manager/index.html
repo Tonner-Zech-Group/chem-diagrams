@@ -2038,7 +2038,9 @@ placement, either below the axis or inside the plot area.</p>
 <span class="normal">515</span>
 <span class="normal">516</span>
 <span class="normal">517</span>
-<span class="normal">518</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">StyleManager</span><span class="p">:</span>
+<span class="normal">518</span>
+<span class="normal">519</span>
+<span class="normal">520</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">StyleManager</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Manages the visual style and x-axis labels of the diagram.</span>
 
@@ -2352,6 +2354,8 @@ placement, either below the axis or inside the plot area.</p>
             <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
                 <span class="s2">"x-axis breaks are not compatible with borderless diagram style"</span>
             <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Unknown style: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">style</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">mpl_objects</span><span class="o">.</span><span class="n">xaxis_breaks</span><span class="p">[</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">x</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">"</span><span class="p">]</span> <span class="o">=</span> <span class="n">break_object</span>
 
@@ -2662,9 +2666,7 @@ own tick system and not stored here.</p>
 
               <details class="mkdocstrings-source">
                 <summary>Source code in <code>src/chemdiagrams/managers/style_manager.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">521</span>
-<span class="normal">522</span>
-<span class="normal">523</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">523</span>
 <span class="normal">524</span>
 <span class="normal">525</span>
 <span class="normal">526</span>
@@ -2718,7 +2720,25 @@ own tick system and not stored here.</p>
 <span class="normal">574</span>
 <span class="normal">575</span>
 <span class="normal">576</span>
-<span class="normal">577</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span>
+<span class="normal">577</span>
+<span class="normal">578</span>
+<span class="normal">579</span>
+<span class="normal">580</span>
+<span class="normal">581</span>
+<span class="normal">582</span>
+<span class="normal">583</span>
+<span class="normal">584</span>
+<span class="normal">585</span>
+<span class="normal">586</span>
+<span class="normal">587</span>
+<span class="normal">588</span>
+<span class="normal">589</span>
+<span class="normal">590</span>
+<span class="normal">591</span>
+<span class="normal">592</span>
+<span class="normal">593</span>
+<span class="normal">594</span>
+<span class="normal">595</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">StyleObjects</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Container for the Matplotlib artists controlled by the style manager.</span>
@@ -2755,9 +2775,17 @@ own tick system and not stored here.</p>
         <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">axis</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="n">axis</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">axis_break</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">xaxis_breaks</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="n">axis_break</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">axis_break</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">axis_break_part</span> <span class="ow">in</span> <span class="n">axis_break</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                    <span class="n">axis_break_part</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">axis_break</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">axis_break</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">yaxis_breaks</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="n">axis_break</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">axis_break</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">axis_break_part</span> <span class="ow">in</span> <span class="n">axis_break</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                    <span class="n">axis_break_part</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">axis_break</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">arrows</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">axes</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">xaxis_breaks</span> <span class="o">=</span> <span class="p">{}</span>
@@ -2765,9 +2793,17 @@ own tick system and not stored here.</p>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">remove_axes_breaks</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">axis_break</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">xaxis_breaks</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="n">axis_break</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">axis_break</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">axis_break_part</span> <span class="ow">in</span> <span class="n">axis_break</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                    <span class="n">axis_break_part</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">axis_break</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">axis_break</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">yaxis_breaks</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="n">axis_break</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">axis_break</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">axis_break_part</span> <span class="ow">in</span> <span class="n">axis_break</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                    <span class="n">axis_break_part</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">axis_break</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">xaxis_breaks</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">yaxis_breaks</span> <span class="o">=</span> <span class="p">{}</span>
 

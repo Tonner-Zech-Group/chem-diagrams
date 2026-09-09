@@ -2058,7 +2058,7 @@ later access via <code>EnergyDiagram.bars</code>.</p>
         <span class="n">x</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
         <span class="n">y_start_end</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
         <span class="n">description</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-        <span class="n">margins</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
+        <span class="n">margins</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]],</span>
         <span class="n">figsize</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
         <span class="n">diff</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">left_side</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -2268,8 +2268,7 @@ reaction coordinate.</p>
 
               <details class="mkdocstrings-source">
                 <summary>Source code in <code>src/chemdiagrams/managers/path_manager.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">730</span>
-<span class="normal">731</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">731</span>
 <span class="normal">732</span>
 <span class="normal">733</span>
 <span class="normal">734</span>
@@ -2298,7 +2297,8 @@ reaction coordinate.</p>
 <span class="normal">757</span>
 <span class="normal">758</span>
 <span class="normal">759</span>
-<span class="normal">760</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span>
+<span class="normal">760</span>
+<span class="normal">761</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">BrokenLine</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Container for the four artists that make up a broken connector line.</span>
@@ -2319,8 +2319,8 @@ reaction coordinate.</p>
 <span class="sd">        Orthogonal tick mark at the start of ``line_part_2``.</span>
 <span class="sd">    """</span>
 
-    <span class="n">line_part_1</span><span class="p">:</span> <span class="n">Line2D</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="n">Line2D</span><span class="p">]</span>
-    <span class="n">line_part_2</span><span class="p">:</span> <span class="n">Line2D</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="n">Line2D</span><span class="p">]</span>
+    <span class="n">line_part_1</span><span class="p">:</span> <span class="n">Line2D</span>
+    <span class="n">line_part_2</span><span class="p">:</span> <span class="n">Line2D</span>
     <span class="n">stopper_1</span><span class="p">:</span> <span class="n">Annotation</span>
     <span class="n">stopper_2</span><span class="p">:</span> <span class="n">Annotation</span>
 
@@ -2871,8 +2871,7 @@ their own references.</p>
 
               <details class="mkdocstrings-source">
                 <summary>Source code in <code>src/chemdiagrams/managers/figure_manager.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">14</span>
-<span class="normal">15</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">15</span>
 <span class="normal">16</span>
 <span class="normal">17</span>
 <span class="normal">18</span>
@@ -2925,7 +2924,8 @@ their own references.</p>
 <span class="normal">65</span>
 <span class="normal">66</span>
 <span class="normal">67</span>
-<span class="normal">68</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">FigureManager</span><span class="p">:</span>
+<span class="normal">68</span>
+<span class="normal">69</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">FigureManager</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Creates and owns the Matplotlib figure and axes used by the diagram.</span>
 
@@ -2961,7 +2961,7 @@ their own references.</p>
                 <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">"ax must be a matplotlib.axes.Axes object."</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">ax</span> <span class="o">=</span> <span class="n">ax</span>
             <span class="n">fig</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_figure</span><span class="p">()</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">plt</span><span class="o">.</span><span class="n">Figure</span><span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">Figure</span><span class="p">):</span>
                 <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
                     <span class="s2">"The provided ax does not belong to a valid Matplotlib figure."</span>
                 <span class="p">)</span>
@@ -3078,8 +3078,7 @@ is used. Default is None.</p>
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>src/chemdiagrams/managers/figure_manager.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">23</span>
-<span class="normal">24</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">24</span>
 <span class="normal">25</span>
 <span class="normal">26</span>
 <span class="normal">27</span>
@@ -3123,7 +3122,8 @@ is used. Default is None.</p>
 <span class="normal">65</span>
 <span class="normal">66</span>
 <span class="normal">67</span>
-<span class="normal">68</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fontsize</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">dpi</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">150</span><span class="p">,</span> <span class="n">ax</span><span class="p">:</span> <span class="n">Axes</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="normal">68</span>
+<span class="normal">69</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fontsize</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">dpi</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">150</span><span class="p">,</span> <span class="n">ax</span><span class="p">:</span> <span class="n">Axes</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Initialize the Matplotlib figure and configure default tick styling.</span>
 
@@ -3150,7 +3150,7 @@ is used. Default is None.</p>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">"ax must be a matplotlib.axes.Axes object."</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ax</span> <span class="o">=</span> <span class="n">ax</span>
         <span class="n">fig</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">get_figure</span><span class="p">()</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">plt</span><span class="o">.</span><span class="n">Figure</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">Figure</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
                 <span class="s2">"The provided ax does not belong to a valid Matplotlib figure."</span>
             <span class="p">)</span>
@@ -3757,7 +3757,16 @@ All rendered artists are stored in <code>mpl_objects</code> for later access.</p
 <span class="normal">562</span>
 <span class="normal">563</span>
 <span class="normal">564</span>
-<span class="normal">565</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">ImageManager</span><span class="p">:</span>
+<span class="normal">565</span>
+<span class="normal">566</span>
+<span class="normal">567</span>
+<span class="normal">568</span>
+<span class="normal">569</span>
+<span class="normal">570</span>
+<span class="normal">571</span>
+<span class="normal">572</span>
+<span class="normal">573</span>
+<span class="normal">574</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">ImageManager</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Manages the placement and storage of image overlays within the energy diagram.</span>
 
@@ -4089,6 +4098,8 @@ All rendered artists are stored in <code>mpl_objects</code> for later access.</p
             <span class="k">elif</span> <span class="n">y_placement</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"bottom"</span><span class="p">:</span>
                 <span class="n">vertical_alignment_current</span> <span class="o">=</span> <span class="s2">"top"</span>
                 <span class="n">position_current</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y_max_bottom</span> <span class="o">-</span> <span class="n">y_offsets</span><span class="p">[</span><span class="n">index</span><span class="p">])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"y_placement must be one of 'top', 'bottom', or 'auto'."</span><span class="p">)</span>
 
             <span class="c1"># Construct the image</span>
             <span class="n">img_object</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_construct_image</span><span class="p">(</span>
@@ -4214,6 +4225,7 @@ All rendered artists are stored in <code>mpl_objects</code> for later access.</p
         <span class="k">assert</span> <span class="n">width</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
         <span class="k">assert</span> <span class="n">height</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
 
+        <span class="n">img_x_extent</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">horizontal_alignment</span> <span class="o">==</span> <span class="s2">"center"</span><span class="p">:</span>
             <span class="n">img_x_extent</span> <span class="o">=</span> <span class="p">(</span>
                 <span class="n">position</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">width</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>
@@ -4230,6 +4242,7 @@ All rendered artists are stored in <code>mpl_objects</code> for later access.</p
                 <span class="n">position</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
             <span class="p">)</span>
 
+        <span class="n">img_y_extent</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">vertical_alignment</span> <span class="o">==</span> <span class="s2">"bottom"</span><span class="p">:</span>
             <span class="n">img_y_extent</span> <span class="o">=</span> <span class="p">(</span>
                 <span class="n">position</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
@@ -4246,7 +4259,12 @@ All rendered artists are stored in <code>mpl_objects</code> for later access.</p
                 <span class="n">position</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">height</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>
             <span class="p">)</span>
 
-        <span class="n">img_extent</span> <span class="o">=</span> <span class="n">img_x_extent</span> <span class="o">+</span> <span class="n">img_y_extent</span>
+        <span class="n">img_extent</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">img_x_extent</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+            <span class="n">img_x_extent</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+            <span class="n">img_y_extent</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+            <span class="n">img_y_extent</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+        <span class="p">)</span>
 
         <span class="c1"># Draw image</span>
         <span class="n">img_artist</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">figure_manager</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span>
@@ -4633,7 +4651,7 @@ was provided.</p>
             <span class="bp">self</span><span class="o">.</span><span class="n">width_limit</span> <span class="o">=</span> <span class="n">width_limit</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">figsize</span> <span class="o">=</span> <span class="n">figsize</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">adjust_xy_limits</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path_data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">]:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">adjust_xy_limits</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path_data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
 <span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Recompute and apply x/y axis limits from the current path data.</span>
 
@@ -4889,7 +4907,7 @@ applying default and user-specified margins.</p>
 <span class="normal">153</span>
 <span class="normal">154</span>
 <span class="normal">155</span>
-<span class="normal">156</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">adjust_xy_limits</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path_data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">]:</span>
+<span class="normal">156</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">adjust_xy_limits</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path_data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
 <span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Recompute and apply x/y axis limits from the current path data.</span>
 
@@ -5253,8 +5271,7 @@ used to hide any underlying plateau or connector artifacts.</p>
 
               <details class="mkdocstrings-source">
                 <summary>Source code in <code>src/chemdiagrams/managers/path_manager.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">763</span>
-<span class="normal">764</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">764</span>
 <span class="normal">765</span>
 <span class="normal">766</span>
 <span class="normal">767</span>
@@ -5329,7 +5346,8 @@ used to hide any underlying plateau or connector artifacts.</p>
 <span class="normal">836</span>
 <span class="normal">837</span>
 <span class="normal">838</span>
-<span class="normal">839</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span>
+<span class="normal">839</span>
+<span class="normal">840</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">MergedPlateau</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Container for the Matplotlib artists that make up a merged plateau pair.</span>
@@ -5505,8 +5523,7 @@ as originally passed to <code>merge_plateaus</code>.</p>
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>src/chemdiagrams/managers/path_manager.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">803</span>
-<span class="normal">804</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">804</span>
 <span class="normal">805</span>
 <span class="normal">806</span>
 <span class="normal">807</span>
@@ -5541,7 +5558,8 @@ as originally passed to <code>merge_plateaus</code>.</p>
 <span class="normal">836</span>
 <span class="normal">837</span>
 <span class="normal">838</span>
-<span class="normal">839</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">recalculate_gap</span><span class="p">(</span>
+<span class="normal">839</span>
+<span class="normal">840</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">recalculate_gap</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">margins</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">],</span>
     <span class="n">figsize</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
@@ -5624,8 +5642,7 @@ path name and x-coordinate.</p>
 
               <details class="mkdocstrings-source">
                 <summary>Source code in <code>src/chemdiagrams/managers/number_manager.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 13</span>
-<span class="normal"> 14</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 14</span>
 <span class="normal"> 15</span>
 <span class="normal"> 16</span>
 <span class="normal"> 17</span>
@@ -6474,9 +6491,7 @@ path name and x-coordinate.</p>
 <span class="normal">860</span>
 <span class="normal">861</span>
 <span class="normal">862</span>
-<span class="normal">863</span>
-<span class="normal">864</span>
-<span class="normal">865</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">NumberManager</span><span class="p">:</span>
+<span class="normal">863</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">NumberManager</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Manages energy value annotations on the diagram.</span>
 
@@ -6871,17 +6886,16 @@ path name and x-coordinate.</p>
                 <span class="n">path</span> <span class="o">=</span> <span class="n">path_data</span><span class="p">[</span><span class="n">path_name</span><span class="p">]</span>
             <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Path '</span><span class="si">{</span><span class="n">path_name</span><span class="si">}</span><span class="s2">' not found in path_data."</span><span class="p">)</span>
+            <span class="n">label</span> <span class="o">=</span> <span class="kc">None</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">label</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mpl_objects</span><span class="p">[</span><span class="n">path_name</span><span class="p">][</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">x</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">"</span><span class="p">]</span>
-                <span class="n">is_label_found</span> <span class="o">=</span> <span class="kc">True</span>
             <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
                 <span class="nb">print</span><span class="p">(</span>
                     <span class="sa">f</span><span class="s2">"Warning (modify_number_values): No label found for path"</span>
                     <span class="sa">f</span><span class="s2">" '</span><span class="si">{</span><span class="n">path_name</span><span class="si">}</span><span class="s2">' at x=</span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s2">. Skipping modification."</span>
                 <span class="p">)</span>
-                <span class="n">is_label_found</span> <span class="o">=</span> <span class="kc">False</span>
 
-            <span class="k">if</span> <span class="n">is_label_found</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">label</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">number_new</span> <span class="o">=</span> <span class="n">base_value</span>
 
                 <span class="c1"># Add all the values at x position specified in x_subtract and x_add</span>
@@ -6961,31 +6975,29 @@ path name and x-coordinate.</p>
                     <span class="n">path</span> <span class="o">=</span> <span class="n">path_data</span><span class="p">[</span><span class="n">path_name</span><span class="p">]</span>
                 <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
                     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Path '</span><span class="si">{</span><span class="n">path_name</span><span class="si">}</span><span class="s2">' not found in path_data."</span><span class="p">)</span>
+                <span class="n">label</span> <span class="o">=</span> <span class="kc">None</span>
                 <span class="k">try</span><span class="p">:</span>
                     <span class="n">label</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mpl_objects</span><span class="p">[</span><span class="n">path_name</span><span class="p">][</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">x_position</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">"</span><span class="p">]</span>
-                    <span class="n">is_label_found</span> <span class="o">=</span> <span class="kc">True</span>
                 <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
                     <span class="k">if</span> <span class="n">path</span><span class="p">[</span><span class="s2">"show_numbers"</span><span class="p">]:</span>
                         <span class="nb">print</span><span class="p">(</span>
                             <span class="sa">f</span><span class="s2">"Warning (display_activation_barriers): No label found for path"</span>
                             <span class="sa">f</span><span class="s2">" '</span><span class="si">{</span><span class="n">path_name</span><span class="si">}</span><span class="s2">' at x=</span><span class="si">{</span><span class="n">x_position</span><span class="si">}</span><span class="s2">. Skipping modification."</span>
                         <span class="p">)</span>
-                    <span class="n">is_label_found</span> <span class="o">=</span> <span class="kc">False</span>
 
                 <span class="c1"># Get index of x_position in path</span>
+                <span class="n">index</span> <span class="o">=</span> <span class="kc">None</span>
                 <span class="k">try</span><span class="p">:</span>
                     <span class="n">index</span> <span class="o">=</span> <span class="n">path</span><span class="p">[</span><span class="s2">"x"</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">x_position</span><span class="p">)</span>
-                    <span class="n">is_value_found</span> <span class="o">=</span> <span class="kc">True</span>
                 <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
                     <span class="k">if</span> <span class="n">path</span><span class="p">[</span><span class="s2">"show_numbers"</span><span class="p">]:</span>
                         <span class="nb">print</span><span class="p">(</span>
                             <span class="sa">f</span><span class="s2">"Warning (display_activation_barriers): Value at x=</span><span class="si">{</span><span class="n">x_position</span><span class="si">}</span><span class="s2"> "</span>
                             <span class="sa">f</span><span class="s2">"not found for path '</span><span class="si">{</span><span class="n">path_name</span><span class="si">}</span><span class="s2">'. Skipping modification."</span>
                         <span class="p">)</span>
-                    <span class="n">is_value_found</span> <span class="o">=</span> <span class="kc">False</span>
 
                 <span class="c1"># Only proceed if both label and value are found</span>
-                <span class="k">if</span> <span class="n">is_label_found</span> <span class="ow">and</span> <span class="n">is_value_found</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">label</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">index</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                     <span class="c1"># Calculate activation barriers to the right and left (if possible)</span>
                     <span class="n">activation_barrier_right</span> <span class="o">=</span> <span class="kc">None</span>
                     <span class="n">activation_barrier_left</span> <span class="o">=</span> <span class="kc">None</span>
@@ -7109,7 +7121,7 @@ path name and x-coordinate.</p>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x_min_max</span><span class="p">,</span> <span class="p">(</span><span class="n">Sequence</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)):</span>
                 <span class="n">Validators</span><span class="o">.</span><span class="n">validate_numeric_sequence</span><span class="p">(</span><span class="n">x_min_max</span><span class="p">,</span> <span class="s2">"x_min_max"</span><span class="p">,</span> <span class="n">required_length</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
                 <span class="n">x_min_max_new</span> <span class="o">=</span> <span class="p">(</span><span class="n">x_min_max</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">x_min_max</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x_min_max</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">)):</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x_min_max</span><span class="p">,</span> <span class="n">Real</span><span class="p">):</span>
                 <span class="n">x_min_max_new</span> <span class="o">=</span> <span class="p">(</span><span class="n">x_min_max</span><span class="p">,</span> <span class="n">x_min_max</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
@@ -8048,7 +8060,8 @@ the underlying data in <code>path_data</code> for use by other managers.</p>
 <span class="normal">688</span>
 <span class="normal">689</span>
 <span class="normal">690</span>
-<span class="normal">691</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">PathManager</span><span class="p">:</span>
+<span class="normal">691</span>
+<span class="normal">692</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">PathManager</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Manages the creation and storage of reaction path artists.</span>
 
@@ -8250,6 +8263,7 @@ the underlying data in <code>path_data</code> for use by other managers.</p>
             <span class="n">fontsize</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">figure_manager</span><span class="o">.</span><span class="n">fontsize</span>
         <span class="k">if</span> <span class="n">color</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">color</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">path_data</span><span class="p">[</span><span class="n">path_name</span><span class="p">][</span><span class="s2">"color"</span><span class="p">]</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">color</span><span class="p">,</span> <span class="nb">str</span><span class="p">),</span> <span class="s2">"Color must be a string, bug in code."</span>
         <span class="k">if</span> <span class="n">rotation</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">Validators</span><span class="o">.</span><span class="n">validate_number</span><span class="p">(</span><span class="n">rotation</span><span class="p">,</span> <span class="s2">"rotation"</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
@@ -8807,8 +8821,7 @@ as a formatted string (e.g. <code>"1.0"</code>).</p>
 
               <details class="mkdocstrings-source">
                 <summary>Source code in <code>src/chemdiagrams/managers/path_manager.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">694</span>
-<span class="normal">695</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">695</span>
 <span class="normal">696</span>
 <span class="normal">697</span>
 <span class="normal">698</span>
@@ -8840,7 +8853,8 @@ as a formatted string (e.g. <code>"1.0"</code>).</p>
 <span class="normal">724</span>
 <span class="normal">725</span>
 <span class="normal">726</span>
-<span class="normal">727</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span>
+<span class="normal">727</span>
+<span class="normal">728</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">PathObject</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Container for the Matplotlib artists that make up a single reaction path.</span>
@@ -9422,7 +9436,9 @@ placement, either below the axis or inside the plot area.</p>
 <span class="normal">515</span>
 <span class="normal">516</span>
 <span class="normal">517</span>
-<span class="normal">518</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">StyleManager</span><span class="p">:</span>
+<span class="normal">518</span>
+<span class="normal">519</span>
+<span class="normal">520</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">StyleManager</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Manages the visual style and x-axis labels of the diagram.</span>
 
@@ -9736,6 +9752,8 @@ placement, either below the axis or inside the plot area.</p>
             <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
                 <span class="s2">"x-axis breaks are not compatible with borderless diagram style"</span>
             <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Unknown style: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">style</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">mpl_objects</span><span class="o">.</span><span class="n">xaxis_breaks</span><span class="p">[</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">x</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">"</span><span class="p">]</span> <span class="o">=</span> <span class="n">break_object</span>
 
@@ -10046,9 +10064,7 @@ own tick system and not stored here.</p>
 
               <details class="mkdocstrings-source">
                 <summary>Source code in <code>src/chemdiagrams/managers/style_manager.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">521</span>
-<span class="normal">522</span>
-<span class="normal">523</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">523</span>
 <span class="normal">524</span>
 <span class="normal">525</span>
 <span class="normal">526</span>
@@ -10102,7 +10118,25 @@ own tick system and not stored here.</p>
 <span class="normal">574</span>
 <span class="normal">575</span>
 <span class="normal">576</span>
-<span class="normal">577</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span>
+<span class="normal">577</span>
+<span class="normal">578</span>
+<span class="normal">579</span>
+<span class="normal">580</span>
+<span class="normal">581</span>
+<span class="normal">582</span>
+<span class="normal">583</span>
+<span class="normal">584</span>
+<span class="normal">585</span>
+<span class="normal">586</span>
+<span class="normal">587</span>
+<span class="normal">588</span>
+<span class="normal">589</span>
+<span class="normal">590</span>
+<span class="normal">591</span>
+<span class="normal">592</span>
+<span class="normal">593</span>
+<span class="normal">594</span>
+<span class="normal">595</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">StyleObjects</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Container for the Matplotlib artists controlled by the style manager.</span>
@@ -10139,9 +10173,17 @@ own tick system and not stored here.</p>
         <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">axis</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">axes</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="n">axis</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">axis_break</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">xaxis_breaks</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="n">axis_break</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">axis_break</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">axis_break_part</span> <span class="ow">in</span> <span class="n">axis_break</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                    <span class="n">axis_break_part</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">axis_break</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">axis_break</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">yaxis_breaks</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="n">axis_break</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">axis_break</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">axis_break_part</span> <span class="ow">in</span> <span class="n">axis_break</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                    <span class="n">axis_break_part</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">axis_break</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">arrows</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">axes</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">xaxis_breaks</span> <span class="o">=</span> <span class="p">{}</span>
@@ -10149,9 +10191,17 @@ own tick system and not stored here.</p>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">remove_axes_breaks</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">axis_break</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">xaxis_breaks</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="n">axis_break</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">axis_break</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">axis_break_part</span> <span class="ow">in</span> <span class="n">axis_break</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                    <span class="n">axis_break_part</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">axis_break</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">axis_break</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">yaxis_breaks</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="n">axis_break</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">axis_break</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">axis_break_part</span> <span class="ow">in</span> <span class="n">axis_break</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                    <span class="n">axis_break_part</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">axis_break</span><span class="o">.</span><span class="n">remove</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">xaxis_breaks</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">yaxis_breaks</span> <span class="o">=</span> <span class="p">{}</span>
 
