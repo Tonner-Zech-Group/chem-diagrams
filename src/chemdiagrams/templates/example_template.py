@@ -6,7 +6,7 @@ class ExampleTemplate(BaseTemplate):
 
     def __init__(self):
         """
-        Modyfy constants for Example style diagrams here.
+        Modify constants for Example style diagrams here.
         e.g. self.constants.DISTANCE_TEXT_DIFFBAR = 0.05
         """
         super().__init__()

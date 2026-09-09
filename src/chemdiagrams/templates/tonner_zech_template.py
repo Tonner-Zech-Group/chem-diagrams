@@ -4,7 +4,7 @@ from chemdiagrams.templates.base_template import BaseTemplate
 class TonnerZechTemplate(BaseTemplate):
     def __init__(self):
         """
-        Modyfy constants for Tonner and Zech style diagrams here.
+        Modify constants for Tonner and Zech style diagrams here.
         e.g. self.constants.DISTANCE_TEXT_DIFFBAR = 0.05
         """
         super().__init__()

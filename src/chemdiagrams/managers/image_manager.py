@@ -119,7 +119,7 @@ class ImageManager:
         framed: Sequence[bool] | bool = False,
         frame_colors: Sequence[str] | str = "black",
     ) -> None:
-        # Save underlying data if redrawing is neccesary
+        # Save underlying data if redrawing is necessary
         # Before sanity checks, since some checks alter the data
         # Only name has to be checked since else "ghost images" after redrawing
         if img_series_name is None:
@@ -196,7 +196,7 @@ class ImageManager:
                     )
                 else:
                     Validators.validate_number(width, "width", min_value=0)
-                    width, height = self._get_proportionaized_widths_or_heights(
+                    width, height = self._get_proportionalized_widths_or_heights(
                         img_paths=img_paths,
                         max_target_width=width,
                     )
@@ -208,12 +208,12 @@ class ImageManager:
                     )
                 else:
                     Validators.validate_number(height, "height", min_value=0)
-                    width, height = self._get_proportionaized_widths_or_heights(
+                    width, height = self._get_proportionalized_widths_or_heights(
                         img_paths=img_paths,
                         max_target_height=height,
                     )
             else:
-                width, height = self._get_proportionaized_widths_or_heights(
+                width, height = self._get_proportionalized_widths_or_heights(
                     img_paths=img_paths,
                     max_target_width=self.constants.IMAGE_WIDTH,
                 )
@@ -335,7 +335,7 @@ class ImageManager:
                 except KeyError:
                     pass
 
-            # Determine current vertival alignment and position
+            # Determine current vertical alignment and position
             if y_placement[index] == "auto":
                 space_on_top = margins["y"][1] - y_min_top
                 space_on_bottom = y_max_bottom - margins["y"][0]
@@ -536,7 +536,7 @@ class ImageManager:
             )
         return ImageObject(img_artist, border_objects)
 
-    def _get_proportionaized_widths_or_heights(
+    def _get_proportionalized_widths_or_heights(
         self,
         img_paths: Sequence[str],
         max_target_width: float | None = None,

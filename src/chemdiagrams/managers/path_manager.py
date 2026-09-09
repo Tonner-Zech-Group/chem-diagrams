@@ -334,7 +334,7 @@ class PathManager:
             margins, figsize
         )
 
-        # Add white covering reactange
+        # Add white covering rectangle
         # x in data coords, y in axis fractions
         whitespace = mpatches.Rectangle(
             (x - gap / 2, y - cover_width / 2),

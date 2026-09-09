@@ -34,7 +34,7 @@ class Constants:
         # Standard width of an image in x units
         self.IMAGE_WIDTH = 0.6
 
-        # Default distances of images (inches at sdt fontsize)
+        # Default distances of images (inches at std fontsize)
         self.DISTANCE_IMAGE_LINE = 0.09
         self.DISTANCE_IMAGE_NUMBER = 0.15  # 0.135 pre v0.3.0
         self.ZORDER_IMAGE = 0.6
@@ -62,10 +62,10 @@ class Constants:
         # Number Manager
         #################################
 
-        # Default distance numbers above plateau (inches at sdt fontsize)
+        # Default distance numbers above plateau (inches at std fontsize)
         self.DISTANCE_NUMBER_LINE = 0.10  # 0.09 pre v0.3.0
 
-        # Default distance between numbers (inches at sdt fontsize)
+        # Default distance between numbers (inches at std fontsize)
         self.DISTANCE_NUMBER_NUMBER = 0.15  # 0.135 pre v0.3.0
 
         self.ZORDER_NUMBERS = 2
@@ -80,7 +80,7 @@ class Constants:
         # Path Manager
         #################################
 
-        # Plateu parameters
+        # Plateau parameters
         self.ZORDER_PLATEAU = 2
         self.LW_PLATEAU = 1.8
         self.WIDTH_PLATEAU = 0.5
@@ -96,7 +96,7 @@ class Constants:
         self.LW_BROKEN_LINE_STOPPER = 0.8
         self.SIZE_BROKEN_LINE_STOPPER = 3
 
-        # Merged Plateu parameters
+        # Merged Plateau parameters
         self.MERGED_PLATEAU_GAP = 0.1
         self.MERGED_PLATEAU_COVER_WIDTH = 0.05
         self.ZORDER_MERGED_PLATEAU_COVER = 2.1
@@ -112,7 +112,7 @@ class Constants:
         self.ZORDER_AXIS_ARROWS = 3
         self.SIZE_AXIS_ARROWS = 12
 
-        # x axis (stlye="open") parameters
+        # x axis (style="open") parameters
         self.ZORDER_X_AXIS = 0.5
         self.LW_X_AXIS = 0.8
         self.X_AXIS_OFFSET_OPENSTYLE = -0.03

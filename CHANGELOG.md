@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+### [Unreleased]
+
+### Fixed
+
+- Fixed typos.
+
 ## [0.5.6] - 2026-07-10
 
 ### Added
@@ -49,7 +55,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Added
 
-- Added the possiblity to pass an axis to the constructor of `EnergyDiagram` for inserting it into an existing figure and axes, which allows it to be integrated into a subplot or to be combined with other plot elements.
+- Added the possibility to pass an axis to the constructor of `EnergyDiagram` for inserting it into an existing figure and axes, which allows it to be integrated into a subplot or to be combined with other plot elements.
 
 ### Changed
 
@@ -63,7 +69,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Fixed
 
-- Fixed a bug which occured when plateaus were merged with `merge_plateaus()` and their linewidths or widths were modified before.
+- Fixed a bug which occurred when plateaus were merged with `merge_plateaus()` and their linewidths or widths were modified before.
 
 ## [0.4.2] - 2026-05-01
 
@@ -98,7 +104,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Changed
 
-- Increased constants for spacing of numbers slighly.
+- Increased constants for spacing of numbers slightly.
 
 ## [0.2.0] — 2026-04-02
 
@@ -107,7 +113,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Documentation on GitHub Pages with detailed usage instructions and examples for all methods.
 - Custom text labels for each path at each position.
 - Spline connector styles (`spline dotted`, `spline solid`) for smoother curves between energy levels.
-- Decimal placees control for energy level annotations via `n_decimals` parameter in all `add_numbers_*()` methods.
+- Decimal places control for energy level annotations via `n_decimals` parameter in all `add_numbers_*()` methods.
 
 ## [0.1.2] — 2026-03-28
 
