@@ -21,7 +21,7 @@
       
       
       <link rel="icon" href="../../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -29,7 +29,7 @@
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.ec1eaa64.min.css">
       
       
 
@@ -1771,13 +1771,13 @@ was provided.</p>
 <span class="normal">204</span>
 <span class="normal">205</span>
 <span class="normal">206</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">LayoutManager</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Manages axis limits and figure dimensions based on the plotted path data.</span>
 
 <span class="sd">    Computes appropriate x/y axis limits from the data range plus configured</span>
 <span class="sd">    margins, and scales the figure size automatically unless an explicit size</span>
 <span class="sd">    was provided.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -1790,15 +1790,15 @@ was provided.</p>
         <span class="n">figsize</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">Validators</span><span class="o">.</span><span class="n">validate_numeric_sequence</span><span class="p">(</span>
-            <span class="n">figsize</span><span class="p">,</span> <span class="s2">&quot;figsize&quot;</span><span class="p">,</span> <span class="n">allow_none</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">min_value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">required_length</span><span class="o">=</span><span class="mi">2</span>
+            <span class="n">figsize</span><span class="p">,</span> <span class="s2">"figsize"</span><span class="p">,</span> <span class="n">allow_none</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">min_value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">required_length</span><span class="o">=</span><span class="mi">2</span>
         <span class="p">)</span>
         <span class="n">Validators</span><span class="o">.</span><span class="n">validate_numeric_sequence</span><span class="p">(</span>
-            <span class="n">extra_x_margin</span><span class="p">,</span> <span class="s2">&quot;extra_x_margin&quot;</span><span class="p">,</span> <span class="n">required_length</span><span class="o">=</span><span class="mi">2</span>
+            <span class="n">extra_x_margin</span><span class="p">,</span> <span class="s2">"extra_x_margin"</span><span class="p">,</span> <span class="n">required_length</span><span class="o">=</span><span class="mi">2</span>
         <span class="p">)</span>
         <span class="n">Validators</span><span class="o">.</span><span class="n">validate_numeric_sequence</span><span class="p">(</span>
-            <span class="n">extra_y_margin</span><span class="p">,</span> <span class="s2">&quot;extra_y_margin&quot;</span><span class="p">,</span> <span class="n">required_length</span><span class="o">=</span><span class="mi">2</span>
+            <span class="n">extra_y_margin</span><span class="p">,</span> <span class="s2">"extra_y_margin"</span><span class="p">,</span> <span class="n">required_length</span><span class="o">=</span><span class="mi">2</span>
         <span class="p">)</span>
-        <span class="n">Validators</span><span class="o">.</span><span class="n">validate_number</span><span class="p">(</span><span class="n">width_limit</span><span class="p">,</span> <span class="s2">&quot;width_limit&quot;</span><span class="p">,</span> <span class="n">min_value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">allow_none</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">Validators</span><span class="o">.</span><span class="n">validate_number</span><span class="p">(</span><span class="n">width_limit</span><span class="p">,</span> <span class="s2">"width_limit"</span><span class="p">,</span> <span class="n">min_value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">allow_none</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">figure_manager</span> <span class="o">=</span> <span class="n">figure_manager</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">collision_manager</span> <span class="o">=</span> <span class="n">collision_manager</span>
@@ -1809,20 +1809,20 @@ was provided.</p>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">figure_manager</span><span class="o">.</span><span class="n">has_external_ax</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">width_limit</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Warning: width_limit is ignored when using an external axis.&quot;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">"Warning: width_limit is ignored when using an external axis."</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">width_limit</span> <span class="o">=</span> <span class="kc">None</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">figsize</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="nb">print</span><span class="p">(</span>
-                    <span class="s2">&quot;Warning: figsize is ignored when using an external &quot;</span>
-                    <span class="s2">&quot;axis. Must be set on the external figure directly.&quot;</span>
+                    <span class="s2">"Warning: figsize is ignored when using an external "</span>
+                    <span class="s2">"axis. Must be set on the external figure directly."</span>
                 <span class="p">)</span>
-            <span class="c1"># Get figsize of total suplot arrangement</span>
+            <span class="c1"># Get figsize of total subplot arrangement</span>
             <span class="n">total_figsize</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">figure_manager</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">get_size_inches</span><span class="p">()</span>
 
             <span class="n">subplot_spec</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">figure_manager</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">get_subplotspec</span><span class="p">()</span>
 
             <span class="k">if</span> <span class="n">subplot_spec</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;The provided ax does not belong to a valid subplot.&quot;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">"The provided ax does not belong to a valid subplot."</span><span class="p">)</span>
 
             <span class="c1"># Calculate width</span>
             <span class="n">width_ratios</span> <span class="o">=</span> <span class="n">cast</span><span class="p">(</span>
@@ -1857,7 +1857,7 @@ was provided.</p>
             <span class="bp">self</span><span class="o">.</span><span class="n">figsize</span> <span class="o">=</span> <span class="n">figsize</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">adjust_xy_limits</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path_data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Recompute and apply x/y axis limits from the current path data.</span>
 
 <span class="sd">        Called before rendering any element that depends on the data range,</span>
@@ -1872,22 +1872,22 @@ was provided.</p>
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        dict</span>
-<span class="sd">            A dict with keys ``&quot;x&quot;`` and ``&quot;y&quot;``, each a tuple of</span>
+<span class="sd">            A dict with keys ``"x"`` and ``"y"``, each a tuple of</span>
 <span class="sd">            ``(lower_limit, upper_limit)`` in data coordinates, after</span>
 <span class="sd">            applying default and user-specified margins.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="c1"># Get all x and y values out of the path data dictionary</span>
         <span class="n">x_all</span> <span class="o">=</span> <span class="p">[</span>
             <span class="n">element</span>
             <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">path_data</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
             <span class="k">if</span> <span class="n">path</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span>
-            <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">path</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">path</span><span class="p">[</span><span class="s2">"x"</span><span class="p">]</span>
         <span class="p">]</span>
         <span class="n">y_all</span> <span class="o">=</span> <span class="p">[</span>
             <span class="n">element</span>
             <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">path_data</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
             <span class="k">if</span> <span class="n">path</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span>
-            <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">path</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">path</span><span class="p">[</span><span class="s2">"y"</span><span class="p">]</span>
         <span class="p">]</span>
         <span class="c1"># Add values if no path was added yet to avoid errors</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">x_all</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
@@ -1897,11 +1897,11 @@ was provided.</p>
 
         <span class="c1"># Adjust the axis limits</span>
         <span class="n">margins</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="p">(</span>
+            <span class="s2">"x"</span><span class="p">:</span> <span class="p">(</span>
                 <span class="nb">min</span><span class="p">(</span><span class="n">x_all</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">DEFAULT_X_MARGINS</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">extra_x_margin</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
                 <span class="nb">max</span><span class="p">(</span><span class="n">x_all</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">DEFAULT_X_MARGINS</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">extra_x_margin</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
             <span class="p">),</span>
-            <span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="p">(</span>
+            <span class="s2">"y"</span><span class="p">:</span> <span class="p">(</span>
                 <span class="nb">min</span><span class="p">(</span><span class="n">y_all</span><span class="p">)</span>
                 <span class="o">+</span> <span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">y_all</span><span class="p">)</span> <span class="o">-</span> <span class="nb">min</span><span class="p">(</span><span class="n">y_all</span><span class="p">))</span>
                 <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">DEFAULT_Y_MARGINS</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">extra_y_margin</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
@@ -1910,13 +1910,13 @@ was provided.</p>
                 <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">DEFAULT_Y_MARGINS</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">extra_y_margin</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span>
             <span class="p">),</span>
         <span class="p">}</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">figure_manager</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">margins</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">])</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">figure_manager</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">margins</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">figure_manager</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">margins</span><span class="p">[</span><span class="s2">"x"</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">figure_manager</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">margins</span><span class="p">[</span><span class="s2">"y"</span><span class="p">])</span>
 
         <span class="k">return</span> <span class="n">margins</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">scale_figure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path_data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Resize the figure to fit the current data range.</span>
 
 <span class="sd">        If a fixed ``figsize`` was provided at construction, that size is</span>
@@ -1934,14 +1934,14 @@ was provided.</p>
 <span class="sd">        -------</span>
 <span class="sd">        tuple of float</span>
 <span class="sd">            The resulting figure size as ``(width, height)`` in inches.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="c1"># Scale only, if no figure size is predetermined</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">figsize</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="c1"># Function for scaling the figure automatically</span>
             <span class="n">margins</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">adjust_xy_limits</span><span class="p">(</span><span class="n">path_data</span><span class="p">)</span>
 
             <span class="c1"># Determine and set width</span>
-            <span class="n">x_size</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">X_SCALE</span> <span class="o">*</span> <span class="p">(</span><span class="n">margins</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">margins</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">x_size</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">X_SCALE</span> <span class="o">*</span> <span class="p">(</span><span class="n">margins</span><span class="p">[</span><span class="s2">"x"</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">margins</span><span class="p">[</span><span class="s2">"x"</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">width_limit</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">x_size</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">width_limit</span><span class="p">:</span>
                 <span class="n">x_size</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">width_limit</span>
             <span class="k">if</span> <span class="n">x_size</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>  <span class="c1"># Avoid a figure without size</span>
@@ -1959,7 +1959,7 @@ was provided.</p>
 
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">adjust_xy_limits</span><span class="p">(</span><span class="n">path_data</span><span class="p">)</span>
-            <span class="c1"># Only adjust figure size if not controlles externally</span>
+            <span class="c1"># Only adjust figure size if not controlled externally</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">figure_manager</span><span class="o">.</span><span class="n">has_external_ax</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">figure_manager</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">set_figwidth</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">figsize</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">figure_manager</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">set_figheight</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">figsize</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
@@ -2113,7 +2113,7 @@ applying default and user-specified margins.</p>
 <span class="normal">154</span>
 <span class="normal">155</span>
 <span class="normal">156</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">adjust_xy_limits</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path_data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Recompute and apply x/y axis limits from the current path data.</span>
 
 <span class="sd">    Called before rendering any element that depends on the data range,</span>
@@ -2128,22 +2128,22 @@ applying default and user-specified margins.</p>
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    dict</span>
-<span class="sd">        A dict with keys ``&quot;x&quot;`` and ``&quot;y&quot;``, each a tuple of</span>
+<span class="sd">        A dict with keys ``"x"`` and ``"y"``, each a tuple of</span>
 <span class="sd">        ``(lower_limit, upper_limit)`` in data coordinates, after</span>
 <span class="sd">        applying default and user-specified margins.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="c1"># Get all x and y values out of the path data dictionary</span>
     <span class="n">x_all</span> <span class="o">=</span> <span class="p">[</span>
         <span class="n">element</span>
         <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">path_data</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">path</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span>
-        <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">path</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">path</span><span class="p">[</span><span class="s2">"x"</span><span class="p">]</span>
     <span class="p">]</span>
     <span class="n">y_all</span> <span class="o">=</span> <span class="p">[</span>
         <span class="n">element</span>
         <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">path_data</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">path</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span>
-        <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">path</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">path</span><span class="p">[</span><span class="s2">"y"</span><span class="p">]</span>
     <span class="p">]</span>
     <span class="c1"># Add values if no path was added yet to avoid errors</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">x_all</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
@@ -2153,11 +2153,11 @@ applying default and user-specified margins.</p>
 
     <span class="c1"># Adjust the axis limits</span>
     <span class="n">margins</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="p">(</span>
+        <span class="s2">"x"</span><span class="p">:</span> <span class="p">(</span>
             <span class="nb">min</span><span class="p">(</span><span class="n">x_all</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">DEFAULT_X_MARGINS</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">extra_x_margin</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
             <span class="nb">max</span><span class="p">(</span><span class="n">x_all</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">DEFAULT_X_MARGINS</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">extra_x_margin</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
         <span class="p">),</span>
-        <span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="p">(</span>
+        <span class="s2">"y"</span><span class="p">:</span> <span class="p">(</span>
             <span class="nb">min</span><span class="p">(</span><span class="n">y_all</span><span class="p">)</span>
             <span class="o">+</span> <span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">y_all</span><span class="p">)</span> <span class="o">-</span> <span class="nb">min</span><span class="p">(</span><span class="n">y_all</span><span class="p">))</span>
             <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">DEFAULT_Y_MARGINS</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">extra_y_margin</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
@@ -2166,8 +2166,8 @@ applying default and user-specified margins.</p>
             <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">DEFAULT_Y_MARGINS</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">extra_y_margin</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span>
         <span class="p">),</span>
     <span class="p">}</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">figure_manager</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">margins</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">])</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">figure_manager</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">margins</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">])</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">figure_manager</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">margins</span><span class="p">[</span><span class="s2">"x"</span><span class="p">])</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">figure_manager</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="n">margins</span><span class="p">[</span><span class="s2">"y"</span><span class="p">])</span>
 
     <span class="k">return</span> <span class="n">margins</span>
 </code></pre></div></td></tr></table></div>
@@ -2300,7 +2300,7 @@ whichever is smaller, to avoid disproportionate figures.</p>
 <span class="normal">204</span>
 <span class="normal">205</span>
 <span class="normal">206</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">scale_figure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path_data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Resize the figure to fit the current data range.</span>
 
 <span class="sd">    If a fixed ``figsize`` was provided at construction, that size is</span>
@@ -2318,14 +2318,14 @@ whichever is smaller, to avoid disproportionate figures.</p>
 <span class="sd">    -------</span>
 <span class="sd">    tuple of float</span>
 <span class="sd">        The resulting figure size as ``(width, height)`` in inches.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="c1"># Scale only, if no figure size is predetermined</span>
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">figsize</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="c1"># Function for scaling the figure automatically</span>
         <span class="n">margins</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">adjust_xy_limits</span><span class="p">(</span><span class="n">path_data</span><span class="p">)</span>
 
         <span class="c1"># Determine and set width</span>
-        <span class="n">x_size</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">X_SCALE</span> <span class="o">*</span> <span class="p">(</span><span class="n">margins</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">margins</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">x_size</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">X_SCALE</span> <span class="o">*</span> <span class="p">(</span><span class="n">margins</span><span class="p">[</span><span class="s2">"x"</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">margins</span><span class="p">[</span><span class="s2">"x"</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">width_limit</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">x_size</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">width_limit</span><span class="p">:</span>
             <span class="n">x_size</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">width_limit</span>
         <span class="k">if</span> <span class="n">x_size</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>  <span class="c1"># Avoid a figure without size</span>
@@ -2343,7 +2343,7 @@ whichever is smaller, to avoid disproportionate figures.</p>
 
     <span class="k">else</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">adjust_xy_limits</span><span class="p">(</span><span class="n">path_data</span><span class="p">)</span>
-        <span class="c1"># Only adjust figure size if not controlles externally</span>
+        <span class="c1"># Only adjust figure size if not controlled externally</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">figure_manager</span><span class="o">.</span><span class="n">has_external_ax</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">figure_manager</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">set_figwidth</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">figsize</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">figure_manager</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">set_figheight</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">figsize</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
@@ -2428,7 +2428,7 @@ whichever is smaller, to avoid disproportionate figures.</p>
       <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

@@ -21,7 +21,7 @@
       
       
       <link rel="icon" href="../../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -29,7 +29,7 @@
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.ec1eaa64.min.css">
       
       
 
@@ -1590,17 +1590,17 @@
 <span class="normal">17</span>
 <span class="normal">18</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">TonnerZechTemplate</span><span class="p">(</span><span class="n">BaseTemplate</span><span class="p">):</span>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Modyfy constants for Tonner and Zech style diagrams here.</span>
+<span class="w">        </span><span class="sd">"""</span>
+<span class="sd">        Modify constants for Tonner and Zech style diagrams here.</span>
 <span class="sd">        e.g. self.constants.DISTANCE_TEXT_DIFFBAR = 0.05</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">startup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">diagram</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Startup function to be called at the beginning of the plotting process</span>
 <span class="sd">        Here you can modify the diagram object before any plotting is done.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">diagram</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">startup</span><span class="p">(</span><span class="n">diagram</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">diagram</span>
 </code></pre></div></td></tr></table></div>
@@ -1630,7 +1630,7 @@
 
     <div class="doc doc-contents ">
 
-        <p>Modyfy constants for Tonner and Zech style diagrams here.
+        <p>Modify constants for Tonner and Zech style diagrams here.
 e.g. self.constants.DISTANCE_TEXT_DIFFBAR = 0.05</p>
 
 
@@ -1642,10 +1642,10 @@ e.g. self.constants.DISTANCE_TEXT_DIFFBAR = 0.05</p>
 <span class="normal"> 8</span>
 <span class="normal"> 9</span>
 <span class="normal">10</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Modyfy constants for Tonner and Zech style diagrams here.</span>
+<span class="w">    </span><span class="sd">"""</span>
+<span class="sd">    Modify constants for Tonner and Zech style diagrams here.</span>
 <span class="sd">    e.g. self.constants.DISTANCE_TEXT_DIFFBAR = 0.05</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
 </code></pre></div></td></tr></table></div>
             </details>
@@ -1677,10 +1677,10 @@ Here you can modify the diagram object before any plotting is done.</p>
 <span class="normal">16</span>
 <span class="normal">17</span>
 <span class="normal">18</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">startup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">diagram</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Startup function to be called at the beginning of the plotting process</span>
 <span class="sd">    Here you can modify the diagram object before any plotting is done.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">diagram</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">startup</span><span class="p">(</span><span class="n">diagram</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">diagram</span>
 </code></pre></div></td></tr></table></div>
@@ -1763,7 +1763,7 @@ Here you can modify the diagram object before any plotting is done.</p>
       <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

@@ -21,7 +21,7 @@
       
       
       <link rel="icon" href="../../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -29,7 +29,7 @@
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.ec1eaa64.min.css">
       
       
 
@@ -2377,7 +2377,7 @@ path name and x-coordinate.</p>
 <span class="normal">863</span>
 <span class="normal">864</span>
 <span class="normal">865</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">NumberManager</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Manages energy value annotations on the diagram.</span>
 
 <span class="sd">    Provides four strategies for placing numeric labels above energy</span>
@@ -2386,7 +2386,7 @@ path name and x-coordinate.</p>
 <span class="sd">    (one label per x-position showing the mean across paths).</span>
 <span class="sd">    Rendered Text artists are stored in ``mpl_objects`` keyed by</span>
 <span class="sd">    path name and x-coordinate.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -2416,25 +2416,25 @@ path name and x-coordinate.</p>
         <span class="c1"># Regularize x_min_max, fontsize and get all the numbers to plot</span>
         <span class="n">x_min_max</span> <span class="o">=</span> <span class="n">NumberManager</span><span class="o">.</span><span class="n">_regularize_x_min_max</span><span class="p">(</span><span class="n">x_min_max</span><span class="p">)</span>
         <span class="n">values_to_print</span> <span class="o">=</span> <span class="n">NumberManager</span><span class="o">.</span><span class="n">_get_all_visible_numbers</span><span class="p">(</span><span class="n">path_data</span><span class="p">,</span> <span class="n">x_min_max</span><span class="p">)</span>
-        <span class="n">Validators</span><span class="o">.</span><span class="n">validate_number</span><span class="p">(</span><span class="n">fontsize</span><span class="p">,</span> <span class="s2">&quot;fontsize&quot;</span><span class="p">,</span> <span class="n">min_value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">allow_none</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="n">Validators</span><span class="o">.</span><span class="n">validate_number</span><span class="p">(</span><span class="n">n_decimals</span><span class="p">,</span> <span class="s2">&quot;n_decimals&quot;</span><span class="p">,</span> <span class="n">min_value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">only_integer</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">Validators</span><span class="o">.</span><span class="n">validate_number</span><span class="p">(</span><span class="n">fontsize</span><span class="p">,</span> <span class="s2">"fontsize"</span><span class="p">,</span> <span class="n">min_value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">allow_none</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">Validators</span><span class="o">.</span><span class="n">validate_number</span><span class="p">(</span><span class="n">n_decimals</span><span class="p">,</span> <span class="s2">"n_decimals"</span><span class="p">,</span> <span class="n">min_value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">only_integer</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">fontsize</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">fontsize</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">figure_manager</span><span class="o">.</span><span class="n">fontsize</span>
 
         <span class="c1"># Plot the numbers</span>
         <span class="k">for</span> <span class="n">value_series</span> <span class="ow">in</span> <span class="n">values_to_print</span><span class="p">:</span>
-            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">value_series</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">])):</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">value_series</span><span class="p">[</span><span class="s2">"x"</span><span class="p">])):</span>
                 <span class="n">number_to_print</span> <span class="o">=</span> <span class="p">[</span>
                     <span class="p">{</span>
-                        <span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="n">value_series</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">],</span>
-                        <span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="n">value_series</span><span class="p">[</span><span class="s2">&quot;color&quot;</span><span class="p">],</span>
-                        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">value_series</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">],</span>
+                        <span class="s2">"y"</span><span class="p">:</span> <span class="n">value_series</span><span class="p">[</span><span class="s2">"y"</span><span class="p">][</span><span class="n">i</span><span class="p">],</span>
+                        <span class="s2">"color"</span><span class="p">:</span> <span class="n">value_series</span><span class="p">[</span><span class="s2">"color"</span><span class="p">],</span>
+                        <span class="s2">"name"</span><span class="p">:</span> <span class="n">value_series</span><span class="p">[</span><span class="s2">"name"</span><span class="p">],</span>
                     <span class="p">}</span>
                 <span class="p">]</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_print_stacked</span><span class="p">(</span>
-                    <span class="n">value_series</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">],</span>
+                    <span class="n">value_series</span><span class="p">[</span><span class="s2">"x"</span><span class="p">][</span><span class="n">i</span><span class="p">],</span>
                     <span class="n">number_to_print</span><span class="p">,</span>
-                    <span class="n">value_series</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">],</span>
+                    <span class="n">value_series</span><span class="p">[</span><span class="s2">"y"</span><span class="p">][</span><span class="n">i</span><span class="p">],</span>
                     <span class="n">margins</span><span class="p">,</span>
                     <span class="n">figsize</span><span class="p">,</span>
                     <span class="n">fontsize</span><span class="p">,</span>
@@ -2442,9 +2442,9 @@ path name and x-coordinate.</p>
                 <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">numberings_added</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
             <span class="p">{</span>
-                <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_numbers_naive</span><span class="p">,</span>
-                <span class="s2">&quot;x_min_max&quot;</span><span class="p">:</span> <span class="n">x_min_max</span><span class="p">,</span>
-                <span class="s2">&quot;fontsize&quot;</span><span class="p">:</span> <span class="n">fontsize</span><span class="p">,</span>
+                <span class="s2">"type"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_numbers_naive</span><span class="p">,</span>
+                <span class="s2">"x_min_max"</span><span class="p">:</span> <span class="n">x_min_max</span><span class="p">,</span>
+                <span class="s2">"fontsize"</span><span class="p">:</span> <span class="n">fontsize</span><span class="p">,</span>
             <span class="p">}</span>
         <span class="p">)</span>
 
@@ -2463,15 +2463,15 @@ path name and x-coordinate.</p>
         <span class="c1"># Regularize x_min_max, fontsize and get all the numbers to plot</span>
         <span class="n">x_min_max</span> <span class="o">=</span> <span class="n">NumberManager</span><span class="o">.</span><span class="n">_regularize_x_min_max</span><span class="p">(</span><span class="n">x_min_max</span><span class="p">)</span>
         <span class="n">values_to_print</span> <span class="o">=</span> <span class="n">NumberManager</span><span class="o">.</span><span class="n">_get_all_visible_numbers</span><span class="p">(</span><span class="n">path_data</span><span class="p">,</span> <span class="n">x_min_max</span><span class="p">)</span>
-        <span class="n">Validators</span><span class="o">.</span><span class="n">validate_number</span><span class="p">(</span><span class="n">fontsize</span><span class="p">,</span> <span class="s2">&quot;fontsize&quot;</span><span class="p">,</span> <span class="n">min_value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">allow_none</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="n">Validators</span><span class="o">.</span><span class="n">validate_number</span><span class="p">(</span><span class="n">n_decimals</span><span class="p">,</span> <span class="s2">&quot;n_decimals&quot;</span><span class="p">,</span> <span class="n">min_value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">only_integer</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">Validators</span><span class="o">.</span><span class="n">validate_number</span><span class="p">(</span><span class="n">fontsize</span><span class="p">,</span> <span class="s2">"fontsize"</span><span class="p">,</span> <span class="n">min_value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">allow_none</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">Validators</span><span class="o">.</span><span class="n">validate_number</span><span class="p">(</span><span class="n">n_decimals</span><span class="p">,</span> <span class="s2">"n_decimals"</span><span class="p">,</span> <span class="n">min_value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">only_integer</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">fontsize</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">fontsize</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">figure_manager</span><span class="o">.</span><span class="n">fontsize</span>
 
         <span class="c1"># Get a list of all x values where to print</span>
         <span class="n">x_places</span><span class="p">:</span> <span class="nb">list</span> <span class="o">|</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">value_series</span> <span class="ow">in</span> <span class="n">values_to_print</span><span class="p">:</span>
-            <span class="n">x_places</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">x_places</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">value_series</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">])))</span>
+            <span class="n">x_places</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">x_places</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">value_series</span><span class="p">[</span><span class="s2">"x"</span><span class="p">])))</span>
         <span class="n">x_places</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">x_places</span><span class="p">)</span>
 
         <span class="c1"># For every step, get all energies, assign the colors and sort by energy</span>
@@ -2482,7 +2482,7 @@ path name and x-coordinate.</p>
             <span class="p">)</span>
 
             <span class="c1"># Find y where to print</span>
-            <span class="n">y_print_start</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">num</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">num</span> <span class="ow">in</span> <span class="n">numbers_to_stack</span><span class="p">)</span>
+            <span class="n">y_print_start</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">num</span><span class="p">[</span><span class="s2">"y"</span><span class="p">]</span> <span class="k">for</span> <span class="n">num</span> <span class="ow">in</span> <span class="n">numbers_to_stack</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">no_overlap_with_nonnumbered</span><span class="p">:</span>
                 <span class="n">all_numbers_at_x</span> <span class="o">=</span> <span class="n">NumberManager</span><span class="o">.</span><span class="n">_get_all_values_at_x</span><span class="p">(</span><span class="n">path_data</span><span class="p">,</span> <span class="n">x_current</span><span class="p">)</span>
                 <span class="n">higher_numbers_at_x</span> <span class="o">=</span> <span class="p">[</span><span class="n">val</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">all_numbers_at_x</span> <span class="k">if</span> <span class="n">val</span> <span class="o">&gt;</span> <span class="n">y_print_start</span><span class="p">]</span>
@@ -2502,7 +2502,7 @@ path name and x-coordinate.</p>
                     <span class="k">if</span> <span class="n">no_overlap</span><span class="p">:</span>
                         <span class="k">break</span>
                     <span class="k">if</span> <span class="ow">not</span> <span class="n">higher_numbers_at_x</span><span class="p">:</span>
-                        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Warning: Could not accurately place numbers at x=</span><span class="si">{</span><span class="n">x_current</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Warning: Could not accurately place numbers at x=</span><span class="si">{</span><span class="n">x_current</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
                         <span class="k">break</span>
                     <span class="k">else</span><span class="p">:</span>
                         <span class="n">y_print_start</span> <span class="o">=</span> <span class="n">higher_numbers_at_x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
@@ -2520,11 +2520,11 @@ path name and x-coordinate.</p>
             <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">numberings_added</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
             <span class="p">{</span>
-                <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_numbers_stacked</span><span class="p">,</span>
-                <span class="s2">&quot;x_min_max&quot;</span><span class="p">:</span> <span class="n">x_min_max</span><span class="p">,</span>
-                <span class="s2">&quot;fontsize&quot;</span><span class="p">:</span> <span class="n">fontsize</span><span class="p">,</span>
-                <span class="s2">&quot;sort_by_energy&quot;</span><span class="p">:</span> <span class="n">sort_by_energy</span><span class="p">,</span>
-                <span class="s2">&quot;no_overlap_with_nonnumbered&quot;</span><span class="p">:</span> <span class="n">no_overlap_with_nonnumbered</span><span class="p">,</span>
+                <span class="s2">"type"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_numbers_stacked</span><span class="p">,</span>
+                <span class="s2">"x_min_max"</span><span class="p">:</span> <span class="n">x_min_max</span><span class="p">,</span>
+                <span class="s2">"fontsize"</span><span class="p">:</span> <span class="n">fontsize</span><span class="p">,</span>
+                <span class="s2">"sort_by_energy"</span><span class="p">:</span> <span class="n">sort_by_energy</span><span class="p">,</span>
+                <span class="s2">"no_overlap_with_nonnumbered"</span><span class="p">:</span> <span class="n">no_overlap_with_nonnumbered</span><span class="p">,</span>
             <span class="p">}</span>
         <span class="p">)</span>
 
@@ -2539,8 +2539,8 @@ path name and x-coordinate.</p>
         <span class="n">n_decimals</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="c1"># Regularize x_min_max, fontsize and get all the numbers to plot</span>
-        <span class="n">Validators</span><span class="o">.</span><span class="n">validate_number</span><span class="p">(</span><span class="n">fontsize</span><span class="p">,</span> <span class="s2">&quot;fontsize&quot;</span><span class="p">,</span> <span class="n">min_value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">allow_none</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="n">Validators</span><span class="o">.</span><span class="n">validate_number</span><span class="p">(</span><span class="n">n_decimals</span><span class="p">,</span> <span class="s2">&quot;n_decimals&quot;</span><span class="p">,</span> <span class="n">min_value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">only_integer</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">Validators</span><span class="o">.</span><span class="n">validate_number</span><span class="p">(</span><span class="n">fontsize</span><span class="p">,</span> <span class="s2">"fontsize"</span><span class="p">,</span> <span class="n">min_value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">allow_none</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">Validators</span><span class="o">.</span><span class="n">validate_number</span><span class="p">(</span><span class="n">n_decimals</span><span class="p">,</span> <span class="s2">"n_decimals"</span><span class="p">,</span> <span class="n">min_value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">only_integer</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">fontsize</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">fontsize</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">figure_manager</span><span class="o">.</span><span class="n">fontsize</span>
         <span class="n">x_min_max</span> <span class="o">=</span> <span class="n">NumberManager</span><span class="o">.</span><span class="n">_regularize_x_min_max</span><span class="p">(</span><span class="n">x_min_max</span><span class="p">)</span>
@@ -2550,7 +2550,7 @@ path name and x-coordinate.</p>
         <span class="c1"># Get a list of all x values where to print</span>
         <span class="n">x_places</span><span class="p">:</span> <span class="nb">list</span> <span class="o">|</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">value_series</span> <span class="ow">in</span> <span class="n">values_to_print</span><span class="p">:</span>
-            <span class="n">x_places</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">x_places</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">value_series</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">])))</span>
+            <span class="n">x_places</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">x_places</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">value_series</span><span class="p">[</span><span class="s2">"x"</span><span class="p">])))</span>
         <span class="n">x_places</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">x_places</span><span class="p">)</span>
 
         <span class="c1"># For every step, get all energies, assign the colors and sort by energy</span>
@@ -2566,20 +2566,20 @@ path name and x-coordinate.</p>
                 <span class="c1"># Append to temporary list one number after each other</span>
                 <span class="n">numbers_to_stack_current</span> <span class="o">=</span> <span class="p">[]</span>
                 <span class="n">numbers_to_stack_current</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">numbers_to_stack</span><span class="p">[</span><span class="n">n_numbers_printed</span><span class="p">])</span>
-                <span class="c1"># Calulate where to try to print</span>
+                <span class="c1"># Calculate where to try to print</span>
                 <span class="n">y_print_start</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span>
-                    <span class="n">numbers_to_stack</span><span class="p">[</span><span class="n">n_numbers_printed</span><span class="p">][</span><span class="s2">&quot;y&quot;</span><span class="p">],</span>
+                    <span class="n">numbers_to_stack</span><span class="p">[</span><span class="n">n_numbers_printed</span><span class="p">][</span><span class="s2">"y"</span><span class="p">],</span>
                     <span class="n">y_last_printed</span> <span class="o">+</span> <span class="n">diff_per_step</span><span class="p">,</span>
                 <span class="p">)</span>
                 <span class="c1"># Append more numbers, if they have the same value</span>
                 <span class="n">start_index</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">numbers_to_stack_current</span><span class="p">)</span> <span class="o">+</span> <span class="n">n_numbers_printed</span>
                 <span class="n">numbers_to_check</span> <span class="o">=</span> <span class="n">numbers_to_stack</span><span class="p">[</span><span class="n">start_index</span><span class="p">:]</span>
                 <span class="k">for</span> <span class="n">number</span> <span class="ow">in</span> <span class="n">numbers_to_check</span><span class="p">:</span>
-                    <span class="k">if</span> <span class="n">y_print_start</span> <span class="o">&gt;=</span> <span class="n">number</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">]:</span>
+                    <span class="k">if</span> <span class="n">y_print_start</span> <span class="o">&gt;=</span> <span class="n">number</span><span class="p">[</span><span class="s2">"y"</span><span class="p">]:</span>
                         <span class="n">numbers_to_stack_current</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">number</span><span class="p">)</span>
                 <span class="c1"># Determine every value greater than where to print</span>
                 <span class="n">higher_numbers_at_x</span> <span class="o">=</span> <span class="p">[</span><span class="n">val</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">all_numbers_at_x</span> <span class="k">if</span> <span class="n">val</span> <span class="o">&gt;</span> <span class="n">y_print_start</span><span class="p">]</span>
-                <span class="c1"># Increse print height, until no overlap</span>
+                <span class="c1"># Increase print height, until no overlap</span>
                 <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
                     <span class="n">no_overlap</span> <span class="o">=</span> <span class="n">NumberManager</span><span class="o">.</span><span class="n">_check_no_overlap</span><span class="p">(</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">constants</span><span class="p">,</span>
@@ -2596,7 +2596,7 @@ path name and x-coordinate.</p>
                     <span class="k">if</span> <span class="n">no_overlap</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">higher_numbers_at_x</span><span class="p">:</span>
                         <span class="k">if</span> <span class="ow">not</span> <span class="n">no_overlap</span><span class="p">:</span>
                             <span class="nb">print</span><span class="p">(</span>
-                                <span class="sa">f</span><span class="s2">&quot;Warning: Could not accurately place numbers at x=</span><span class="si">{</span><span class="n">x_current</span><span class="si">}</span><span class="s2">&quot;</span>
+                                <span class="sa">f</span><span class="s2">"Warning: Could not accurately place numbers at x=</span><span class="si">{</span><span class="n">x_current</span><span class="si">}</span><span class="s2">"</span>
                             <span class="p">)</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">_print_stacked</span><span class="p">(</span>
                             <span class="n">x_current</span><span class="p">,</span>
@@ -2619,7 +2619,7 @@ path name and x-coordinate.</p>
                         <span class="n">start_index</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">numbers_to_stack_current</span><span class="p">)</span> <span class="o">+</span> <span class="n">n_numbers_printed</span>
                         <span class="n">numbers_to_check</span> <span class="o">=</span> <span class="n">numbers_to_stack</span><span class="p">[</span><span class="n">start_index</span><span class="p">:]</span>
                         <span class="k">for</span> <span class="n">number</span> <span class="ow">in</span> <span class="n">numbers_to_check</span><span class="p">:</span>
-                            <span class="k">if</span> <span class="n">y_print_start</span> <span class="o">&gt;=</span> <span class="n">number</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">]:</span>
+                            <span class="k">if</span> <span class="n">y_print_start</span> <span class="o">&gt;=</span> <span class="n">number</span><span class="p">[</span><span class="s2">"y"</span><span class="p">]:</span>
                                 <span class="n">numbers_to_stack_current</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">number</span><span class="p">)</span>
                         <span class="c1"># Determine new values above</span>
                         <span class="n">higher_numbers_at_x</span> <span class="o">=</span> <span class="p">[</span>
@@ -2627,9 +2627,9 @@ path name and x-coordinate.</p>
                         <span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">numberings_added</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
             <span class="p">{</span>
-                <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_numbers_auto</span><span class="p">,</span>
-                <span class="s2">&quot;x_min_max&quot;</span><span class="p">:</span> <span class="n">x_min_max</span><span class="p">,</span>
-                <span class="s2">&quot;fontsize&quot;</span><span class="p">:</span> <span class="n">fontsize</span><span class="p">,</span>
+                <span class="s2">"type"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_numbers_auto</span><span class="p">,</span>
+                <span class="s2">"x_min_max"</span><span class="p">:</span> <span class="n">x_min_max</span><span class="p">,</span>
+                <span class="s2">"fontsize"</span><span class="p">:</span> <span class="n">fontsize</span><span class="p">,</span>
             <span class="p">}</span>
         <span class="p">)</span>
 
@@ -2640,21 +2640,21 @@ path name and x-coordinate.</p>
         <span class="n">figsize</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
         <span class="n">x_min_max</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">fontsize</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">color</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;black&quot;</span><span class="p">,</span>
+        <span class="n">color</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"black"</span><span class="p">,</span>
         <span class="n">n_decimals</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="c1"># Regularize x_min_max, fontsize and get all the numbers to plot</span>
         <span class="n">x_min_max</span> <span class="o">=</span> <span class="n">NumberManager</span><span class="o">.</span><span class="n">_regularize_x_min_max</span><span class="p">(</span><span class="n">x_min_max</span><span class="p">)</span>
         <span class="n">values_to_print</span> <span class="o">=</span> <span class="n">NumberManager</span><span class="o">.</span><span class="n">_get_all_visible_numbers</span><span class="p">(</span><span class="n">path_data</span><span class="p">,</span> <span class="n">x_min_max</span><span class="p">)</span>
-        <span class="n">Validators</span><span class="o">.</span><span class="n">validate_number</span><span class="p">(</span><span class="n">fontsize</span><span class="p">,</span> <span class="s2">&quot;fontsize&quot;</span><span class="p">,</span> <span class="n">min_value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">allow_none</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="n">Validators</span><span class="o">.</span><span class="n">validate_number</span><span class="p">(</span><span class="n">n_decimals</span><span class="p">,</span> <span class="s2">&quot;n_decimals&quot;</span><span class="p">,</span> <span class="n">min_value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">only_integer</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">Validators</span><span class="o">.</span><span class="n">validate_number</span><span class="p">(</span><span class="n">fontsize</span><span class="p">,</span> <span class="s2">"fontsize"</span><span class="p">,</span> <span class="n">min_value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">allow_none</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">Validators</span><span class="o">.</span><span class="n">validate_number</span><span class="p">(</span><span class="n">n_decimals</span><span class="p">,</span> <span class="s2">"n_decimals"</span><span class="p">,</span> <span class="n">min_value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">only_integer</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">fontsize</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">fontsize</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">figure_manager</span><span class="o">.</span><span class="n">fontsize</span>
 
         <span class="c1"># Get a list of all x values where to print</span>
         <span class="n">x_places</span><span class="p">:</span> <span class="nb">list</span> <span class="o">|</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">value_series</span> <span class="ow">in</span> <span class="n">values_to_print</span><span class="p">:</span>
-            <span class="n">x_places</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">x_places</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">value_series</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">])))</span>
+            <span class="n">x_places</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">x_places</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">value_series</span><span class="p">[</span><span class="s2">"x"</span><span class="p">])))</span>
         <span class="n">x_places</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">x_places</span><span class="p">)</span>
 
         <span class="c1"># For every step, get all y values, average and print</span>
@@ -2662,13 +2662,13 @@ path name and x-coordinate.</p>
             <span class="n">numbers_to_stack</span> <span class="o">=</span> <span class="n">NumberManager</span><span class="o">.</span><span class="n">_get_numbers_to_stack_at_x</span><span class="p">(</span>
                 <span class="n">values_to_print</span><span class="p">,</span> <span class="n">x_current</span>
             <span class="p">)</span>
-            <span class="n">numbers_to_stack_y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">number</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">number</span> <span class="ow">in</span> <span class="n">numbers_to_stack</span><span class="p">])</span>
+            <span class="n">numbers_to_stack_y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">number</span><span class="p">[</span><span class="s2">"y"</span><span class="p">]</span> <span class="k">for</span> <span class="n">number</span> <span class="ow">in</span> <span class="n">numbers_to_stack</span><span class="p">])</span>
             <span class="n">y_avg</span> <span class="o">=</span> <span class="n">numbers_to_stack_y</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
             <span class="n">number_to_print</span> <span class="o">=</span> <span class="p">[</span>
                 <span class="p">{</span>
-                    <span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="n">y_avg</span><span class="p">,</span>
-                    <span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="n">color</span><span class="p">,</span>
-                    <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;Average&quot;</span><span class="p">,</span>
+                    <span class="s2">"y"</span><span class="p">:</span> <span class="n">y_avg</span><span class="p">,</span>
+                    <span class="s2">"color"</span><span class="p">:</span> <span class="n">color</span><span class="p">,</span>
+                    <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"Average"</span><span class="p">,</span>
                 <span class="p">}</span>
             <span class="p">]</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_print_stacked</span><span class="p">(</span>
@@ -2682,10 +2682,10 @@ path name and x-coordinate.</p>
             <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">numberings_added</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
             <span class="p">{</span>
-                <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_numbers_average</span><span class="p">,</span>
-                <span class="s2">&quot;x_min_max&quot;</span><span class="p">:</span> <span class="n">x_min_max</span><span class="p">,</span>
-                <span class="s2">&quot;fontsize&quot;</span><span class="p">:</span> <span class="n">fontsize</span><span class="p">,</span>
-                <span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="n">color</span><span class="p">,</span>
+                <span class="s2">"type"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_numbers_average</span><span class="p">,</span>
+                <span class="s2">"x_min_max"</span><span class="p">:</span> <span class="n">x_min_max</span><span class="p">,</span>
+                <span class="s2">"fontsize"</span><span class="p">:</span> <span class="n">fontsize</span><span class="p">,</span>
+                <span class="s2">"color"</span><span class="p">:</span> <span class="n">color</span><span class="p">,</span>
             <span class="p">}</span>
         <span class="p">)</span>
 
@@ -2706,14 +2706,14 @@ path name and x-coordinate.</p>
         <span class="bp">self</span><span class="o">.</span><span class="n">numberings_added</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">numbering</span> <span class="ow">in</span> <span class="n">old_numberings</span><span class="p">:</span>
             <span class="n">settings</span> <span class="o">=</span> <span class="n">numbering</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-            <span class="k">del</span> <span class="n">settings</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span>
-            <span class="n">need_path_mpl_objects</span> <span class="o">=</span> <span class="n">numbering</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span> <span class="ow">in</span> <span class="p">[</span>
+            <span class="k">del</span> <span class="n">settings</span><span class="p">[</span><span class="s2">"type"</span><span class="p">]</span>
+            <span class="n">need_path_mpl_objects</span> <span class="o">=</span> <span class="n">numbering</span><span class="p">[</span><span class="s2">"type"</span><span class="p">]</span> <span class="ow">in</span> <span class="p">[</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">add_numbers_stacked</span><span class="p">,</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">add_numbers_auto</span><span class="p">,</span>
             <span class="p">]</span>
             <span class="k">if</span> <span class="n">need_path_mpl_objects</span><span class="p">:</span>
-                <span class="n">settings</span><span class="p">[</span><span class="s2">&quot;path_mpl_objects&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">path_mpl_objects</span>
-            <span class="n">numbering</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">](</span>
+                <span class="n">settings</span><span class="p">[</span><span class="s2">"path_mpl_objects"</span><span class="p">]</span> <span class="o">=</span> <span class="n">path_mpl_objects</span>
+            <span class="n">numbering</span><span class="p">[</span><span class="s2">"type"</span><span class="p">](</span>
                 <span class="n">path_data</span><span class="o">=</span><span class="n">path_data</span><span class="p">,</span>
                 <span class="n">margins</span><span class="o">=</span><span class="n">margins</span><span class="p">,</span>
                 <span class="n">figsize</span><span class="o">=</span><span class="n">figsize</span><span class="p">,</span>
@@ -2733,29 +2733,29 @@ path name and x-coordinate.</p>
         <span class="n">x_subtract</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">include_paths</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">exclude_paths</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">brackets</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;(&quot;</span><span class="p">,</span> <span class="s2">&quot;)&quot;</span><span class="p">),</span>
+        <span class="n">brackets</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="p">(</span><span class="s2">"("</span><span class="p">,</span> <span class="s2">")"</span><span class="p">),</span>
         <span class="n">n_decimals</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
         <span class="n">append_to_existing</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="c1"># Sanity checks</span>
-        <span class="n">Validators</span><span class="o">.</span><span class="n">validate_number</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="s2">&quot;x&quot;</span><span class="p">)</span>
-        <span class="n">Validators</span><span class="o">.</span><span class="n">validate_number</span><span class="p">(</span><span class="n">base_value</span><span class="p">,</span> <span class="s2">&quot;base_value&quot;</span><span class="p">)</span>
+        <span class="n">Validators</span><span class="o">.</span><span class="n">validate_number</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="s2">"x"</span><span class="p">)</span>
+        <span class="n">Validators</span><span class="o">.</span><span class="n">validate_number</span><span class="p">(</span><span class="n">base_value</span><span class="p">,</span> <span class="s2">"base_value"</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">x_add</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x_add</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
                 <span class="n">x_add</span> <span class="o">=</span> <span class="p">[</span><span class="n">x_add</span><span class="p">]</span>
-        <span class="n">Validators</span><span class="o">.</span><span class="n">validate_numeric_sequence</span><span class="p">(</span><span class="n">x_add</span><span class="p">,</span> <span class="s2">&quot;x_add&quot;</span><span class="p">,</span> <span class="n">allow_none</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">Validators</span><span class="o">.</span><span class="n">validate_numeric_sequence</span><span class="p">(</span><span class="n">x_add</span><span class="p">,</span> <span class="s2">"x_add"</span><span class="p">,</span> <span class="n">allow_none</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">x_subtract</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x_subtract</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
                 <span class="n">x_subtract</span> <span class="o">=</span> <span class="p">[</span><span class="n">x_subtract</span><span class="p">]</span>
-        <span class="n">Validators</span><span class="o">.</span><span class="n">validate_numeric_sequence</span><span class="p">(</span><span class="n">x_subtract</span><span class="p">,</span> <span class="s2">&quot;x_subtract&quot;</span><span class="p">,</span> <span class="n">allow_none</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="n">Validators</span><span class="o">.</span><span class="n">validate_string_sequence</span><span class="p">(</span><span class="n">include_paths</span><span class="p">,</span> <span class="s2">&quot;include_paths&quot;</span><span class="p">,</span> <span class="n">allow_none</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="n">Validators</span><span class="o">.</span><span class="n">validate_string_sequence</span><span class="p">(</span><span class="n">exclude_paths</span><span class="p">,</span> <span class="s2">&quot;exclude_paths&quot;</span><span class="p">,</span> <span class="n">allow_none</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">Validators</span><span class="o">.</span><span class="n">validate_numeric_sequence</span><span class="p">(</span><span class="n">x_subtract</span><span class="p">,</span> <span class="s2">"x_subtract"</span><span class="p">,</span> <span class="n">allow_none</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">Validators</span><span class="o">.</span><span class="n">validate_string_sequence</span><span class="p">(</span><span class="n">include_paths</span><span class="p">,</span> <span class="s2">"include_paths"</span><span class="p">,</span> <span class="n">allow_none</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">Validators</span><span class="o">.</span><span class="n">validate_string_sequence</span><span class="p">(</span><span class="n">exclude_paths</span><span class="p">,</span> <span class="s2">"exclude_paths"</span><span class="p">,</span> <span class="n">allow_none</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">brackets</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">brackets</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
-        <span class="n">Validators</span><span class="o">.</span><span class="n">validate_string_sequence</span><span class="p">(</span><span class="n">brackets</span><span class="p">,</span> <span class="s2">&quot;brackets&quot;</span><span class="p">,</span> <span class="n">required_length</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-        <span class="n">Validators</span><span class="o">.</span><span class="n">validate_number</span><span class="p">(</span><span class="n">n_decimals</span><span class="p">,</span> <span class="s2">&quot;n_decimals&quot;</span><span class="p">,</span> <span class="n">min_value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">only_integer</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">brackets</span> <span class="o">=</span> <span class="p">(</span><span class="s2">""</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span>
+        <span class="n">Validators</span><span class="o">.</span><span class="n">validate_string_sequence</span><span class="p">(</span><span class="n">brackets</span><span class="p">,</span> <span class="s2">"brackets"</span><span class="p">,</span> <span class="n">required_length</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">Validators</span><span class="o">.</span><span class="n">validate_number</span><span class="p">(</span><span class="n">n_decimals</span><span class="p">,</span> <span class="s2">"n_decimals"</span><span class="p">,</span> <span class="n">min_value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">only_integer</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">include_paths</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">exclude_paths</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Cannot specify both include_paths and exclude_paths.&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Cannot specify both include_paths and exclude_paths."</span><span class="p">)</span>
 
         <span class="c1"># Get all paths that should be modified</span>
         <span class="k">if</span> <span class="n">include_paths</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -2770,14 +2770,14 @@ path name and x-coordinate.</p>
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">path</span> <span class="o">=</span> <span class="n">path_data</span><span class="p">[</span><span class="n">path_name</span><span class="p">]</span>
             <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Path &#39;</span><span class="si">{</span><span class="n">path_name</span><span class="si">}</span><span class="s2">&#39; not found in path_data.&quot;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Path '</span><span class="si">{</span><span class="n">path_name</span><span class="si">}</span><span class="s2">' not found in path_data."</span><span class="p">)</span>
             <span class="k">try</span><span class="p">:</span>
-                <span class="n">label</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mpl_objects</span><span class="p">[</span><span class="n">path_name</span><span class="p">][</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">x</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span>
+                <span class="n">label</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mpl_objects</span><span class="p">[</span><span class="n">path_name</span><span class="p">][</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">x</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">"</span><span class="p">]</span>
                 <span class="n">is_label_found</span> <span class="o">=</span> <span class="kc">True</span>
             <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
                 <span class="nb">print</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">&quot;Warning (modify_number_values): No label found for path&quot;</span>
-                    <span class="sa">f</span><span class="s2">&quot; &#39;</span><span class="si">{</span><span class="n">path_name</span><span class="si">}</span><span class="s2">&#39; at x=</span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s2">. Skipping modification.&quot;</span>
+                    <span class="sa">f</span><span class="s2">"Warning (modify_number_values): No label found for path"</span>
+                    <span class="sa">f</span><span class="s2">" '</span><span class="si">{</span><span class="n">path_name</span><span class="si">}</span><span class="s2">' at x=</span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s2">. Skipping modification."</span>
                 <span class="p">)</span>
                 <span class="n">is_label_found</span> <span class="o">=</span> <span class="kc">False</span>
 
@@ -2788,28 +2788,28 @@ path name and x-coordinate.</p>
                 <span class="k">if</span> <span class="n">x_add</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                     <span class="k">for</span> <span class="n">x_val</span> <span class="ow">in</span> <span class="n">x_add</span><span class="p">:</span>
                         <span class="k">try</span><span class="p">:</span>
-                            <span class="n">index</span> <span class="o">=</span> <span class="n">path</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">x_val</span><span class="p">)</span>
-                            <span class="n">number_new</span> <span class="o">+=</span> <span class="n">path_data</span><span class="p">[</span><span class="n">path_name</span><span class="p">][</span><span class="s2">&quot;y&quot;</span><span class="p">][</span><span class="n">index</span><span class="p">]</span>
+                            <span class="n">index</span> <span class="o">=</span> <span class="n">path</span><span class="p">[</span><span class="s2">"x"</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">x_val</span><span class="p">)</span>
+                            <span class="n">number_new</span> <span class="o">+=</span> <span class="n">path_data</span><span class="p">[</span><span class="n">path_name</span><span class="p">][</span><span class="s2">"y"</span><span class="p">][</span><span class="n">index</span><span class="p">]</span>
                         <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
                             <span class="nb">print</span><span class="p">(</span>
-                                <span class="sa">f</span><span class="s2">&quot;Warning (modify_number_values): Value at x=</span><span class="si">{</span><span class="n">x_val</span><span class="si">}</span><span class="s2"> not&quot;</span>
-                                <span class="sa">f</span><span class="s2">&quot; found for path. &#39;</span><span class="si">{</span><span class="n">path_name</span><span class="si">}</span><span class="s2">&#39;. Skipping addition.&quot;</span>
+                                <span class="sa">f</span><span class="s2">"Warning (modify_number_values): Value at x=</span><span class="si">{</span><span class="n">x_val</span><span class="si">}</span><span class="s2"> not"</span>
+                                <span class="sa">f</span><span class="s2">" found for path. '</span><span class="si">{</span><span class="n">path_name</span><span class="si">}</span><span class="s2">'. Skipping addition."</span>
                             <span class="p">)</span>
 
                 <span class="k">if</span> <span class="n">x_subtract</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                     <span class="k">for</span> <span class="n">x_val</span> <span class="ow">in</span> <span class="n">x_subtract</span><span class="p">:</span>
                         <span class="k">try</span><span class="p">:</span>
-                            <span class="n">index</span> <span class="o">=</span> <span class="n">path</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">x_val</span><span class="p">)</span>
-                            <span class="n">number_new</span> <span class="o">-=</span> <span class="n">path_data</span><span class="p">[</span><span class="n">path_name</span><span class="p">][</span><span class="s2">&quot;y&quot;</span><span class="p">][</span><span class="n">index</span><span class="p">]</span>
+                            <span class="n">index</span> <span class="o">=</span> <span class="n">path</span><span class="p">[</span><span class="s2">"x"</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">x_val</span><span class="p">)</span>
+                            <span class="n">number_new</span> <span class="o">-=</span> <span class="n">path_data</span><span class="p">[</span><span class="n">path_name</span><span class="p">][</span><span class="s2">"y"</span><span class="p">][</span><span class="n">index</span><span class="p">]</span>
                         <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
                             <span class="nb">print</span><span class="p">(</span>
-                                <span class="sa">f</span><span class="s2">&quot;Warning (modify_number_values): Value at x=</span><span class="si">{</span><span class="n">x_val</span><span class="si">}</span><span class="s2"> not&quot;</span>
-                                <span class="sa">f</span><span class="s2">&quot; found for path. &#39;</span><span class="si">{</span><span class="n">path_name</span><span class="si">}</span><span class="s2">&#39;. Skipping subtraction.&quot;</span>
+                                <span class="sa">f</span><span class="s2">"Warning (modify_number_values): Value at x=</span><span class="si">{</span><span class="n">x_val</span><span class="si">}</span><span class="s2"> not"</span>
+                                <span class="sa">f</span><span class="s2">" found for path. '</span><span class="si">{</span><span class="n">path_name</span><span class="si">}</span><span class="s2">'. Skipping subtraction."</span>
                             <span class="p">)</span>
 
                 <span class="c1"># Update the label text</span>
-                <span class="n">new_text</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">brackets</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}{</span><span class="n">number_new</span><span class="si">:</span><span class="s2">.</span><span class="si">{</span><span class="n">n_decimals</span><span class="si">}</span><span class="s2">f</span><span class="si">}{</span><span class="n">brackets</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
-                <span class="n">new_text</span> <span class="o">=</span> <span class="n">new_text</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">MINUS_SIGN</span><span class="p">)</span>
+                <span class="n">new_text</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">brackets</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}{</span><span class="n">number_new</span><span class="si">:</span><span class="s2">.</span><span class="si">{</span><span class="n">n_decimals</span><span class="si">}</span><span class="s2">f</span><span class="si">}{</span><span class="n">brackets</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span>
+                <span class="n">new_text</span> <span class="o">=</span> <span class="n">new_text</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"-"</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">MINUS_SIGN</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">append_to_existing</span><span class="p">:</span>
                     <span class="n">new_text</span> <span class="o">=</span> <span class="n">label</span><span class="o">.</span><span class="n">get_text</span><span class="p">()</span> <span class="o">+</span> <span class="n">new_text</span>
                 <span class="n">label</span><span class="o">.</span><span class="n">set_text</span><span class="p">(</span><span class="n">new_text</span><span class="p">)</span>
@@ -2818,34 +2818,34 @@ path name and x-coordinate.</p>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">path_data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
         <span class="n">x_positions</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
-        <span class="n">direction</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;right&quot;</span><span class="p">,</span>
+        <span class="n">direction</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"right"</span><span class="p">,</span>
         <span class="n">include_paths</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">exclude_paths</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">brackets</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;(&quot;</span><span class="p">,</span> <span class="s2">&quot;)&quot;</span><span class="p">),</span>
-        <span class="n">seperator</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;/&quot;</span><span class="p">,</span>
+        <span class="n">brackets</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="p">(</span><span class="s2">"("</span><span class="p">,</span> <span class="s2">")"</span><span class="p">),</span>
+        <span class="n">seperator</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"/"</span><span class="p">,</span>
         <span class="n">n_decimals</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
         <span class="n">switch_order</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">append_to_existing</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="c1"># Sanity checks</span>
-        <span class="n">ALLOWED_DIRECTIONS</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;right&quot;</span><span class="p">,</span> <span class="s2">&quot;left&quot;</span><span class="p">,</span> <span class="s2">&quot;both&quot;</span><span class="p">]</span>
+        <span class="n">ALLOWED_DIRECTIONS</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"right"</span><span class="p">,</span> <span class="s2">"left"</span><span class="p">,</span> <span class="s2">"both"</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">direction</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ALLOWED_DIRECTIONS</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Invalid direction &#39;</span><span class="si">{</span><span class="n">direction</span><span class="si">}</span><span class="s2">&#39;. Must be one of </span><span class="si">{</span><span class="n">ALLOWED_DIRECTIONS</span><span class="si">}</span><span class="s2">.&quot;</span>
+                <span class="sa">f</span><span class="s2">"Invalid direction '</span><span class="si">{</span><span class="n">direction</span><span class="si">}</span><span class="s2">'. Must be one of </span><span class="si">{</span><span class="n">ALLOWED_DIRECTIONS</span><span class="si">}</span><span class="s2">."</span>
             <span class="p">)</span>
-        <span class="n">Validators</span><span class="o">.</span><span class="n">validate_numeric_sequence</span><span class="p">(</span><span class="n">x_positions</span><span class="p">,</span> <span class="s2">&quot;x_positions&quot;</span><span class="p">)</span>
-        <span class="n">Validators</span><span class="o">.</span><span class="n">validate_string_sequence</span><span class="p">(</span><span class="n">include_paths</span><span class="p">,</span> <span class="s2">&quot;include_paths&quot;</span><span class="p">,</span> <span class="n">allow_none</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="n">Validators</span><span class="o">.</span><span class="n">validate_string_sequence</span><span class="p">(</span><span class="n">exclude_paths</span><span class="p">,</span> <span class="s2">&quot;exclude_paths&quot;</span><span class="p">,</span> <span class="n">allow_none</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">Validators</span><span class="o">.</span><span class="n">validate_numeric_sequence</span><span class="p">(</span><span class="n">x_positions</span><span class="p">,</span> <span class="s2">"x_positions"</span><span class="p">)</span>
+        <span class="n">Validators</span><span class="o">.</span><span class="n">validate_string_sequence</span><span class="p">(</span><span class="n">include_paths</span><span class="p">,</span> <span class="s2">"include_paths"</span><span class="p">,</span> <span class="n">allow_none</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">Validators</span><span class="o">.</span><span class="n">validate_string_sequence</span><span class="p">(</span><span class="n">exclude_paths</span><span class="p">,</span> <span class="s2">"exclude_paths"</span><span class="p">,</span> <span class="n">allow_none</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">brackets</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">brackets</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+            <span class="n">brackets</span> <span class="o">=</span> <span class="p">(</span><span class="s2">""</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">seperator</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">seperator</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
-        <span class="n">Validators</span><span class="o">.</span><span class="n">validate_string_sequence</span><span class="p">(</span><span class="n">brackets</span><span class="p">,</span> <span class="s2">&quot;brackets&quot;</span><span class="p">,</span> <span class="n">required_length</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+            <span class="n">seperator</span> <span class="o">=</span> <span class="s2">""</span>
+        <span class="n">Validators</span><span class="o">.</span><span class="n">validate_string_sequence</span><span class="p">(</span><span class="n">brackets</span><span class="p">,</span> <span class="s2">"brackets"</span><span class="p">,</span> <span class="n">required_length</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">seperator</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;seperator must be a string.&quot;</span><span class="p">)</span>
-        <span class="n">Validators</span><span class="o">.</span><span class="n">validate_number</span><span class="p">(</span><span class="n">n_decimals</span><span class="p">,</span> <span class="s2">&quot;n_decimals&quot;</span><span class="p">,</span> <span class="n">min_value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">only_integer</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">"seperator must be a string."</span><span class="p">)</span>
+        <span class="n">Validators</span><span class="o">.</span><span class="n">validate_number</span><span class="p">(</span><span class="n">n_decimals</span><span class="p">,</span> <span class="s2">"n_decimals"</span><span class="p">,</span> <span class="n">min_value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">only_integer</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">include_paths</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">exclude_paths</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Cannot specify both include_paths and exclude_paths.&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Cannot specify both include_paths and exclude_paths."</span><span class="p">)</span>
 
         <span class="c1"># Get all paths that should be modified</span>
         <span class="k">if</span> <span class="n">include_paths</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -2860,27 +2860,27 @@ path name and x-coordinate.</p>
                 <span class="k">try</span><span class="p">:</span>
                     <span class="n">path</span> <span class="o">=</span> <span class="n">path_data</span><span class="p">[</span><span class="n">path_name</span><span class="p">]</span>
                 <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
-                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Path &#39;</span><span class="si">{</span><span class="n">path_name</span><span class="si">}</span><span class="s2">&#39; not found in path_data.&quot;</span><span class="p">)</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Path '</span><span class="si">{</span><span class="n">path_name</span><span class="si">}</span><span class="s2">' not found in path_data."</span><span class="p">)</span>
                 <span class="k">try</span><span class="p">:</span>
-                    <span class="n">label</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mpl_objects</span><span class="p">[</span><span class="n">path_name</span><span class="p">][</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">x_position</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span>
+                    <span class="n">label</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mpl_objects</span><span class="p">[</span><span class="n">path_name</span><span class="p">][</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">x_position</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">"</span><span class="p">]</span>
                     <span class="n">is_label_found</span> <span class="o">=</span> <span class="kc">True</span>
                 <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
-                    <span class="k">if</span> <span class="n">path</span><span class="p">[</span><span class="s2">&quot;show_numbers&quot;</span><span class="p">]:</span>
+                    <span class="k">if</span> <span class="n">path</span><span class="p">[</span><span class="s2">"show_numbers"</span><span class="p">]:</span>
                         <span class="nb">print</span><span class="p">(</span>
-                            <span class="sa">f</span><span class="s2">&quot;Warning (display_activation_barriers): No label found for path&quot;</span>
-                            <span class="sa">f</span><span class="s2">&quot; &#39;</span><span class="si">{</span><span class="n">path_name</span><span class="si">}</span><span class="s2">&#39; at x=</span><span class="si">{</span><span class="n">x_position</span><span class="si">}</span><span class="s2">. Skipping modification.&quot;</span>
+                            <span class="sa">f</span><span class="s2">"Warning (display_activation_barriers): No label found for path"</span>
+                            <span class="sa">f</span><span class="s2">" '</span><span class="si">{</span><span class="n">path_name</span><span class="si">}</span><span class="s2">' at x=</span><span class="si">{</span><span class="n">x_position</span><span class="si">}</span><span class="s2">. Skipping modification."</span>
                         <span class="p">)</span>
                     <span class="n">is_label_found</span> <span class="o">=</span> <span class="kc">False</span>
 
                 <span class="c1"># Get index of x_position in path</span>
                 <span class="k">try</span><span class="p">:</span>
-                    <span class="n">index</span> <span class="o">=</span> <span class="n">path</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">x_position</span><span class="p">)</span>
+                    <span class="n">index</span> <span class="o">=</span> <span class="n">path</span><span class="p">[</span><span class="s2">"x"</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">x_position</span><span class="p">)</span>
                     <span class="n">is_value_found</span> <span class="o">=</span> <span class="kc">True</span>
                 <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
-                    <span class="k">if</span> <span class="n">path</span><span class="p">[</span><span class="s2">&quot;show_numbers&quot;</span><span class="p">]:</span>
+                    <span class="k">if</span> <span class="n">path</span><span class="p">[</span><span class="s2">"show_numbers"</span><span class="p">]:</span>
                         <span class="nb">print</span><span class="p">(</span>
-                            <span class="sa">f</span><span class="s2">&quot;Warning (display_activation_barriers): Value at x=</span><span class="si">{</span><span class="n">x_position</span><span class="si">}</span><span class="s2"> &quot;</span>
-                            <span class="sa">f</span><span class="s2">&quot;not found for path &#39;</span><span class="si">{</span><span class="n">path_name</span><span class="si">}</span><span class="s2">&#39;. Skipping modification.&quot;</span>
+                            <span class="sa">f</span><span class="s2">"Warning (display_activation_barriers): Value at x=</span><span class="si">{</span><span class="n">x_position</span><span class="si">}</span><span class="s2"> "</span>
+                            <span class="sa">f</span><span class="s2">"not found for path '</span><span class="si">{</span><span class="n">path_name</span><span class="si">}</span><span class="s2">'. Skipping modification."</span>
                         <span class="p">)</span>
                     <span class="n">is_value_found</span> <span class="o">=</span> <span class="kc">False</span>
 
@@ -2889,35 +2889,35 @@ path name and x-coordinate.</p>
                     <span class="c1"># Calculate activation barriers to the right and left (if possible)</span>
                     <span class="n">activation_barrier_right</span> <span class="o">=</span> <span class="kc">None</span>
                     <span class="n">activation_barrier_left</span> <span class="o">=</span> <span class="kc">None</span>
-                    <span class="k">if</span> <span class="n">direction</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;right&quot;</span><span class="p">,</span> <span class="s2">&quot;both&quot;</span><span class="p">]:</span>
+                    <span class="k">if</span> <span class="n">direction</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">"right"</span><span class="p">,</span> <span class="s2">"both"</span><span class="p">]:</span>
                         <span class="k">if</span> <span class="n">index</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
                             <span class="n">activation_barrier_right</span> <span class="o">=</span> <span class="p">(</span>
-                                <span class="n">path_data</span><span class="p">[</span><span class="n">path_name</span><span class="p">][</span><span class="s2">&quot;y&quot;</span><span class="p">][</span><span class="n">index</span><span class="p">]</span>
-                                <span class="o">-</span> <span class="n">path_data</span><span class="p">[</span><span class="n">path_name</span><span class="p">][</span><span class="s2">&quot;y&quot;</span><span class="p">][</span><span class="n">index</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+                                <span class="n">path_data</span><span class="p">[</span><span class="n">path_name</span><span class="p">][</span><span class="s2">"y"</span><span class="p">][</span><span class="n">index</span><span class="p">]</span>
+                                <span class="o">-</span> <span class="n">path_data</span><span class="p">[</span><span class="n">path_name</span><span class="p">][</span><span class="s2">"y"</span><span class="p">][</span><span class="n">index</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
                             <span class="p">)</span>
                         <span class="k">else</span><span class="p">:</span>
                             <span class="nb">print</span><span class="p">(</span>
-                                <span class="sa">f</span><span class="s2">&quot;Warning (display_activation_barriers): &quot;</span>
-                                <span class="sa">f</span><span class="s2">&quot;Cannot calculate right activation barrier for path &quot;</span>
-                                <span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">path_name</span><span class="si">}</span><span class="s2">&#39; at x=</span><span class="si">{</span><span class="n">x_position</span><span class="si">}</span><span class="s2"> because it is the first &quot;</span>
-                                <span class="sa">f</span><span class="s2">&quot;point on the path. Skipping right barrier.&quot;</span>
+                                <span class="sa">f</span><span class="s2">"Warning (display_activation_barriers): "</span>
+                                <span class="sa">f</span><span class="s2">"Cannot calculate right activation barrier for path "</span>
+                                <span class="sa">f</span><span class="s2">"'</span><span class="si">{</span><span class="n">path_name</span><span class="si">}</span><span class="s2">' at x=</span><span class="si">{</span><span class="n">x_position</span><span class="si">}</span><span class="s2"> because it is the first "</span>
+                                <span class="sa">f</span><span class="s2">"point on the path. Skipping right barrier."</span>
                             <span class="p">)</span>
-                    <span class="k">if</span> <span class="n">direction</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;left&quot;</span><span class="p">,</span> <span class="s2">&quot;both&quot;</span><span class="p">]:</span>
-                        <span class="k">if</span> <span class="n">index</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">path</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">])</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">direction</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">"left"</span><span class="p">,</span> <span class="s2">"both"</span><span class="p">]:</span>
+                        <span class="k">if</span> <span class="n">index</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">path</span><span class="p">[</span><span class="s2">"x"</span><span class="p">])</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
                             <span class="n">activation_barrier_left</span> <span class="o">=</span> <span class="p">(</span>
-                                <span class="n">path_data</span><span class="p">[</span><span class="n">path_name</span><span class="p">][</span><span class="s2">&quot;y&quot;</span><span class="p">][</span><span class="n">index</span><span class="p">]</span>
-                                <span class="o">-</span> <span class="n">path_data</span><span class="p">[</span><span class="n">path_name</span><span class="p">][</span><span class="s2">&quot;y&quot;</span><span class="p">][</span><span class="n">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+                                <span class="n">path_data</span><span class="p">[</span><span class="n">path_name</span><span class="p">][</span><span class="s2">"y"</span><span class="p">][</span><span class="n">index</span><span class="p">]</span>
+                                <span class="o">-</span> <span class="n">path_data</span><span class="p">[</span><span class="n">path_name</span><span class="p">][</span><span class="s2">"y"</span><span class="p">][</span><span class="n">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
                             <span class="p">)</span>
                         <span class="k">else</span><span class="p">:</span>
                             <span class="nb">print</span><span class="p">(</span>
-                                <span class="sa">f</span><span class="s2">&quot;Warning (display_activation_barriers): &quot;</span>
-                                <span class="sa">f</span><span class="s2">&quot;Cannot calculate left activation barrier for path &quot;</span>
-                                <span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">path_name</span><span class="si">}</span><span class="s2">&#39; at x=</span><span class="si">{</span><span class="n">x_position</span><span class="si">}</span><span class="s2"> because it is the last &quot;</span>
-                                <span class="sa">f</span><span class="s2">&quot;point on the path. Skipping left barrier.&quot;</span>
+                                <span class="sa">f</span><span class="s2">"Warning (display_activation_barriers): "</span>
+                                <span class="sa">f</span><span class="s2">"Cannot calculate left activation barrier for path "</span>
+                                <span class="sa">f</span><span class="s2">"'</span><span class="si">{</span><span class="n">path_name</span><span class="si">}</span><span class="s2">' at x=</span><span class="si">{</span><span class="n">x_position</span><span class="si">}</span><span class="s2"> because it is the last "</span>
+                                <span class="sa">f</span><span class="s2">"point on the path. Skipping left barrier."</span>
                             <span class="p">)</span>
 
                     <span class="c1"># Format the label text to display the activation barriers</span>
-                    <span class="n">barrier_texts</span> <span class="o">=</span> <span class="p">[</span><span class="n">brackets</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">brackets</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
+                    <span class="n">barrier_texts</span> <span class="o">=</span> <span class="p">[</span><span class="n">brackets</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s2">""</span><span class="p">,</span> <span class="s2">""</span><span class="p">,</span> <span class="s2">""</span><span class="p">,</span> <span class="n">brackets</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
                     <span class="k">if</span> <span class="p">(</span>
                         <span class="n">activation_barrier_right</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
                         <span class="ow">and</span> <span class="n">activation_barrier_left</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
@@ -2926,30 +2926,30 @@ path name and x-coordinate.</p>
                     <span class="k">if</span> <span class="n">activation_barrier_right</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                         <span class="k">if</span> <span class="n">switch_order</span><span class="p">:</span>
                             <span class="n">barrier_texts</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
-                                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">activation_barrier_right</span><span class="si">:</span><span class="s2">.</span><span class="si">{</span><span class="n">n_decimals</span><span class="si">}</span><span class="s2">f</span><span class="si">}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span>
-                                    <span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">MINUS_SIGN</span>
+                                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">activation_barrier_right</span><span class="si">:</span><span class="s2">.</span><span class="si">{</span><span class="n">n_decimals</span><span class="si">}</span><span class="s2">f</span><span class="si">}</span><span class="s2">"</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span>
+                                    <span class="s2">"-"</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">MINUS_SIGN</span>
                                 <span class="p">)</span>
                             <span class="p">)</span>
                         <span class="k">else</span><span class="p">:</span>
                             <span class="n">barrier_texts</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
-                                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">activation_barrier_right</span><span class="si">:</span><span class="s2">.</span><span class="si">{</span><span class="n">n_decimals</span><span class="si">}</span><span class="s2">f</span><span class="si">}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span>
-                                    <span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">MINUS_SIGN</span>
+                                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">activation_barrier_right</span><span class="si">:</span><span class="s2">.</span><span class="si">{</span><span class="n">n_decimals</span><span class="si">}</span><span class="s2">f</span><span class="si">}</span><span class="s2">"</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span>
+                                    <span class="s2">"-"</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">MINUS_SIGN</span>
                                 <span class="p">)</span>
                             <span class="p">)</span>
                     <span class="k">if</span> <span class="n">activation_barrier_left</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                         <span class="k">if</span> <span class="n">switch_order</span><span class="p">:</span>
                             <span class="n">barrier_texts</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
-                                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">activation_barrier_left</span><span class="si">:</span><span class="s2">.</span><span class="si">{</span><span class="n">n_decimals</span><span class="si">}</span><span class="s2">f</span><span class="si">}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span>
-                                    <span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">MINUS_SIGN</span>
+                                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">activation_barrier_left</span><span class="si">:</span><span class="s2">.</span><span class="si">{</span><span class="n">n_decimals</span><span class="si">}</span><span class="s2">f</span><span class="si">}</span><span class="s2">"</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span>
+                                    <span class="s2">"-"</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">MINUS_SIGN</span>
                                 <span class="p">)</span>
                             <span class="p">)</span>
                         <span class="k">else</span><span class="p">:</span>
                             <span class="n">barrier_texts</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
-                                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">activation_barrier_left</span><span class="si">:</span><span class="s2">.</span><span class="si">{</span><span class="n">n_decimals</span><span class="si">}</span><span class="s2">f</span><span class="si">}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span>
-                                    <span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">MINUS_SIGN</span>
+                                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">activation_barrier_left</span><span class="si">:</span><span class="s2">.</span><span class="si">{</span><span class="n">n_decimals</span><span class="si">}</span><span class="s2">f</span><span class="si">}</span><span class="s2">"</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span>
+                                    <span class="s2">"-"</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">MINUS_SIGN</span>
                                 <span class="p">)</span>
                             <span class="p">)</span>
-                    <span class="n">new_label_text</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">barrier_texts</span><span class="p">)</span>
+                    <span class="n">new_label_text</span> <span class="o">=</span> <span class="s2">""</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">barrier_texts</span><span class="p">)</span>
                     <span class="k">if</span> <span class="n">append_to_existing</span><span class="p">:</span>
                         <span class="n">new_label_text</span> <span class="o">=</span> <span class="n">label</span><span class="o">.</span><span class="n">get_text</span><span class="p">()</span> <span class="o">+</span> <span class="n">new_label_text</span>
                     <span class="n">label</span><span class="o">.</span><span class="n">set_text</span><span class="p">(</span><span class="n">new_label_text</span><span class="p">)</span>
@@ -2957,39 +2957,39 @@ path name and x-coordinate.</p>
     <span class="k">def</span><span class="w"> </span><span class="nf">append_to_energy_labels</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">numbers_to_append</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">]],</span>
-        <span class="n">brackets</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;(&quot;</span><span class="p">,</span> <span class="s2">&quot;)&quot;</span><span class="p">),</span>
+        <span class="n">brackets</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="p">(</span><span class="s2">"("</span><span class="p">,</span> <span class="s2">")"</span><span class="p">),</span>
         <span class="n">n_decimals</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
         <span class="n">infront</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="c1"># Sanity checks</span>
         <span class="k">if</span> <span class="n">brackets</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">brackets</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
-        <span class="n">Validators</span><span class="o">.</span><span class="n">validate_string_sequence</span><span class="p">(</span><span class="n">brackets</span><span class="p">,</span> <span class="s2">&quot;brackets&quot;</span><span class="p">,</span> <span class="n">required_length</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-        <span class="n">Validators</span><span class="o">.</span><span class="n">validate_number</span><span class="p">(</span><span class="n">n_decimals</span><span class="p">,</span> <span class="s2">&quot;n_decimals&quot;</span><span class="p">,</span> <span class="n">min_value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">only_integer</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">brackets</span> <span class="o">=</span> <span class="p">(</span><span class="s2">""</span><span class="p">,</span> <span class="s2">""</span><span class="p">)</span>
+        <span class="n">Validators</span><span class="o">.</span><span class="n">validate_string_sequence</span><span class="p">(</span><span class="n">brackets</span><span class="p">,</span> <span class="s2">"brackets"</span><span class="p">,</span> <span class="n">required_length</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">Validators</span><span class="o">.</span><span class="n">validate_number</span><span class="p">(</span><span class="n">n_decimals</span><span class="p">,</span> <span class="s2">"n_decimals"</span><span class="p">,</span> <span class="n">min_value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">only_integer</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">path_name</span><span class="p">,</span> <span class="n">number_list</span> <span class="ow">in</span> <span class="n">numbers_to_append</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="k">if</span> <span class="n">path_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">mpl_objects</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">&quot;append_to_energy_labels: No energy labels found for path&quot;</span>
-                    <span class="sa">f</span><span class="s2">&quot; &#39;</span><span class="si">{</span><span class="n">path_name</span><span class="si">}</span><span class="s2">&#39; specified in numbers_to_append.&quot;</span>
+                    <span class="sa">f</span><span class="s2">"append_to_energy_labels: No energy labels found for path"</span>
+                    <span class="sa">f</span><span class="s2">" '</span><span class="si">{</span><span class="n">path_name</span><span class="si">}</span><span class="s2">' specified in numbers_to_append."</span>
                 <span class="p">)</span>
 
             <span class="n">Validators</span><span class="o">.</span><span class="n">validate_numeric_sequence</span><span class="p">(</span>
-                <span class="n">number_list</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;numbers_to_append[&#39;</span><span class="si">{</span><span class="n">path_name</span><span class="si">}</span><span class="s2">&#39;]&quot;</span><span class="p">,</span> <span class="n">allow_none_elements</span><span class="o">=</span><span class="kc">True</span>
+                <span class="n">number_list</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"numbers_to_append['</span><span class="si">{</span><span class="n">path_name</span><span class="si">}</span><span class="s2">']"</span><span class="p">,</span> <span class="n">allow_none_elements</span><span class="o">=</span><span class="kc">True</span>
             <span class="p">)</span>
 
         <span class="c1"># For each path append the numbers to the label</span>
         <span class="k">for</span> <span class="n">path_name</span><span class="p">,</span> <span class="n">number_list</span> <span class="ow">in</span> <span class="n">numbers_to_append</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">number_list</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mpl_objects</span><span class="p">[</span><span class="n">path_name</span><span class="p">]):</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">&quot;Length of numbers_to_append for path &#39;</span><span class="si">{</span><span class="n">path_name</span><span class="si">}</span><span class="s2">&#39; does not match&quot;</span>
-                    <span class="sa">f</span><span class="s2">&quot; the number of energy labels (</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mpl_objects</span><span class="p">[</span><span class="n">path_name</span><span class="p">])</span><span class="si">}</span><span class="s2">).&quot;</span>
+                    <span class="sa">f</span><span class="s2">"Length of numbers_to_append for path '</span><span class="si">{</span><span class="n">path_name</span><span class="si">}</span><span class="s2">' does not match"</span>
+                    <span class="sa">f</span><span class="s2">" the number of energy labels (</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mpl_objects</span><span class="p">[</span><span class="n">path_name</span><span class="p">])</span><span class="si">}</span><span class="s2">)."</span>
                 <span class="p">)</span>
             <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">energy_label</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mpl_objects</span><span class="p">[</span><span class="n">path_name</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">()):</span>
                 <span class="k">if</span> <span class="n">number_list</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                     <span class="n">number_to_append</span> <span class="o">=</span> <span class="p">(</span>
-                        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">brackets</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}{</span><span class="n">number_list</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">:</span><span class="s2">.</span><span class="si">{</span><span class="n">n_decimals</span><span class="si">}</span><span class="s2">f</span><span class="si">}{</span><span class="n">brackets</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
+                        <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">brackets</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}{</span><span class="n">number_list</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">:</span><span class="s2">.</span><span class="si">{</span><span class="n">n_decimals</span><span class="si">}</span><span class="s2">f</span><span class="si">}{</span><span class="n">brackets</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span>
                     <span class="p">)</span>
-                    <span class="n">number_to_append</span> <span class="o">=</span> <span class="n">number_to_append</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">MINUS_SIGN</span><span class="p">)</span>
+                    <span class="n">number_to_append</span> <span class="o">=</span> <span class="n">number_to_append</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"-"</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">MINUS_SIGN</span><span class="p">)</span>
                     <span class="k">if</span> <span class="n">infront</span><span class="p">:</span>
                         <span class="n">new_text</span> <span class="o">=</span> <span class="n">number_to_append</span> <span class="o">+</span> <span class="n">energy_label</span><span class="o">.</span><span class="n">get_text</span><span class="p">()</span>
                     <span class="k">else</span><span class="p">:</span>
@@ -3007,13 +3007,13 @@ path name and x-coordinate.</p>
         <span class="c1"># Convert x_min_max to an inclusive interval</span>
         <span class="k">if</span> <span class="n">x_min_max</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x_min_max</span><span class="p">,</span> <span class="p">(</span><span class="n">Sequence</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)):</span>
-                <span class="n">Validators</span><span class="o">.</span><span class="n">validate_numeric_sequence</span><span class="p">(</span><span class="n">x_min_max</span><span class="p">,</span> <span class="s2">&quot;x_min_max&quot;</span><span class="p">,</span> <span class="n">required_length</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+                <span class="n">Validators</span><span class="o">.</span><span class="n">validate_numeric_sequence</span><span class="p">(</span><span class="n">x_min_max</span><span class="p">,</span> <span class="s2">"x_min_max"</span><span class="p">,</span> <span class="n">required_length</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
                 <span class="n">x_min_max_new</span> <span class="o">=</span> <span class="p">(</span><span class="n">x_min_max</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">x_min_max</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
             <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x_min_max</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">)):</span>
                 <span class="n">x_min_max_new</span> <span class="o">=</span> <span class="p">(</span><span class="n">x_min_max</span><span class="p">,</span> <span class="n">x_min_max</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
-                    <span class="s2">&quot;x_min_max must be a tuple or list with length 2 or a numeric value.&quot;</span>
+                    <span class="s2">"x_min_max must be a tuple or list with length 2 or a numeric value."</span>
                 <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">x_min_max_new</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">)</span>
@@ -3027,21 +3027,21 @@ path name and x-coordinate.</p>
         <span class="n">values_to_print</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">path_name</span><span class="p">,</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">path_data</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="c1"># Only select data [[x...],[y...],color] in interval if show_numbers=True</span>
-            <span class="k">if</span> <span class="n">path</span><span class="p">[</span><span class="s2">&quot;show_numbers&quot;</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="n">path</span><span class="p">[</span><span class="s2">"show_numbers"</span><span class="p">]:</span>
                 <span class="n">values_to_print</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
                     <span class="p">{</span>
-                        <span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="p">[</span>
-                            <span class="n">path</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span>
-                            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">path</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">]))</span>
-                            <span class="k">if</span> <span class="n">x_min_max</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">path</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">x_min_max</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                        <span class="s2">"x"</span><span class="p">:</span> <span class="p">[</span>
+                            <span class="n">path</span><span class="p">[</span><span class="s2">"x"</span><span class="p">][</span><span class="n">i</span><span class="p">]</span>
+                            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">path</span><span class="p">[</span><span class="s2">"x"</span><span class="p">]))</span>
+                            <span class="k">if</span> <span class="n">x_min_max</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">path</span><span class="p">[</span><span class="s2">"x"</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">x_min_max</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
                         <span class="p">],</span>
-                        <span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="p">[</span>
-                            <span class="n">path</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span>
-                            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">path</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">]))</span>
-                            <span class="k">if</span> <span class="n">x_min_max</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">path</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">x_min_max</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                        <span class="s2">"y"</span><span class="p">:</span> <span class="p">[</span>
+                            <span class="n">path</span><span class="p">[</span><span class="s2">"y"</span><span class="p">][</span><span class="n">i</span><span class="p">]</span>
+                            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">path</span><span class="p">[</span><span class="s2">"x"</span><span class="p">]))</span>
+                            <span class="k">if</span> <span class="n">x_min_max</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">path</span><span class="p">[</span><span class="s2">"x"</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">x_min_max</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
                         <span class="p">],</span>
-                        <span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="n">path</span><span class="p">[</span><span class="s2">&quot;color&quot;</span><span class="p">],</span>
-                        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">path_name</span><span class="p">,</span>
+                        <span class="s2">"color"</span><span class="p">:</span> <span class="n">path</span><span class="p">[</span><span class="s2">"color"</span><span class="p">],</span>
+                        <span class="s2">"name"</span><span class="p">:</span> <span class="n">path_name</span><span class="p">,</span>
                     <span class="p">}</span>
                 <span class="p">)</span>
         <span class="k">return</span> <span class="n">values_to_print</span>
@@ -3051,7 +3051,7 @@ path name and x-coordinate.</p>
         <span class="c1"># Select y values at ax</span>
         <span class="n">numbers_at_x</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">path_data</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
-            <span class="n">numbers_at_x</span> <span class="o">+=</span> <span class="p">[</span><span class="n">path</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">path</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">]))</span> <span class="k">if</span> <span class="n">path</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="n">x</span><span class="p">]</span>
+            <span class="n">numbers_at_x</span> <span class="o">+=</span> <span class="p">[</span><span class="n">path</span><span class="p">[</span><span class="s2">"y"</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">path</span><span class="p">[</span><span class="s2">"x"</span><span class="p">]))</span> <span class="k">if</span> <span class="n">path</span><span class="p">[</span><span class="s2">"x"</span><span class="p">][</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="n">x</span><span class="p">]</span>
         <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">numbers_at_x</span><span class="p">)</span>
 
     <span class="nd">@staticmethod</span>
@@ -3061,16 +3061,16 @@ path name and x-coordinate.</p>
         <span class="c1"># Get all values to print at a given location x</span>
         <span class="n">numbers_to_stack</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">value_series</span> <span class="ow">in</span> <span class="n">values_to_print</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">x_current</span> <span class="ow">in</span> <span class="n">value_series</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="n">x_current</span> <span class="ow">in</span> <span class="n">value_series</span><span class="p">[</span><span class="s2">"x"</span><span class="p">]:</span>
                 <span class="n">numbers_to_stack</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
                     <span class="p">{</span>
-                        <span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="n">value_series</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">][</span><span class="n">value_series</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">x_current</span><span class="p">)],</span>
-                        <span class="s2">&quot;color&quot;</span><span class="p">:</span> <span class="n">value_series</span><span class="p">[</span><span class="s2">&quot;color&quot;</span><span class="p">],</span>
-                        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">value_series</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">],</span>
+                        <span class="s2">"y"</span><span class="p">:</span> <span class="n">value_series</span><span class="p">[</span><span class="s2">"y"</span><span class="p">][</span><span class="n">value_series</span><span class="p">[</span><span class="s2">"x"</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">x_current</span><span class="p">)],</span>
+                        <span class="s2">"color"</span><span class="p">:</span> <span class="n">value_series</span><span class="p">[</span><span class="s2">"color"</span><span class="p">],</span>
+                        <span class="s2">"name"</span><span class="p">:</span> <span class="n">value_series</span><span class="p">[</span><span class="s2">"name"</span><span class="p">],</span>
                     <span class="p">}</span>
                 <span class="p">)</span>
             <span class="k">if</span> <span class="n">sort_by_energy</span><span class="p">:</span>
-                <span class="n">numbers_to_stack</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">numbers_to_stack</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">])</span>
+                <span class="n">numbers_to_stack</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">numbers_to_stack</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="s2">"y"</span><span class="p">])</span>
         <span class="k">return</span> <span class="n">numbers_to_stack</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_print_stacked</span><span class="p">(</span>
@@ -3083,14 +3083,14 @@ path name and x-coordinate.</p>
         <span class="n">fontsize</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
         <span class="n">n_decimals</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Render a vertical stack of energy labels at a given x-position.</span>
 
 <span class="sd">        Labels are placed starting at ``y_print_start`` plus ``diff_bias``,</span>
 <span class="sd">        with each subsequent label offset upward by ``diff_per_step``. The</span>
 <span class="sd">        resulting Text artists are saved into ``mpl_objects`` under their</span>
 <span class="sd">        path name and x-coordinate key.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">diff_bias</span><span class="p">,</span> <span class="n">diff_per_step</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">collision_manager</span><span class="o">.</span><span class="n">_get_number_diffs</span><span class="p">(</span>
             <span class="n">margins</span><span class="p">,</span> <span class="n">figsize</span><span class="p">,</span> <span class="n">fontsize</span>
         <span class="p">)</span>
@@ -3099,17 +3099,17 @@ path name and x-coordinate.</p>
             <span class="n">number_obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">figure_manager</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
                 <span class="n">x</span><span class="p">,</span>
                 <span class="p">(</span><span class="n">y_print_start</span> <span class="o">+</span> <span class="n">diff_bias</span> <span class="o">+</span> <span class="n">n_printed</span> <span class="o">*</span> <span class="n">diff_per_step</span><span class="p">),</span>
-                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">number</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.</span><span class="si">{</span><span class="n">n_decimals</span><span class="si">}</span><span class="s2">f</span><span class="si">}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">MINUS_SIGN</span><span class="p">),</span>
-                <span class="n">ha</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span>
-                <span class="n">va</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span>
+                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">number</span><span class="p">[</span><span class="s1">'y'</span><span class="p">]</span><span class="si">:</span><span class="s2">.</span><span class="si">{</span><span class="n">n_decimals</span><span class="si">}</span><span class="s2">f</span><span class="si">}</span><span class="s2">"</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"-"</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">MINUS_SIGN</span><span class="p">),</span>
+                <span class="n">ha</span><span class="o">=</span><span class="s2">"center"</span><span class="p">,</span>
+                <span class="n">va</span><span class="o">=</span><span class="s2">"center"</span><span class="p">,</span>
                 <span class="n">fontsize</span><span class="o">=</span><span class="n">fontsize</span><span class="p">,</span>
-                <span class="n">color</span><span class="o">=</span><span class="n">number</span><span class="p">[</span><span class="s2">&quot;color&quot;</span><span class="p">],</span>
+                <span class="n">color</span><span class="o">=</span><span class="n">number</span><span class="p">[</span><span class="s2">"color"</span><span class="p">],</span>
                 <span class="n">zorder</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">constants</span><span class="o">.</span><span class="n">ZORDER_NUMBERS</span><span class="p">,</span>
             <span class="p">)</span>
             <span class="n">n_printed</span> <span class="o">+=</span> <span class="mi">1</span>
-            <span class="k">if</span> <span class="n">number</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">mpl_objects</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">mpl_objects</span><span class="p">[</span><span class="n">number</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">mpl_objects</span><span class="p">[</span><span class="n">number</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]][</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">x</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">number_obj</span>
+            <span class="k">if</span> <span class="n">number</span><span class="p">[</span><span class="s2">"name"</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">mpl_objects</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">mpl_objects</span><span class="p">[</span><span class="n">number</span><span class="p">[</span><span class="s2">"name"</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mpl_objects</span><span class="p">[</span><span class="n">number</span><span class="p">[</span><span class="s2">"name"</span><span class="p">]][</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">x</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">"</span><span class="p">]</span> <span class="o">=</span> <span class="n">number_obj</span>
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_check_no_overlap</span><span class="p">(</span>
@@ -3124,10 +3124,10 @@ path name and x-coordinate.</p>
         <span class="n">path_mpl_objects</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
         <span class="n">x</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Return True if a proposed label stack would not collide with</span>
 <span class="sd">        any higher plateaus or path labels.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">no_number_overlap</span> <span class="o">=</span> <span class="n">NumberManager</span><span class="o">.</span><span class="n">_check_no_plateau_overlap</span><span class="p">(</span>
             <span class="n">collision_manager</span><span class="o">=</span><span class="n">collision_manager</span><span class="p">,</span>
             <span class="n">y_print_start</span><span class="o">=</span><span class="n">y_print_start</span><span class="p">,</span>
@@ -3162,13 +3162,13 @@ path name and x-coordinate.</p>
         <span class="n">path_mpl_objects</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
         <span class="n">x</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Return True if a proposed label stack would not collide with any path labels.</span>
 
 <span class="sd">        Checks the vertical position of all path labels at the given x-coordinate</span>
 <span class="sd">        and compares it to the proposed stack position. Returns True if there is no</span>
 <span class="sd">        overlap, False otherwise.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">diff_bias</span><span class="p">,</span> <span class="n">diff_per_step</span> <span class="o">=</span> <span class="n">collision_manager</span><span class="o">.</span><span class="n">_get_number_diffs</span><span class="p">(</span>
             <span class="n">margins</span><span class="p">,</span> <span class="n">figsize</span><span class="p">,</span> <span class="n">fontsize</span>
         <span class="p">)</span>
@@ -3178,7 +3178,7 @@ path name and x-coordinate.</p>
         <span class="n">no_overlap_with_path_labels</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="k">for</span> <span class="n">path_obj</span> <span class="ow">in</span> <span class="n">path_mpl_objects</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
             <span class="k">try</span><span class="p">:</span>
-                <span class="n">pathlabel</span> <span class="o">=</span> <span class="n">path_obj</span><span class="o">.</span><span class="n">labels</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">x</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span>
+                <span class="n">pathlabel</span> <span class="o">=</span> <span class="n">path_obj</span><span class="o">.</span><span class="n">labels</span><span class="p">[</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">x</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">"</span><span class="p">]</span>
                 <span class="n">pathlabel_y_boundaries</span> <span class="o">=</span> <span class="n">collision_manager</span><span class="o">.</span><span class="n">_get_label_boundaries</span><span class="p">(</span>
                     <span class="n">label</span><span class="o">=</span><span class="n">pathlabel</span><span class="p">,</span>
                 <span class="p">)</span>
@@ -3210,14 +3210,14 @@ path name and x-coordinate.</p>
         <span class="n">figsize</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
         <span class="n">fontsize</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Return True if a proposed label stack would not collide with any higher plateaus.</span>
 
 <span class="sd">        Computes the top edge of the stacked labels (including bias and</span>
 <span class="sd">        per-step offsets) and checks that it falls below the nearest energy</span>
 <span class="sd">        bar above ``y_print_start``. Returns True unconditionally if there</span>
 <span class="sd">        are no higher bars.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">diff_bias</span><span class="p">,</span> <span class="n">diff_per_step</span> <span class="o">=</span> <span class="n">collision_manager</span><span class="o">.</span><span class="n">_get_number_diffs</span><span class="p">(</span>
             <span class="n">margins</span><span class="p">,</span> <span class="n">figsize</span><span class="p">,</span> <span class="n">fontsize</span>
         <span class="p">)</span>
@@ -3225,7 +3225,7 @@ path name and x-coordinate.</p>
         <span class="n">base_offset</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">diff_bias</span>
         <span class="n">y_stacked_max</span> <span class="o">=</span> <span class="n">y_print_start</span> <span class="o">+</span> <span class="n">base_offset</span> <span class="o">+</span> <span class="n">stacked_offset</span>
         <span class="c1"># Check if a bar collides</span>
-        <span class="n">min_higher</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">higher_numbers_at_x</span><span class="p">)</span> <span class="k">if</span> <span class="n">higher_numbers_at_x</span> <span class="k">else</span> <span class="nb">float</span><span class="p">(</span><span class="s2">&quot;inf&quot;</span><span class="p">)</span>
+        <span class="n">min_higher</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">higher_numbers_at_x</span><span class="p">)</span> <span class="k">if</span> <span class="n">higher_numbers_at_x</span> <span class="k">else</span> <span class="nb">float</span><span class="p">(</span><span class="s2">"inf"</span><span class="p">)</span>
         <span class="c1"># Check if there are numbers at all</span>
         <span class="n">no_higher_numbers</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">higher_numbers_at_x</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
         <span class="k">return</span> <span class="n">y_stacked_max</span> <span class="o">&lt;</span> <span class="n">min_higher</span> <span class="ow">or</span> <span class="n">no_higher_numbers</span>
@@ -3319,7 +3319,7 @@ path name and x-coordinate.</p>
       <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

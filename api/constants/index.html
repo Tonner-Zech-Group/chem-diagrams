@@ -21,7 +21,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -29,7 +29,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
       
 
@@ -1648,14 +1648,14 @@
 <span class="normal">130</span>
 <span class="normal">131</span>
 <span class="normal">132</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">Constants</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Default constants for plotting the energy diagram&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Default constants for plotting the energy diagram"""</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="c1">#################################</span>
         <span class="c1"># High level defaults</span>
         <span class="c1">#################################</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">DEFAULT_STYLE</span> <span class="o">=</span> <span class="s2">&quot;open&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">DEFAULT_STYLE</span> <span class="o">=</span> <span class="s2">"open"</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">DEFAULT_FIGSIZE</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">STD_FONTSIZE</span> <span class="o">=</span> <span class="mi">8</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">DEFAULT_WIDTH_LIMIT</span> <span class="o">=</span> <span class="kc">None</span>
@@ -1683,11 +1683,11 @@
         <span class="c1"># Standard width of an image in x units</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">IMAGE_WIDTH</span> <span class="o">=</span> <span class="mf">0.6</span>
 
-        <span class="c1"># Default distances of images (inches at sdt fontsize)</span>
+        <span class="c1"># Default distances of images (inches at std fontsize)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">DISTANCE_IMAGE_LINE</span> <span class="o">=</span> <span class="mf">0.09</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">DISTANCE_IMAGE_NUMBER</span> <span class="o">=</span> <span class="mf">0.15</span>  <span class="c1"># 0.135 pre v0.3.0</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ZORDER_IMAGE</span> <span class="o">=</span> <span class="mf">0.6</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">IMAGE_INTERPOLATION_METHOD</span> <span class="o">=</span> <span class="s2">&quot;bilinear&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">IMAGE_INTERPOLATION_METHOD</span> <span class="o">=</span> <span class="s2">"bilinear"</span>
 
         <span class="c1"># Frame parameters</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">LW_IMAGE_FRAME</span> <span class="o">=</span> <span class="mf">0.5</span>
@@ -1711,14 +1711,14 @@
         <span class="c1"># Number Manager</span>
         <span class="c1">#################################</span>
 
-        <span class="c1"># Default distance numbers above plateau (inches at sdt fontsize)</span>
+        <span class="c1"># Default distance numbers above plateau (inches at std fontsize)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">DISTANCE_NUMBER_LINE</span> <span class="o">=</span> <span class="mf">0.10</span>  <span class="c1"># 0.09 pre v0.3.0</span>
 
-        <span class="c1"># Default distance between numbers (inches at sdt fontsize)</span>
+        <span class="c1"># Default distance between numbers (inches at std fontsize)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">DISTANCE_NUMBER_NUMBER</span> <span class="o">=</span> <span class="mf">0.15</span>  <span class="c1"># 0.135 pre v0.3.0</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">ZORDER_NUMBERS</span> <span class="o">=</span> <span class="mi">2</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">MINUS_SIGN</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\u2212</span><span class="s2">&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">MINUS_SIGN</span> <span class="o">=</span> <span class="s2">"</span><span class="se">\u2212</span><span class="s2">"</span>
 
         <span class="c1"># To avoid numerical precision issues where the label is exactly at the boundary</span>
         <span class="c1"># This factor is used to slightly reduce the calculated diff_to_label when checking</span>
@@ -1729,7 +1729,7 @@
         <span class="c1"># Path Manager</span>
         <span class="c1">#################################</span>
 
-        <span class="c1"># Plateu parameters</span>
+        <span class="c1"># Plateau parameters</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ZORDER_PLATEAU</span> <span class="o">=</span> <span class="mi">2</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">LW_PLATEAU</span> <span class="o">=</span> <span class="mf">1.8</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">WIDTH_PLATEAU</span> <span class="o">=</span> <span class="mf">0.5</span>
@@ -1745,7 +1745,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">LW_BROKEN_LINE_STOPPER</span> <span class="o">=</span> <span class="mf">0.8</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">SIZE_BROKEN_LINE_STOPPER</span> <span class="o">=</span> <span class="mi">3</span>
 
-        <span class="c1"># Merged Plateu parameters</span>
+        <span class="c1"># Merged Plateau parameters</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">MERGED_PLATEAU_GAP</span> <span class="o">=</span> <span class="mf">0.1</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">MERGED_PLATEAU_COVER_WIDTH</span> <span class="o">=</span> <span class="mf">0.05</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ZORDER_MERGED_PLATEAU_COVER</span> <span class="o">=</span> <span class="mf">2.1</span>
@@ -1761,7 +1761,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">ZORDER_AXIS_ARROWS</span> <span class="o">=</span> <span class="mi">3</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">SIZE_AXIS_ARROWS</span> <span class="o">=</span> <span class="mi">12</span>
 
-        <span class="c1"># x axis (stlye=&quot;open&quot;) parameters</span>
+        <span class="c1"># x axis (style="open") parameters</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">ZORDER_X_AXIS</span> <span class="o">=</span> <span class="mf">0.5</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">LW_X_AXIS</span> <span class="o">=</span> <span class="mf">0.8</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">X_AXIS_OFFSET_OPENSTYLE</span> <span class="o">=</span> <span class="o">-</span><span class="mf">0.03</span>
@@ -1869,7 +1869,7 @@
       <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

@@ -21,7 +21,7 @@
       
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -29,7 +29,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
       
       
 
@@ -4059,7 +4059,7 @@ manager components.</p>
 <span class="normal">1496</span>
 <span class="normal">1497</span>
 <span class="normal">1498</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">EnergyDiagram</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Create and manage chemical reaction energy diagrams.</span>
 
 <span class="sd">    This class provides a high-level interface for constructing</span>
@@ -4148,7 +4148,7 @@ manager components.</p>
 <span class="sd">    add_yaxis_break(y, gap_scale=1, stopper_scale=1, angle=30)</span>
 <span class="sd">        Add a break marker on the y-axis at a given position.</span>
 
-<span class="sd">    legend(loc=&#39;best&#39;, fontsize=None)</span>
+<span class="sd">    legend(loc='best', fontsize=None)</span>
 <span class="sd">        Add a legend for labeled reaction paths.</span>
 
 <span class="sd">    add_numbers_naive(...)</span>
@@ -4169,7 +4169,7 @@ manager components.</p>
 <span class="sd">    display_activation_barriers(x_positions, ...)</span>
 <span class="sd">        Calculate and display activation energy barriers.</span>
 
-<span class="sd">    append_to_energy_labels(numbers_to_append, brackets=(&quot;(&quot;, &quot;)&quot;), ...)</span>
+<span class="sd">    append_to_energy_labels(numbers_to_append, brackets=("(", ")"), ...)</span>
 <span class="sd">        Append numbers in brackets to existing energy annotations.</span>
 
 <span class="sd">    add_image_in_plot(img_path, position, ...)</span>
@@ -4186,7 +4186,7 @@ manager components.</p>
 <span class="sd">    The class coordinates layout, styling, path management,</span>
 <span class="sd">    numbering, and annotation through dedicated internal</span>
 <span class="sd">    manager components.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="c1">############################################################</span>
     <span class="c1"># Methods for drawing the general plot</span>
@@ -4208,12 +4208,12 @@ manager components.</p>
         <span class="c1"># Check that template is a BaseTemplate or subclass thereof</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">template</span><span class="p">,</span> <span class="nb">type</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
-                <span class="s2">&quot;template must be an instance not a class. &quot;</span>
-                <span class="s2">&quot;Instantiate the template before passing it to EnergyDiagram. &quot;</span>
-                <span class="s2">&quot;E.g. use template=ExampleTemplate() instead of template=ExampleTemplate.&quot;</span>
+                <span class="s2">"template must be an instance not a class. "</span>
+                <span class="s2">"Instantiate the template before passing it to EnergyDiagram. "</span>
+                <span class="s2">"E.g. use template=ExampleTemplate() instead of template=ExampleTemplate."</span>
             <span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">template</span><span class="p">,</span> <span class="n">BaseTemplate</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;template must be a subclass of BaseTemplate.&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">"template must be a subclass of BaseTemplate."</span><span class="p">)</span>
         <span class="n">constants</span> <span class="o">=</span> <span class="n">template</span><span class="o">.</span><span class="n">constants</span>
         <span class="k">if</span> <span class="n">width_limit</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">width_limit</span> <span class="o">=</span> <span class="n">constants</span><span class="o">.</span><span class="n">DEFAULT_WIDTH_LIMIT</span>
@@ -4268,12 +4268,12 @@ manager components.</p>
         <span class="n">add_difference</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
         <span class="n">n_decimals</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
         <span class="n">fontsize</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">color</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;black&quot;</span><span class="p">,</span>
-        <span class="n">arrowstyle</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;|-|&quot;</span><span class="p">,</span>
+        <span class="n">color</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"black"</span><span class="p">,</span>
+        <span class="n">arrowstyle</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"|-|"</span><span class="p">,</span>
         <span class="n">x_whiskers</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
         <span class="n">whiskercolor</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EnergyDiagram</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Draw a vertical energy difference bar between two energy levels.</span>
+<span class="w">        </span><span class="sd">"""Draw a vertical energy difference bar between two energy levels.</span>
 
 <span class="sd">        Renders a double-headed arrow that spans from one energy level</span>
 <span class="sd">        to another at a given x-position, with a text label showing</span>
@@ -4290,7 +4290,7 @@ manager components.</p>
 <span class="sd">            bottom and top energy values spanned by the bar.</span>
 <span class="sd">        description : str</span>
 <span class="sd">            Text label placed beside the bar, typically the energy</span>
-<span class="sd">            difference symbol (e.g. ``&quot;ΔE: &quot;``).</span>
+<span class="sd">            difference symbol (e.g. ``"ΔE: "``).</span>
 <span class="sd">        diff : float or None, optional</span>
 <span class="sd">            Horizontal offset in data coordinates between the bar and</span>
 <span class="sd">            its text label. When None the offset is computed</span>
@@ -4307,12 +4307,12 @@ manager components.</p>
 <span class="sd">            Default is 0.</span>
 <span class="sd">        fontsize : int or None, optional</span>
 <span class="sd">            Font size for the description label. When None the</span>
-<span class="sd">            diagram&#39;s base font size is used. Default is None.</span>
+<span class="sd">            diagram's base font size is used. Default is None.</span>
 <span class="sd">        color : str, optional</span>
-<span class="sd">            Color of the difference bar. Default is ``&quot;black&quot;``.</span>
+<span class="sd">            Color of the difference bar. Default is ``"black"``.</span>
 <span class="sd">        arrowstyle : str, optional</span>
 <span class="sd">            Matplotlib arrow style string for the double-headed arrow.</span>
-<span class="sd">            Default is ``&quot;|-|&quot;``.</span>
+<span class="sd">            Default is ``"|-|"``.</span>
 <span class="sd">        x_whiskers : tuple or list of float or None, optional</span>
 <span class="sd">            A two-element sequence ``(x_bottom, x_top)`` giving the</span>
 <span class="sd">            starting x-coordinates for optional horizontal whisker</span>
@@ -4327,7 +4327,7 @@ manager components.</p>
 <span class="sd">        -------</span>
 <span class="sd">        EnergyDiagram</span>
 <span class="sd">            Returns *self* to allow method chaining.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_bar_manager</span><span class="o">.</span><span class="n">draw_difference_bar</span><span class="p">(</span>
             <span class="n">x</span><span class="p">,</span>
             <span class="n">y_start_end</span><span class="p">,</span>
@@ -4346,8 +4346,8 @@ manager components.</p>
         <span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">legend</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">loc</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;best&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EnergyDiagram</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add a legend for all named reaction paths.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">legend</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">loc</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"best"</span><span class="p">,</span> <span class="n">fontsize</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EnergyDiagram</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Add a legend for all named reaction paths.</span>
 
 <span class="sd">        Generates legend entries for every path that was drawn with a</span>
 <span class="sd">        ``path_name``. Each entry shows a colored patch matching the</span>
@@ -4357,35 +4357,35 @@ manager components.</p>
 <span class="sd">        ----------</span>
 <span class="sd">        loc : str, optional</span>
 <span class="sd">            Legend location, as any Matplotlib ``loc`` string</span>
-<span class="sd">            (e.g. ``&quot;best&quot;``, ``&quot;upper right&quot;``). Default is</span>
-<span class="sd">            ``&quot;best&quot;``.</span>
+<span class="sd">            (e.g. ``"best"``, ``"upper right"``). Default is</span>
+<span class="sd">            ``"best"``.</span>
 <span class="sd">        fontsize : int or None, optional</span>
-<span class="sd">            Font size of the legend text. When None the diagram&#39;s base</span>
+<span class="sd">            Font size of the legend text. When None the diagram's base</span>
 <span class="sd">            font size is used. Default is None.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        EnergyDiagram</span>
 <span class="sd">            Returns *self* to allow method chaining.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">Validators</span><span class="o">.</span><span class="n">validate_number</span><span class="p">(</span><span class="n">fontsize</span><span class="p">,</span> <span class="s2">&quot;fontsize&quot;</span><span class="p">,</span> <span class="n">allow_none</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">min_value</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="sd">        """</span>
+        <span class="n">Validators</span><span class="o">.</span><span class="n">validate_number</span><span class="p">(</span><span class="n">fontsize</span><span class="p">,</span> <span class="s2">"fontsize"</span><span class="p">,</span> <span class="n">allow_none</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">min_value</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">fontsize</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">fontsize</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_figure_manager</span><span class="o">.</span><span class="n">fontsize</span>
         <span class="n">patches</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">path_name</span><span class="p">,</span> <span class="n">path_info</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_path_manager</span><span class="o">.</span><span class="n">path_data</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="k">if</span> <span class="n">path_info</span><span class="p">[</span><span class="s2">&quot;has_name&quot;</span><span class="p">]:</span>
-                <span class="n">patches</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mpatches</span><span class="o">.</span><span class="n">Patch</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="n">path_info</span><span class="p">[</span><span class="s2">&quot;color&quot;</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="n">path_name</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">path_info</span><span class="p">[</span><span class="s2">"has_name"</span><span class="p">]:</span>
+                <span class="n">patches</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mpatches</span><span class="o">.</span><span class="n">Patch</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="n">path_info</span><span class="p">[</span><span class="s2">"color"</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="n">path_name</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_figure_manager</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">handles</span><span class="o">=</span><span class="n">patches</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="n">fontsize</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="n">cast</span><span class="p">(</span><span class="n">Any</span><span class="p">,</span> <span class="n">loc</span><span class="p">))</span>
         <span class="k">return</span> <span class="bp">self</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">show</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Display the energy diagram figure.</span>
+<span class="w">        </span><span class="sd">"""Display the energy diagram figure.</span>
 
 <span class="sd">        Finalizes the figure layout and calls ``matplotlib.pyplot.show()``.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">figsize</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_layout_manager</span><span class="o">.</span><span class="n">scale_figure</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_path_manager</span><span class="o">.</span><span class="n">path_data</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Figure size is </span><span class="si">{</span><span class="nb">round</span><span class="p">(</span><span class="n">figsize</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2"> x </span><span class="si">{</span><span class="nb">round</span><span class="p">(</span><span class="n">figsize</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2"> inches.&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Figure size is </span><span class="si">{</span><span class="nb">round</span><span class="p">(</span><span class="n">figsize</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2"> x </span><span class="si">{</span><span class="nb">round</span><span class="p">(</span><span class="n">figsize</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2"> inches."</span><span class="p">)</span>
         <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 
     <span class="c1">############################################################</span>
@@ -4401,11 +4401,11 @@ manager components.</p>
         <span class="n">path_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">show_numbers</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
         <span class="n">width_plateau</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">lw_plateau</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;plateau&quot;</span><span class="p">,</span>
-        <span class="n">lw_connector</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;connector&quot;</span><span class="p">,</span>
+        <span class="n">lw_plateau</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"plateau"</span><span class="p">,</span>
+        <span class="n">lw_connector</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"connector"</span><span class="p">,</span>
         <span class="n">gap_scale</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">|</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span> <span class="o">|</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EnergyDiagram</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add a reaction path to the energy diagram.</span>
+<span class="w">        </span><span class="sd">"""Add a reaction path to the energy diagram.</span>
 
 <span class="sd">        Draws a series of horizontal energy levels connected by</span>
 <span class="sd">        transitions. Each segment between adjacent levels is drawn</span>
@@ -4421,8 +4421,8 @@ manager components.</p>
 <span class="sd">            Must have the same length as ``x_data``.</span>
 <span class="sd">        color : str</span>
 <span class="sd">            Color of the energy levels and connectors for this path,</span>
-<span class="sd">            as any Matplotlib color string (e.g. ``&quot;blue&quot;``,</span>
-<span class="sd">            ``&quot;#FF5733&quot;``).</span>
+<span class="sd">            as any Matplotlib color string (e.g. ``"blue"``,</span>
+<span class="sd">            ``"#FF5733"``).</span>
 <span class="sd">        linetypes : sequence of int or int or None, optional</span>
 <span class="sd">            Connector style(s) for the segments between consecutive</span>
 <span class="sd">            energy levels. Must have length ``len(x_data) - 1``, or</span>
@@ -4452,11 +4452,11 @@ manager components.</p>
 <span class="sd">        lw_plateau : float, str, optional</span>
 <span class="sd">            Line width for the horizontal energy level bars. Can be a</span>
 <span class="sd">            float in points, or a string referring to a predefined</span>
-<span class="sd">            value (``&quot;plateau&quot;`` or ``&quot;connector&quot;``). Default is ``&quot;plateau&quot;``.</span>
+<span class="sd">            value (``"plateau"`` or ``"connector"``). Default is ``"plateau"``.</span>
 <span class="sd">        lw_connector : float, str, optional</span>
 <span class="sd">            Line width for the connectors between energy levels. Can be a</span>
 <span class="sd">            float in points, or a string referring to a predefined</span>
-<span class="sd">            value (``&quot;plateau&quot;`` or ``&quot;connector&quot;``). Default is ``&quot;connector&quot;``.</span>
+<span class="sd">            value (``"plateau"`` or ``"connector"``). Default is ``"connector"``.</span>
 <span class="sd">        gap_scale : float, int, or sequence of float or int, optional</span>
 <span class="sd">            Scaling factor for the gap in broken line styles (``-4`` to ``-1``).</span>
 <span class="sd">            Can be a single number applied to all segments, or a</span>
@@ -4466,7 +4466,7 @@ manager components.</p>
 <span class="sd">        -------</span>
 <span class="sd">        EnergyDiagram</span>
 <span class="sd">            Returns *self* to allow method chaining.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_path_manager</span><span class="o">.</span><span class="n">draw_path</span><span class="p">(</span>
             <span class="n">x_data</span><span class="p">,</span>
             <span class="n">y_data</span><span class="p">,</span>
@@ -4492,11 +4492,11 @@ manager components.</p>
         <span class="n">path_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">labels</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
         <span class="n">fontsize</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">weight</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;normal&quot;</span><span class="p">,</span>
+        <span class="n">weight</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"normal"</span><span class="p">,</span>
         <span class="n">color</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">rotation</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EnergyDiagram</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add text labels below the energy levels of a specific path.</span>
+<span class="w">        </span><span class="sd">"""Add text labels below the energy levels of a specific path.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -4507,11 +4507,11 @@ manager components.</p>
 <span class="sd">            If None is passed for a label, no label is drawn for that level.</span>
 <span class="sd">            Must have the same length as the number of energy levels in the path.</span>
 <span class="sd">        fontsize : int or None, optional</span>
-<span class="sd">            Font size for the labels. When None the diagram&#39;s base font size</span>
+<span class="sd">            Font size for the labels. When None the diagram's base font size</span>
 <span class="sd">            is used. Default is None.</span>
 <span class="sd">        weight : str, optional</span>
-<span class="sd">            Font weight for the labels, e.g. ``&quot;bold&quot;`` or ``&quot;normal&quot;``.</span>
-<span class="sd">            Default is ``&quot;normal&quot;``.</span>
+<span class="sd">            Font weight for the labels, e.g. ``"bold"`` or ``"normal"``.</span>
+<span class="sd">            Default is ``"normal"``.</span>
 <span class="sd">        color : str or None, optional</span>
 <span class="sd">            Color for the labels. When None, uses the same color as the path.</span>
 <span class="sd">            Default is None.</span>
@@ -4529,7 +4529,7 @@ manager components.</p>
 <span class="sd">        ValueError</span>
 <span class="sd">            If the specified path does not exist or if the number of labels</span>
 <span class="sd">            does not match the number of energy levels in the path.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_path_manager</span><span class="o">.</span><span class="n">add_path_labels</span><span class="p">(</span>
             <span class="n">margins</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">margins</span><span class="p">,</span>
             <span class="n">figsize</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">figsize</span><span class="p">,</span>
@@ -4573,7 +4573,7 @@ manager components.</p>
         <span class="n">stopper_scale</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
         <span class="n">angle</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">30</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EnergyDiagram</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Visually merge two coincident plateaus at a shared x-position.</span>
+<span class="w">        </span><span class="sd">"""Visually merge two coincident plateaus at a shared x-position.</span>
 
 <span class="sd">        When two paths have identical energy levels at the same x-coordinate,</span>
 <span class="sd">        this method replaces both full-width plateaus with two shorter half-plateaus</span>
@@ -4611,7 +4611,7 @@ manager components.</p>
 <span class="sd">        ValueError</span>
 <span class="sd">            If either path does not exist, does not have a value at ``x``, or</span>
 <span class="sd">            the two paths do not share the same y-value at ``x``.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_path_manager</span><span class="o">.</span><span class="n">merge_plateaus</span><span class="p">(</span>
             <span class="n">margins</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">margins</span><span class="p">,</span>
             <span class="n">figsize</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">figsize</span><span class="p">,</span>
@@ -4636,12 +4636,12 @@ manager components.</p>
         <span class="n">labels</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">,</span>
         <span class="n">labelplaces</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">fontsize</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">weight</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;bold&quot;</span><span class="p">,</span>
-        <span class="n">color</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;black&quot;</span><span class="p">,</span>
+        <span class="n">weight</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"bold"</span><span class="p">,</span>
+        <span class="n">color</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"black"</span><span class="p">,</span>
         <span class="n">in_plot</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">rotation</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EnergyDiagram</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set text labels for the reaction states along the x-axis.</span>
+<span class="w">        </span><span class="sd">"""Set text labels for the reaction states along the x-axis.</span>
 
 <span class="sd">        Labels are placed below the horizontal energy bars by default.</span>
 <span class="sd">        If ``in_plot`` is True they are rendered inside the plot area</span>
@@ -4657,11 +4657,11 @@ manager components.</p>
 <span class="sd">            When None the labels are naively placed starting at</span>
 <span class="sd">            x = 0. Default is None.</span>
 <span class="sd">        fontsize : int or None, optional</span>
-<span class="sd">            Font size for the labels. When None the diagram&#39;s base</span>
+<span class="sd">            Font size for the labels. When None the diagram's base</span>
 <span class="sd">            font size is used. Default is None.</span>
 <span class="sd">        weight : str, optional</span>
-<span class="sd">            Font weight for the labels, e.g. ``&quot;bold&quot;`` or</span>
-<span class="sd">            ``&quot;normal&quot;``. Default is ``&quot;bold&quot;``.</span>
+<span class="sd">            Font weight for the labels, e.g. ``"bold"`` or</span>
+<span class="sd">            ``"normal"``. Default is ``"bold"``.</span>
 <span class="sd">        color : str, optional</span>
 <span class="sd">            Color for the labels, as any Matplotlib color string</span>
 <span class="sd">        in_plot : bool, optional</span>
@@ -4676,7 +4676,7 @@ manager components.</p>
 <span class="sd">        -------</span>
 <span class="sd">        EnergyDiagram</span>
 <span class="sd">            Returns *self* to allow method chaining.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_style_manager</span><span class="o">.</span><span class="n">set_xlabels</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">margins</span><span class="p">,</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">figsize</span><span class="p">,</span>
@@ -4707,7 +4707,7 @@ manager components.</p>
             <span class="k">pass</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">set_diagram_style</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">style</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EnergyDiagram</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Change the overall visual style of the diagram.</span>
+<span class="w">        </span><span class="sd">"""Change the overall visual style of the diagram.</span>
 
 <span class="sd">        Applies a named style preset that controls the appearance of</span>
 <span class="sd">        the plot background, spines, tick marks, and other decorative</span>
@@ -4717,14 +4717,14 @@ manager components.</p>
 <span class="sd">        ----------</span>
 <span class="sd">        style : str</span>
 <span class="sd">            Name of the style preset to apply. Supported values</span>
-<span class="sd">            are ``&quot;boxed&quot;``, ``&quot;halfboxed&quot;``, ``&quot;open&quot;``, ``&quot;twosided&quot;``</span>
-<span class="sd">            and ``&quot;borderless&quot;``. Default style is ``&quot;open&quot;``.</span>
+<span class="sd">            are ``"boxed"``, ``"halfboxed"``, ``"open"``, ``"twosided"``</span>
+<span class="sd">            and ``"borderless"``. Default style is ``"open"``.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        EnergyDiagram</span>
 <span class="sd">            Returns *self* to allow method chaining.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_layout_manager</span><span class="o">.</span><span class="n">adjust_xy_limits</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_path_manager</span><span class="o">.</span><span class="n">path_data</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_style_manager</span><span class="o">.</span><span class="n">set_diagram_style</span><span class="p">(</span><span class="n">style</span><span class="p">)</span>
         <span class="k">try</span><span class="p">:</span>
@@ -4742,12 +4742,12 @@ manager components.</p>
         <span class="n">stopper_scale</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
         <span class="n">angle</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">30</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add a break marker on the x-axis at a given position.</span>
+<span class="w">        </span><span class="sd">"""Add a break marker on the x-axis at a given position.</span>
 
 <span class="sd">        Draws a pair of diagonal stopper lines over a white gap rectangle on</span>
 <span class="sd">        the x-axis (or axes spine) to indicate a discontinuity in the x scale.</span>
 
-<span class="sd">        Not compatible with the ``&quot;open&quot;`` diagram style.</span>
+<span class="sd">        Not compatible with the ``"open"`` diagram style.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -4763,7 +4763,7 @@ manager components.</p>
 <span class="sd">        angle : float, optional</span>
 <span class="sd">            Angle of the stopper tick marks in degrees from the vertical.</span>
 <span class="sd">            Default is ``30``.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_style_manager</span><span class="o">.</span><span class="n">add_xaxis_break</span><span class="p">(</span>
             <span class="n">margins</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">margins</span><span class="p">,</span>
             <span class="n">figsize</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">figsize</span><span class="p">,</span>
@@ -4780,7 +4780,7 @@ manager components.</p>
         <span class="n">stopper_scale</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
         <span class="n">angle</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">30</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add a break marker on the y-axis at a given position.</span>
+<span class="w">        </span><span class="sd">"""Add a break marker on the y-axis at a given position.</span>
 
 <span class="sd">        Draws a pair of diagonal stopper lines over a white gap rectangle on</span>
 <span class="sd">        the y-axis spine to indicate a discontinuity in the y scale.</span>
@@ -4799,7 +4799,7 @@ manager components.</p>
 <span class="sd">        angle : float, optional</span>
 <span class="sd">            Angle of the stopper tick marks in degrees from the horizontal.</span>
 <span class="sd">            Default is ``30``.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_style_manager</span><span class="o">.</span><span class="n">add_yaxis_break</span><span class="p">(</span>
             <span class="n">margins</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">margins</span><span class="p">,</span>
             <span class="n">figsize</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">figsize</span><span class="p">,</span>
@@ -4823,7 +4823,7 @@ manager components.</p>
         <span class="n">fontsize</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">n_decimals</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EnergyDiagram</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Annotate energy levels with their values, placed directly above each bar.</span>
+<span class="w">        </span><span class="sd">"""Annotate energy levels with their values, placed directly above each bar.</span>
 
 <span class="sd">        This is the simplest numbering strategy: each energy value is</span>
 <span class="sd">        printed at its x-position, just above the corresponding</span>
@@ -4840,7 +4840,7 @@ manager components.</p>
 <span class="sd">            annotate only the state at that exact x-value, or None to</span>
 <span class="sd">            annotate all states. Default is None.</span>
 <span class="sd">        fontsize : int or None, optional</span>
-<span class="sd">            Font size for the annotations. When None the diagram&#39;s</span>
+<span class="sd">            Font size for the annotations. When None the diagram's</span>
 <span class="sd">            base font size is used. Default is None.</span>
 <span class="sd">        n_decimals : int, optional</span>
 <span class="sd">            Number of decimal places to show for the energy values.</span>
@@ -4850,7 +4850,7 @@ manager components.</p>
 <span class="sd">        -------</span>
 <span class="sd">        EnergyDiagram</span>
 <span class="sd">            Returns *self* to allow method chaining.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_number_manager</span><span class="o">.</span><span class="n">add_numbers_naive</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_path_manager</span><span class="o">.</span><span class="n">path_data</span><span class="p">,</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">margins</span><span class="p">,</span>
@@ -4878,7 +4878,7 @@ manager components.</p>
         <span class="n">no_overlap_with_nonnumbered</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
         <span class="n">n_decimals</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EnergyDiagram</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Annotate energy levels with stacked labels above the highest state.</span>
+<span class="w">        </span><span class="sd">"""Annotate energy levels with stacked labels above the highest state.</span>
 
 <span class="sd">        When multiple paths share the same x-position the labels are</span>
 <span class="sd">        arranged vertically (stacked) so they do not collide. Paths</span>
@@ -4895,7 +4895,7 @@ manager components.</p>
 <span class="sd">            single float for an exact match, or None for all states.</span>
 <span class="sd">            Default is None.</span>
 <span class="sd">        fontsize : int or None, optional</span>
-<span class="sd">            Font size for the annotations. When None the diagram&#39;s</span>
+<span class="sd">            Font size for the annotations. When None the diagram's</span>
 <span class="sd">            base font size is used. Default is None.</span>
 <span class="sd">        sort_by_energy : bool, optional</span>
 <span class="sd">            If True, labels at the same x-position are sorted by</span>
@@ -4913,7 +4913,7 @@ manager components.</p>
 <span class="sd">        -------</span>
 <span class="sd">        EnergyDiagram</span>
 <span class="sd">            Returns *self* to allow method chaining.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_number_manager</span><span class="o">.</span><span class="n">add_numbers_stacked</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_path_manager</span><span class="o">.</span><span class="n">path_data</span><span class="p">,</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">margins</span><span class="p">,</span>
@@ -4942,7 +4942,7 @@ manager components.</p>
         <span class="n">fontsize</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">n_decimals</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EnergyDiagram</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Annotate energy levels with automatically placed labels.</span>
+<span class="w">        </span><span class="sd">"""Annotate energy levels with automatically placed labels.</span>
 
 <span class="sd">        Chooses label placement (above which bar) automatically</span>
 <span class="sd">        for each energy state to minimize visual clutter, taking into</span>
@@ -4958,7 +4958,7 @@ manager components.</p>
 <span class="sd">            single float for an exact match, or None for all states.</span>
 <span class="sd">            Default is None.</span>
 <span class="sd">        fontsize : int or None, optional</span>
-<span class="sd">            Font size for the annotations. When None the diagram&#39;s</span>
+<span class="sd">            Font size for the annotations. When None the diagram's</span>
 <span class="sd">            base font size is used. Default is None.</span>
 <span class="sd">        n_decimals : int, optional</span>
 <span class="sd">            Number of decimal places to show for the energy values.</span>
@@ -4968,7 +4968,7 @@ manager components.</p>
 <span class="sd">        -------</span>
 <span class="sd">        EnergyDiagram</span>
 <span class="sd">            Returns *self* to allow method chaining.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_number_manager</span><span class="o">.</span><span class="n">add_numbers_auto</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_path_manager</span><span class="o">.</span><span class="n">path_data</span><span class="p">,</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">margins</span><span class="p">,</span>
@@ -4993,10 +4993,10 @@ manager components.</p>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">x_min_max</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">fontsize</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">color</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;black&quot;</span><span class="p">,</span>
+        <span class="n">color</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"black"</span><span class="p">,</span>
         <span class="n">n_decimals</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EnergyDiagram</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Annotate energy states with the average value across all paths.</span>
+<span class="w">        </span><span class="sd">"""Annotate energy states with the average value across all paths.</span>
 
 <span class="sd">        At each x-position the mean energy of all visible paths is</span>
 <span class="sd">        computed and a single label is rendered. This is useful when</span>
@@ -5013,16 +5013,16 @@ manager components.</p>
 <span class="sd">            single float for an exact match, or None for all states.</span>
 <span class="sd">            Default is None.</span>
 <span class="sd">        fontsize : int or None, optional</span>
-<span class="sd">            Font size for the annotations. When None the diagram&#39;s</span>
+<span class="sd">            Font size for the annotations. When None the diagram's</span>
 <span class="sd">            base font size is used. Default is None.</span>
 <span class="sd">        color : str, optional</span>
-<span class="sd">            Color of the annotation text. Default is ``&quot;black&quot;``.</span>
+<span class="sd">            Color of the annotation text. Default is ``"black"``.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        EnergyDiagram</span>
 <span class="sd">            Returns *self* to allow method chaining.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_number_manager</span><span class="o">.</span><span class="n">add_numbers_average</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_path_manager</span><span class="o">.</span><span class="n">path_data</span><span class="p">,</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">margins</span><span class="p">,</span>
@@ -5051,11 +5051,11 @@ manager components.</p>
         <span class="n">x_subtract</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">include_paths</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">exclude_paths</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">brackets</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;(&quot;</span><span class="p">,</span> <span class="s2">&quot;)&quot;</span><span class="p">),</span>
+        <span class="n">brackets</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="p">(</span><span class="s2">"("</span><span class="p">,</span> <span class="s2">")"</span><span class="p">),</span>
         <span class="n">n_decimals</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
         <span class="n">append_to_existing</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EnergyDiagram</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Modify energy labels at a specific x-position by combining energy values.</span>
+<span class="w">        </span><span class="sd">"""Modify energy labels at a specific x-position by combining energy values.</span>
 
 <span class="sd">        This method recalculates and updates the numeric label displayed above an</span>
 <span class="sd">        energy level at a given x-coordinate. The new value is computed from a</span>
@@ -5091,8 +5091,8 @@ manager components.</p>
 <span class="sd">            Default is None (all paths are modified).</span>
 <span class="sd">        brackets : tuple of str and str or list of str or None, optional</span>
 <span class="sd">            Characters to wrap around the numeric value as (left_bracket,</span>
-<span class="sd">            right_bracket). Common choices are ``(&quot;(&quot;, &quot;)&quot;)``, ``(&quot;[&quot;, &quot;]&quot;)``,</span>
-<span class="sd">            or ``(&quot;&quot;, &quot;&quot;)`` for no brackets. Default is ``(&quot;(&quot;, &quot;)&quot;)``.</span>
+<span class="sd">            right_bracket). Common choices are ``("(", ")")``, ``("[", "]")``,</span>
+<span class="sd">            or ``("", "")`` for no brackets. Default is ``("(", ")")``.</span>
 <span class="sd">        n_decimals : int, optional</span>
 <span class="sd">            Number of decimal places in the formatted label. Default is 0</span>
 <span class="sd">            (integer values).</span>
@@ -5121,7 +5121,7 @@ manager components.</p>
 <span class="sd">        energy (x=0.0) from the transition state energy (x=1.0):</span>
 
 <span class="sd">        &gt;&gt;&gt; diagram.modify_number_values(</span>
-<span class="sd">        ...     x=1.0, x_add=[1.0], x_subtract=[0.0], brackets=[&quot;Δ‡&quot;, &quot;&quot;]</span>
+<span class="sd">        ...     x=1.0, x_add=[1.0], x_subtract=[0.0], brackets=["Δ‡", ""]</span>
 <span class="sd">        ... )</span>
 
 <span class="sd">        Compute a complex energy term at x=3.0 for only specific paths:</span>
@@ -5131,10 +5131,10 @@ manager components.</p>
 <span class="sd">        ...     base_value=10.0,</span>
 <span class="sd">        ...     x_add=[1.0, 2.0],</span>
 <span class="sd">        ...     x_subtract=[0.0],</span>
-<span class="sd">        ...     include_paths=[&quot;pathway_A&quot;],</span>
+<span class="sd">        ...     include_paths=["pathway_A"],</span>
 <span class="sd">        ...     n_decimals=2</span>
 <span class="sd">        ... )</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_number_manager</span><span class="o">.</span><span class="n">modify_number_values</span><span class="p">(</span>
             <span class="n">path_data</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_path_manager</span><span class="o">.</span><span class="n">path_data</span><span class="p">,</span>
             <span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span>
@@ -5152,16 +5152,16 @@ manager components.</p>
     <span class="k">def</span><span class="w"> </span><span class="nf">display_activation_barriers</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">x_positions</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
-        <span class="n">direction</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;right&quot;</span><span class="p">,</span>
+        <span class="n">direction</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"right"</span><span class="p">,</span>
         <span class="n">include_paths</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">exclude_paths</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">brackets</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;(&quot;</span><span class="p">,</span> <span class="s2">&quot;)&quot;</span><span class="p">),</span>
-        <span class="n">seperator</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;/&quot;</span><span class="p">,</span>
+        <span class="n">brackets</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="p">(</span><span class="s2">"("</span><span class="p">,</span> <span class="s2">")"</span><span class="p">),</span>
+        <span class="n">seperator</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"/"</span><span class="p">,</span>
         <span class="n">n_decimals</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
         <span class="n">switch_order</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">append_to_existing</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EnergyDiagram</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Automatically calculate and display activation barriers.</span>
+<span class="w">        </span><span class="sd">"""Automatically calculate and display activation barriers.</span>
 
 <span class="sd">        Computes energy barriers (differences) at specified x-positions along</span>
 <span class="sd">        all paths and appends the calculated values to existing energy labels</span>
@@ -5177,11 +5177,11 @@ manager components.</p>
 <span class="sd">        direction : str, optional</span>
 <span class="sd">            Direction(s) for barrier calculation. Options are:</span>
 
-<span class="sd">            * ``&quot;right&quot;`` : barriers toward higher x (default)</span>
-<span class="sd">            * ``&quot;left&quot;`` : barriers toward lower x</span>
-<span class="sd">            * ``&quot;both&quot;`` : barriers in both directions</span>
+<span class="sd">            * ``"right"`` : barriers toward higher x (default)</span>
+<span class="sd">            * ``"left"`` : barriers toward lower x</span>
+<span class="sd">            * ``"both"`` : barriers in both directions</span>
 
-<span class="sd">            Default is ``&quot;right&quot;``.</span>
+<span class="sd">            Default is ``"right"``.</span>
 <span class="sd">        include_paths : list of str or None, optional</span>
 <span class="sd">            List of path names to include. When specified, only these paths</span>
 <span class="sd">            are modified. Cannot be used together with ``exclude_paths``.</span>
@@ -5191,10 +5191,10 @@ manager components.</p>
 <span class="sd">            together with ``include_paths``. Default is None.</span>
 <span class="sd">        brackets : tuple of str or list of str or None, optional</span>
 <span class="sd">            A two-element sequence ``(left_bracket, right_bracket)`` to wrap</span>
-<span class="sd">            the barrier text. Use None to omit brackets. Default is ``(&quot;(&quot;, &quot;)&quot;)``.</span>
+<span class="sd">            the barrier text. Use None to omit brackets. Default is ``("(", ")")``.</span>
 <span class="sd">        seperator : str, optional</span>
 <span class="sd">            String to place between left and right barriers when ``direction``</span>
-<span class="sd">            is ``&quot;both&quot;`` and both barriers exist. Default is ``&quot;|&quot;``.</span>
+<span class="sd">            is ``"both"`` and both barriers exist. Default is ``"|"``.</span>
 <span class="sd">        n_decimals : int, optional</span>
 <span class="sd">            Number of decimal places to display for barrier values.</span>
 <span class="sd">            Default is 0.</span>
@@ -5229,7 +5229,7 @@ manager components.</p>
 <span class="sd">            or if both ``include_paths`` and ``exclude_paths`` are specified.</span>
 <span class="sd">        TypeError</span>
 <span class="sd">            If ``seperator`` is not a string.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_number_manager</span><span class="o">.</span><span class="n">display_activation_barriers</span><span class="p">(</span>
             <span class="n">path_data</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_path_manager</span><span class="o">.</span><span class="n">path_data</span><span class="p">,</span>
             <span class="n">x_positions</span><span class="o">=</span><span class="n">x_positions</span><span class="p">,</span>
@@ -5247,11 +5247,11 @@ manager components.</p>
     <span class="k">def</span><span class="w"> </span><span class="nf">append_to_energy_labels</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">numbers_to_append</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">]],</span>
-        <span class="n">brackets</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;(&quot;</span><span class="p">,</span> <span class="s2">&quot;)&quot;</span><span class="p">),</span>
+        <span class="n">brackets</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="p">(</span><span class="s2">"("</span><span class="p">,</span> <span class="s2">")"</span><span class="p">),</span>
         <span class="n">n_decimals</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
         <span class="n">infront</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EnergyDiagram</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Append additional numbers to existing energy labels.</span>
+<span class="w">        </span><span class="sd">"""Append additional numbers to existing energy labels.</span>
 
 <span class="sd">        Appends numeric values to the text of existing energy labels, with</span>
 <span class="sd">        optional formatting via brackets and decimal places. This is useful</span>
@@ -5265,11 +5265,11 @@ manager components.</p>
 <span class="sd">            Each sequence must have length equal to the number of energy labels</span>
 <span class="sd">            for that path. Use None for positions where no number should be</span>
 <span class="sd">            appended. Example:</span>
-<span class="sd">            ``{&quot;Path A&quot;: [1.5, 2.3, None, 4.1], &quot;Path B&quot;: [None, 0.8, 3.2]}``</span>
+<span class="sd">            ``{"Path A": [1.5, 2.3, None, 4.1], "Path B": [None, 0.8, 3.2]}``</span>
 <span class="sd">        brackets : tuple of str or list of str or None, optional</span>
 <span class="sd">            Two-element sequence specifying opening and closing bracket</span>
 <span class="sd">            characters to surround each number. If None, no brackets are used.</span>
-<span class="sd">            Default is ``(&quot;(&quot;, &quot;)&quot;)``.</span>
+<span class="sd">            Default is ``("(", ")")``.</span>
 <span class="sd">        n_decimals : int, optional</span>
 <span class="sd">            Number of decimal places to show for each appended number.</span>
 <span class="sd">            Default is 0 (integers).</span>
@@ -5295,14 +5295,14 @@ manager components.</p>
 <span class="sd">        Append dispersion energy values to existing energy labels:</span>
 
 <span class="sd">        &gt;&gt;&gt; dia = EnergyDiagram()</span>
-<span class="sd">        &gt;&gt;&gt; dia.draw_path([0, 1, 2], [0, 25, -10], color=&quot;blue&quot;, path_name=&quot;Path A&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; dia.draw_path([0, 1, 2], [0, 25, -10], color="blue", path_name="Path A")</span>
 <span class="sd">        &gt;&gt;&gt; dia.add_numbers_auto()</span>
 <span class="sd">        &gt;&gt;&gt; dia.append_to_energy_labels(</span>
-<span class="sd">        ...     {&quot;Path A&quot;: [None, 5, -3]},</span>
-<span class="sd">        ...     brackets=(&quot;[&quot;, &quot;]&quot;),</span>
+<span class="sd">        ...     {"Path A": [None, 5, -3]},</span>
+<span class="sd">        ...     brackets=("[", "]"),</span>
 <span class="sd">        ...     n_decimals=1</span>
 <span class="sd">        ... )</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_number_manager</span><span class="o">.</span><span class="n">append_to_energy_labels</span><span class="p">(</span>
             <span class="n">numbers_to_append</span><span class="o">=</span><span class="n">numbers_to_append</span><span class="p">,</span>
             <span class="n">brackets</span><span class="o">=</span><span class="n">brackets</span><span class="p">,</span>
@@ -5320,14 +5320,14 @@ manager components.</p>
         <span class="n">img_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">position</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
         <span class="n">img_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">horizontal_alignment</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;center&quot;</span><span class="p">,</span>
-        <span class="n">vertical_alignment</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;center&quot;</span><span class="p">,</span>
+        <span class="n">horizontal_alignment</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"center"</span><span class="p">,</span>
+        <span class="n">vertical_alignment</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"center"</span><span class="p">,</span>
         <span class="n">width</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">height</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">framed</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-        <span class="n">frame_color</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;black&quot;</span><span class="p">,</span>
+        <span class="n">frame_color</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"black"</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EnergyDiagram</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Place a single image at an explicit data-coordinate position.</span>
 
 <span class="sd">        The image is scaled to the requested ``width`` and/or ``height`` in</span>
@@ -5345,11 +5345,11 @@ manager components.</p>
 <span class="sd">            Key under which the artist is stored. An automatic key is</span>
 <span class="sd">            assigned when None. Default is None.</span>
 <span class="sd">        horizontal_alignment : str, optional</span>
-<span class="sd">            Horizontal anchor of ``position``: ``&quot;left&quot;``, ``&quot;center&quot;``,</span>
-<span class="sd">            or ``&quot;right&quot;``. Default ``&quot;center&quot;``.</span>
+<span class="sd">            Horizontal anchor of ``position``: ``"left"``, ``"center"``,</span>
+<span class="sd">            or ``"right"``. Default ``"center"``.</span>
 <span class="sd">        vertical_alignment : str, optional</span>
-<span class="sd">            Vertical anchor of ``position``: ``&quot;top&quot;``, ``&quot;center&quot;``,</span>
-<span class="sd">            or ``&quot;bottom&quot;``. Default ``&quot;center&quot;``.</span>
+<span class="sd">            Vertical anchor of ``position``: ``"top"``, ``"center"``,</span>
+<span class="sd">            or ``"bottom"``. Default ``"center"``.</span>
 <span class="sd">        width : float or None, optional</span>
 <span class="sd">            Image width in data coordinate units. Default is None.</span>
 <span class="sd">        height : float or None, optional</span>
@@ -5357,8 +5357,8 @@ manager components.</p>
 <span class="sd">        framed : bool, optional</span>
 <span class="sd">            If True, draws a rectangular border around the image. Default False.</span>
 <span class="sd">        frame_color : str, optional</span>
-<span class="sd">            Color of the frame border. Default ``&quot;black&quot;``.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">            Color of the frame border. Default ``"black"``.</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_image_manager</span><span class="o">.</span><span class="n">add_image_in_plot</span><span class="p">(</span>
             <span class="n">img_path</span><span class="p">,</span>
             <span class="n">position</span><span class="p">,</span>
@@ -5378,21 +5378,21 @@ manager components.</p>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">img_paths</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
         <span class="n">img_x_places</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">y_placement</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;auto&quot;</span><span class="p">,</span>
+        <span class="n">y_placement</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"auto"</span><span class="p">,</span>
         <span class="n">y_offsets</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
         <span class="n">img_series_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">width</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span><span class="p">]</span> <span class="o">|</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">height</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span><span class="p">]</span> <span class="o">|</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">proportional_scaling</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">framed</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">|</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-        <span class="n">frame_colors</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;black&quot;</span><span class="p">,</span>
+        <span class="n">frame_colors</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"black"</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EnergyDiagram</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""</span>
 <span class="sd">        Place a series of images, one per x-position, avoiding visual collisions.</span>
 
 <span class="sd">        For each image the method finds free vertical space above or below the</span>
 <span class="sd">        nearest energy bar, number annotation, and x-axis label. Placement is</span>
-<span class="sd">        chosen automatically or forced to ``&quot;top&quot;``/``&quot;bottom&quot;`` via</span>
+<span class="sd">        chosen automatically or forced to ``"top"``/``"bottom"`` via</span>
 <span class="sd">        ``y_placement``. The series artists are stored in ``self.images`` under</span>
 <span class="sd">        ``img_series_name``.</span>
 
@@ -5403,8 +5403,8 @@ manager components.</p>
 <span class="sd">        img_x_places : sequence of float or None, optional</span>
 <span class="sd">            x-coordinates for each image. Defaults to ``[0, 1, 2, ...]``.</span>
 <span class="sd">        y_placement : sequence of str or str, optional</span>
-<span class="sd">            Vertical placement strategy per image: ``&quot;top&quot;``, ``&quot;bottom&quot;``,</span>
-<span class="sd">            or ``&quot;auto&quot;``. Default ``&quot;auto&quot;``.</span>
+<span class="sd">            Vertical placement strategy per image: ``"top"``, ``"bottom"``,</span>
+<span class="sd">            or ``"auto"``. Default ``"auto"``.</span>
 <span class="sd">        y_offsets : sequence of float or float, optional</span>
 <span class="sd">            Additional vertical offset applied after collision avoidance.</span>
 <span class="sd">            Default 0.</span>
@@ -5427,8 +5427,8 @@ manager components.</p>
 <span class="sd">        framed : sequence of bool or bool, optional</span>
 <span class="sd">            Whether to draw a border around each image. Default False.</span>
 <span class="sd">        frame_colors : sequence of str or str, optional</span>
-<span class="sd">            Border colors. Default ``&quot;black&quot;``.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">            Border colors. Default ``"black"``.</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_image_manager</span><span class="o">.</span><span class="n">add_image_series_in_plot</span><span class="p">(</span>
             <span class="n">img_paths</span><span class="p">,</span>
             <span class="n">margins</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">margins</span><span class="p">,</span>
@@ -5455,75 +5455,75 @@ manager components.</p>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">ax</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Axes</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;matplotlib.axes.Axes: The underlying Axes object for the diagram.</span>
+<span class="w">        </span><span class="sd">"""matplotlib.axes.Axes: The underlying Axes object for the diagram.</span>
 
 <span class="sd">        Can be used to apply any additional Matplotlib customizations</span>
 <span class="sd">        directly, such as setting axis labels, adding annotations, or</span>
 <span class="sd">        adjusting tick marks.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_figure_manager</span><span class="o">.</span><span class="n">ax</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">fig</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Figure</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;matplotlib.figure.Figure: The underlying Figure object for the diagram.</span>
+<span class="w">        </span><span class="sd">"""matplotlib.figure.Figure: The underlying Figure object for the diagram.</span>
 
 <span class="sd">        Can be used to save the figure, adjust figure-level properties</span>
 <span class="sd">        such as DPI or size, or pass it to external Matplotlib routines.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_figure_manager</span><span class="o">.</span><span class="n">fig</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">lines</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">PathObject</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;dict of str to PathObject: Matplotlib line objects for each reaction path.</span>
+<span class="w">        </span><span class="sd">"""dict of str to PathObject: Matplotlib line objects for each reaction path.</span>
 
 <span class="sd">        Keys are the path names supplied via the ``path_name`` argument</span>
 <span class="sd">        of :meth:`draw_path`. Each value is a ``PathObject`` containing</span>
 <span class="sd">        the rendered Matplotlib line and connector artists for that path.</span>
 <span class="sd">        Paths drawn without a name are keyed by an internal identifier.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_path_manager</span><span class="o">.</span><span class="n">mpl_objects</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">ax_objects</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">StyleObjects</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;StyleObjects: Matplotlib artists related to diagram styling.</span>
+<span class="w">        </span><span class="sd">"""StyleObjects: Matplotlib artists related to diagram styling.</span>
 
 <span class="sd">        Contains the spine, tick, and background artists that are</span>
 <span class="sd">        managed by the style manager. Useful for fine-grained style</span>
 <span class="sd">        adjustments after calling :meth:`set_diagram_style`.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_style_manager</span><span class="o">.</span><span class="n">mpl_objects</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">bars</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">DifferenceBar</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;list of DifferenceBar: Energy difference bar objects in the diagram.</span>
+<span class="w">        </span><span class="sd">"""list of DifferenceBar: Energy difference bar objects in the diagram.</span>
 
 <span class="sd">        Each entry corresponds to one :meth:`draw_difference_bar` call</span>
 <span class="sd">        and holds the arrow, label text, and optional whisker artists.</span>
 <span class="sd">        The list is ordered by the sequence in which bars were added.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bar_manager</span><span class="o">.</span><span class="n">mpl_objects</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">numbers</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Text</span><span class="p">]]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;dict of str to dict of str to Text: Energy annotation text objects.</span>
+<span class="w">        </span><span class="sd">"""dict of str to dict of str to Text: Energy annotation text objects.</span>
 
 <span class="sd">        Outer keys are path names; inner keys are string representations</span>
 <span class="sd">        of the x-coordinates at which annotations were placed. Each</span>
 <span class="sd">        value is a Matplotlib ``Text`` artist. Populated after calling</span>
 <span class="sd">        any of the ``add_numbers_*`` methods.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_number_manager</span><span class="o">.</span><span class="n">mpl_objects</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">images</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;dict: Image artists stored by the image manager.</span>
+<span class="w">        </span><span class="sd">"""dict: Image artists stored by the image manager.</span>
 
 <span class="sd">        Keys are image or series names (as supplied via ``img_name`` or</span>
 <span class="sd">        ``img_series_name``). Standalone images map directly to an</span>
 <span class="sd">        ``ImageObject``; series map to a nested dict keyed by x-coordinate.</span>
 <span class="sd">        Populated after calling :meth:`add_image_in_plot` or</span>
 <span class="sd">        :meth:`add_image_series_in_plot`.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_image_manager</span><span class="o">.</span><span class="n">mpl_objects</span>
 </code></pre></div></td></tr></table></div>
               </details>
@@ -5723,7 +5723,7 @@ any of the <code>add_numbers_*</code> methods.</p>
 
 
 <h3 id="chemdiagrams.EnergyDiagram.add_image_in_plot" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">add_image_in_plot</span><span class="p">(</span><span class="n">img_path</span><span class="p">,</span> <span class="n">position</span><span class="p">,</span> <span class="n">img_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">horizontal_alignment</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">vertical_alignment</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">framed</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">frame_color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span></code>
+            <code class="highlight language-python"><span class="n">add_image_in_plot</span><span class="p">(</span><span class="n">img_path</span><span class="p">,</span> <span class="n">position</span><span class="p">,</span> <span class="n">img_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">horizontal_alignment</span><span class="o">=</span><span class="s1">'center'</span><span class="p">,</span> <span class="n">vertical_alignment</span><span class="o">=</span><span class="s1">'center'</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">framed</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">frame_color</span><span class="o">=</span><span class="s1">'black'</span><span class="p">)</span></code>
 
 </h3>
 
@@ -5963,14 +5963,14 @@ or <code>"bottom"</code>. Default <code>"center"</code>.</p>
     <span class="n">img_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">position</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
     <span class="n">img_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">horizontal_alignment</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;center&quot;</span><span class="p">,</span>
-    <span class="n">vertical_alignment</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;center&quot;</span><span class="p">,</span>
+    <span class="n">horizontal_alignment</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"center"</span><span class="p">,</span>
+    <span class="n">vertical_alignment</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"center"</span><span class="p">,</span>
     <span class="n">width</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">height</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">framed</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-    <span class="n">frame_color</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;black&quot;</span><span class="p">,</span>
+    <span class="n">frame_color</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"black"</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EnergyDiagram</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Place a single image at an explicit data-coordinate position.</span>
 
 <span class="sd">    The image is scaled to the requested ``width`` and/or ``height`` in</span>
@@ -5988,11 +5988,11 @@ or <code>"bottom"</code>. Default <code>"center"</code>.</p>
 <span class="sd">        Key under which the artist is stored. An automatic key is</span>
 <span class="sd">        assigned when None. Default is None.</span>
 <span class="sd">    horizontal_alignment : str, optional</span>
-<span class="sd">        Horizontal anchor of ``position``: ``&quot;left&quot;``, ``&quot;center&quot;``,</span>
-<span class="sd">        or ``&quot;right&quot;``. Default ``&quot;center&quot;``.</span>
+<span class="sd">        Horizontal anchor of ``position``: ``"left"``, ``"center"``,</span>
+<span class="sd">        or ``"right"``. Default ``"center"``.</span>
 <span class="sd">    vertical_alignment : str, optional</span>
-<span class="sd">        Vertical anchor of ``position``: ``&quot;top&quot;``, ``&quot;center&quot;``,</span>
-<span class="sd">        or ``&quot;bottom&quot;``. Default ``&quot;center&quot;``.</span>
+<span class="sd">        Vertical anchor of ``position``: ``"top"``, ``"center"``,</span>
+<span class="sd">        or ``"bottom"``. Default ``"center"``.</span>
 <span class="sd">    width : float or None, optional</span>
 <span class="sd">        Image width in data coordinate units. Default is None.</span>
 <span class="sd">    height : float or None, optional</span>
@@ -6000,8 +6000,8 @@ or <code>"bottom"</code>. Default <code>"center"</code>.</p>
 <span class="sd">    framed : bool, optional</span>
 <span class="sd">        If True, draws a rectangular border around the image. Default False.</span>
 <span class="sd">    frame_color : str, optional</span>
-<span class="sd">        Color of the frame border. Default ``&quot;black&quot;``.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">        Color of the frame border. Default ``"black"``.</span>
+<span class="sd">    """</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_image_manager</span><span class="o">.</span><span class="n">add_image_in_plot</span><span class="p">(</span>
         <span class="n">img_path</span><span class="p">,</span>
         <span class="n">position</span><span class="p">,</span>
@@ -6026,7 +6026,7 @@ or <code>"bottom"</code>. Default <code>"center"</code>.</p>
 
 
 <h3 id="chemdiagrams.EnergyDiagram.add_image_series_in_plot" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">add_image_series_in_plot</span><span class="p">(</span><span class="n">img_paths</span><span class="p">,</span> <span class="n">img_x_places</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">y_placement</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">,</span> <span class="n">y_offsets</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">img_series_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">proportional_scaling</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">framed</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">frame_colors</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span></code>
+            <code class="highlight language-python"><span class="n">add_image_series_in_plot</span><span class="p">(</span><span class="n">img_paths</span><span class="p">,</span> <span class="n">img_x_places</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">y_placement</span><span class="o">=</span><span class="s1">'auto'</span><span class="p">,</span> <span class="n">y_offsets</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">img_series_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">proportional_scaling</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">framed</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">frame_colors</span><span class="o">=</span><span class="s1">'black'</span><span class="p">)</span></code>
 
 </h3>
 
@@ -6305,21 +6305,21 @@ Default is False.</p>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">img_paths</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
     <span class="n">img_x_places</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">y_placement</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;auto&quot;</span><span class="p">,</span>
+    <span class="n">y_placement</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"auto"</span><span class="p">,</span>
     <span class="n">y_offsets</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
     <span class="n">img_series_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">width</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span><span class="p">]</span> <span class="o">|</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">height</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span><span class="p">]</span> <span class="o">|</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">proportional_scaling</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">framed</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">bool</span><span class="p">]</span> <span class="o">|</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-    <span class="n">frame_colors</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;black&quot;</span><span class="p">,</span>
+    <span class="n">frame_colors</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"black"</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EnergyDiagram</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""</span>
 <span class="sd">    Place a series of images, one per x-position, avoiding visual collisions.</span>
 
 <span class="sd">    For each image the method finds free vertical space above or below the</span>
 <span class="sd">    nearest energy bar, number annotation, and x-axis label. Placement is</span>
-<span class="sd">    chosen automatically or forced to ``&quot;top&quot;``/``&quot;bottom&quot;`` via</span>
+<span class="sd">    chosen automatically or forced to ``"top"``/``"bottom"`` via</span>
 <span class="sd">    ``y_placement``. The series artists are stored in ``self.images`` under</span>
 <span class="sd">    ``img_series_name``.</span>
 
@@ -6330,8 +6330,8 @@ Default is False.</p>
 <span class="sd">    img_x_places : sequence of float or None, optional</span>
 <span class="sd">        x-coordinates for each image. Defaults to ``[0, 1, 2, ...]``.</span>
 <span class="sd">    y_placement : sequence of str or str, optional</span>
-<span class="sd">        Vertical placement strategy per image: ``&quot;top&quot;``, ``&quot;bottom&quot;``,</span>
-<span class="sd">        or ``&quot;auto&quot;``. Default ``&quot;auto&quot;``.</span>
+<span class="sd">        Vertical placement strategy per image: ``"top"``, ``"bottom"``,</span>
+<span class="sd">        or ``"auto"``. Default ``"auto"``.</span>
 <span class="sd">    y_offsets : sequence of float or float, optional</span>
 <span class="sd">        Additional vertical offset applied after collision avoidance.</span>
 <span class="sd">        Default 0.</span>
@@ -6354,8 +6354,8 @@ Default is False.</p>
 <span class="sd">    framed : sequence of bool or bool, optional</span>
 <span class="sd">        Whether to draw a border around each image. Default False.</span>
 <span class="sd">    frame_colors : sequence of str or str, optional</span>
-<span class="sd">        Border colors. Default ``&quot;black&quot;``.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">        Border colors. Default ``"black"``.</span>
+<span class="sd">    """</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_image_manager</span><span class="o">.</span><span class="n">add_image_series_in_plot</span><span class="p">(</span>
         <span class="n">img_paths</span><span class="p">,</span>
         <span class="n">margins</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">margins</span><span class="p">,</span>
@@ -6550,7 +6550,7 @@ Default is 0.</p>
     <span class="n">fontsize</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">n_decimals</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EnergyDiagram</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Annotate energy levels with automatically placed labels.</span>
+<span class="w">    </span><span class="sd">"""Annotate energy levels with automatically placed labels.</span>
 
 <span class="sd">    Chooses label placement (above which bar) automatically</span>
 <span class="sd">    for each energy state to minimize visual clutter, taking into</span>
@@ -6566,7 +6566,7 @@ Default is 0.</p>
 <span class="sd">        single float for an exact match, or None for all states.</span>
 <span class="sd">        Default is None.</span>
 <span class="sd">    fontsize : int or None, optional</span>
-<span class="sd">        Font size for the annotations. When None the diagram&#39;s</span>
+<span class="sd">        Font size for the annotations. When None the diagram's</span>
 <span class="sd">        base font size is used. Default is None.</span>
 <span class="sd">    n_decimals : int, optional</span>
 <span class="sd">        Number of decimal places to show for the energy values.</span>
@@ -6576,7 +6576,7 @@ Default is 0.</p>
 <span class="sd">    -------</span>
 <span class="sd">    EnergyDiagram</span>
 <span class="sd">        Returns *self* to allow method chaining.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_number_manager</span><span class="o">.</span><span class="n">add_numbers_auto</span><span class="p">(</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_path_manager</span><span class="o">.</span><span class="n">path_data</span><span class="p">,</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">margins</span><span class="p">,</span>
@@ -6606,7 +6606,7 @@ Default is 0.</p>
 
 
 <h3 id="chemdiagrams.EnergyDiagram.add_numbers_average" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">add_numbers_average</span><span class="p">(</span><span class="n">x_min_max</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">n_decimals</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span></code>
+            <code class="highlight language-python"><span class="n">add_numbers_average</span><span class="p">(</span><span class="n">x_min_max</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'black'</span><span class="p">,</span> <span class="n">n_decimals</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span></code>
 
 </h3>
 
@@ -6770,10 +6770,10 @@ base font size is used. Default is None.</p>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">x_min_max</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">fontsize</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">color</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;black&quot;</span><span class="p">,</span>
+    <span class="n">color</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"black"</span><span class="p">,</span>
     <span class="n">n_decimals</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EnergyDiagram</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Annotate energy states with the average value across all paths.</span>
+<span class="w">    </span><span class="sd">"""Annotate energy states with the average value across all paths.</span>
 
 <span class="sd">    At each x-position the mean energy of all visible paths is</span>
 <span class="sd">    computed and a single label is rendered. This is useful when</span>
@@ -6790,16 +6790,16 @@ base font size is used. Default is None.</p>
 <span class="sd">        single float for an exact match, or None for all states.</span>
 <span class="sd">        Default is None.</span>
 <span class="sd">    fontsize : int or None, optional</span>
-<span class="sd">        Font size for the annotations. When None the diagram&#39;s</span>
+<span class="sd">        Font size for the annotations. When None the diagram's</span>
 <span class="sd">        base font size is used. Default is None.</span>
 <span class="sd">    color : str, optional</span>
-<span class="sd">        Color of the annotation text. Default is ``&quot;black&quot;``.</span>
+<span class="sd">        Color of the annotation text. Default is ``"black"``.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    EnergyDiagram</span>
 <span class="sd">        Returns *self* to allow method chaining.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_number_manager</span><span class="o">.</span><span class="n">add_numbers_average</span><span class="p">(</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_path_manager</span><span class="o">.</span><span class="n">path_data</span><span class="p">,</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">margins</span><span class="p">,</span>
@@ -6995,7 +6995,7 @@ Default is 0.</p>
     <span class="n">fontsize</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">n_decimals</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EnergyDiagram</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Annotate energy levels with their values, placed directly above each bar.</span>
+<span class="w">    </span><span class="sd">"""Annotate energy levels with their values, placed directly above each bar.</span>
 
 <span class="sd">    This is the simplest numbering strategy: each energy value is</span>
 <span class="sd">    printed at its x-position, just above the corresponding</span>
@@ -7012,7 +7012,7 @@ Default is 0.</p>
 <span class="sd">        annotate only the state at that exact x-value, or None to</span>
 <span class="sd">        annotate all states. Default is None.</span>
 <span class="sd">    fontsize : int or None, optional</span>
-<span class="sd">        Font size for the annotations. When None the diagram&#39;s</span>
+<span class="sd">        Font size for the annotations. When None the diagram's</span>
 <span class="sd">        base font size is used. Default is None.</span>
 <span class="sd">    n_decimals : int, optional</span>
 <span class="sd">        Number of decimal places to show for the energy values.</span>
@@ -7022,7 +7022,7 @@ Default is 0.</p>
 <span class="sd">    -------</span>
 <span class="sd">    EnergyDiagram</span>
 <span class="sd">        Returns *self* to allow method chaining.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_number_manager</span><span class="o">.</span><span class="n">add_numbers_naive</span><span class="p">(</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_path_manager</span><span class="o">.</span><span class="n">path_data</span><span class="p">,</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">margins</span><span class="p">,</span>
@@ -7268,7 +7268,7 @@ Default is 0.</p>
     <span class="n">no_overlap_with_nonnumbered</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">n_decimals</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EnergyDiagram</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Annotate energy levels with stacked labels above the highest state.</span>
+<span class="w">    </span><span class="sd">"""Annotate energy levels with stacked labels above the highest state.</span>
 
 <span class="sd">    When multiple paths share the same x-position the labels are</span>
 <span class="sd">    arranged vertically (stacked) so they do not collide. Paths</span>
@@ -7285,7 +7285,7 @@ Default is 0.</p>
 <span class="sd">        single float for an exact match, or None for all states.</span>
 <span class="sd">        Default is None.</span>
 <span class="sd">    fontsize : int or None, optional</span>
-<span class="sd">        Font size for the annotations. When None the diagram&#39;s</span>
+<span class="sd">        Font size for the annotations. When None the diagram's</span>
 <span class="sd">        base font size is used. Default is None.</span>
 <span class="sd">    sort_by_energy : bool, optional</span>
 <span class="sd">        If True, labels at the same x-position are sorted by</span>
@@ -7303,7 +7303,7 @@ Default is 0.</p>
 <span class="sd">    -------</span>
 <span class="sd">    EnergyDiagram</span>
 <span class="sd">        Returns *self* to allow method chaining.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_number_manager</span><span class="o">.</span><span class="n">add_numbers_stacked</span><span class="p">(</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_path_manager</span><span class="o">.</span><span class="n">path_data</span><span class="p">,</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">margins</span><span class="p">,</span>
@@ -7335,7 +7335,7 @@ Default is 0.</p>
 
 
 <h3 id="chemdiagrams.EnergyDiagram.add_path_labels" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">add_path_labels</span><span class="p">(</span><span class="n">path_name</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s1">&#39;normal&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+            <code class="highlight language-python"><span class="n">add_path_labels</span><span class="p">(</span><span class="n">path_name</span><span class="p">,</span> <span class="n">labels</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s1">'normal'</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
 
 </h3>
 
@@ -7585,11 +7585,11 @@ does not match the number of energy levels in the path.</p>
     <span class="n">path_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">labels</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
     <span class="n">fontsize</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">weight</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;normal&quot;</span><span class="p">,</span>
+    <span class="n">weight</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"normal"</span><span class="p">,</span>
     <span class="n">color</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">rotation</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EnergyDiagram</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Add text labels below the energy levels of a specific path.</span>
+<span class="w">    </span><span class="sd">"""Add text labels below the energy levels of a specific path.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -7600,11 +7600,11 @@ does not match the number of energy levels in the path.</p>
 <span class="sd">        If None is passed for a label, no label is drawn for that level.</span>
 <span class="sd">        Must have the same length as the number of energy levels in the path.</span>
 <span class="sd">    fontsize : int or None, optional</span>
-<span class="sd">        Font size for the labels. When None the diagram&#39;s base font size</span>
+<span class="sd">        Font size for the labels. When None the diagram's base font size</span>
 <span class="sd">        is used. Default is None.</span>
 <span class="sd">    weight : str, optional</span>
-<span class="sd">        Font weight for the labels, e.g. ``&quot;bold&quot;`` or ``&quot;normal&quot;``.</span>
-<span class="sd">        Default is ``&quot;normal&quot;``.</span>
+<span class="sd">        Font weight for the labels, e.g. ``"bold"`` or ``"normal"``.</span>
+<span class="sd">        Default is ``"normal"``.</span>
 <span class="sd">    color : str or None, optional</span>
 <span class="sd">        Color for the labels. When None, uses the same color as the path.</span>
 <span class="sd">        Default is None.</span>
@@ -7622,7 +7622,7 @@ does not match the number of energy levels in the path.</p>
 <span class="sd">    ValueError</span>
 <span class="sd">        If the specified path does not exist or if the number of labels</span>
 <span class="sd">        does not match the number of energy levels in the path.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_path_manager</span><span class="o">.</span><span class="n">add_path_labels</span><span class="p">(</span>
         <span class="n">margins</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">margins</span><span class="p">,</span>
         <span class="n">figsize</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">figsize</span><span class="p">,</span>
@@ -7801,12 +7801,12 @@ Default is <code>30</code>.</p>
     <span class="n">stopper_scale</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
     <span class="n">angle</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">30</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Add a break marker on the x-axis at a given position.</span>
+<span class="w">    </span><span class="sd">"""Add a break marker on the x-axis at a given position.</span>
 
 <span class="sd">    Draws a pair of diagonal stopper lines over a white gap rectangle on</span>
 <span class="sd">    the x-axis (or axes spine) to indicate a discontinuity in the x scale.</span>
 
-<span class="sd">    Not compatible with the ``&quot;open&quot;`` diagram style.</span>
+<span class="sd">    Not compatible with the ``"open"`` diagram style.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -7822,7 +7822,7 @@ Default is <code>30</code>.</p>
 <span class="sd">    angle : float, optional</span>
 <span class="sd">        Angle of the stopper tick marks in degrees from the vertical.</span>
 <span class="sd">        Default is ``30``.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_style_manager</span><span class="o">.</span><span class="n">add_xaxis_break</span><span class="p">(</span>
         <span class="n">margins</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">margins</span><span class="p">,</span>
         <span class="n">figsize</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">figsize</span><span class="p">,</span>
@@ -7979,7 +7979,7 @@ Default is <code>30</code>.</p>
     <span class="n">stopper_scale</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
     <span class="n">angle</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">30</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Add a break marker on the y-axis at a given position.</span>
+<span class="w">    </span><span class="sd">"""Add a break marker on the y-axis at a given position.</span>
 
 <span class="sd">    Draws a pair of diagonal stopper lines over a white gap rectangle on</span>
 <span class="sd">    the y-axis spine to indicate a discontinuity in the y scale.</span>
@@ -7998,7 +7998,7 @@ Default is <code>30</code>.</p>
 <span class="sd">    angle : float, optional</span>
 <span class="sd">        Angle of the stopper tick marks in degrees from the horizontal.</span>
 <span class="sd">        Default is ``30``.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_style_manager</span><span class="o">.</span><span class="n">add_yaxis_break</span><span class="p">(</span>
         <span class="n">margins</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">margins</span><span class="p">,</span>
         <span class="n">figsize</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">figsize</span><span class="p">,</span>
@@ -8017,7 +8017,7 @@ Default is <code>30</code>.</p>
 
 
 <h3 id="chemdiagrams.EnergyDiagram.append_to_energy_labels" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">append_to_energy_labels</span><span class="p">(</span><span class="n">numbers_to_append</span><span class="p">,</span> <span class="n">brackets</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;(&#39;</span><span class="p">,</span> <span class="s1">&#39;)&#39;</span><span class="p">),</span> <span class="n">n_decimals</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">infront</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></code>
+            <code class="highlight language-python"><span class="n">append_to_energy_labels</span><span class="p">(</span><span class="n">numbers_to_append</span><span class="p">,</span> <span class="n">brackets</span><span class="o">=</span><span class="p">(</span><span class="s1">'('</span><span class="p">,</span> <span class="s1">')'</span><span class="p">),</span> <span class="n">n_decimals</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">infront</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></code>
 
 </h3>
 
@@ -8170,11 +8170,11 @@ labels for that path.</p>
 <p><span class="doc-section-title">Examples:</span></p>
     <p>Append dispersion energy values to existing energy labels:</p>
     <div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">dia</span> <span class="o">=</span> <span class="n">EnergyDiagram</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">dia</span><span class="o">.</span><span class="n">draw_path</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="o">-</span><span class="mi">10</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;blue&quot;</span><span class="p">,</span> <span class="n">path_name</span><span class="o">=</span><span class="s2">&quot;Path A&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dia</span><span class="o">.</span><span class="n">draw_path</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">25</span><span class="p">,</span> <span class="o">-</span><span class="mi">10</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s2">"blue"</span><span class="p">,</span> <span class="n">path_name</span><span class="o">=</span><span class="s2">"Path A"</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">dia</span><span class="o">.</span><span class="n">add_numbers_auto</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">dia</span><span class="o">.</span><span class="n">append_to_energy_labels</span><span class="p">(</span>
-<span class="gp">... </span>    <span class="p">{</span><span class="s2">&quot;Path A&quot;</span><span class="p">:</span> <span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="o">-</span><span class="mi">3</span><span class="p">]},</span>
-<span class="gp">... </span>    <span class="n">brackets</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;[&quot;</span><span class="p">,</span> <span class="s2">&quot;]&quot;</span><span class="p">),</span>
+<span class="gp">... </span>    <span class="p">{</span><span class="s2">"Path A"</span><span class="p">:</span> <span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="o">-</span><span class="mi">3</span><span class="p">]},</span>
+<span class="gp">... </span>    <span class="n">brackets</span><span class="o">=</span><span class="p">(</span><span class="s2">"["</span><span class="p">,</span> <span class="s2">"]"</span><span class="p">),</span>
 <span class="gp">... </span>    <span class="n">n_decimals</span><span class="o">=</span><span class="mi">1</span>
 <span class="gp">... </span><span class="p">)</span>
 </code></pre></div>
@@ -8250,11 +8250,11 @@ labels for that path.</p>
 <span class="normal">1283</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">append_to_energy_labels</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">numbers_to_append</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">]],</span>
-    <span class="n">brackets</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;(&quot;</span><span class="p">,</span> <span class="s2">&quot;)&quot;</span><span class="p">),</span>
+    <span class="n">brackets</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="p">(</span><span class="s2">"("</span><span class="p">,</span> <span class="s2">")"</span><span class="p">),</span>
     <span class="n">n_decimals</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
     <span class="n">infront</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EnergyDiagram</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Append additional numbers to existing energy labels.</span>
+<span class="w">    </span><span class="sd">"""Append additional numbers to existing energy labels.</span>
 
 <span class="sd">    Appends numeric values to the text of existing energy labels, with</span>
 <span class="sd">    optional formatting via brackets and decimal places. This is useful</span>
@@ -8268,11 +8268,11 @@ labels for that path.</p>
 <span class="sd">        Each sequence must have length equal to the number of energy labels</span>
 <span class="sd">        for that path. Use None for positions where no number should be</span>
 <span class="sd">        appended. Example:</span>
-<span class="sd">        ``{&quot;Path A&quot;: [1.5, 2.3, None, 4.1], &quot;Path B&quot;: [None, 0.8, 3.2]}``</span>
+<span class="sd">        ``{"Path A": [1.5, 2.3, None, 4.1], "Path B": [None, 0.8, 3.2]}``</span>
 <span class="sd">    brackets : tuple of str or list of str or None, optional</span>
 <span class="sd">        Two-element sequence specifying opening and closing bracket</span>
 <span class="sd">        characters to surround each number. If None, no brackets are used.</span>
-<span class="sd">        Default is ``(&quot;(&quot;, &quot;)&quot;)``.</span>
+<span class="sd">        Default is ``("(", ")")``.</span>
 <span class="sd">    n_decimals : int, optional</span>
 <span class="sd">        Number of decimal places to show for each appended number.</span>
 <span class="sd">        Default is 0 (integers).</span>
@@ -8298,14 +8298,14 @@ labels for that path.</p>
 <span class="sd">    Append dispersion energy values to existing energy labels:</span>
 
 <span class="sd">    &gt;&gt;&gt; dia = EnergyDiagram()</span>
-<span class="sd">    &gt;&gt;&gt; dia.draw_path([0, 1, 2], [0, 25, -10], color=&quot;blue&quot;, path_name=&quot;Path A&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; dia.draw_path([0, 1, 2], [0, 25, -10], color="blue", path_name="Path A")</span>
 <span class="sd">    &gt;&gt;&gt; dia.add_numbers_auto()</span>
 <span class="sd">    &gt;&gt;&gt; dia.append_to_energy_labels(</span>
-<span class="sd">    ...     {&quot;Path A&quot;: [None, 5, -3]},</span>
-<span class="sd">    ...     brackets=(&quot;[&quot;, &quot;]&quot;),</span>
+<span class="sd">    ...     {"Path A": [None, 5, -3]},</span>
+<span class="sd">    ...     brackets=("[", "]"),</span>
 <span class="sd">    ...     n_decimals=1</span>
 <span class="sd">    ... )</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_number_manager</span><span class="o">.</span><span class="n">append_to_energy_labels</span><span class="p">(</span>
         <span class="n">numbers_to_append</span><span class="o">=</span><span class="n">numbers_to_append</span><span class="p">,</span>
         <span class="n">brackets</span><span class="o">=</span><span class="n">brackets</span><span class="p">,</span>
@@ -8323,7 +8323,7 @@ labels for that path.</p>
 
 
 <h3 id="chemdiagrams.EnergyDiagram.display_activation_barriers" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">display_activation_barriers</span><span class="p">(</span><span class="n">x_positions</span><span class="p">,</span> <span class="n">direction</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">,</span> <span class="n">include_paths</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">exclude_paths</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">brackets</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;(&#39;</span><span class="p">,</span> <span class="s1">&#39;)&#39;</span><span class="p">),</span> <span class="n">seperator</span><span class="o">=</span><span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="n">n_decimals</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">switch_order</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">append_to_existing</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></code>
+            <code class="highlight language-python"><span class="n">display_activation_barriers</span><span class="p">(</span><span class="n">x_positions</span><span class="p">,</span> <span class="n">direction</span><span class="o">=</span><span class="s1">'right'</span><span class="p">,</span> <span class="n">include_paths</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">exclude_paths</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">brackets</span><span class="o">=</span><span class="p">(</span><span class="s1">'('</span><span class="p">,</span> <span class="s1">')'</span><span class="p">),</span> <span class="n">seperator</span><span class="o">=</span><span class="s1">'/'</span><span class="p">,</span> <span class="n">n_decimals</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">switch_order</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">append_to_existing</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></code>
 
 </h3>
 
@@ -8679,16 +8679,16 @@ or if both <code>include_paths</code> and <code>exclude_paths</code> are specifi
 <span class="normal">1216</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">display_activation_barriers</span><span class="p">(</span>
     <span class="bp">self</span><span class="p">,</span>
     <span class="n">x_positions</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span>
-    <span class="n">direction</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;right&quot;</span><span class="p">,</span>
+    <span class="n">direction</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"right"</span><span class="p">,</span>
     <span class="n">include_paths</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">exclude_paths</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">brackets</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;(&quot;</span><span class="p">,</span> <span class="s2">&quot;)&quot;</span><span class="p">),</span>
-    <span class="n">seperator</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;/&quot;</span><span class="p">,</span>
+    <span class="n">brackets</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="p">(</span><span class="s2">"("</span><span class="p">,</span> <span class="s2">")"</span><span class="p">),</span>
+    <span class="n">seperator</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"/"</span><span class="p">,</span>
     <span class="n">n_decimals</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
     <span class="n">switch_order</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">append_to_existing</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EnergyDiagram</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Automatically calculate and display activation barriers.</span>
+<span class="w">    </span><span class="sd">"""Automatically calculate and display activation barriers.</span>
 
 <span class="sd">    Computes energy barriers (differences) at specified x-positions along</span>
 <span class="sd">    all paths and appends the calculated values to existing energy labels</span>
@@ -8704,11 +8704,11 @@ or if both <code>include_paths</code> and <code>exclude_paths</code> are specifi
 <span class="sd">    direction : str, optional</span>
 <span class="sd">        Direction(s) for barrier calculation. Options are:</span>
 
-<span class="sd">        * ``&quot;right&quot;`` : barriers toward higher x (default)</span>
-<span class="sd">        * ``&quot;left&quot;`` : barriers toward lower x</span>
-<span class="sd">        * ``&quot;both&quot;`` : barriers in both directions</span>
+<span class="sd">        * ``"right"`` : barriers toward higher x (default)</span>
+<span class="sd">        * ``"left"`` : barriers toward lower x</span>
+<span class="sd">        * ``"both"`` : barriers in both directions</span>
 
-<span class="sd">        Default is ``&quot;right&quot;``.</span>
+<span class="sd">        Default is ``"right"``.</span>
 <span class="sd">    include_paths : list of str or None, optional</span>
 <span class="sd">        List of path names to include. When specified, only these paths</span>
 <span class="sd">        are modified. Cannot be used together with ``exclude_paths``.</span>
@@ -8718,10 +8718,10 @@ or if both <code>include_paths</code> and <code>exclude_paths</code> are specifi
 <span class="sd">        together with ``include_paths``. Default is None.</span>
 <span class="sd">    brackets : tuple of str or list of str or None, optional</span>
 <span class="sd">        A two-element sequence ``(left_bracket, right_bracket)`` to wrap</span>
-<span class="sd">        the barrier text. Use None to omit brackets. Default is ``(&quot;(&quot;, &quot;)&quot;)``.</span>
+<span class="sd">        the barrier text. Use None to omit brackets. Default is ``("(", ")")``.</span>
 <span class="sd">    seperator : str, optional</span>
 <span class="sd">        String to place between left and right barriers when ``direction``</span>
-<span class="sd">        is ``&quot;both&quot;`` and both barriers exist. Default is ``&quot;|&quot;``.</span>
+<span class="sd">        is ``"both"`` and both barriers exist. Default is ``"|"``.</span>
 <span class="sd">    n_decimals : int, optional</span>
 <span class="sd">        Number of decimal places to display for barrier values.</span>
 <span class="sd">        Default is 0.</span>
@@ -8756,7 +8756,7 @@ or if both <code>include_paths</code> and <code>exclude_paths</code> are specifi
 <span class="sd">        or if both ``include_paths`` and ``exclude_paths`` are specified.</span>
 <span class="sd">    TypeError</span>
 <span class="sd">        If ``seperator`` is not a string.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_number_manager</span><span class="o">.</span><span class="n">display_activation_barriers</span><span class="p">(</span>
         <span class="n">path_data</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_path_manager</span><span class="o">.</span><span class="n">path_data</span><span class="p">,</span>
         <span class="n">x_positions</span><span class="o">=</span><span class="n">x_positions</span><span class="p">,</span>
@@ -8780,7 +8780,7 @@ or if both <code>include_paths</code> and <code>exclude_paths</code> are specifi
 
 
 <h3 id="chemdiagrams.EnergyDiagram.draw_difference_bar" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">draw_difference_bar</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y_start_end</span><span class="p">,</span> <span class="n">description</span><span class="p">,</span> <span class="n">diff</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">left_side</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">add_difference</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">n_decimals</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">arrowstyle</span><span class="o">=</span><span class="s1">&#39;|-|&#39;</span><span class="p">,</span> <span class="n">x_whiskers</span><span class="o">=</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span> <span class="n">whiskercolor</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+            <code class="highlight language-python"><span class="n">draw_difference_bar</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y_start_end</span><span class="p">,</span> <span class="n">description</span><span class="p">,</span> <span class="n">diff</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">left_side</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">add_difference</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">n_decimals</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'black'</span><span class="p">,</span> <span class="n">arrowstyle</span><span class="o">=</span><span class="s1">'|-|'</span><span class="p">,</span> <span class="n">x_whiskers</span><span class="o">=</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span> <span class="n">whiskercolor</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
 
 </h3>
 
@@ -9138,12 +9138,12 @@ same color as the bar. Default is None.</p>
     <span class="n">add_difference</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">n_decimals</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
     <span class="n">fontsize</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">color</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;black&quot;</span><span class="p">,</span>
-    <span class="n">arrowstyle</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;|-|&quot;</span><span class="p">,</span>
+    <span class="n">color</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"black"</span><span class="p">,</span>
+    <span class="n">arrowstyle</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"|-|"</span><span class="p">,</span>
     <span class="n">x_whiskers</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
     <span class="n">whiskercolor</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EnergyDiagram</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Draw a vertical energy difference bar between two energy levels.</span>
+<span class="w">    </span><span class="sd">"""Draw a vertical energy difference bar between two energy levels.</span>
 
 <span class="sd">    Renders a double-headed arrow that spans from one energy level</span>
 <span class="sd">    to another at a given x-position, with a text label showing</span>
@@ -9160,7 +9160,7 @@ same color as the bar. Default is None.</p>
 <span class="sd">        bottom and top energy values spanned by the bar.</span>
 <span class="sd">    description : str</span>
 <span class="sd">        Text label placed beside the bar, typically the energy</span>
-<span class="sd">        difference symbol (e.g. ``&quot;ΔE: &quot;``).</span>
+<span class="sd">        difference symbol (e.g. ``"ΔE: "``).</span>
 <span class="sd">    diff : float or None, optional</span>
 <span class="sd">        Horizontal offset in data coordinates between the bar and</span>
 <span class="sd">        its text label. When None the offset is computed</span>
@@ -9177,12 +9177,12 @@ same color as the bar. Default is None.</p>
 <span class="sd">        Default is 0.</span>
 <span class="sd">    fontsize : int or None, optional</span>
 <span class="sd">        Font size for the description label. When None the</span>
-<span class="sd">        diagram&#39;s base font size is used. Default is None.</span>
+<span class="sd">        diagram's base font size is used. Default is None.</span>
 <span class="sd">    color : str, optional</span>
-<span class="sd">        Color of the difference bar. Default is ``&quot;black&quot;``.</span>
+<span class="sd">        Color of the difference bar. Default is ``"black"``.</span>
 <span class="sd">    arrowstyle : str, optional</span>
 <span class="sd">        Matplotlib arrow style string for the double-headed arrow.</span>
-<span class="sd">        Default is ``&quot;|-|&quot;``.</span>
+<span class="sd">        Default is ``"|-|"``.</span>
 <span class="sd">    x_whiskers : tuple or list of float or None, optional</span>
 <span class="sd">        A two-element sequence ``(x_bottom, x_top)`` giving the</span>
 <span class="sd">        starting x-coordinates for optional horizontal whisker</span>
@@ -9197,7 +9197,7 @@ same color as the bar. Default is None.</p>
 <span class="sd">    -------</span>
 <span class="sd">    EnergyDiagram</span>
 <span class="sd">        Returns *self* to allow method chaining.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_bar_manager</span><span class="o">.</span><span class="n">draw_difference_bar</span><span class="p">(</span>
         <span class="n">x</span><span class="p">,</span>
         <span class="n">y_start_end</span><span class="p">,</span>
@@ -9225,7 +9225,7 @@ same color as the bar. Default is None.</p>
 
 
 <h3 id="chemdiagrams.EnergyDiagram.draw_path" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">draw_path</span><span class="p">(</span><span class="n">x_data</span><span class="p">,</span> <span class="n">y_data</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="n">linetypes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">path_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">show_numbers</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">width_plateau</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">lw_plateau</span><span class="o">=</span><span class="s1">&#39;plateau&#39;</span><span class="p">,</span> <span class="n">lw_connector</span><span class="o">=</span><span class="s1">&#39;connector&#39;</span><span class="p">,</span> <span class="n">gap_scale</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span></code>
+            <code class="highlight language-python"><span class="n">draw_path</span><span class="p">(</span><span class="n">x_data</span><span class="p">,</span> <span class="n">y_data</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="n">linetypes</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">path_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">show_numbers</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">width_plateau</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">lw_plateau</span><span class="o">=</span><span class="s1">'plateau'</span><span class="p">,</span> <span class="n">lw_connector</span><span class="o">=</span><span class="s1">'connector'</span><span class="p">,</span> <span class="n">gap_scale</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span></code>
 
 </h3>
 
@@ -9568,11 +9568,11 @@ sequence with one value per segment. Default is 1.</p>
     <span class="n">path_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">show_numbers</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="n">width_plateau</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">lw_plateau</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;plateau&quot;</span><span class="p">,</span>
-    <span class="n">lw_connector</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;connector&quot;</span><span class="p">,</span>
+    <span class="n">lw_plateau</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"plateau"</span><span class="p">,</span>
+    <span class="n">lw_connector</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"connector"</span><span class="p">,</span>
     <span class="n">gap_scale</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">|</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span> <span class="o">|</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EnergyDiagram</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Add a reaction path to the energy diagram.</span>
+<span class="w">    </span><span class="sd">"""Add a reaction path to the energy diagram.</span>
 
 <span class="sd">    Draws a series of horizontal energy levels connected by</span>
 <span class="sd">    transitions. Each segment between adjacent levels is drawn</span>
@@ -9588,8 +9588,8 @@ sequence with one value per segment. Default is 1.</p>
 <span class="sd">        Must have the same length as ``x_data``.</span>
 <span class="sd">    color : str</span>
 <span class="sd">        Color of the energy levels and connectors for this path,</span>
-<span class="sd">        as any Matplotlib color string (e.g. ``&quot;blue&quot;``,</span>
-<span class="sd">        ``&quot;#FF5733&quot;``).</span>
+<span class="sd">        as any Matplotlib color string (e.g. ``"blue"``,</span>
+<span class="sd">        ``"#FF5733"``).</span>
 <span class="sd">    linetypes : sequence of int or int or None, optional</span>
 <span class="sd">        Connector style(s) for the segments between consecutive</span>
 <span class="sd">        energy levels. Must have length ``len(x_data) - 1``, or</span>
@@ -9619,11 +9619,11 @@ sequence with one value per segment. Default is 1.</p>
 <span class="sd">    lw_plateau : float, str, optional</span>
 <span class="sd">        Line width for the horizontal energy level bars. Can be a</span>
 <span class="sd">        float in points, or a string referring to a predefined</span>
-<span class="sd">        value (``&quot;plateau&quot;`` or ``&quot;connector&quot;``). Default is ``&quot;plateau&quot;``.</span>
+<span class="sd">        value (``"plateau"`` or ``"connector"``). Default is ``"plateau"``.</span>
 <span class="sd">    lw_connector : float, str, optional</span>
 <span class="sd">        Line width for the connectors between energy levels. Can be a</span>
 <span class="sd">        float in points, or a string referring to a predefined</span>
-<span class="sd">        value (``&quot;plateau&quot;`` or ``&quot;connector&quot;``). Default is ``&quot;connector&quot;``.</span>
+<span class="sd">        value (``"plateau"`` or ``"connector"``). Default is ``"connector"``.</span>
 <span class="sd">    gap_scale : float, int, or sequence of float or int, optional</span>
 <span class="sd">        Scaling factor for the gap in broken line styles (``-4`` to ``-1``).</span>
 <span class="sd">        Can be a single number applied to all segments, or a</span>
@@ -9633,7 +9633,7 @@ sequence with one value per segment. Default is 1.</p>
 <span class="sd">    -------</span>
 <span class="sd">    EnergyDiagram</span>
 <span class="sd">        Returns *self* to allow method chaining.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_path_manager</span><span class="o">.</span><span class="n">draw_path</span><span class="p">(</span>
         <span class="n">x_data</span><span class="p">,</span>
         <span class="n">y_data</span><span class="p">,</span>
@@ -9663,7 +9663,7 @@ sequence with one value per segment. Default is 1.</p>
 
 
 <h3 id="chemdiagrams.EnergyDiagram.legend" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">&#39;best&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+            <code class="highlight language-python"><span class="n">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="s1">'best'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
 
 </h3>
 
@@ -9781,8 +9781,8 @@ font size is used. Default is None.</p>
 <span class="normal">347</span>
 <span class="normal">348</span>
 <span class="normal">349</span>
-<span class="normal">350</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">legend</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">loc</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;best&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EnergyDiagram</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Add a legend for all named reaction paths.</span>
+<span class="normal">350</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">legend</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">loc</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"best"</span><span class="p">,</span> <span class="n">fontsize</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EnergyDiagram</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Add a legend for all named reaction paths.</span>
 
 <span class="sd">    Generates legend entries for every path that was drawn with a</span>
 <span class="sd">    ``path_name``. Each entry shows a colored patch matching the</span>
@@ -9792,24 +9792,24 @@ font size is used. Default is None.</p>
 <span class="sd">    ----------</span>
 <span class="sd">    loc : str, optional</span>
 <span class="sd">        Legend location, as any Matplotlib ``loc`` string</span>
-<span class="sd">        (e.g. ``&quot;best&quot;``, ``&quot;upper right&quot;``). Default is</span>
-<span class="sd">        ``&quot;best&quot;``.</span>
+<span class="sd">        (e.g. ``"best"``, ``"upper right"``). Default is</span>
+<span class="sd">        ``"best"``.</span>
 <span class="sd">    fontsize : int or None, optional</span>
-<span class="sd">        Font size of the legend text. When None the diagram&#39;s base</span>
+<span class="sd">        Font size of the legend text. When None the diagram's base</span>
 <span class="sd">        font size is used. Default is None.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    EnergyDiagram</span>
 <span class="sd">        Returns *self* to allow method chaining.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">Validators</span><span class="o">.</span><span class="n">validate_number</span><span class="p">(</span><span class="n">fontsize</span><span class="p">,</span> <span class="s2">&quot;fontsize&quot;</span><span class="p">,</span> <span class="n">allow_none</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">min_value</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="sd">    """</span>
+    <span class="n">Validators</span><span class="o">.</span><span class="n">validate_number</span><span class="p">(</span><span class="n">fontsize</span><span class="p">,</span> <span class="s2">"fontsize"</span><span class="p">,</span> <span class="n">allow_none</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">min_value</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">fontsize</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">fontsize</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_figure_manager</span><span class="o">.</span><span class="n">fontsize</span>
     <span class="n">patches</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">path_name</span><span class="p">,</span> <span class="n">path_info</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_path_manager</span><span class="o">.</span><span class="n">path_data</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-        <span class="k">if</span> <span class="n">path_info</span><span class="p">[</span><span class="s2">&quot;has_name&quot;</span><span class="p">]:</span>
-            <span class="n">patches</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mpatches</span><span class="o">.</span><span class="n">Patch</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="n">path_info</span><span class="p">[</span><span class="s2">&quot;color&quot;</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="n">path_name</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">path_info</span><span class="p">[</span><span class="s2">"has_name"</span><span class="p">]:</span>
+            <span class="n">patches</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mpatches</span><span class="o">.</span><span class="n">Patch</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="n">path_info</span><span class="p">[</span><span class="s2">"color"</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="n">path_name</span><span class="p">))</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_figure_manager</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">handles</span><span class="o">=</span><span class="n">patches</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="n">fontsize</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="n">cast</span><span class="p">(</span><span class="n">Any</span><span class="p">,</span> <span class="n">loc</span><span class="p">))</span>
     <span class="k">return</span> <span class="bp">self</span>
 </code></pre></div></td></tr></table></div>
@@ -10068,7 +10068,7 @@ the two paths do not share the same y-value at <code>x</code>.</p>
     <span class="n">stopper_scale</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
     <span class="n">angle</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">30</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EnergyDiagram</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Visually merge two coincident plateaus at a shared x-position.</span>
+<span class="w">    </span><span class="sd">"""Visually merge two coincident plateaus at a shared x-position.</span>
 
 <span class="sd">    When two paths have identical energy levels at the same x-coordinate,</span>
 <span class="sd">    this method replaces both full-width plateaus with two shorter half-plateaus</span>
@@ -10106,7 +10106,7 @@ the two paths do not share the same y-value at <code>x</code>.</p>
 <span class="sd">    ValueError</span>
 <span class="sd">        If either path does not exist, does not have a value at ``x``, or</span>
 <span class="sd">        the two paths do not share the same y-value at ``x``.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_path_manager</span><span class="o">.</span><span class="n">merge_plateaus</span><span class="p">(</span>
         <span class="n">margins</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">margins</span><span class="p">,</span>
         <span class="n">figsize</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">figsize</span><span class="p">,</span>
@@ -10128,7 +10128,7 @@ the two paths do not share the same y-value at <code>x</code>.</p>
 
 
 <h3 id="chemdiagrams.EnergyDiagram.modify_number_values" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">modify_number_values</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">base_value</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">x_add</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">x_subtract</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">include_paths</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">exclude_paths</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">brackets</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;(&#39;</span><span class="p">,</span> <span class="s1">&#39;)&#39;</span><span class="p">),</span> <span class="n">n_decimals</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">append_to_existing</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></code>
+            <code class="highlight language-python"><span class="n">modify_number_values</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">base_value</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">x_add</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">x_subtract</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">include_paths</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">exclude_paths</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">brackets</span><span class="o">=</span><span class="p">(</span><span class="s1">'('</span><span class="p">,</span> <span class="s1">')'</span><span class="p">),</span> <span class="n">n_decimals</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">append_to_existing</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></code>
 
 </h3>
 
@@ -10389,7 +10389,7 @@ or if a label at the specified x-position does not exist.</p>
     <p>Label a transition state barrier at x=1.0 by subtracting the reactant
 energy (x=0.0) from the transition state energy (x=1.0):</p>
     <div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="n">diagram</span><span class="o">.</span><span class="n">modify_number_values</span><span class="p">(</span>
-<span class="gp">... </span>    <span class="n">x</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">x_add</span><span class="o">=</span><span class="p">[</span><span class="mf">1.0</span><span class="p">],</span> <span class="n">x_subtract</span><span class="o">=</span><span class="p">[</span><span class="mf">0.0</span><span class="p">],</span> <span class="n">brackets</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Δ‡&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">]</span>
+<span class="gp">... </span>    <span class="n">x</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">x_add</span><span class="o">=</span><span class="p">[</span><span class="mf">1.0</span><span class="p">],</span> <span class="n">x_subtract</span><span class="o">=</span><span class="p">[</span><span class="mf">0.0</span><span class="p">],</span> <span class="n">brackets</span><span class="o">=</span><span class="p">[</span><span class="s2">"Δ‡"</span><span class="p">,</span> <span class="s2">""</span><span class="p">]</span>
 <span class="gp">... </span><span class="p">)</span>
 </code></pre></div>
     <p>Compute a complex energy term at x=3.0 for only specific paths:</p>
@@ -10398,7 +10398,7 @@ energy (x=0.0) from the transition state energy (x=1.0):</p>
 <span class="gp">... </span>    <span class="n">base_value</span><span class="o">=</span><span class="mf">10.0</span><span class="p">,</span>
 <span class="gp">... </span>    <span class="n">x_add</span><span class="o">=</span><span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">],</span>
 <span class="gp">... </span>    <span class="n">x_subtract</span><span class="o">=</span><span class="p">[</span><span class="mf">0.0</span><span class="p">],</span>
-<span class="gp">... </span>    <span class="n">include_paths</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;pathway_A&quot;</span><span class="p">],</span>
+<span class="gp">... </span>    <span class="n">include_paths</span><span class="o">=</span><span class="p">[</span><span class="s2">"pathway_A"</span><span class="p">],</span>
 <span class="gp">... </span>    <span class="n">n_decimals</span><span class="o">=</span><span class="mi">2</span>
 <span class="gp">... </span><span class="p">)</span>
 </code></pre></div>
@@ -10518,11 +10518,11 @@ energy (x=0.0) from the transition state energy (x=1.0):</p>
     <span class="n">x_subtract</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">include_paths</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">exclude_paths</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">brackets</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;(&quot;</span><span class="p">,</span> <span class="s2">&quot;)&quot;</span><span class="p">),</span>
+    <span class="n">brackets</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="p">(</span><span class="s2">"("</span><span class="p">,</span> <span class="s2">")"</span><span class="p">),</span>
     <span class="n">n_decimals</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
     <span class="n">append_to_existing</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EnergyDiagram</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Modify energy labels at a specific x-position by combining energy values.</span>
+<span class="w">    </span><span class="sd">"""Modify energy labels at a specific x-position by combining energy values.</span>
 
 <span class="sd">    This method recalculates and updates the numeric label displayed above an</span>
 <span class="sd">    energy level at a given x-coordinate. The new value is computed from a</span>
@@ -10558,8 +10558,8 @@ energy (x=0.0) from the transition state energy (x=1.0):</p>
 <span class="sd">        Default is None (all paths are modified).</span>
 <span class="sd">    brackets : tuple of str and str or list of str or None, optional</span>
 <span class="sd">        Characters to wrap around the numeric value as (left_bracket,</span>
-<span class="sd">        right_bracket). Common choices are ``(&quot;(&quot;, &quot;)&quot;)``, ``(&quot;[&quot;, &quot;]&quot;)``,</span>
-<span class="sd">        or ``(&quot;&quot;, &quot;&quot;)`` for no brackets. Default is ``(&quot;(&quot;, &quot;)&quot;)``.</span>
+<span class="sd">        right_bracket). Common choices are ``("(", ")")``, ``("[", "]")``,</span>
+<span class="sd">        or ``("", "")`` for no brackets. Default is ``("(", ")")``.</span>
 <span class="sd">    n_decimals : int, optional</span>
 <span class="sd">        Number of decimal places in the formatted label. Default is 0</span>
 <span class="sd">        (integer values).</span>
@@ -10588,7 +10588,7 @@ energy (x=0.0) from the transition state energy (x=1.0):</p>
 <span class="sd">    energy (x=0.0) from the transition state energy (x=1.0):</span>
 
 <span class="sd">    &gt;&gt;&gt; diagram.modify_number_values(</span>
-<span class="sd">    ...     x=1.0, x_add=[1.0], x_subtract=[0.0], brackets=[&quot;Δ‡&quot;, &quot;&quot;]</span>
+<span class="sd">    ...     x=1.0, x_add=[1.0], x_subtract=[0.0], brackets=["Δ‡", ""]</span>
 <span class="sd">    ... )</span>
 
 <span class="sd">    Compute a complex energy term at x=3.0 for only specific paths:</span>
@@ -10598,10 +10598,10 @@ energy (x=0.0) from the transition state energy (x=1.0):</p>
 <span class="sd">    ...     base_value=10.0,</span>
 <span class="sd">    ...     x_add=[1.0, 2.0],</span>
 <span class="sd">    ...     x_subtract=[0.0],</span>
-<span class="sd">    ...     include_paths=[&quot;pathway_A&quot;],</span>
+<span class="sd">    ...     include_paths=["pathway_A"],</span>
 <span class="sd">    ...     n_decimals=2</span>
 <span class="sd">    ... )</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_number_manager</span><span class="o">.</span><span class="n">modify_number_values</span><span class="p">(</span>
         <span class="n">path_data</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_path_manager</span><span class="o">.</span><span class="n">path_data</span><span class="p">,</span>
         <span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span>
@@ -10724,7 +10724,7 @@ and <code>"borderless"</code>. Default style is <code>"open"</code>.</p>
 <span class="normal">705</span>
 <span class="normal">706</span>
 <span class="normal">707</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">set_diagram_style</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">style</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EnergyDiagram</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Change the overall visual style of the diagram.</span>
+<span class="w">    </span><span class="sd">"""Change the overall visual style of the diagram.</span>
 
 <span class="sd">    Applies a named style preset that controls the appearance of</span>
 <span class="sd">    the plot background, spines, tick marks, and other decorative</span>
@@ -10734,14 +10734,14 @@ and <code>"borderless"</code>. Default style is <code>"open"</code>.</p>
 <span class="sd">    ----------</span>
 <span class="sd">    style : str</span>
 <span class="sd">        Name of the style preset to apply. Supported values</span>
-<span class="sd">        are ``&quot;boxed&quot;``, ``&quot;halfboxed&quot;``, ``&quot;open&quot;``, ``&quot;twosided&quot;``</span>
-<span class="sd">        and ``&quot;borderless&quot;``. Default style is ``&quot;open&quot;``.</span>
+<span class="sd">        are ``"boxed"``, ``"halfboxed"``, ``"open"``, ``"twosided"``</span>
+<span class="sd">        and ``"borderless"``. Default style is ``"open"``.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    EnergyDiagram</span>
 <span class="sd">        Returns *self* to allow method chaining.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_layout_manager</span><span class="o">.</span><span class="n">adjust_xy_limits</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_path_manager</span><span class="o">.</span><span class="n">path_data</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_style_manager</span><span class="o">.</span><span class="n">set_diagram_style</span><span class="p">(</span><span class="n">style</span><span class="p">)</span>
     <span class="k">try</span><span class="p">:</span>
@@ -10761,7 +10761,7 @@ and <code>"borderless"</code>. Default style is <code>"open"</code>.</p>
 
 
 <h3 id="chemdiagrams.EnergyDiagram.set_xlabels" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">set_xlabels</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">labelplaces</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s1">&#39;bold&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">in_plot</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+            <code class="highlight language-python"><span class="n">set_xlabels</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">labelplaces</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s1">'bold'</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">'black'</span><span class="p">,</span> <span class="n">in_plot</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
 
 </h3>
 
@@ -11006,12 +11006,12 @@ rotation is applied. Default is None.</p>
     <span class="n">labels</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">,</span>
     <span class="n">labelplaces</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">fontsize</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="n">weight</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;bold&quot;</span><span class="p">,</span>
-    <span class="n">color</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;black&quot;</span><span class="p">,</span>
+    <span class="n">weight</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"bold"</span><span class="p">,</span>
+    <span class="n">color</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"black"</span><span class="p">,</span>
     <span class="n">in_plot</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">rotation</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EnergyDiagram</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Set text labels for the reaction states along the x-axis.</span>
+<span class="w">    </span><span class="sd">"""Set text labels for the reaction states along the x-axis.</span>
 
 <span class="sd">    Labels are placed below the horizontal energy bars by default.</span>
 <span class="sd">    If ``in_plot`` is True they are rendered inside the plot area</span>
@@ -11027,11 +11027,11 @@ rotation is applied. Default is None.</p>
 <span class="sd">        When None the labels are naively placed starting at</span>
 <span class="sd">        x = 0. Default is None.</span>
 <span class="sd">    fontsize : int or None, optional</span>
-<span class="sd">        Font size for the labels. When None the diagram&#39;s base</span>
+<span class="sd">        Font size for the labels. When None the diagram's base</span>
 <span class="sd">        font size is used. Default is None.</span>
 <span class="sd">    weight : str, optional</span>
-<span class="sd">        Font weight for the labels, e.g. ``&quot;bold&quot;`` or</span>
-<span class="sd">        ``&quot;normal&quot;``. Default is ``&quot;bold&quot;``.</span>
+<span class="sd">        Font weight for the labels, e.g. ``"bold"`` or</span>
+<span class="sd">        ``"normal"``. Default is ``"bold"``.</span>
 <span class="sd">    color : str, optional</span>
 <span class="sd">        Color for the labels, as any Matplotlib color string</span>
 <span class="sd">    in_plot : bool, optional</span>
@@ -11046,7 +11046,7 @@ rotation is applied. Default is None.</p>
 <span class="sd">    -------</span>
 <span class="sd">    EnergyDiagram</span>
 <span class="sd">        Returns *self* to allow method chaining.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_style_manager</span><span class="o">.</span><span class="n">set_xlabels</span><span class="p">(</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">margins</span><span class="p">,</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">figsize</span><span class="p">,</span>
@@ -11101,13 +11101,13 @@ rotation is applied. Default is None.</p>
 <span class="normal">358</span>
 <span class="normal">359</span>
 <span class="normal">360</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">show</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Display the energy diagram figure.</span>
+<span class="w">    </span><span class="sd">"""Display the energy diagram figure.</span>
 
 <span class="sd">    Finalizes the figure layout and calls ``matplotlib.pyplot.show()``.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">figsize</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_layout_manager</span><span class="o">.</span><span class="n">scale_figure</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_path_manager</span><span class="o">.</span><span class="n">path_data</span><span class="p">)</span>
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Figure size is </span><span class="si">{</span><span class="nb">round</span><span class="p">(</span><span class="n">figsize</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2"> x </span><span class="si">{</span><span class="nb">round</span><span class="p">(</span><span class="n">figsize</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2"> inches.&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Figure size is </span><span class="si">{</span><span class="nb">round</span><span class="p">(</span><span class="n">figsize</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2"> x </span><span class="si">{</span><span class="nb">round</span><span class="p">(</span><span class="n">figsize</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="si">}</span><span class="s2"> inches."</span><span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </code></pre></div></td></tr></table></div>
             </details>
@@ -11189,7 +11189,7 @@ rotation is applied. Default is None.</p>
       <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "content.code.copy"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>
