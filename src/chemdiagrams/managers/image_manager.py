@@ -196,7 +196,7 @@ class ImageManager:
                     )
                 else:
                     Validators.validate_number(width, "width", min_value=0)
-                    width, height = self._get_proportionaized_widths_or_heights(
+                    width, height = self._get_proportionalized_widths_or_heights(
                         img_paths=img_paths,
                         max_target_width=width,
                     )
@@ -208,12 +208,12 @@ class ImageManager:
                     )
                 else:
                     Validators.validate_number(height, "height", min_value=0)
-                    width, height = self._get_proportionaized_widths_or_heights(
+                    width, height = self._get_proportionalized_widths_or_heights(
                         img_paths=img_paths,
                         max_target_height=height,
                     )
             else:
-                width, height = self._get_proportionaized_widths_or_heights(
+                width, height = self._get_proportionalized_widths_or_heights(
                     img_paths=img_paths,
                     max_target_width=self.constants.IMAGE_WIDTH,
                 )
@@ -536,7 +536,7 @@ class ImageManager:
             )
         return ImageObject(img_artist, border_objects)
 
-    def _get_proportionaized_widths_or_heights(
+    def _get_proportionalized_widths_or_heights(
         self,
         img_paths: Sequence[str],
         max_target_width: float | None = None,
