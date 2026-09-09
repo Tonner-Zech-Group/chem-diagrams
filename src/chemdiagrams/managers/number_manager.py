@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from collections.abc import Sequence
+from numbers import Real
 
 import numpy as np
 
@@ -405,17 +406,16 @@ class NumberManager:
                 path = path_data[path_name]
             except KeyError:
                 raise ValueError(f"Path '{path_name}' not found in path_data.")
+            label = None
             try:
                 label = self.mpl_objects[path_name][f"{x:.1f}"]
-                is_label_found = True
             except KeyError:
                 print(
                     f"Warning (modify_number_values): No label found for path"
                     f" '{path_name}' at x={x}. Skipping modification."
                 )
-                is_label_found = False
 
-            if is_label_found:
+            if label is not None:
                 number_new = base_value
 
                 # Add all the values at x position specified in x_subtract and x_add
@@ -495,31 +495,29 @@ class NumberManager:
                     path = path_data[path_name]
                 except KeyError:
                     raise ValueError(f"Path '{path_name}' not found in path_data.")
+                label = None
                 try:
                     label = self.mpl_objects[path_name][f"{x_position:.1f}"]
-                    is_label_found = True
                 except KeyError:
                     if path["show_numbers"]:
                         print(
                             f"Warning (display_activation_barriers): No label found for path"
                             f" '{path_name}' at x={x_position}. Skipping modification."
                         )
-                    is_label_found = False
 
                 # Get index of x_position in path
+                index = None
                 try:
                     index = path["x"].index(x_position)
-                    is_value_found = True
                 except ValueError:
                     if path["show_numbers"]:
                         print(
                             f"Warning (display_activation_barriers): Value at x={x_position} "
                             f"not found for path '{path_name}'. Skipping modification."
                         )
-                    is_value_found = False
 
                 # Only proceed if both label and value are found
-                if is_label_found and is_value_found:
+                if label is not None and index is not None:
                     # Calculate activation barriers to the right and left (if possible)
                     activation_barrier_right = None
                     activation_barrier_left = None
@@ -643,7 +641,7 @@ class NumberManager:
             if isinstance(x_min_max, (Sequence, np.ndarray)):
                 Validators.validate_numeric_sequence(x_min_max, "x_min_max", required_length=2)
                 x_min_max_new = (x_min_max[0], x_min_max[1])
-            elif isinstance(x_min_max, (int, float, np.float64, np.int64)):
+            elif isinstance(x_min_max, Real):
                 x_min_max_new = (x_min_max, x_min_max)
             else:
                 raise TypeError(

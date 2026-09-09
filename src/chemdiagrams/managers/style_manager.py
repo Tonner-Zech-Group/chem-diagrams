@@ -335,6 +335,8 @@ class StyleManager:
             raise NotImplementedError(
                 "x-axis breaks are not compatible with borderless diagram style"
             )
+        else:
+            raise ValueError(f"Unknown style: {self.style}")
 
         self.mpl_objects.xaxis_breaks[f"{x:.1f}"] = break_object
 
@@ -555,9 +557,17 @@ class StyleObjects:
         for _, axis in self.axes.items():
             axis.remove()
         for _, axis_break in self.xaxis_breaks.items():
-            axis_break.remove()
+            if isinstance(axis_break, dict):
+                for _, axis_break_part in axis_break.items():
+                    axis_break_part.remove()
+            else:
+                axis_break.remove()
         for _, axis_break in self.yaxis_breaks.items():
-            axis_break.remove()
+            if isinstance(axis_break, dict):
+                for _, axis_break_part in axis_break.items():
+                    axis_break_part.remove()
+            else:
+                axis_break.remove()
         self.arrows = {}
         self.axes = {}
         self.xaxis_breaks = {}
@@ -565,9 +575,17 @@ class StyleObjects:
 
     def remove_axes_breaks(self):
         for _, axis_break in self.xaxis_breaks.items():
-            axis_break.remove()
+            if isinstance(axis_break, dict):
+                for _, axis_break_part in axis_break.items():
+                    axis_break_part.remove()
+            else:
+                axis_break.remove()
         for _, axis_break in self.yaxis_breaks.items():
-            axis_break.remove()
+            if isinstance(axis_break, dict):
+                for _, axis_break_part in axis_break.items():
+                    axis_break_part.remove()
+            else:
+                axis_break.remove()
         self.xaxis_breaks = {}
         self.yaxis_breaks = {}
 

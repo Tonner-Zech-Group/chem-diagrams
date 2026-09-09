@@ -224,6 +224,7 @@ class PathManager:
             fontsize = self.figure_manager.fontsize
         if color is None:
             color = self.path_data[path_name]["color"]
+        assert isinstance(color, str), "Color must be a string, bug in code."
         if rotation is not None:
             Validators.validate_number(rotation, "rotation")
         else:
@@ -748,8 +749,8 @@ class BrokenLine:
         Orthogonal tick mark at the start of ``line_part_2``.
     """
 
-    line_part_1: Line2D | list[Line2D]
-    line_part_2: Line2D | list[Line2D]
+    line_part_1: Line2D
+    line_part_2: Line2D
     stopper_1: Annotation
     stopper_2: Annotation
 

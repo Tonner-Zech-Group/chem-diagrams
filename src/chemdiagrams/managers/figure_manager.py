@@ -4,6 +4,7 @@ from typing import TYPE_CHECKING
 
 import matplotlib.pyplot as plt
 from matplotlib.axes import Axes
+from matplotlib.figure import Figure
 
 if TYPE_CHECKING:
     pass
@@ -47,7 +48,7 @@ class FigureManager:
                 raise TypeError("ax must be a matplotlib.axes.Axes object.")
             self.ax = ax
             fig = ax.get_figure()
-            if not isinstance(fig, plt.Figure):
+            if not isinstance(fig, Figure):
                 raise TypeError(
                     "The provided ax does not belong to a valid Matplotlib figure."
                 )

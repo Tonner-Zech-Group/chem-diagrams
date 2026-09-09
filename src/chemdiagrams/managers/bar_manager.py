@@ -40,7 +40,7 @@ class BarManager:
         x: float,
         y_start_end: tuple[float, float] | list[float],
         description: str,
-        margins: dict,
+        margins: dict[str, tuple[float, float]],
         figsize: tuple[float, float],
         diff: float | None = None,
         left_side: bool = False,

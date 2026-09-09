@@ -96,7 +96,7 @@ class LayoutManager:
             self.width_limit = width_limit
             self.figsize = figsize
 
-    def adjust_xy_limits(self, path_data: dict) -> dict[str, tuple]:
+    def adjust_xy_limits(self, path_data: dict) -> dict[str, tuple[float, float]]:
         """
         Recompute and apply x/y axis limits from the current path data.
 
