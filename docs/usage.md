@@ -8,13 +8,13 @@ General settings like figure size, margins and font size are usually handled aut
 
 ```python
 dia = EnergyDiagram(
-    extra_x_margin=(0, 0.5),   # additional margin in x (data units)
-    extra_y_margin=(0, 0.2),   # additional margin in y (relative units)
-    figsize=(6, 4),            # explicit figure size in inches
-    width_limit=7,             # maximum width in inches if figure is scaled automatically (figsize is not set, default: None)
-    fontsize=10,               # default font size for all text elements (can be overridden individually)
-    style="halfboxed",         # diagram style (see later sections for details)
-    dpi=150,                   # resolution in dots per inch for raster formats (ignored for vector formats like PDF, svg and eps)
+    extra_x_margin=(0, 0.5),  # additional margin in x (data units)
+    extra_y_margin=(0, 0.2),  # additional margin in y (relative units)
+    figsize=(6, 4),  # explicit figure size in inches
+    width_limit=7,  # maximum width in inches if figure is scaled automatically (figsize is not set, default: None)
+    fontsize=10,  # default font size for all text elements (can be overridden individually)
+    style="halfboxed",  # diagram style (see later sections for details)
+    dpi=150,  # resolution in dots per inch for raster formats (ignored for vector formats like PDF, svg and eps)
 )
 ```
 
@@ -38,40 +38,61 @@ import os.path
 
 fig, ax = plt.subplots(
     nrows=2,
-    ncols=2, 
+    ncols=2,
     width_ratios=[1.5, 1],
-    figsize=(10,6),
+    figsize=(10, 6),
 )
 
-dia11 = EnergyDiagram(ax=ax[0][0], style="halfboxed") # Pass target axes to constructor
-dia11.draw_path(x_data=[0,1,2,3,4,5,6], y_data=[0,28,-14,15,-22, 12, -13], color="blue")
-dia11.draw_path(x_data=[0,1,2,3,4,5,6], y_data=[0,25,6,15,-18, 10, -15], color="red")
+dia11 = EnergyDiagram(ax=ax[0][0], style="halfboxed")  # Pass target axes to constructor
+dia11.draw_path(
+    x_data=[0, 1, 2, 3, 4, 5, 6], y_data=[0, 28, -14, 15, -22, 12, -13], color="blue"
+)
+dia11.draw_path(x_data=[0, 1, 2, 3, 4, 5, 6], y_data=[0, 25, 6, 15, -18, 10, -15], color="red")
 dia11.set_xlabels(["E", "TS1", "I1", "TS2", "I2", "TS3", "P"])
 dia11.add_numbers_auto()
 dia11.ax.set_ylabel("Energy / kJ mol$^{-1}$", fontsize=8)
 
-dia12 = EnergyDiagram(ax=ax[0][1], style="open") # Pass target axes to constructor
-dia12.draw_path(x_data=[0,1,2,3,4], y_data=[0,28,-14,15,-22], color="blue")
-dia12.draw_path(x_data=[0,1,2,3,4], y_data=[0,25,6,15,-18], color="red")
+dia12 = EnergyDiagram(ax=ax[0][1], style="open")  # Pass target axes to constructor
+dia12.draw_path(x_data=[0, 1, 2, 3, 4], y_data=[0, 28, -14, 15, -22], color="blue")
+dia12.draw_path(x_data=[0, 1, 2, 3, 4], y_data=[0, 25, 6, 15, -18], color="red")
 dia12.set_xlabels(["E", "TS1", "I", "TS2", "P"])
 dia12.add_numbers_auto()
 dia12.ax.set_ylabel("Energy / kJ mol$^{-1}$", fontsize=8)
 
-dia21 = EnergyDiagram(ax=ax[1][0], style="boxed") # Pass target axes to constructor
-dia21.draw_path(x_data=[0,1,2,3,4,5,6], y_data=[0,28,-14,15,-22, 12, -13], color="green", linetypes=3)
-dia21.draw_path(x_data=[0,1,2,3,4,5,6], y_data=[0,25,6,15,-18, 10, -15], color="purple", linetypes=3)
+dia21 = EnergyDiagram(ax=ax[1][0], style="boxed")  # Pass target axes to constructor
+dia21.draw_path(
+    x_data=[0, 1, 2, 3, 4, 5, 6],
+    y_data=[0, 28, -14, 15, -22, 12, -13],
+    color="green",
+    linetypes=3,
+)
+dia21.draw_path(
+    x_data=[0, 1, 2, 3, 4, 5, 6],
+    y_data=[0, 25, 6, 15, -18, 10, -15],
+    color="purple",
+    linetypes=3,
+)
 dia21.set_xlabels(["E", "TS1", "I", "TS2", "I2", "TS3", "P"])
 dia21.add_numbers_auto()
 dia21.ax.set_ylabel("Energy / kJ mol$^{-1}$", fontsize=8)
 
-dia22 = EnergyDiagram(ax=ax[1][1], style="borderless") # Pass target axes to constructor
-dia22.draw_path(x_data=[0,1,2,3,4], y_data=[0,28,-14,15,-22], color="green", linetypes=3)
-dia22.draw_path(x_data=[0,1,2,3,4], y_data=[0,25,6,15,-18], color="purple", linetypes=3)
+dia22 = EnergyDiagram(ax=ax[1][1], style="borderless")  # Pass target axes to constructor
+dia22.draw_path(
+    x_data=[0, 1, 2, 3, 4], y_data=[0, 28, -14, 15, -22], color="green", linetypes=3
+)
+dia22.draw_path(
+    x_data=[0, 1, 2, 3, 4], y_data=[0, 25, 6, 15, -18], color="purple", linetypes=3
+)
 dia22.set_xlabels(["E", "TS1", "I", "TS2", "P"])
 dia22.add_numbers_auto()
 dia22.ax.set_ylabel("Energy / kJ mol$^{-1}$", fontsize=8)
 
-fig.savefig(os.path.join("..","docs","img","example_subplots.png"),format="png", bbox_inches="tight", dpi=300)
+fig.savefig(
+    os.path.join("..", "docs", "img", "example_subplots.png"),
+    format="png",
+    bbox_inches="tight",
+    dpi=300,
+)
 plt.show()
 ```
 
@@ -91,8 +112,8 @@ dia.draw_path(
     x_data=[0, 1, 2, 3, 4, 5],
     y_data=[0, -13, 22, 75, 39, 20],
     color="blue",
-    path_name="Pathway A",      # name appears in the legend
-    linetypes=[2, 3, 4, -1, 0], # connector style per segment
+    path_name="Pathway A",  # name appears in the legend
+    linetypes=[2, 3, 4, -1, 0],  # connector style per segment
 )
 
 dia.draw_path(
@@ -107,7 +128,11 @@ dia.add_numbers_auto()
 dia.set_xlabels(["A", "B", "C", "D", "E", "F"])
 dia.ax.set_ylabel("Energy / kJ mol$^{-1}$", fontsize=8)
 
-dia.fig.savefig(os.path.join("..","docs","img","example_multipaths.png"),format="png", bbox_inches="tight")
+dia.fig.savefig(
+    os.path.join("..", "docs", "img", "example_multipaths.png"),
+    format="png",
+    bbox_inches="tight",
+)
 dia.show()
 ```
 
@@ -152,7 +177,7 @@ dia.draw_path(
     linetypes=[4, 4, -4, -3],
     width_plateau=0,
     lw_connector=0.7,
-    gap_scale=[0,0, 0.5, 1.5],
+    gap_scale=[0, 0, 0.5, 1.5],
 )
 
 dia.add_numbers_auto()
@@ -174,23 +199,27 @@ diagonal tick marks to indicate degeneracy.
 ```python
 dia = EnergyDiagram(style="twosided")
 dia.draw_path(x_data=[0, 1, 2], y_data=[10, 55, 0], color="blue", path_name="Path A")
-dia.draw_path(x_data=[2, 3, 4], y_data=[0, 50, -5], color="red",  path_name="Path B")
+dia.draw_path(x_data=[2, 3, 4], y_data=[0, 50, -5], color="red", path_name="Path B")
 
 # Both paths share y=0 at x=2
 dia.merge_plateaus(
-    x=2,                        # x-position of the shared plateau in data coordinates
-    path_name_left="Path A",    # name of the left path to merge (must match the path_name used in draw_path)
-    path_name_right="Path B",   # name of the right path to merge (must match the path_name used in draw_path)
-    gap_scale=1.0,              # width of the gap between the two half-bars
-    stopper_scale=1.0,          # size of the diagonal tick marks
-    angle=30,                   # angle of the tick marks in degrees
+    x=2,  # x-position of the shared plateau in data coordinates
+    path_name_left="Path A",  # name of the left path to merge (must match the path_name used in draw_path)
+    path_name_right="Path B",  # name of the right path to merge (must match the path_name used in draw_path)
+    gap_scale=1.0,  # width of the gap between the two half-bars
+    stopper_scale=1.0,  # size of the diagonal tick marks
+    angle=30,  # angle of the tick marks in degrees
 )
 
 dia.add_numbers_auto()
 dia.set_xlabels(["P1", "TS1", "E", "TS2", "P2"])
 dia.ax.set_ylabel("Energy / kJ mol$^{-1}$", fontsize=8)
 
-dia.fig.savefig(os.path.join("..","docs","img","example_merge_plateaus.png"),format="png", bbox_inches="tight")
+dia.fig.savefig(
+    os.path.join("..", "docs", "img", "example_merge_plateaus.png"),
+    format="png",
+    bbox_inches="tight",
+)
 dia.show()
 ```
 ![Merge plateaus](https://raw.githubusercontent.com/Tonner-Zech-Group/chem-diagrams/main/docs/img/example_merge_plateaus.png)
@@ -221,8 +250,8 @@ dia.draw_path(
     x_data=[0, 1, 2, 3, 4, 5],
     y_data=[0, -13, 25, 75, 39, 20],
     color="blue",
-    path_name="Pathway A",     
-    linetypes=3,                # connector style for all segments as an int
+    path_name="Pathway A",
+    linetypes=3,  # connector style for all segments as an int
 )
 
 dia.draw_path(
@@ -230,27 +259,29 @@ dia.draw_path(
     y_data=[0, -25, 15, 50, -8],
     color="red",
     path_name="Pathway B",
-    linetypes=3
+    linetypes=3,
 )
 
 dia.add_path_labels(
-    "Pathway A", 
-    [None, "I1", "I2", "I3", "I4", "P"], # None for no label
+    "Pathway A",
+    [None, "I1", "I2", "I3", "I4", "P"],  # None for no label
     fontsize=7,
 )
 
-dia.add_path_labels(
-    "Pathway B", 
-    ["E", "I1", "I2", "I3", "P"],
-    weight="bold"
-)
-dia.lines["Pathway B"].labels["0.0"].set_color("black") # Set the color of the first label of Pathway B to black
+dia.add_path_labels("Pathway B", ["E", "I1", "I2", "I3", "P"], weight="bold")
+dia.lines["Pathway B"].labels["0.0"].set_color(
+    "black"
+)  # Set the color of the first label of Pathway B to black
 
 dia.legend(fontsize=7)
 dia.add_numbers_auto()
 dia.ax.set_ylabel("Energy / kJ mol$^{-1}$", fontsize=8)
 
-dia.fig.savefig(os.path.join("..","docs","img","example_path_labels.png"),format="png", bbox_inches="tight")
+dia.fig.savefig(
+    os.path.join("..", "docs", "img", "example_path_labels.png"),
+    format="png",
+    bbox_inches="tight",
+)
 dia.show()
 ```
 ![Path labels](https://raw.githubusercontent.com/Tonner-Zech-Group/chem-diagrams/main/docs/img/example_path_labels.png)
@@ -300,20 +331,22 @@ Axis breaks can be added to either axis to indicate a discontinuity in the scale
 
 ```python
 dia = EnergyDiagram(style="twosided")
-dia.draw_path(x_data=[0,1,2,3,4,5], y_data=[0,-13,22,75,39,-25], color="blue")
+dia.draw_path(x_data=[0, 1, 2, 3, 4, 5], y_data=[0, -13, 22, 75, 39, -25], color="blue")
 
 dia.add_yaxis_break(y=5)
 dia.add_xaxis_break(
-    x=2,                        # x-position of the break in data coordinates
-    gap_scale=2,                # scaling factor for the gap in the axis line (default: 1)
-    stopper_scale=1.5,          # scaling factor for the size of the stopper tick marks (default: 1)
-    angle=60,                   # angle of the stopper tick marks in degrees (default: 60)
+    x=2,  # x-position of the break in data coordinates
+    gap_scale=2,  # scaling factor for the gap in the axis line (default: 1)
+    stopper_scale=1.5,  # scaling factor for the size of the stopper tick marks (default: 1)
+    angle=60,  # angle of the stopper tick marks in degrees (default: 60)
 )
 dia.set_xlabels(["A", "B", "C", "D", "E", "F"])
 dia.add_numbers_auto()
 dia.ax.set_ylabel("Energy / kJ mol$^{-1}$", fontsize=8)
 
-dia.fig.savefig(os.path.join("..","docs","img","example_breaks.png"),format="png", bbox_inches="tight")
+dia.fig.savefig(
+    os.path.join("..", "docs", "img", "example_breaks.png"), format="png", bbox_inches="tight"
+)
 dia.show()
 ```
 
@@ -328,10 +361,10 @@ Note: x-axis breaks are not compatible with the `"open"` and `"borderless"` styl
 Four numbering strategies are available. Call them after all paths have been drawn. 
 
 ```python
-dia.add_numbers_auto()                   # distributes labels to avoid overlaps (recommended)
-dia.add_numbers_stacked()                # stacks all labels above the highest state
-dia.add_numbers_naive()                  # places each label directly above its bar
-dia.add_numbers_average()                # displays the mean energy across all paths
+dia.add_numbers_auto()  # distributes labels to avoid overlaps (recommended)
+dia.add_numbers_stacked()  # stacks all labels above the highest state
+dia.add_numbers_naive()  # places each label directly above its bar
+dia.add_numbers_average()  # displays the mean energy across all paths
 ```
 
 To restrict the numbering to a specific range of x-values, pass `x_min_max=(x_min, x_max)` to the numbering method.
@@ -367,7 +400,7 @@ dia.add_numbers_average(color="red")
 Example:
 
 ```python
-dia = EnergyDiagram(style="borderless", figsize=(3,2))
+dia = EnergyDiagram(style="borderless", figsize=(3, 2))
 
 dia.draw_path(
     x_data=[0, 1, 2, 3],
@@ -395,17 +428,17 @@ dia.add_numbers_stacked(x_min_max=1)
 dia.add_numbers_naive(x_min_max=2)
 dia.add_numbers_average(x_min_max=3, color="black")
 
-dia.set_xlabels([
-    "Auto\nNumbering",
-    "Stacked\nNumbering",
-    "Naive\nNumbering",
-    "Average\nNumbering"
-],
+dia.set_xlabels(
+    ["Auto\nNumbering", "Stacked\nNumbering", "Naive\nNumbering", "Average\nNumbering"],
     fontsize=6,
-    weight="normal"
+    weight="normal",
 )
 
-dia.fig.savefig(os.path.join("..","docs","img","example_numbering.png"),format="png", bbox_inches="tight")
+dia.fig.savefig(
+    os.path.join("..", "docs", "img", "example_numbering.png"),
+    format="png",
+    bbox_inches="tight",
+)
 dia.show()
 ```
 
@@ -417,15 +450,21 @@ dia.show()
 
 ```python
 display_activation_barriers(
-        x_positions=[1, 3],         # list of x-positions in data coordinates for which to display activation barriers
-        direction="both",           # direction to calculate the energy difference ("right", "left" or "both")
-        include_paths=None,         # list of path names to include in the calculation; None to include all paths,
-        exclude_paths=None,         # list of path names to exclude from the calculation; None includes all paths
-        brackets=("(", ")"),        # pair of strings to add as brackets around the modified number (e.g. ("[", "]"); None for no brackets)
-        seperator="/",              # string to separate the forward and backward activation energy when direction="both" (default is "/")
-        n_decimals=0,               # number of decimals to round the calculated energy differences to (default is 0)
-        switch_order=False,         # switch the order of the energy differences in case of direction="both"
-        append_to_existing=False,   # append the activation energy to the existing number instead of replacing it (default is False)
+    x_positions=[
+        1,
+        3,
+    ],  # list of x-positions in data coordinates for which to display activation barriers
+    direction="both",  # direction to calculate the energy difference ("right", "left" or "both")
+    include_paths=None,  # list of path names to include in the calculation; None to include all paths,
+    exclude_paths=None,  # list of path names to exclude from the calculation; None includes all paths
+    brackets=(
+        "(",
+        ")",
+    ),  # pair of strings to add as brackets around the modified number (e.g. ("[", "]"); None for no brackets)
+    seperator="/",  # string to separate the forward and backward activation energy when direction="both" (default is "/")
+    n_decimals=0,  # number of decimals to round the calculated energy differences to (default is 0)
+    switch_order=False,  # switch the order of the energy differences in case of direction="both"
+    append_to_existing=False,  # append the activation energy to the existing number instead of replacing it (default is False)
 )
 ```
 
@@ -446,18 +485,21 @@ dia.draw_path(
     y_data=[0, 25, 6, 15.2, -18],
     color="red",
     path_name="Red path",
-
 )
 
 dia.add_numbers_auto()
 dia.display_activation_barriers(
-    x_positions=[1,3],
+    x_positions=[1, 3],
     direction="both",
     brackets=("(", ")"),
     seperator="I",
 )
 
-dia.fig.savefig(os.path.join("..","docs","img","example_activation_barriers.png"),format="png", bbox_inches="tight")
+dia.fig.savefig(
+    os.path.join("..", "docs", "img", "example_activation_barriers.png"),
+    format="png",
+    bbox_inches="tight",
+)
 dia.show()
 ```
 
@@ -474,16 +516,23 @@ base_value + sum(energies at x_add) - sum(energies at x_subtract)
 
 ```python
 dia.modify_number_values(
-    x=2,                        # x-position of the number to modify in data coordinates
-    x_add=[2],                  # list of x-positions (or single x-position) to add to the number; None for no addition
-    x_subtract=[1],             # list of x-positions (or single x-position) to subtract from the number; None for no subtraction
-    base_value=0,               # value to add or subtract directly (e.g., to convert units); default is 0
-    brackets=("(", ")"),        # pair of strings to add as brackets around the modified number (e.g., ("[", "]"); None for no brackets)
-    n_decimals=0,               # number of decimals to round the modified number to (default is 0)
-    include_paths=None,         # list of path names to include in the modification; None to include all paths
-    exclude_paths=None,         # list of path names to exclude from the modification; None includes all paths
-    n_decimals=0,               # number of decimals to round the modified number to (default is 0)
-    append_to_existing=False,   # append the modified value to the existing number instead of replacing it (default is False)
+    x=2,  # x-position of the number to modify in data coordinates
+    x_add=[
+        2
+    ],  # list of x-positions (or single x-position) to add to the number; None for no addition
+    x_subtract=[
+        1
+    ],  # list of x-positions (or single x-position) to subtract from the number; None for no subtraction
+    base_value=0,  # value to add or subtract directly (e.g., to convert units); default is 0
+    brackets=(
+        "(",
+        ")",
+    ),  # pair of strings to add as brackets around the modified number (e.g., ("[", "]"); None for no brackets)
+    n_decimals=0,  # number of decimals to round the modified number to (default is 0)
+    include_paths=None,  # list of path names to include in the modification; None to include all paths
+    exclude_paths=None,  # list of path names to exclude from the modification; None includes all paths
+    n_decimals=0,  # number of decimals to round the modified number to (default is 0)
+    append_to_existing=False,  # append the modified value to the existing number instead of replacing it (default is False)
 )
 ```
 
@@ -513,7 +562,7 @@ dia.modify_number_values(
     x_add=1,
     x_subtract=0,
     include_paths=["Blue path"],
-    brackets=("[", "]"), 
+    brackets=("[", "]"),
 )
 
 dia.modify_number_values(
@@ -523,7 +572,11 @@ dia.modify_number_values(
     n_decimals=1,
 )
 
-dia.fig.savefig(os.path.join("..","docs","img","example_number_modification.png"),format="png", bbox_inches="tight")
+dia.fig.savefig(
+    os.path.join("..", "docs", "img", "example_number_modification.png"),
+    format="png",
+    bbox_inches="tight",
+)
 dia.show()
 ```
 
@@ -575,27 +628,27 @@ dia.draw_path(
     linetypes=3,
 )
 
-dia.add_numbers_auto(x_min_max=(1,4), fontsize=6)
+dia.add_numbers_auto(x_min_max=(1, 4), fontsize=6)
 dia.add_numbers_average(x_min_max=0, fontsize=6)
 
 dia.append_to_energy_labels(
     numbers_to_append={
         "Blue path": [16, 10, 20, -6],
         "Red path": [9, -8, -4, 2],
-        "Average": [0]
+        "Average": [0],
     },
 )
 
 dia.append_to_energy_labels(
-    numbers_to_append={
-        "Average": [3]
-    },
-    brackets=("[", "]"),
-    n_decimals=1
+    numbers_to_append={"Average": [3]}, brackets=("[", "]"), n_decimals=1
 )
 
 dia.fig.tight_layout()
-dia.fig.savefig(os.path.join("..","docs","img","example_append_numbers.png"),format="png", bbox_inches="tight")
+dia.fig.savefig(
+    os.path.join("..", "docs", "img", "example_append_numbers.png"),
+    format="png",
+    bbox_inches="tight",
+)
 dia.show()
 ```
 
@@ -607,28 +660,32 @@ dia.show()
 
 ```python
 dia = EnergyDiagram(style="halfboxed")
-dia.draw_path(x_data=[0,1,2,3,4,5], y_data=[0,-13,22,75,39,-25], color="blue")
+dia.draw_path(x_data=[0, 1, 2, 3, 4, 5], y_data=[0, -13, 22, 75, 39, -25], color="blue")
 
 dia.draw_difference_bar(
     x=3,
     y_start_end=(-25, 0),
     description=r"$\Delta E_\mathrm{R}$: ",
     color="black",
-    arrowstyle="|-|",               # arrow style (default: "|-|")
-    x_whiskers=(5, 0),              # x-positions for whisker endpoints; None to omit
-    whiskercolor="blue",            # whisker color (defaults to bar color if omitted)
-    left_side=True,                 # place bar and text on the left of x
-    add_difference=True,            # automatically append the difference value rounded to an integer to description
-    fontsize=8,                     # font size for the label (uses diagram default if None)
-    diff=None,                      # horizontal offset of text (auto-computed if None)
+    arrowstyle="|-|",  # arrow style (default: "|-|")
+    x_whiskers=(5, 0),  # x-positions for whisker endpoints; None to omit
+    whiskercolor="blue",  # whisker color (defaults to bar color if omitted)
+    left_side=True,  # place bar and text on the left of x
+    add_difference=True,  # automatically append the difference value rounded to an integer to description
+    fontsize=8,  # font size for the label (uses diagram default if None)
+    diff=None,  # horizontal offset of text (auto-computed if None)
 )
-dia.bars[0].whisker_1.set_color("black") # Set the color of the first whisker of the firstly drawn bar to black
+dia.bars[0].whisker_1.set_color(
+    "black"
+)  # Set the color of the first whisker of the firstly drawn bar to black
 
 dia.set_xlabels(["A", "B", "C", "D", "E", "F"])
 dia.add_numbers_auto()
 dia.ax.set_ylabel("Energy / kJ mol$^{-1}$", fontsize=8)
 
-dia.fig.savefig(os.path.join("..","docs","img","example_diffbar.png"),format="png", bbox_inches="tight")
+dia.fig.savefig(
+    os.path.join("..", "docs", "img", "example_diffbar.png"), format="png", bbox_inches="tight"
+)
 dia.show()
 ```
 
@@ -645,15 +702,15 @@ dia.show()
 # Single image at a fixed position
 dia.add_image_in_plot(
     "path/to/image.png",
-    position=(2, 30),               # (x, y) in data coordinates
-    img_name="my_image",            # optional name to access the artist later via dia.images
-    width=0.5,                      # width in axis units; 
-                                    # if omitted, height is used to scale or width is set automatically
-    height=None,                    # height in axis units
+    position=(2, 30),  # (x, y) in data coordinates
+    img_name="my_image",  # optional name to access the artist later via dia.images
+    width=0.5,  # width in axis units;
+    # if omitted, height is used to scale or width is set automatically
+    height=None,  # height in axis units
     horizontal_alignment="center",  # "center", "left", or "right" relative to position
-    vertical_alignment="center",    # "center", "top", or "bottom" relative to position
-    framed=True,                    # draw a border rectangle around the image
-    frame_color="black",            # color of the border
+    vertical_alignment="center",  # "center", "top", or "bottom" relative to position
+    framed=True,  # draw a border rectangle around the image
+    frame_color="black",  # color of the border
 )
 ```
 
@@ -668,7 +725,9 @@ dia = EnergyDiagram(template=ExampleTemplate())
 penguin = os.path.join("figures", "penguin.png")
 
 dia.draw_path(
-    [0, 1, 2, 3, 4], [0, 0.154, -0.382, -0.287, -0.748], "black",
+    [0, 1, 2, 3, 4],
+    [0, 0.154, -0.382, -0.287, -0.748],
+    "black",
 )
 
 dia.add_numbers_auto(
@@ -677,16 +736,24 @@ dia.add_numbers_auto(
 )
 
 dia.ax.set_ylabel(r"$\Delta E$ in eV", fontsize=8)
-dia.set_xlabels(["Pengu@gas", "TS1", "Pengu@Cat", "TS2", "CO$_{2}$"], in_plot=True, rotation=90, fontsize=6, weight="normal")
-
-dia.add_image_in_plot(
-    penguin,
-    position=(0.6, -0.4),
-    height=0.4
+dia.set_xlabels(
+    ["Pengu@gas", "TS1", "Pengu@Cat", "TS2", "CO$_{2}$"],
+    in_plot=True,
+    rotation=90,
+    fontsize=6,
+    weight="normal",
 )
 
-dia.fig.savefig(os.path.join("..", "docs", "img", "title", "image_8.png"), dpi=300, bbox_inches="tight")
-dia.fig.savefig(os.path.join("..","docs","img","example_single_image.png"),format="png", bbox_inches="tight")
+dia.add_image_in_plot(penguin, position=(0.6, -0.4), height=0.4)
+
+dia.fig.savefig(
+    os.path.join("..", "docs", "img", "title", "image_8.png"), dpi=300, bbox_inches="tight"
+)
+dia.fig.savefig(
+    os.path.join("..", "docs", "img", "example_single_image.png"),
+    format="png",
+    bbox_inches="tight",
+)
 dia.show()
 ```
 
@@ -701,19 +768,19 @@ dia.show()
 # Series of images distributed automatically along the diagram
 dia.add_image_series_in_plot(
     ["img0.png", "img1.png", "img2.png", "img3.png", "img4.png"],
-    img_x_places=[0, 1, 2, 3, 4],        # which x positions to place images at;
-                                         # defaults to 0,1,2,... if omitted
-    y_placement="auto",                  # "auto", "top", or "bottom" — can also be a list
-                                         # per image, e.g. ["auto", "top", "auto", "bottom", "auto"]
-                                         # "auto" automatically decides whether it is placed on top or bottom
-    y_offsets=5,                         # additional vertical offset in data units, scalar or per-image list
-    img_series_name="my_series",         # optional name to access artists later via dia.images
-    width=0.6,                           # scalar applies to all; pass a list for per-image widths
-                                         # if omitted, height is used to scale or width is set automatically
-    height=None,                         # scalar applies to all; pass a list for per-image heights
-    proportional_scaling=False,          # whether to scale width and height proportionally to the pixel dimensions of the images; also preserves size relations between images; default is False
-    framed=False,                        # scalar or per-image list of bools
-    frame_colors="black",                # scalar or per-image list of color strings
+    img_x_places=[0, 1, 2, 3, 4],  # which x positions to place images at;
+    # defaults to 0,1,2,... if omitted
+    y_placement="auto",  # "auto", "top", or "bottom" — can also be a list
+    # per image, e.g. ["auto", "top", "auto", "bottom", "auto"]
+    # "auto" automatically decides whether it is placed on top or bottom
+    y_offsets=5,  # additional vertical offset in data units, scalar or per-image list
+    img_series_name="my_series",  # optional name to access artists later via dia.images
+    width=0.6,  # scalar applies to all; pass a list for per-image widths
+    # if omitted, height is used to scale or width is set automatically
+    height=None,  # scalar applies to all; pass a list for per-image heights
+    proportional_scaling=False,  # whether to scale width and height proportionally to the pixel dimensions of the images; also preserves size relations between images; default is False
+    framed=False,  # scalar or per-image list of bools
+    frame_colors="black",  # scalar or per-image list of color strings
 )
 ```
 
@@ -735,14 +802,15 @@ dia = EnergyDiagram(
     extra_y_margin=(0, 0.25),
 )
 
-dia.draw_path(
-    [0,1,2,3,4], [0, 32, 5, 25, -15], "blue",
-    path_name="Blue path",
-    linetypes=3   
-)
+dia.draw_path([0, 1, 2, 3, 4], [0, 32, 5, 25, -15], "blue", path_name="Blue path", linetypes=3)
 
 dia.add_numbers_average(color="black")
-dia.set_xlabels(["Ester", "TS1", "Hemiacetal", "TS2", "Carboxylic\nAcid"], in_plot=True, fontsize=6, weight="normal")
+dia.set_xlabels(
+    ["Ester", "TS1", "Hemiacetal", "TS2", "Carboxylic\nAcid"],
+    in_plot=True,
+    fontsize=6,
+    weight="normal",
+)
 
 dia.add_image_series_in_plot(
     [ester_1, ester_2, ester_3, ester_4, ester_5],
@@ -751,7 +819,7 @@ dia.add_image_series_in_plot(
     proportional_scaling=True,
     y_offsets=1.5,
     framed=[True, False, False, False, True],
-    frame_colors="blue"
+    frame_colors="blue",
 )
 
 dia.ax.set_title("Ester hydrolysis", fontsize=10)
@@ -769,7 +837,7 @@ All Matplotlib artists are accessible after drawing for direct customisation. Mo
 dia.draw_path(..., path_name="My Path")
 dia.add_numbers_auto()
 figure = dia.fig  # Matplotlib Figure object
-axes = dia.ax     # Matplotlib Axes object
+axes = dia.ax  # Matplotlib Axes object
 dia.ax.set_ylabel("Energy / kJ mol$^{-1}$", fontsize=10)
 dia.fig.savefig("diagram.png", dpi=300, bbox_inches="tight")
 dia.ax.set_title("My Energy Diagram", fontsize=12)
@@ -782,8 +850,10 @@ All objects of a path (plateaus and connectors) are stored in dia.lines and can 
 ```python
 # Plateau and connector lines
 # Keys are x-position strings formatted to one decimal place
-plateau   = dia.lines["My Path"].plateaus["2.0"]     # Plateau of "My Path" at x=2
-connector = dia.lines["My Path"].connections["1.5"]  # Connector of "My Path" between x=1 and x=2 (x=1.5)
+plateau = dia.lines["My Path"].plateaus["2.0"]  # Plateau of "My Path" at x=2
+connector = dia.lines["My Path"].connections[
+    "1.5"
+]  # Connector of "My Path" between x=1 and x=2 (x=1.5)
 plateau.set_color("green")
 connector.set_linestyle("--")
 ```
@@ -791,7 +861,7 @@ connector.set_linestyle("--")
 Via dia.lines it is also possible to access the path labels added with `add_path_labels` by their x-position. 
 
 ```python
-path_labels = dia.lines["My Path"].labels["2.0"]       # Label of "My Path" at x=2
+path_labels = dia.lines["My Path"].labels["2.0"]  # Label of "My Path" at x=2
 path_labels.set_color("blue")
 ```
 
@@ -801,7 +871,7 @@ All energy labels are stored in dia.numbers and can be accessed by path name and
 
 ```python
 # Energy labels
-label = dia.numbers["My Path"]["2.0"]                # Number of "My Path" at x=2
+label = dia.numbers["My Path"]["2.0"]  # Number of "My Path" at x=2
 label.set_color("red")
 label.set_fontsize(12)
 ```
@@ -811,10 +881,14 @@ label.set_fontsize(12)
 Components of difference bars are stored in dia.bars and can be accessed by the order of bar placement (e.g., `dia.bars[0]` for the first one, `dia.bars[1]` for the second one...). A difference bar consists of the vertical bar (`bar`), an optional text label (`text`), and optional horizontal whiskers (`whisker_1`, `whisker_2`).
 
 ```python
-first_bar = dia.bars[0]                                 # First difference bar added to the diagram
-first_bar.text.set_color("red")                         # Set the color of the text label of the first bar to red   
-first_bar.bar.arrow_patch.set_color("green")            # Set the color of the vertical bar of the first bar to green
-first_bar.whisker_2.set_color("blue")                   # Set the color of the second whisker of the first bar to blue
+first_bar = dia.bars[0]  # First difference bar added to the diagram
+first_bar.text.set_color("red")  # Set the color of the text label of the first bar to red
+first_bar.bar.arrow_patch.set_color(
+    "green"
+)  # Set the color of the vertical bar of the first bar to green
+first_bar.whisker_2.set_color(
+    "blue"
+)  # Set the color of the second whisker of the first bar to blue
 ```
 
 ### Artists for axes, arrows and x-labels
@@ -822,7 +896,7 @@ first_bar.whisker_2.set_color("blue")                   # Set the color of the s
 Style objects for axes, arrows, and x-labels are stored in `dia.ax_objects` and can be accessed by their type and x-position (for x-labels). x-labels (`x_labels`) are only stored if they were created with `set_xlabels(..., in_plot=True)`. 
 
 ```python
-# Set color for x label at x=2.0 
+# Set color for x label at x=2.0
 dia.ax_objects.x_labels["2.0"].set_color("purple")
 ```
 
@@ -858,15 +932,14 @@ Images are stored in `dia.images` by their name, which is either the `img_name` 
 
 ```python
 # Access a single image artist added with add_image_in_plot
-img_object = dia.images["my_image"]                  # ImageObject
-img_object.image.set_alpha(0.8)                      # AxesImage — any matplotlib imshow property
-img_object.borders["top"].set_color("red")           # frame border lines, keyed by "top",
-img_object.borders["left"].set_linewidth(2)          # "bottom", "top", "left", "right"
+img_object = dia.images["my_image"]  # ImageObject
+img_object.image.set_alpha(0.8)  # AxesImage — any matplotlib imshow property
+img_object.borders["top"].set_color("red")  # frame border lines, keyed by "top",
+img_object.borders["left"].set_linewidth(2)  # "bottom", "top", "left", "right"
 
 # Access images added with add_image_series_in_plot
-series = dia.images["my_series"]                     # dict keyed by x-position as "x.x" string
-img_at_x1 = series["1.0"]                            # ImageObject at x=1
+series = dia.images["my_series"]  # dict keyed by x-position as "x.x" string
+img_at_x1 = series["1.0"]  # ImageObject at x=1
 img_at_x1.image.set_alpha(0.5)
 img_at_x1.borders["bottom"].set_linestyle("--")
-
 ```

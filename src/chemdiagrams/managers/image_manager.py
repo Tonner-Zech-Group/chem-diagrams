@@ -351,6 +351,8 @@ class ImageManager:
             elif y_placement[index] == "bottom":
                 vertical_alignment_current = "top"
                 position_current = (x, y_max_bottom - y_offsets[index])
+            else:
+                raise ValueError("y_placement must be one of 'top', 'bottom', or 'auto'.")
 
             # Construct the image
             img_object = self._construct_image(
@@ -476,6 +478,7 @@ class ImageManager:
         assert width is not None
         assert height is not None
 
+        img_x_extent: tuple[float, float] = (0.0, 0.0)
         if horizontal_alignment == "center":
             img_x_extent = (
                 position[0] - width / 2,
@@ -492,6 +495,7 @@ class ImageManager:
                 position[0],
             )
 
+        img_y_extent: tuple[float, float] = (0.0, 0.0)
         if vertical_alignment == "bottom":
             img_y_extent = (
                 position[1],
@@ -508,7 +512,12 @@ class ImageManager:
                 position[1] + height / 2,
             )
 
-        img_extent = img_x_extent + img_y_extent
+        img_extent: tuple[float, float, float, float] = (
+            img_x_extent[0],
+            img_x_extent[1],
+            img_y_extent[0],
+            img_y_extent[1],
+        )
 
         # Draw image
         img_artist = self.figure_manager.ax.imshow(

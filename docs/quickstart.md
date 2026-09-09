@@ -45,7 +45,7 @@ dia = EnergyDiagram(style="halfboxed")  # open | halfboxed | boxed | twosided | 
 ### Energy labels
 
 ```python
-dia.add_numbers_auto()       # recommended
+dia.add_numbers_auto()  # recommended
 dia.add_numbers_stacked()
 dia.add_numbers_naive()
 dia.add_numbers_average()

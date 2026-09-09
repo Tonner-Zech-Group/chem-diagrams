@@ -36,6 +36,7 @@ To create your own template, subclass `BaseTemplate` and override the `__init__`
 ```python
 from chemdiagrams.templates.base_template import BaseTemplate
 
+
 class ExampleTemplate(BaseTemplate):
     def __init__(self):
         """
@@ -46,7 +47,7 @@ class ExampleTemplate(BaseTemplate):
         # Change constants here
         self.constants.WIDTH_PLATEAU = 0.4
         self.constants.LW_CONNECTOR = 0.6
-        self.constants.MINUS_SIGN = "-" # minus sign for negative numbers used in numbering methods (default: "\u2212")
+        self.constants.MINUS_SIGN = "-"  # minus sign for negative numbers used in numbering methods (default: "\u2212")
 
     def startup(self, diagram):
         """
@@ -102,7 +103,6 @@ dia.draw_path(
     y_data=[0, 25, 6, 15.2, -18],
     color="red",
     path_name="Red path",
-
 )
 dia.add_numbers_auto()
 dia.set_xlabels(["E", "TS1", "I", "TS2", "P"])
@@ -110,7 +110,11 @@ dia.ax.set_ylabel("Energy / kJ mol$^{-1}$", fontsize=8)
 
 dia = ExampleTemplate.color_all_numbers(dia, color="purple")
 
-dia.fig.savefig(os.path.join("..","docs","img","example_template.png"),format="png", bbox_inches="tight")
+dia.fig.savefig(
+    os.path.join("..", "docs", "img", "example_template.png"),
+    format="png",
+    bbox_inches="tight",
+)
 dia.show()
 ```
 ![Custom template](https://raw.githubusercontent.com/Tonner-Zech-Group/chem-diagrams/main/docs/img/example_template.png)

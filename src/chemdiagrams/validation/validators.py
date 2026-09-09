@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from collections.abc import Sequence
+from numbers import Integral, Real
 
 import numpy as np
 
@@ -34,12 +35,9 @@ class Validators:
             if isinstance(seq, (str, bytes)):
                 raise TypeError(f"{name} must be a tuple or list.")
             if allow_none_elements:
-                if not all(
-                    isinstance(val, (int, float, type(None), np.float64, np.int64))
-                    for val in seq
-                ):
+                if not all(isinstance(val, (Real, type(None))) for val in seq):
                     raise TypeError(f"{name} can only contain numeric values or None.")
-            elif not all(isinstance(val, (int, float, np.float64, np.int64)) for val in seq):
+            elif not all(isinstance(val, Real) for val in seq):
                 raise TypeError(f"{name} can only contain numeric values.")
             if min_value is not None and any(min_value > val for val in seq):
                 raise ValueError(f"{name} cannot contain values smaller than {min_value}.")
@@ -67,10 +65,10 @@ class Validators:
                 if min_value > num:
                     raise ValueError(f"{name} must be equal or larger than {min_value}.")
             if only_integer:
-                if not isinstance(num, (int, np.int64)):
+                if not isinstance(num, Integral):
                     raise TypeError(f"{name} must be an integer.")
             else:
-                if not isinstance(num, (int, float, np.float64, np.int64)):
+                if not isinstance(num, Real):
                     raise TypeError(f"{name} must be an integer or float.")
 
     @staticmethod
